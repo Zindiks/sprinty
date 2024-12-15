@@ -33,13 +33,16 @@ const oauth2Options: FastifyOAuth2Options = {
 
 server.register(fastifyOauth2, oauth2Options)
 
-server.get("/login/github/callback", async function (request, reply) {
-  const { token } =
-    await this.githubOAuth2.getAccessTokenFromAuthorizationCodeFlow(request)
-  reply.send({ access_token: token.access_token })
-})
+server.get(
+  "/login/github/callback",
+  async function (request: FastifyRequest, reply: FastifyReply) {
+    const { token } =
+      await this.githubOAuth2.getAccessTokenFromAuthorizationCodeFlow(request)
+    reply.send({ access_token: token.access_token })
+  }
+)
 
-server.listen({ port: 8080 }, (err, address) => {
+server.listen({ port: config.api.port }, (err, address) => {
   if (err) {
     console.error(err)
     process.exit(1)
