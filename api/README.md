@@ -1,4 +1,4 @@
-# Sprinty API
+# Sprinty API ✅
 
 ## Overview
 
