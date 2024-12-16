@@ -6,6 +6,7 @@ export const config = {
   api: {
     port: Number(process.env.API_PORT) || 4000,
     host: process.env.API_HOST || "localhost",
+    sessionSecret: process.env.API_SESSION_SECRET || "secret",
     githubClientId: process.env.GITHUB_CLIENT_ID || "githubClientId",
     githubClientSecret:
       process.env.GITHUB_CLIENT_SECRET || "githubClientSecret",
