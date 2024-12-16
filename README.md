@@ -1,3 +1,6 @@
+
+[![Run Tests](https://github.com/Zindiks/sprinty/actions/workflows/test.yml/badge.svg)](https://github.com/Zindiks/sprinty/actions/workflows/test.yml)
+
 # Sprinty
 
 Sprinty is a task management application designed to streamline your workflow. With drag-and-drop (DnD) capabilities, Sprinty offers an intuitive way to organize boards, lists, cards, and task details for efficient project management.
