@@ -1,7 +1,11 @@
 
-[![Run Tests](https://github.com/Zindiks/sprinty/actions/workflows/test.yml/badge.svg)](https://github.com/Zindiks/sprinty/actions/workflows/test.yml)
+[![API tests](https://github.com/Zindiks/sprinty/actions/workflows/test.yml/badge.svg)](https://github.com/Zindiks/sprinty/actions/workflows/test.yml)
 
-# Sprinty
+
+
+# Sprinty⚡⚡
+
+
 
 Sprinty is a task management application designed to streamline your workflow. With drag-and-drop (DnD) capabilities, Sprinty offers an intuitive way to organize boards, lists, cards, and task details for efficient project management.
 
@@ -9,7 +13,9 @@ Sprinty is a task management application designed to streamline your workflow. W
 
 The goal of this project is not just to build another task management app — there are plenty of those already. Instead, Sprinty focuses on utilizing available tools and frameworks to build a robust and solid project using best practices. This includes:
 
-- Leveraging GitHub functionalities such as GitHub Actions, Issues, and Projects (link to project will be added).
+
+
+- Leveraging GitHub functionalities such as GitHub Actions, Issues, and Projects [![Projects](https://cdn0.iconfinder.com/data/icons/evericons-16px/16/external-link-16.png)](https://github.com/users/Zindiks/projects/6)
 - Demonstrating how to structure and maintain a modern codebase.
 - Avoiding the use of external tools like Jira by fully utilizing GitHub Projects for task and issue tracking.
 - Plans to implement CI/CD practices to ensure smooth and reliable deployments.
