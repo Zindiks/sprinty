@@ -6,8 +6,6 @@ import { config } from "../src/configs/config"
 import fastifyCors from "@fastify/cors"
 import oauthRoutes from "./modules/oauth/route"
 
-
-
 const server = fastify({ logger: true }).withTypeProvider<TypeBoxTypeProvider>()
 
 server.register(fastifyCors, {
@@ -24,3 +22,4 @@ server.listen({ port: config.api.port }, (err, address) => {
   }
   console.log(`Server listening at ${address}`)
 })
+
