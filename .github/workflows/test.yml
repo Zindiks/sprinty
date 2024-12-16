@@ -1,0 +1,54 @@
+name: Run Tests
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'api/**'
+    #   - 'client/**'
+
+jobs:
+  test-api:
+    if: contains(github.event.head_commit.message, 'api/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: |
+          cd api
+          npm install
+
+      - name: Run API tests
+        run: |
+          cd api
+          npm test
+
+#   test-client:
+#     if: contains(github.event.head_commit.message, 'client/')
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
+
+#       - name: Set up Node.js
+#         uses: actions/setup-node@v2
+#         with:
+#           node-version: '14'
+
+#       - name: Install dependencies
+#         run: |
+#           cd client
+#           npm install
+
+#       - name: Run Client tests
+#         run: |
+#           cd client
+#           npm test
