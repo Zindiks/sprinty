@@ -1,5 +1,5 @@
 
-[![API tests](https://github.com/Zindiks/sprinty/actions/workflows/test.yml/badge.svg)](https://github.com/Zindiks/sprinty/actions/workflows/test.yml)
+[![API Tests](https://github.com/Zindiks/sprinty/actions/workflows/api-tests.yml/badge.svg)](https://github.com/Zindiks/sprinty/actions/workflows/api-tests.yml)
 
 
 
