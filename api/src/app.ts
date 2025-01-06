@@ -22,4 +22,3 @@ server.listen({ port: config.api.port }, (err, address) => {
   }
   console.log(`Server listening at ${address}`)
 })
-
