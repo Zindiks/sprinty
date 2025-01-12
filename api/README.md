@@ -27,8 +27,8 @@ Set up environment variables for GitHub OAuth2 credentials.
 To run the database migrations and seed the database, use the following scripts:
 
 ```sh
-npm run migrate
-npm run seed
+    npm run knex:migrate
+    npm run knex:seed
 ```
 
 ### Schema Diagram
