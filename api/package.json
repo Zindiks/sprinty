@@ -37,8 +37,9 @@
     "build": "tsc -p tsconfig.json",
     "start": "pm2 start dist/app.js --name fastify-app",
     "start:prod": "pm2-runtime dist/app.js --name fastify-app",
-    "migrate": "knex migrate:latest",
-    "test": "jest"
+    "knex:migrate": "npx knex migrate:latest",
+    "knex:seed": "npx knex seed:run"
+
   },
   "author": "",
   "license": "ISC",

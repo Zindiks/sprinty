@@ -69,6 +69,8 @@ Ensure you have the following installed:
 
 ### Running the Application
 
+
+
 #### Backend (Fastify)
 
 1. Navigate to the backend directory:

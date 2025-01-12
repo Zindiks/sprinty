@@ -1,20 +1,28 @@
-import { Knex } from "knex";
+import { Knex } from "knex"
 
-export const knexConfig: { [key: string]: Knex.Config } = {
+import { config } from "../configs/config"
+
+const knexConfig: { [key: string]: Knex.Config } = {
   development: {
     client: "pg",
     connection: {
-      host: process.env.KNEX_HOST || "localhost",
-      user: process.env.KNEX_USERNAME || "postgres",
-      password: process.env.KNEX_PASSWORD || "password",
-      database: process.env.KNEX_DATABASE || "trello-clone-api",
+      host: config.knex.host || "localhost",
+      user: config.knex.username || "postgres",
+      password: config.knex.password || "password",
+      database: config.knex.database || "sprinty-db",
+      port: 5432,
     },
     pool: {
       min: 2,
       max: 10,
     },
     migrations: {
-      directory: "migrations",
+      directory: "./src/db/migrations",
+    },
+    seeds: {
+      directory: "./src/db/seeds",
     },
   },
 }
+
+export default knexConfig
