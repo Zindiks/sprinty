@@ -38,8 +38,8 @@
     "start": "pm2 start dist/app.js --name fastify-app",
     "start:prod": "pm2-runtime dist/app.js --name fastify-app",
     "knex:migrate": "npx knex migrate:latest",
-    "knex:seed": "npx knex seed:run"
-
+    "knex:seed": "npx knex seed:run",
+    "test": "node -e \"console.log('Test')\""
   },
   "author": "",
   "license": "ISC",
