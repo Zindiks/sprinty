@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { Button } from "../components/ui/button"
 
+
 const Marketing = () => {
   const [user, setUser] = useState<{
     avatar_url: string
@@ -9,7 +10,7 @@ const Marketing = () => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const response = await fetch("http://localhost:4000/user", {
+      const response = await fetch("http://localhost:4000/api/v1/oauth/user", {
         credentials: "include",
       })
       if (response.ok) {
@@ -22,11 +23,11 @@ const Marketing = () => {
   }, [])
 
   const handleLogin = async () => {
-    window.location.href = "http://localhost:4000/login/github"
+    window.location.href = "http://localhost:4000/api/v1/oauth/github"
   }
 
   const handleLogout = async () => {
-    await fetch("http://localhost:4000/logout", {
+    await fetch("http://localhost:4000/api/v1/oauth/logout", {
       method: "POST",
       credentials: "include",
     })

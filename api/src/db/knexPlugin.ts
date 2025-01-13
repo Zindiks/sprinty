@@ -1,6 +1,6 @@
 import fastifyPlugin from "fastify-plugin"
 import knex, { Knex } from "knex"
-import { knexConfig as config } from "./knexFile"
+import knexConfig from "./knexFile"
 
 declare module "fastify" {
   interface FastifyInstance {
@@ -9,7 +9,7 @@ declare module "fastify" {
 }
 
 const knexPlugin = fastifyPlugin(async (fastify, opts) => {
-  const db = knex(config.development)
+  const db = knex(knexConfig.development)
   fastify.decorate("knex", db)
 
   fastify.addHook("onClose", (instance, done) => {
