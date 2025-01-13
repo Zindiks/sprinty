@@ -5,7 +5,9 @@ import knexPlugin from "./db/knexPlugin"
 import oauthRoutes from "./modules/oauth/route"
 
 import organizationsRouter from "./modules/organization/route"
+import boardRoutes from "./modules/boards/route"
 import { OrganizationSchema } from "./modules/organization/model"
+import { BoardSchema } from "./modules/boards/model"
 
 export async function createServer() {
   const server = Fastify({
@@ -17,9 +19,11 @@ export async function createServer() {
     credentials: true,
   })
 
-
-
   for (const schema of Object.values(OrganizationSchema)) {
+    server.addSchema(schema)
+  }
+
+  for (const schema of Object.values(BoardSchema)) {
     server.addSchema(schema)
   }
 
@@ -47,6 +51,7 @@ export async function createServer() {
   server.register(knexPlugin)
   server.register(oauthRoutes, { prefix: "/api/v1/oauth" })
   server.register(organizationsRouter, { prefix: "/api/v1/organizations" })
+  server.register(boardRoutes, { prefix: "/api/v1/boards" })
 
   server.get("/health", async (request, reply) => {
     reply.send({ status: "OK" })

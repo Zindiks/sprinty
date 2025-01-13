@@ -1,10 +1,8 @@
 import { Knex } from "knex"
 
 import {
-  BaseOrganization,
   CreateOrganization,
   UpdateOrganization,
-  DeleteOrganization,
   OrganizationResponse,
 } from "./model"
 
@@ -24,8 +22,12 @@ export async function update(
   input: UpdateOrganization,
   id: string
 ): Promise<OrganizationResponse> {
+  const updatedInput = {
+    ...input,
+    updated_at: knex.fn.now(),
+  }
   const [organization] = await knex("organizations")
-    .update(input)
+    .update(updatedInput)
     .where({ id })
     .returning("*")
 
@@ -44,11 +46,11 @@ export async function getById(
   return organization
 }
 
-export async function remove(
-  knex: Knex,
-  id: string
-) {
-  const [deleted] = await knex("organizations").where({ id }).delete().returning("id")
+export async function remove(knex: Knex, id: string) {
+  const [deleted] = await knex("organizations")
+    .where({ id })
+    .delete()
+    .returning("id")
 
   return deleted
 }
