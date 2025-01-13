@@ -11,4 +11,4 @@ async function oauthRoutes(server: FastifyInstance) {
   server.get("/logout", logout)
 }
 
-export default oauthRoutes;
+export default oauthRoutes
