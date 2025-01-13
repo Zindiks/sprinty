@@ -11,6 +11,6 @@ export const oauth2Options: FastifyOAuth2Options = {
     },
     auth: fastifyOauth2.GITHUB_CONFIGURATION,
   },
-  startRedirectPath: "/login/github",
-  callbackUri: "http://localhost:4000/login/github/callback",
-};
+  startRedirectPath: "/github",
+  callbackUri: "http://localhost:4000/api/v1/oauth/github/callback",
+}

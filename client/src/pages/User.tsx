@@ -10,7 +10,7 @@ function User() {
     console.log("fetching user data") // Log message to the console
     const fetchUser = async () => {
       console.log("fetching user data2") // Log message to the console
-      const response = await fetch("http://localhost:4000/user", {
+      const response = await fetch("http://localhost:4000/api/v1/oauth/user", {
         credentials: "include",
       })
       if (response.ok) {

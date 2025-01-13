@@ -6,9 +6,9 @@ import fastifyOauth2 from "@fastify/oauth2"
 async function oauthRoutes(server: FastifyInstance) {
   server.register(fastifyOauth2, oauth2Options)
 
-  server.get("/login/github/callback", githubCallback)
+  server.get("/github/callback", githubCallback)
   server.get("/user", getUser)
-  server.post("/logout", logout)
+  server.get("/logout", logout)
 }
 
 export default oauthRoutes;
