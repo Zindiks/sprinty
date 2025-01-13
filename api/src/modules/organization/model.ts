@@ -15,20 +15,28 @@ const BaseOrganizationSchema = Type.Object(
   { $id: "BaseOrganizationSchema" }
 )
 
-const UpdateOrganizationSchema = Type.Partial(BaseOrganizationSchema,{ $id: "UpdateOrganizationSchema" })
+const UpdateOrganizationSchema = Type.Partial(BaseOrganizationSchema, {
+  $id: "UpdateOrganizationSchema",
+})
 
-const DeleteOrganizationSchema = Type.Object({
-  id,
-},{ $id: "DeleteOrganizationSchema" })
-
-const OrganizationResponseSchema = Type.Intersect([
-  BaseOrganizationSchema,
-  Type.Object({
+const DeleteOrganizationSchema = Type.Object(
+  {
     id,
-    created_at,
-    updated_at,
-  }),
-],{ $id: "OrganizationResponseSchema" })
+  },
+  { $id: "DeleteOrganizationSchema" }
+)
+
+const OrganizationResponseSchema = Type.Intersect(
+  [
+    BaseOrganizationSchema,
+    Type.Object({
+      id,
+      created_at,
+      updated_at,
+    }),
+  ],
+  { $id: "OrganizationResponseSchema" }
+)
 
 export type BaseOrganization = Static<typeof BaseOrganizationSchema>
 export type CreateOrganization = Static<typeof BaseOrganizationSchema>

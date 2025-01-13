@@ -1,4 +1,4 @@
-import {Knex }from "knex"
+import { Knex } from "knex"
 
 import {
   BaseOrganization,
@@ -8,12 +8,51 @@ import {
   OrganizationResponse,
 } from "./model"
 
-
-
-export async function createOrganization(knex: Knex, input: CreateOrganization): Promise<OrganizationResponse> {
+export async function create(
+  knex: Knex,
+  input: CreateOrganization
+): Promise<OrganizationResponse> {
   const [organization] = await knex("organizations")
     .insert(input)
     .returning("*")
 
   return organization
+}
+
+export async function update(
+  knex: Knex,
+  input: UpdateOrganization,
+  id: string
+): Promise<OrganizationResponse> {
+  const [organization] = await knex("organizations")
+    .update(input)
+    .where({ id })
+    .returning("*")
+
+  return organization
+}
+
+export async function getById(
+  knex: Knex,
+  id: string
+): Promise<OrganizationResponse> {
+  const [organization] = await knex("organizations")
+    .select("*")
+    .where({ id })
+    .returning("*")
+
+  return organization
+}
+
+export async function remove(
+  knex: Knex,
+  id: string
+) {
+  const [deleted] = await knex("organizations").where({ id }).delete().returning("id")
+
+  return deleted
+}
+
+export async function getAll(knex: Knex): Promise<OrganizationResponse[]> {
+  return await knex("organizations").select("*")
 }
