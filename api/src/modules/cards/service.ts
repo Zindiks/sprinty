@@ -9,8 +9,6 @@ import {
   FullCardResponse,
   FullCardResponseArray,
 } from "./model"
-import { up } from "../../db/migrations/20250112221001_create_users_table"
-import exp from "constants"
 
 export async function create(
   knex: Knex,
@@ -50,7 +48,6 @@ export async function updateTitle(
 export async function updateOrder(
   knex: Knex,
   input: UpdateCardOrderArray,
-  list_id: string
 ) {
   await knex.transaction(async (trx) => {
     for (const card of input) {
@@ -67,7 +64,7 @@ export async function updateOrder(
   })
 }
 
-export async function remove(knex: Knex, input: DeleteCard) {
+export async function deleteCard(knex: Knex, input: DeleteCard) {
   const { id, list_id } = input
 
   const [deleted] = await knex("cards")
@@ -84,7 +81,7 @@ export async function remove(knex: Knex, input: DeleteCard) {
     cards[i].order = i
   }
 
-  await updateOrder(knex, cards, list_id)
+  await updateOrder(knex, cards)
 
   return deleted
 }
