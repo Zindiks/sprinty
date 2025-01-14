@@ -6,11 +6,13 @@ import oauthRoutes from "./modules/oauth/route"
 
 import organizationsRouter from "./modules/organizations/route"
 import boardRoutes from "./modules/boards/route"
-import { listRoutes } from "./modules/lists/route"
+import listRoutes from "./modules/lists/route"
+import cardRoutes from "./modules/cards/route"
 
 import { OrganizationSchema } from "./modules/organizations/model"
 import { BoardSchema } from "./modules/boards/model"
 import { ListSchema } from "./modules/lists/model"
+import { CardSchema } from "./modules/cards/model"
 
 export async function createServer() {
   const server = Fastify({
@@ -18,7 +20,7 @@ export async function createServer() {
   }).withTypeProvider<TypeBoxTypeProvider>()
 
   server.register(fastifyCors, {
-    origin: "http://localhost:5173",
+    origin: "http://localhost:5173", // TODO: Change this to the env variable
     credentials: true,
   })
 
@@ -34,6 +36,10 @@ export async function createServer() {
     server.addSchema(schema)
   }
 
+  for (const schema of Object.values(CardSchema)) {
+    server.addSchema(schema)
+  }
+
   server.register(import("@fastify/swagger"), {
     openapi: {
       info: {
@@ -43,7 +49,7 @@ export async function createServer() {
       },
       servers: [
         {
-          url: "http://localhost:4000 ",
+          url: "http://localhost:4000 ", // TODO: Change this to the env variable
         },
       ],
       components: {},
@@ -60,6 +66,7 @@ export async function createServer() {
   server.register(organizationsRouter, { prefix: "/api/v1/organizations" })
   server.register(boardRoutes, { prefix: "/api/v1/boards" })
   server.register(listRoutes, { prefix: "/api/v1/lists" })
+  server.register(cardRoutes, { prefix: "/api/v1/cards" })
 
   server.get("/health", async (request, reply) => {
     reply.send({ status: "OK" })

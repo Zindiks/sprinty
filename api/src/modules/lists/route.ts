@@ -10,7 +10,7 @@ import {
 } from "./controller"
 import { ListSchema } from "./model"
 
-export async function listRoutes(fastify: FastifyInstance) {
+export default async function listRoutes(fastify: FastifyInstance) {
   fastify.post(
     "/",
     {
