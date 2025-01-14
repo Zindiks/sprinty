@@ -1,5 +1,4 @@
 import { Type, Static } from "@sinclair/typebox"
-import exp from "constants"
 
 const id = Type.String({ format: "uuid" })
 const list_id = Type.String({ format: "uuid" })
@@ -10,7 +9,6 @@ const status = Type.String()
 
 const created_at = Type.String({ format: "date-time" })
 const updated_at = Type.String({ format: "date-time" })
-
 
 const CreateCardSchema = Type.Object(
   {
@@ -39,7 +37,9 @@ const UpdateCardOrderSchema = Type.Object(
   { $id: "UpdateCardOrderSchema" }
 )
 
-const UpdateCardOrderSchemaArray = Type.Array(UpdateCardOrderSchema)
+const UpdateCardOrderSchemaArray = Type.Array(UpdateCardOrderSchema, {
+  $id: "UpdateCardOrderSchemaArray",
+})
 
 const FullCardResponseSchema = Type.Object(
   {
@@ -55,7 +55,9 @@ const FullCardResponseSchema = Type.Object(
   { $id: "CardResponseSchema" }
 )
 
-const FullCardResponseSchemaArray = Type.Array(FullCardResponseSchema)
+const FullCardResponseSchemaArray = Type.Array(FullCardResponseSchema, {
+  $id: "FullCardResponseSchemaArray",
+})
 
 const DeleteCardSchema = Type.Object(
   {

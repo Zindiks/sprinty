@@ -9,6 +9,8 @@ import {
   FullCardResponse,
   FullCardResponseArray,
 } from "./model"
+import { up } from "../../db/migrations/20250112221001_create_users_table"
+import exp from "constants"
 
 export async function create(
   knex: Knex,
@@ -73,5 +75,34 @@ export async function remove(knex: Knex, input: DeleteCard) {
     .delete()
     .returning("id")
 
+  const cards: UpdateCardOrderArray = await knex("cards")
+    .select("order", "id", "list_id")
+    .where({ list_id })
+    .orderBy("order", "asc")
+
+  for (let i = 0; i < cards.length; i++) {
+    cards[i].order = i
+  }
+
+  await updateOrder(knex, cards, list_id)
+
   return deleted
+}
+
+export async function getCardById(
+  knex: Knex,
+  id: string
+): Promise<FullCardResponseArray> {
+  const [data] = await knex("cards").where({ id }).returning("*")
+
+  return data
+}
+
+export async function getCardsByListId(
+  knex: Knex,
+  list_id: string
+): Promise<FullCardResponseArray> {
+  const data = await knex("cards").where({ list_id }).orderBy("order", "asc")
+
+  return data
 }
