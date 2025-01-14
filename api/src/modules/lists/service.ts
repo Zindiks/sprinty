@@ -93,6 +93,19 @@ export async function deleteList(knex: Knex, input: DeleteList) {
     .where({ id, board_id })
     .del()
     .returning("*")
+
+
+  const lists: UpdateListsOrder = await knex("lists")
+    .select("order", "id")
+    .where({ board_id })
+    .orderBy("order", "asc")
+
+  for (let i = 0; i < lists.length; i++) {
+    lists[i].order = i
+  }
+
+  await updateOrder(knex, lists, board_id)
+
   return deletedList
 }
 

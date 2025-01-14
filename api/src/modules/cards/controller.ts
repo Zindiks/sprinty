@@ -5,8 +5,8 @@ import {
   updateOrder,
   updateTitle,
   getCardById,
-  remove,
   getCardsByListId,
+  deleteCard,
 } from "./service"
 
 import {
@@ -60,7 +60,7 @@ export async function updateCardOrderController(
   const body = request.body
 
   try {
-    await updateOrder(this.knex, body, body[0].list_id)
+    await updateOrder(this.knex, body)
     return reply.status(200).send()
   } catch (err) {
     return reply.status(500).send(err)
@@ -77,7 +77,7 @@ export async function deleteCardController(
   const body = request.params
 
   try {
-    await remove(this.knex, body)
+    await deleteCard(this.knex, body)
     return reply.status(200).send()
   } catch (err) {
     return reply.status(500).send(err)
