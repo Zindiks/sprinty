@@ -4,10 +4,13 @@ import fastifyCors from "@fastify/cors"
 import knexPlugin from "./db/knexPlugin"
 import oauthRoutes from "./modules/oauth/route"
 
-import organizationsRouter from "./modules/organization/route"
+import organizationsRouter from "./modules/organizations/route"
 import boardRoutes from "./modules/boards/route"
-import { OrganizationSchema } from "./modules/organization/model"
+import { listRoutes } from "./modules/lists/route"
+
+import { OrganizationSchema } from "./modules/organizations/model"
 import { BoardSchema } from "./modules/boards/model"
+import { ListSchema } from "./modules/lists/model"
 
 export async function createServer() {
   const server = Fastify({
@@ -24,6 +27,10 @@ export async function createServer() {
   }
 
   for (const schema of Object.values(BoardSchema)) {
+    server.addSchema(schema)
+  }
+
+  for (const schema of Object.values(ListSchema)) {
     server.addSchema(schema)
   }
 
@@ -52,6 +59,7 @@ export async function createServer() {
   server.register(oauthRoutes, { prefix: "/api/v1/oauth" })
   server.register(organizationsRouter, { prefix: "/api/v1/organizations" })
   server.register(boardRoutes, { prefix: "/api/v1/boards" })
+  server.register(listRoutes, { prefix: "/api/v1/lists" })
 
   server.get("/health", async (request, reply) => {
     reply.send({ status: "OK" })
