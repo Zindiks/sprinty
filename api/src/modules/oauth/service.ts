@@ -83,4 +83,6 @@ export async function setProfile(
     created_at: knex.fn.now(),
     updated_at: knex.fn.now(),
   })
+
+  
 }
