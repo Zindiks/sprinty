@@ -1,6 +1,35 @@
 import { FastifyReply, FastifyInstance, FastifyRequest } from "fastify"
-import { create, getAll, getById, remove, update } from "./service"
+import { create, getAll, getById, deleteOrganization, update } from "./service"
 import { CreateOrganization, UpdateOrganization } from "./model"
+
+export async function getOrganizationController(
+  this: FastifyInstance,
+  request: FastifyRequest<{
+    Params: { id: string }
+  }>,
+  reply: FastifyReply
+) {
+  const { id } = request.params
+  try {
+    const result = await getById(this.knex, id)
+    return reply.status(200).send(result)
+  } catch (err) {
+    return reply.status(500).send(err)
+  }
+}
+
+export async function getAllOrganizationController(
+  this: FastifyInstance,
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  try {
+    const result = await getAll(this.knex)
+    return reply.status(200).send(result)
+  } catch (err) {
+    return reply.status(500).send(err)
+  }
+}
 
 export async function createOrganizationController(
   this: FastifyInstance,
@@ -38,22 +67,6 @@ export async function updateOrganizationController(
   }
 }
 
-export async function getOrganizationController(
-  this: FastifyInstance,
-  request: FastifyRequest<{
-    Params: { id: string }
-  }>,
-  reply: FastifyReply
-) {
-  const { id } = request.params
-  try {
-    const result= await getById(this.knex, id)
-    return reply.status(200).send(result)
-  } catch (err) {
-    return reply.status(500).send(err)
-  }
-}
-
 export async function removeOrganizationController(
   this: FastifyInstance,
   request: FastifyRequest<{
@@ -63,20 +76,7 @@ export async function removeOrganizationController(
 ) {
   const { id } = request.params
   try {
-    const result = await remove(this.knex, id)
-    return reply.status(200).send(result)
-  } catch (err) {
-    return reply.status(500).send(err)
-  }
-}
-
-export async function getAllOrganizationController(
-  this: FastifyInstance,
-  request: FastifyRequest,
-  reply: FastifyReply
-) {
-  try {
-    const result = await getAll(this.knex)
+    const result = await deleteOrganization(this.knex, id)
     return reply.status(200).send(result)
   } catch (err) {
     return reply.status(500).send(err)

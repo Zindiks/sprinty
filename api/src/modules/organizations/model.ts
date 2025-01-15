@@ -26,6 +26,7 @@ const DeleteOrganizationSchema = Type.Object(
   { $id: "DeleteOrganizationSchema" }
 )
 
+//RESPONSE SCHEMA
 const OrganizationResponseSchema = Type.Intersect(
   [
     BaseOrganizationSchema,
@@ -40,8 +41,9 @@ const OrganizationResponseSchema = Type.Intersect(
 
 export type BaseOrganization = Static<typeof BaseOrganizationSchema>
 export type CreateOrganization = Static<typeof BaseOrganizationSchema>
-export type DeleteOrganization = Static<typeof DeleteOrganizationSchema>
 export type UpdateOrganization = Static<typeof UpdateOrganizationSchema>
+export type DeleteOrganization = Static<typeof DeleteOrganizationSchema>
+
 export type OrganizationResponse = Static<typeof OrganizationResponseSchema>
 
 export const OrganizationSchema = {

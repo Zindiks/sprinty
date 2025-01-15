@@ -32,13 +32,9 @@ const UpdateListOrderSchema = Type.Object(
   { $id: "UpdateListOrderSchema" }
 )
 
-const DeleteListSchema = Type.Object(
-  {
-    id,
-    board_id,
-  },
-  { $id: "DeleteListSchema" }
-)
+const UpdateListOrderSchemaArray = Type.Array(UpdateListOrderSchema, {
+  $id: "UpdateListsOrderSchema",
+})
 
 const CopyListSchema = Type.Object(
   {
@@ -47,6 +43,16 @@ const CopyListSchema = Type.Object(
   },
   { $id: "CopyListSchema" }
 )
+
+const DeleteListSchema = Type.Object(
+  {
+    id,
+    board_id,
+  },
+  { $id: "DeleteListSchema" }
+)
+
+// RESPONSE SCHEMA
 
 const FullListResponseSchema = Type.Object(
   {
@@ -60,22 +66,19 @@ const FullListResponseSchema = Type.Object(
   { $id: "FullListResponseSchema" }
 )
 
-const UpdateListsOrderSchema = Type.Array(UpdateListOrderSchema, {
-  $id: "UpdateListsOrderSchema",
-})
-
 export type CreateList = Static<typeof CreateListSchema>
 export type UpdateListTitle = Static<typeof UpdateListTitleSchema>
-export type UpdateListsOrder = Static<typeof UpdateListsOrderSchema>
-export type DeleteList = Static<typeof DeleteListSchema>
+export type UpdateListOrderArray = Static<typeof UpdateListOrderSchemaArray>
 export type CopyList = Static<typeof CopyListSchema>
+export type DeleteList = Static<typeof DeleteListSchema>
+
 export type FullListResponse = Static<typeof FullListResponseSchema>
 
 export const ListSchema = {
   CreateListSchema,
   UpdateListTitleSchema,
   UpdateListOrderSchema,
-  UpdateListsOrderSchema,
+  UpdateListOrderSchemaArray,
   DeleteListSchema,
   CopyListSchema,
   FullListResponseSchema,
