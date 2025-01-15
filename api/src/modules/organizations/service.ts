@@ -6,6 +6,22 @@ import {
   OrganizationResponse,
 } from "./model"
 
+export async function getById(
+  knex: Knex,
+  id: string
+): Promise<OrganizationResponse> {
+  const [organization] = await knex("organizations")
+    .select("*")
+    .where({ id })
+    .returning("*")
+
+  return organization
+}
+
+export async function getAll(knex: Knex): Promise<OrganizationResponse[]> {
+  return await knex("organizations").select("*")
+}
+
 export async function create(
   knex: Knex,
   input: CreateOrganization
@@ -34,27 +50,11 @@ export async function update(
   return organization
 }
 
-export async function getById(
-  knex: Knex,
-  id: string
-): Promise<OrganizationResponse> {
-  const [organization] = await knex("organizations")
-    .select("*")
-    .where({ id })
-    .returning("*")
-
-  return organization
-}
-
-export async function remove(knex: Knex, id: string) {
+export async function deleteOrganization(knex: Knex, id: string) {
   const [deleted] = await knex("organizations")
     .where({ id })
     .delete()
     .returning("id")
 
   return deleted
-}
-
-export async function getAll(knex: Knex): Promise<OrganizationResponse[]> {
-  return await knex("organizations").select("*")
 }

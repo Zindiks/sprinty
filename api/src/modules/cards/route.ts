@@ -12,6 +12,32 @@ import {
 import { CardSchema } from "./model"
 
 export default async function cardRoutes(fastify: FastifyInstance) {
+  fastify.get(
+    "/:id",
+    {
+      schema: {
+        params: { type: "object", properties: { id: { type: "string" } } },
+        response: { 200: CardSchema.FullCardResponseSchema },
+        tags: ["card"],
+        description: "Get a card",
+      },
+    },
+    getCardController
+  )
+
+  fastify.get(
+    "/list/:list_id",
+    {
+      schema: {
+        params: { type: "object", properties: { list_id: { type: "string" } } },
+        response: { 200: CardSchema.FullCardResponseSchemaArray },
+        tags: ["card"],
+        description: "Get cards by list_id",
+      },
+    },
+    getCardsByListIdController
+  )
+
   fastify.post(
     "/",
     {
@@ -52,32 +78,6 @@ export default async function cardRoutes(fastify: FastifyInstance) {
       },
     },
     updateCardOrderController
-  )
-
-  fastify.get(
-    "/:id",
-    {
-      schema: {
-        params: { type: "object", properties: { id: { type: "string" } } },
-        response: { 200: CardSchema.FullCardResponseSchema },
-        tags: ["card"],
-        description: "Get a card",
-      },
-    },
-    getCardController
-  )
-
-  fastify.get(
-    "/list/:list_id",
-    {
-      schema: {
-        params: { type: "object", properties: { list_id: { type: "string" } } },
-        response: { 200: CardSchema.FullCardResponseSchemaArray },
-        tags: ["card"],
-        description: "Get cards by list_id",
-      },
-    },
-    getCardsByListIdController
   )
 
   fastify.delete(

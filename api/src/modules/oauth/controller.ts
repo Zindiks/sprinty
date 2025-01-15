@@ -2,6 +2,10 @@ import { FastifyRequest, FastifyReply, FastifyInstance } from "fastify"
 import {
   getAccessTokenFromAuthorizationCodeFlow,
   fetchUserData,
+  getUser,
+  getProfile,
+  setUserAndGetId,
+  setProfile,
 } from "./service"
 
 export async function githubCallback(
@@ -10,36 +14,19 @@ export async function githubCallback(
   reply: FastifyReply
 ) {
   const { token } = await getAccessTokenFromAuthorizationCodeFlow(request)
-  const userData = await fetchUserData(token.access_token)
 
-  console.log(userData)
+  const userData = await fetchUserData(token.access_token)
 
   if (!userData) {
     return reply.status(500).send({ error: "Failed to fetch user data" })
   }
 
-  let user = await this.knex("users")
-    .where({ oauth_provider_id: userData.id, oauth_provider: "github" })
-    .first()
+  const user = await getUser(this.knex, userData.id)
+
 
   if (!user) {
-    ;[user] = await this.knex("users")
-      .insert({
-        oauth_provider: "github",
-        oauth_provider_id: userData.id,
-        created_at: this.knex.fn.now(),
-        updated_at: this.knex.fn.now(),
-      })
-      .returning("*")
-
-    await this.knex("profiles").insert({
-      user_id: user.id,
-      username: userData.login,
-      email: userData.email,
-      avatar_url: userData.avatar_url,
-      created_at: this.knex.fn.now(),
-      updated_at: this.knex.fn.now(),
-    })
+    const user_id = await setUserAndGetId(this.knex, userData.id) 
+    await setProfile(this.knex, userData, user_id)
   }
 
   reply.setCookie("accessToken", token.access_token, {
@@ -52,35 +39,30 @@ export async function githubCallback(
   reply.redirect(`http://localhost:5173?access_token=${token.access_token}`)
 }
 
-export async function getUser(
+export async function getUserController(
   this: FastifyInstance,
   request: FastifyRequest,
   reply: FastifyReply
 ) {
   const accessToken = request.cookies.accessToken
 
-  console.log(request.cookies)
-
   if (!accessToken) {
     return reply.status(401).send({ error: "Unauthorized" })
   }
 
   const userData = await fetchUserData(accessToken)
+
   if (!userData) {
     return reply.status(500).send({ error: "Failed to fetch user data" })
   }
 
-  const user = await this.knex("users")
-    .where({ oauth_provider_id: userData.id, oauth_provider: "github" })
-    .first()
+  const user = await getUser(this.knex, userData.id)
 
   if (!user) {
     return reply.status(404).send({ error: "User not found" })
   }
 
-  const profile = await this.knex("profiles")
-    .where({ user_id: user.id })
-    .first()
+  const profile = await getProfile(this.knex, user.id)
 
   reply.send(profile)
 }

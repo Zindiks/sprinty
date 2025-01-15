@@ -9,6 +9,36 @@ import {
 import { OrganizationSchema } from "./model"
 
 export default async function organizationRoutes(fastify: FastifyInstance) {
+  fastify.get(
+    "/:id",
+    {
+      schema: {
+        params: { type: "object", properties: { id: { type: "string" } } },
+        response: { 200: OrganizationSchema.OrganizationResponseSchema },
+        tags: ["organization"],
+        description: "Get an organization",
+      },
+    },
+    getOrganizationController
+  )
+
+  fastify.get(
+    "/all",
+    {
+      schema: {
+        response: {
+          200: {
+            type: "array",
+            items: OrganizationSchema.OrganizationResponseSchema,
+          },
+        },
+        tags: ["organization"],
+        description: "Get all organizations",
+      },
+    },
+    getAllOrganizationController
+  )
+
   fastify.post(
     "/",
     {
@@ -44,36 +74,6 @@ export default async function organizationRoutes(fastify: FastifyInstance) {
       },
     },
     updateOrganizationController
-  )
-
-  fastify.get(
-    "/:id",
-    {
-      schema: {
-        params: { type: "object", properties: { id: { type: "string" } } },
-        response: { 200: OrganizationSchema.OrganizationResponseSchema },
-        tags: ["organization"],
-        description: "Get an organization",
-      },
-    },
-    getOrganizationController
-  )
-
-  fastify.get(
-    "/all",
-    {
-      schema: {
-        response: {
-          200: {
-            type: "array",
-            items: OrganizationSchema.OrganizationResponseSchema,
-          },
-        },
-        tags: ["organization"],
-        description: "Get all organizations",
-      },
-    },
-    getAllOrganizationController
   )
 
   fastify.delete(

@@ -10,6 +10,40 @@ import {
 import { BoardSchema } from "./model"
 
 export default async function boardRoutes(fastify: FastifyInstance) {
+  fastify.get(
+    "/:id",
+    {
+      schema: {
+        params: { type: "object", properties: { id: { type: "string" } } },
+        response: { 200: BoardSchema.BoardResponseSchema },
+        tags: ["board"],
+        description: "Get an board",
+      },
+    },
+    getBoardController
+  )
+
+  fastify.get(
+    "/:organization_id/all",
+    {
+      schema: {
+        params: {
+          type: "object",
+          properties: { organization_id: { type: "string" } },
+        },
+        response: {
+          200: {
+            type: "array",
+            items: BoardSchema.BoardResponseSchema,
+          },
+        },
+        tags: ["board"],
+        description: "Get all boards",
+      },
+    },
+    getAllBoardsController
+  )
+
   fastify.post(
     "/",
     {
@@ -45,40 +79,6 @@ export default async function boardRoutes(fastify: FastifyInstance) {
       },
     },
     updateBoardController
-  )
-
-  fastify.get(
-    "/:id",
-    {
-      schema: {
-        params: { type: "object", properties: { id: { type: "string" } } },
-        response: { 200: BoardSchema.BoardResponseSchema },
-        tags: ["board"],
-        description: "Get an board",
-      },
-    },
-    getBoardController
-  )
-
-  fastify.get(
-    "/:organization_id/all",
-    {
-      schema: {
-        params: {
-          type: "object",
-          properties: { organization_id: { type: "string" } },
-        },
-        response: {
-          200: {
-            type: "array",
-            items: BoardSchema.BoardResponseSchema,
-          },
-        },
-        tags: ["board"],
-        description: "Get all boards",
-      },
-    },
-    getAllBoardsController
   )
 
   fastify.delete(

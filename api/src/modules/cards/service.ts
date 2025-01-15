@@ -2,13 +2,30 @@ import { Knex } from "knex"
 
 import {
   CreateCard,
-  UpdateCardOrder,
   UpdateCardOrderArray,
   UpdateCardTitle,
   DeleteCard,
   FullCardResponse,
   FullCardResponseArray,
 } from "./model"
+
+export async function getCardById(
+  knex: Knex,
+  id: string
+): Promise<FullCardResponseArray> {
+  const [data] = await knex("cards").where({ id }).returning("*")
+
+  return data
+}
+
+export async function getCardsByListId(
+  knex: Knex,
+  list_id: string
+): Promise<FullCardResponseArray> {
+  const data = await knex("cards").where({ list_id }).orderBy("order", "asc")
+
+  return data
+}
 
 export async function create(
   knex: Knex,
@@ -45,10 +62,7 @@ export async function updateTitle(
   return card
 }
 
-export async function updateOrder(
-  knex: Knex,
-  input: UpdateCardOrderArray,
-) {
+export async function updateOrder(knex: Knex, input: UpdateCardOrderArray) {
   await knex.transaction(async (trx) => {
     for (const card of input) {
       console.log(card.order)
@@ -84,22 +98,4 @@ export async function deleteCard(knex: Knex, input: DeleteCard) {
   await updateOrder(knex, cards)
 
   return deleted
-}
-
-export async function getCardById(
-  knex: Knex,
-  id: string
-): Promise<FullCardResponseArray> {
-  const [data] = await knex("cards").where({ id }).returning("*")
-
-  return data
-}
-
-export async function getCardsByListId(
-  knex: Knex,
-  list_id: string
-): Promise<FullCardResponseArray> {
-  const data = await knex("cards").where({ list_id }).orderBy("order", "asc")
-
-  return data
 }

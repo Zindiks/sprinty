@@ -2,33 +2,12 @@ import { Knex } from "knex"
 
 import {
   CreateList,
-  UpdateListsOrder,
+  UpdateListOrderArray,
   UpdateListTitle,
   FullListResponse,
   DeleteList,
   CopyList,
 } from "./model"
-
-export async function create(
-  knex: Knex,
-  input: CreateList
-): Promise<FullListResponse> {
-  const { board_id, title } = input
-
-  const lastList = await knex("lists")
-    .where({ board_id })
-    .orderBy("order", "desc")
-    .select("order")
-    .first()
-
-  const order = lastList ? lastList.order + 1 : 0
-
-  const [list] = await knex("lists")
-    .insert({ title, board_id, order })
-    .returning("*")
-
-  return list
-}
 
 export async function getByBoardId(
   knex: Knex,
@@ -56,6 +35,27 @@ export async function getByBoardId(
   return data
 }
 
+export async function create(
+  knex: Knex,
+  input: CreateList
+): Promise<FullListResponse> {
+  const { board_id, title } = input
+
+  const lastList = await knex("lists")
+    .where({ board_id })
+    .orderBy("order", "desc")
+    .select("order")
+    .first()
+
+  const order = lastList ? lastList.order + 1 : 0
+
+  const [list] = await knex("lists")
+    .insert({ title, board_id, order })
+    .returning("*")
+
+  return list
+}
+
 export async function updateTitle(
   knex: Knex,
   input: UpdateListTitle
@@ -70,7 +70,11 @@ export async function updateTitle(
   return list
 }
 
-export async function updateOrder(knex: Knex, input: UpdateListsOrder, board_id: string) {
+export async function updateOrder(
+  knex: Knex,
+  input: UpdateListOrderArray,
+  board_id: string
+) {
   return knex.transaction(async (trx) => {
     const queries = input.map((list) => {
       return trx("lists")
@@ -85,28 +89,6 @@ export async function updateOrder(knex: Knex, input: UpdateListsOrder, board_id:
 
     await Promise.all(queries)
   })
-}
-
-export async function deleteList(knex: Knex, input: DeleteList) {
-  const { id, board_id } = input
-  const [deletedList] = await knex("lists")
-    .where({ id, board_id })
-    .del()
-    .returning("*")
-
-
-  const lists: UpdateListsOrder = await knex("lists")
-    .select("order", "id")
-    .where({ board_id })
-    .orderBy("order", "asc")
-
-  for (let i = 0; i < lists.length; i++) {
-    lists[i].order = i
-  }
-
-  await updateOrder(knex, lists, board_id)
-
-  return deletedList
 }
 
 export async function copyList(knex: Knex, input: CopyList) {
@@ -156,4 +138,25 @@ export async function copyList(knex: Knex, input: CopyList) {
     }
     return newList
   })
+}
+
+export async function deleteList(knex: Knex, input: DeleteList) {
+  const { id, board_id } = input
+  const [deletedList] = await knex("lists")
+    .where({ id, board_id })
+    .del()
+    .returning("*")
+
+  const lists: UpdateListOrderArray = await knex("lists")
+    .select("order", "id")
+    .where({ board_id })
+    .orderBy("order", "asc")
+
+  for (let i = 0; i < lists.length; i++) {
+    lists[i].order = i
+  }
+
+  await updateOrder(knex, lists, board_id)
+
+  return deletedList
 }

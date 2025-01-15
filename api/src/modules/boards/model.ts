@@ -36,6 +36,8 @@ const DeleteBoardSchema = Type.Object(
   { $id: "DeleteBoardSchema" }
 )
 
+//RESPONSE SCHEMA
+
 const BoardResponseSchema = Type.Intersect(
   [
     BaseBoardSchema,
