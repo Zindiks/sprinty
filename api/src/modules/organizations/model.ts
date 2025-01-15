@@ -4,12 +4,12 @@ const id = Type.String({ format: "uuid" })
 const created_at = Type.String({ format: "date-time" })
 const updated_at = Type.String({ format: "date-time" })
 
-const title = Type.String({ minLength: 3, maxLength: 50 })
+const name = Type.String({ minLength: 3, maxLength: 50 })
 const description = Type.Optional(Type.String({ maxLength: 100 }))
 
 const BaseOrganizationSchema = Type.Object(
   {
-    title,
+    name,
     description,
   },
   { $id: "BaseOrganizationSchema" }

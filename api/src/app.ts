@@ -1,6 +1,3 @@
-import fastify from "fastify"
-import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox"
-
 import { config } from "../src/configs/config"
 import { createServer } from "./bootstrap"
 
@@ -12,7 +9,7 @@ async function app() {
   server.listen(
     {
       port: config.api.port,
-      host: "0.0.0.0",
+      host: config.api.host,
     },
     (err, address) => {
       if (err) {

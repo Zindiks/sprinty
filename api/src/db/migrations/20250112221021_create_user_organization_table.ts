@@ -15,9 +15,10 @@ export async function up(knex: Knex): Promise<void> {
       .inTable("organizations")
       .onDelete("CASCADE")
     table.primary(["user_id", "organization_id"])
+    table.enum("role", ["ADMIN", "MEMBER", "GUEST"]).notNullable()
   })
 }
 
 export async function down(knex: Knex): Promise<void> {
-    return knex.schema.dropTable("user_organization")
+  return knex.schema.dropTable("user_organization")
 }
