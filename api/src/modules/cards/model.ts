@@ -19,6 +19,7 @@ const CreateCardSchema = Type.Object(
   },
   { $id: "CreateCardSchema" }
 )
+
 const UpdateCardTitleSchema = Type.Object(
   {
     id,
@@ -41,6 +42,15 @@ const UpdateCardOrderSchemaArray = Type.Array(UpdateCardOrderSchema, {
   $id: "UpdateCardOrderSchemaArray",
 })
 
+const DeleteCardSchema = Type.Object(
+  {
+    id,
+    list_id,
+  },
+  { $id: "DeleteCardSchema" }
+)
+
+//RESPONSE SCHEMA
 const FullCardResponseSchema = Type.Object(
   {
     id,
@@ -59,22 +69,14 @@ const FullCardResponseSchemaArray = Type.Array(FullCardResponseSchema, {
   $id: "FullCardResponseSchemaArray",
 })
 
-const DeleteCardSchema = Type.Object(
-  {
-    id,
-    list_id,
-  },
-  { $id: "DeleteCardSchema" }
-)
-
 export type CreateCard = Static<typeof CreateCardSchema>
 export type UpdateCardTitle = Static<typeof UpdateCardTitleSchema>
 export type UpdateCardOrder = Static<typeof UpdateCardOrderSchema>
 export type UpdateCardOrderArray = Static<typeof UpdateCardOrderSchemaArray>
+export type DeleteCard = Static<typeof DeleteCardSchema>
+
 export type FullCardResponse = Static<typeof FullCardResponseSchema>
 export type FullCardResponseArray = Static<typeof FullCardResponseSchemaArray>
-
-export type DeleteCard = Static<typeof DeleteCardSchema>
 
 export const CardSchema = {
   CreateCardSchema,

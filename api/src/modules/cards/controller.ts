@@ -16,6 +16,40 @@ import {
   DeleteCard,
 } from "./model"
 
+export async function getCardController(
+  this: FastifyInstance,
+  request: FastifyRequest<{
+    Params: { id: string }
+  }>,
+  reply: FastifyReply
+) {
+  const { id } = request.params
+
+  try {
+    const card = await getCardById(this.knex, id)
+    return reply.status(200).send(card)
+  } catch (err) {
+    return reply.status(500).send(err)
+  }
+}
+
+export async function getCardsByListIdController(
+  this: FastifyInstance,
+  request: FastifyRequest<{
+    Params: { list_id: string }
+  }>,
+  reply: FastifyReply
+) {
+  const { list_id } = request.params
+
+  try {
+    const cards = await getCardsByListId(this.knex, list_id)
+    return reply.status(200).send(cards)
+  } catch (err) {
+    return reply.status(500).send(err)
+  }
+}
+
 export async function createCardController(
   this: FastifyInstance,
   request: FastifyRequest<{
@@ -79,40 +113,6 @@ export async function deleteCardController(
   try {
     await deleteCard(this.knex, body)
     return reply.status(200).send()
-  } catch (err) {
-    return reply.status(500).send(err)
-  }
-}
-
-export async function getCardController(
-  this: FastifyInstance,
-  request: FastifyRequest<{
-    Params: { id: string }
-  }>,
-  reply: FastifyReply
-) {
-  const { id } = request.params
-
-  try {
-    const card = await getCardById(this.knex, id)
-    return reply.status(200).send(card)
-  } catch (err) {
-    return reply.status(500).send(err)
-  }
-}
-
-export async function getCardsByListIdController(
-  this: FastifyInstance,
-  request: FastifyRequest<{
-    Params: { list_id: string }
-  }>,
-  reply: FastifyReply
-) {
-  const { list_id } = request.params
-
-  try {
-    const cards = await getCardsByListId(this.knex, list_id)
-    return reply.status(200).send(cards)
   } catch (err) {
     return reply.status(500).send(err)
   }
