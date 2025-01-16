@@ -1,4 +1,5 @@
 import { CreateOrganizationModal } from "@/components/organization/CreateOrganizationModal"
+import { OrganizationCombobox } from "@/components/organization/OrganizationCombobox"
 import { StaticSidebar } from "@/components/SidebarStatic"
 
 const Home = () => {
@@ -10,6 +11,8 @@ const Home = () => {
         <h1>Main Content</h1>
 
         <CreateOrganizationModal />
+
+        <OrganizationCombobox />
       </main>
     </div>
   )

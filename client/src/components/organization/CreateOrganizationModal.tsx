@@ -25,7 +25,7 @@ export function CreateOrganizationModal() {
     setIsLoading(true)
 
     try {
-      await axios.post("http://localhost:4000/api/v1/organizations", {
+      await axios.post("http://localhost:4000/api/v1/organizations/", {
         name,
         description,
       })
