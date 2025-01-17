@@ -13,9 +13,9 @@ import {
 } from "@/components/ui/dialog"
 import { useToast } from "@/hooks/use-toast"
 
-export function CreateOrganizationModal() {
+export function CreateBoardModal() {
   const [open, setOpen] = useState(false)
-  const [name, setName] = useState("")
+  const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const { toast } = useToast()
@@ -25,16 +25,17 @@ export function CreateOrganizationModal() {
     setIsLoading(true)
 
     try {
-      await axios.post("http://localhost:4000/api/v1/organizations/", {
-        name,
+      await axios.post("http://localhost:4000/api/v1/boards/", {
+        title,
         description,
+        organization_id: "b29e1e10-8273-48fc-8fd4-e433fb392c16",
       })
       toast({
         title: "Success",
         description: "Organization created successfully",
       })
       setOpen(false)
-      setName("")
+      setTitle("")
       setDescription("")
     } catch (error) {
       toast({
@@ -50,20 +51,20 @@ export function CreateOrganizationModal() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Create Organization</Button>
+        <Button variant="outline">Create Board</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Create Organization</DialogTitle>
+          <DialogTitle>Create Board</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="title">Title</Label>
             <Input
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Enter organization name"
+              id="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Enter board name"
               required
             />
           </div>
@@ -73,12 +74,12 @@ export function CreateOrganizationModal() {
               id="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Enter organization description"
+              placeholder="Enter board description"
               required
             />
           </div>
           <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? "Creating..." : "Create Organization"}
+            {isLoading ? "Creating..." : "Create Board"}
           </Button>
         </form>
       </DialogContent>

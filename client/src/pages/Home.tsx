@@ -1,4 +1,7 @@
+import BoardList from "@/components/board/BoardList"
+import { CreateBoardModal } from "@/components/board/CreateBoardModal"
 import { CreateOrganizationModal } from "@/components/organization/CreateOrganizationModal"
+import { OrganizationCombobox } from "@/components/organization/OrganizationCombobox"
 import { StaticSidebar } from "@/components/SidebarStatic"
 
 const Home = () => {
@@ -10,6 +13,12 @@ const Home = () => {
         <h1>Main Content</h1>
 
         <CreateOrganizationModal />
+
+        <OrganizationCombobox />
+
+        <CreateBoardModal />
+
+        <BoardList />
       </main>
     </div>
   )
