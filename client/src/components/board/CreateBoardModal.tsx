@@ -1,5 +1,5 @@
 import { useState } from "react"
-import axios from "axios"
+
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -11,24 +11,25 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { useToast } from "@/hooks/use-toast"
+import { useBoard } from "@/hooks/useBoard"
+import { toast } from "@/hooks/use-toast"
 
 export function CreateBoardModal() {
   const [open, setOpen] = useState(false)
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [isLoading, setIsLoading] = useState(false)
-  const { toast } = useToast()
+
+  const { createBoard } = useBoard("b29e1e10-8273-48fc-8fd4-e433fb392c16")
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
 
     try {
-      await axios.post("http://localhost:4000/api/v1/boards/", {
+      createBoard.mutate({
         title,
         description,
-        organization_id: "b29e1e10-8273-48fc-8fd4-e433fb392c16",
       })
       toast({
         title: "Success",
@@ -46,6 +47,8 @@ export function CreateBoardModal() {
     } finally {
       setIsLoading(false)
     }
+
+    setIsLoading(false)
   }
 
   return (

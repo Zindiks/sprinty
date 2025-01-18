@@ -1,44 +1,16 @@
 import { User2 } from "lucide-react"
-// import { useBoards } from "@/hooks/useBoards"
-// import FormPopover from "./FormPopover"
-// import CreateBoard from "./CreateBoard"
 
 import { Skeleton } from "@/components/ui/skeleton"
-import axios from "axios"
-import { useEffect, useState } from "react"
+
+import { useBoard } from "@/hooks/useBoard"
 
 const BoardList = () => {
-  //   const org = useSelector((state: RootState) => state.organization.org_id)
 
-  const [boards, setBoards] = useState([])
-  const [loading, setLoading] = useState(true)
+  const {boards} = useBoard("b29e1e10-8273-48fc-8fd4-e433fb392c16")
 
-  //   const { boards } = useBoards(org)
+    if (boards.isLoading) return <BoardList.Skeleton />
+    if (boards.isError) return <div>Error loading boards...</div>
 
-  useEffect(() => {
-    const fetchOrganizations = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:4000/api/v1/boards/b29e1e10-8273-48fc-8fd4-e433fb392c16/all"
-        )
-
-
-        console.log(response.data)
-
-        setBoards(response.data)
-        setLoading(false)
-      } catch (err) {
-        // setError("Failed to fetch organizations" + err)
-        console.log(err)
-        setLoading(false)
-      }
-    }
-
-    fetchOrganizations()
-  }, [])
-
-  if (loading) return <BoardList.Skeleton />
-//   if (boards.isError) return <div>Error loading boards...</div>
 
   return (
     <div className="space-y-4">
@@ -47,11 +19,11 @@ const BoardList = () => {
         Your boards
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-        {boards.map((board) => (
+        {boards.data?.map((board) => (
           <a
             href={`/board/${board.id}`}
             key={board.id}
-            style={{ backgroundImage: `url(${board.image_thumb_url})` }}
+            // style={{ backgroundImage: `url(${board.image_thumb_url})` }}
             className={
               "group relative aspect-video bg-no-repeat bg-center bg-cover bg-sky-700 rounded-sm h-full w-full p-2 overflow-hidden"
             }
