@@ -125,7 +125,6 @@ export const useBoard = (organization_id: string) => {
     UpdateBoardTitle
   >({
     mutationFn: (formData) => {
-
       return axios.put(
         `${API_URL}/boards/${formData.id}`,
         JSON.stringify(formData),

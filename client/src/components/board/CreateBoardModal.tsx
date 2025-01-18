@@ -11,7 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { useBoard } from "@/hooks/useBoard"
+import { useBoard } from "@/hooks/useBoards"
 import { toast } from "@/hooks/use-toast"
 
 export function CreateBoardModal() {

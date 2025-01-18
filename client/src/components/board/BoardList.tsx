@@ -2,17 +2,15 @@ import { User2 } from "lucide-react"
 
 import { Skeleton } from "@/components/ui/skeleton"
 
-import { useBoard } from "@/hooks/useBoard"
+import { useBoard } from "@/hooks/useBoards"
 
 const BoardList = () => {
-
-  const {GetBoards} = useBoard("b29e1e10-8273-48fc-8fd4-e433fb392c16")
+  const { GetBoards } = useBoard("b29e1e10-8273-48fc-8fd4-e433fb392c16")
 
   const boards = GetBoards()
 
-    if (boards.isLoading) return <BoardList.Skeleton />
-    if (boards.isError) return <div>Error loading boards...</div>
-
+  if (boards.isLoading) return <BoardList.Skeleton />
+  if (boards.isError) return <div>Error loading boards...</div>
 
   return (
     <div className="space-y-4">

@@ -32,6 +32,7 @@ export async function getByBoardId(
     .where({ "lists.board_id": board_id })
     .groupBy("lists.id")
     .orderBy("lists.order", "asc")
+
   return data
 }
 

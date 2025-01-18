@@ -6,7 +6,7 @@ interface BoardTitleFormProps {
 
 import { Button } from "@/components/ui/button"
 import { ElementRef, useRef, useState } from "react"
-import { useBoard } from "@/hooks/useBoard"
+import { useBoard } from "@/hooks/useBoards"
 
 const BoardTitleForm = ({ data }: BoardTitleFormProps) => {
   const [isEditing, setIsEditing] = useState(false)
