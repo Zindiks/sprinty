@@ -1,6 +1,7 @@
 import BoardNavBar from "@/components/board/BoardNavBar"
+import ListContainer from "@/components/list/ListContainer"
 import { StaticSidebar } from "@/components/SidebarStatic"
-import { useBoard } from "@/hooks/useBoard"
+import { useBoard } from "@/hooks/useBoards"
 import { useParams } from "react-router-dom"
 
 const BoardView = () => {
@@ -22,6 +23,10 @@ const BoardView = () => {
       <StaticSidebar />
 
       <BoardNavBar data={data} />
+
+      <div className={"pt-20 "}>
+        <ListContainer board_id={board_id} data={lists.data} />
+      </div>
     </div>
   )
 }

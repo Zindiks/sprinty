@@ -1,5 +1,5 @@
 import { TrashIcon } from "lucide-react"
-import { useBoard } from "@/hooks/useBoard"
+import { useBoard } from "@/hooks/useBoards"
 import { useNavigate } from "react-router-dom"
 import { Board } from "@/types/types"
 import BoardTitleForm from "./BoardTitleForm"
