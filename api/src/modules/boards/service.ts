@@ -37,6 +37,8 @@ export async function update(
     updated_at: knex.fn.now(),
   }
 
+  console.log(input)
+
   const [board] = await knex("boards")
     .update(updatedInput)
     .where({ id })

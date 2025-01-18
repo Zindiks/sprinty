@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import axios, { AxiosResponse } from "axios"
 import { useToast } from "@/hooks/use-toast"
+import { Board } from "@/types/types"
 
 const API_HOST = import.meta.env.VITE_API_HOST
 const API_PORT = import.meta.env.VITE_API_PORT
@@ -8,28 +9,15 @@ const API_VERSION = import.meta.env.VITE_API_VERSION
 
 const API_URL = `${API_HOST}:${API_PORT}${API_VERSION}`
 
-export interface ResponseBoard {
-  id: string
-  organization_id: string
-
-  title: string
-  description: string
-
-  created_at: string
-  updated_at: string
-}
-
 export interface CreateBoard {
   title: string
   description: string
   organization_id?: string
 }
 
-export interface UpdateBoard {
+export interface UpdateBoardTitle {
   id: string
   title: string
-  description: string
-  organization_id: string
 }
 
 export interface FetchError {
@@ -48,7 +36,6 @@ export const useBoard = (organization_id: string) => {
 
   const fetchBoards = async (organization_id: string) => {
     try {
-      console.log(API_URL)
       const response = await axios.get(
         `${API_URL}/boards/${organization_id}/all`
       )
@@ -58,10 +45,28 @@ export const useBoard = (organization_id: string) => {
     }
   }
 
-  const boards = useQuery<ResponseBoard[], FetchError>({
-    queryKey: ["boards", organization_id],
-    queryFn: () => fetchBoards(organization_id),
-  })
+  const fetchBoard = async (board_id: string) => {
+    try {
+      const response = await axios.get(`${API_URL}/boards/${board_id}`)
+      return response.data
+    } catch (error) {
+      throw new Error(`Error fetching boards: ${error}`)
+    }
+  }
+
+  const GetBoard = (board_id: string) => {
+    return useQuery<Board, FetchError>({
+      queryKey: ["board", board_id],
+      queryFn: () => fetchBoard(board_id),
+    })
+  }
+
+  const GetBoards = () => {
+    return useQuery<Board[], FetchError>({
+      queryKey: ["boards", organization_id],
+      queryFn: () => fetchBoards(organization_id),
+    })
+  }
 
   const createBoard = useMutation<AxiosResponse, FetchError, CreateBoard>({
     mutationFn: (formData) => {
@@ -117,11 +122,12 @@ export const useBoard = (organization_id: string) => {
   const updateBoardTitle = useMutation<
     AxiosResponse,
     FetchError,
-    [UpdateBoard, string]
+    UpdateBoardTitle
   >({
-    mutationFn: ([formData, board_id]) => {
+    mutationFn: (formData) => {
+
       return axios.put(
-        `${API_URL}/boards/${board_id}`,
+        `${API_URL}/boards/${formData.id}`,
         JSON.stringify(formData),
         {
           headers: {
@@ -154,6 +160,7 @@ export const useBoard = (organization_id: string) => {
     createBoard,
     deleteBoard,
     updateBoardTitle,
-    boards,
+    GetBoard,
+    GetBoards,
   }
 }

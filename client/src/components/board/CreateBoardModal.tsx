@@ -33,7 +33,7 @@ export function CreateBoardModal() {
       })
       toast({
         title: "Success",
-        description: "Organization created successfully",
+        description: "Board created successfully",
       })
       setOpen(false)
       setTitle("")
@@ -41,7 +41,7 @@ export function CreateBoardModal() {
     } catch (error) {
       toast({
         title: "Error",
-        description: `Failed to create organization: ${error}`,
+        description: `Failed to create Board: ${error}`,
         variant: "destructive",
       })
     } finally {
