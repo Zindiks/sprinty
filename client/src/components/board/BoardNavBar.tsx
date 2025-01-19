@@ -9,6 +9,10 @@ interface BoardNavBarProps {
 }
 
 const BoardNavBar = ({ data }: BoardNavBarProps) => {
+  if (!data) {
+    return <h1>error</h1>
+  }
+
   const { deleteBoard } = useBoard(data.organization_id)
   const navigate = useNavigate()
 
@@ -23,7 +27,7 @@ const BoardNavBar = ({ data }: BoardNavBarProps) => {
   }
 
   return (
-    <div className="w-full h-14 z-[40] bg-black/50 fixed top-14 flex items-center px-6 gap-x-4 text-white">
+    <div className="h-12 flex bg-black/50 items-center px-6 gap-x-4 text-white">
       <BoardTitleForm data={data} />
 
       {/*TODO: Popover menu with additional info about board and so on*/}
