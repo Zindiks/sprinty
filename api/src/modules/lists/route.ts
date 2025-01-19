@@ -22,12 +22,7 @@ export default async function listRoutes(fastify: FastifyInstance) {
           },
           required: ["board_id"],
         },
-        response: {
-          200: {
-            type: "array",
-            items: ListSchema.FullListResponseSchema,
-          },
-        },
+        
         tags: ["list"],
         description: "Get all lists by board id",
       },
