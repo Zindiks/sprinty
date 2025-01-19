@@ -83,7 +83,7 @@ Ensure you have the following installed:
    npm run dev
    ```
 
-3. The server will start at `http://localhost:3000` by default.
+3. The server will start at `http://localhost:4000` by default.
 
 #### Frontend (React)
 
@@ -94,10 +94,10 @@ Ensure you have the following installed:
 
 2. Start the React development server:
    ```bash
-   npm start
+   npm run dev
    ```
 
-3. Open `http://localhost:3001` in your browser to access the application.
+3. Open `http://localhost:5173` in your browser to access the application.
 
 ### Environment Variables
 
@@ -105,13 +105,13 @@ Create `.env` files in both the `backend` and `frontend` directories to configur
 
 #### Backend (.env)
 ```
-PORT=3000
+PORT=4000
 DATABASE_URL=<your_database_url>
 ```
 
 #### Frontend (.env)
 ```
-REACT_APP_API_URL=http://localhost:3000
+REACT_APP_API_URL=http://localhost:5173
 ```
 
 ## Project Structure
@@ -162,9 +162,6 @@ Contributions are welcome! If you'd like to contribute to Sprinty, please:
 
 Sprinty is open-source software licensed under the [MIT License](LICENSE).
 
-## Contact
-
-For any questions or feedback, feel free to reach out at [your-email@example.com](mailto:your-email@example.com).
 
 ---
 
