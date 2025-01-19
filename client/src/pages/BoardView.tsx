@@ -2,15 +2,18 @@ import BoardNavBar from "@/components/board/BoardNavBar"
 import ListContainer from "@/components/list/ListContainer"
 import { StaticSidebar } from "@/components/SidebarStatic"
 import { useBoard } from "@/hooks/useBoards"
+import { useLists } from "@/hooks/useLists"
 import { useParams } from "react-router-dom"
 
 const BoardView = () => {
   const { board_id } = useParams()
   const { GetBoard } = useBoard("b29e1e10-8273-48fc-8fd4-e433fb392c16")
-
+  
   if (!board_id) {
-    return <h1>error</h1>
-  }
+      return <h1>error</h1>
+    }
+    
+    const {lists} = useLists(board_id)
 
   const { data } = GetBoard(board_id)
 

@@ -26,6 +26,7 @@ function reorder<T>(list: T[], startIndex: number, endIndex: number) {
 const ListContainer = ({ data, board_id }: ListContainerProps) => {
 
 
+
   const [orderedData, setOrderedData] = useState(data ? data : [])
 
   const { updateListsOrder } = useLists(board_id)
@@ -139,6 +140,11 @@ const ListContainer = ({ data, board_id }: ListContainerProps) => {
         updateCardsOrder.mutate([destList.cards, sourceList.id])
       }
     }
+  }
+
+
+  if(orderedData == undefined){
+    return <h1>loading</h1>
   }
 
   return (

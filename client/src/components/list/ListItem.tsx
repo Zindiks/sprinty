@@ -12,8 +12,10 @@ interface ListItemProps {
   data: List
 }
 
-const ListItem = ({ index, data }: ListItemProps) => {
+const ListItem = ({ data, index }: ListItemProps) => {
   const [isEditing, setIsEditing] = useState(false)
+
+  console.log(data)
 
   const textareaRef = useRef<ElementRef<"textarea">>(null)
 

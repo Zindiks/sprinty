@@ -68,7 +68,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
     updateCardTitleController
   )
 
-  fastify.patch(
+  fastify.put(
     "/order",
     {
       schema: {
