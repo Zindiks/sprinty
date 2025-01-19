@@ -1,4 +1,4 @@
-
+import { Link } from "react-router-dom"
 import {
   Tooltip,
   TooltipContent,
@@ -9,8 +9,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Plus, Home, Mail, Settings, Bell, User } from "lucide-react"
 
 import { SidebarItem } from "./SidebarItem"
-
-
 
 export const StaticSidebar = () => {
   return (
@@ -25,12 +23,17 @@ export const StaticSidebar = () => {
         {/* Plus Button */}
         <SidebarItem icon={Plus} tooltip="Add New" />
 
-        {/* Five placeholder items */}
-        <SidebarItem icon={Home} tooltip="Home" />
+        {/* Home item as a link */}
+        <Link to="/boards">
+          <SidebarItem icon={Home} tooltip="Home" />
+        </Link>
+
+        <Link to="/user">
+          <SidebarItem icon={User} tooltip="User" />
+        </Link>
+
+        {/* Other items */}
         <SidebarItem icon={Mail} tooltip="Messages" />
-        <SidebarItem icon={Bell} tooltip="Notifications" />
-        <SidebarItem icon={Settings} tooltip="Settings" />
-        <SidebarItem icon={User} tooltip="Profile" />
 
         {/* Spacer to push avatar to bottom */}
         <div className="flex-grow" />

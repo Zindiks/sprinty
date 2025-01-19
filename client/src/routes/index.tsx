@@ -4,6 +4,7 @@ import User from "../pages/User"
 import Marketing from "@/pages/Marketing"
 import Boards from "@/pages/Boards"
 import BoardView from "../pages/BoardView"
+import BoardLayout from "@/pages/BoardLayout"
 // import BoardEdit from "../pages/BoardEdit"
 
 const AppRoutes = () => (
@@ -13,8 +14,10 @@ const AppRoutes = () => (
       <Route path="/user" element={<User />} />
       <Route path="/marketing" element={<Marketing />} />
       <Route path="/boards" element={<Boards />} />
-      <Route path="/board/:board_id" element={<BoardView />} />
-      {/* <Route path="/boards/:id/edit" element={<BoardEdit />} /> */}
+
+      <Route path="board" element={<BoardLayout />}>
+        <Route path=":board_id" element={<BoardView />} />
+      </Route>
     </Routes>
   </Router>
 )

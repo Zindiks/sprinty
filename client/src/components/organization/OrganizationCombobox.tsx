@@ -7,7 +7,7 @@ interface Organization {
   updated_at: string
 }
 
-import * as React from "react"
+import { useEffect, useState } from "react"
 import { Check, ChevronsUpDown } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -27,20 +27,28 @@ import {
 } from "@/components/ui/popover"
 import axios from "axios"
 
+import { useStore } from "@/hooks/store/useStore"
+
+const API_HOST = import.meta.env.VITE_API_HOST
+const API_PORT = import.meta.env.VITE_API_PORT
+const API_VERSION = import.meta.env.VITE_API_VERSION
+
+const API_URL = `${API_HOST}:${API_PORT}${API_VERSION}`
+
 export function OrganizationCombobox() {
-  const [open, setOpen] = React.useState(false)
-  const [id, setId] = React.useState("")
+  const [open, setOpen] = useState(false)
+  const [id, setId] = useState("")
 
-  const [loading, setLoading] = React.useState(false)
+  const [loading, setLoading] = useState(false)
 
-  const [organizations, setOrganizations] = React.useState<Organization[]>([])
+  const [organizations, setOrganizations] = useState<Organization[]>([])
 
-  React.useEffect(() => {
+  const { setOrganizationId} = useStore()
+
+  useEffect(() => {
     const fetchOrganizations = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:4000/api/v1/organizations/all"
-        )
+        const response = await axios.get(`${API_URL}/organizations/all`)
         setOrganizations(response.data)
         setLoading(false)
       } catch (err) {
@@ -82,6 +90,7 @@ export function OrganizationCombobox() {
                   value={organization.id}
                   onSelect={(currentId) => {
                     setId(currentId === id ? "" : currentId)
+                    setOrganizationId(currentId)
                     setOpen(false)
                   }}
                 >
