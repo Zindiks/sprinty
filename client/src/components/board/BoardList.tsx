@@ -3,6 +3,7 @@ import { User2 } from "lucide-react"
 import { Skeleton } from "@/components/ui/skeleton"
 
 import { useBoard } from "@/hooks/useBoards"
+import { Link } from "react-router-dom"
 
 const BoardList = () => {
   const { GetBoards } = useBoard("b29e1e10-8273-48fc-8fd4-e433fb392c16")
@@ -20,8 +21,8 @@ const BoardList = () => {
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
         {boards.data?.map((board) => (
-          <a
-            href={`/board/${board.id}`}
+          <Link
+            to={`/board/${board.id}`}
             key={board.id}
             // style={{ backgroundImage: `url(${board.image_thumb_url})` }}
             className={
@@ -35,7 +36,7 @@ const BoardList = () => {
             >
               <p className={"relative text-white"}>{board.title}</p>
             </div>
-          </a>
+          </Link>
         ))}
 
         {/* <FormPopover>
