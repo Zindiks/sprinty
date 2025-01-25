@@ -9,6 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Plus, Home, Mail, Settings, Bell, User } from "lucide-react"
 
 import { SidebarItem } from "./SidebarItem"
+import { OrganizationCombobox } from "./organization/OrganizationCombobox"
 
 export const StaticSidebar = () => {
   return (
@@ -19,6 +20,8 @@ export const StaticSidebar = () => {
           icon={() => <div className="w-8 h-8 bg-blue-500 rounded-full" />}
           tooltip="Logo"
         />
+
+        <OrganizationCombobox />
 
         {/* Plus Button */}
         <SidebarItem icon={Plus} tooltip="Add New" />
