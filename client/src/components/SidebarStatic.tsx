@@ -16,10 +16,10 @@ export const StaticSidebar = () => {
     <aside className="w-16 h-screen flex flex-col items-center py-4 bg-white border-r">
       <div className="flex flex-col items-center space-y-4 flex-grow">
         {/* Logo */}
-        <SidebarItem
+        {/* <SidebarItem
           icon={() => <div className="w-8 h-8 bg-blue-500 rounded-full" />}
           tooltip="Logo"
-        />
+        /> */}
 
         <OrganizationCombobox />
 

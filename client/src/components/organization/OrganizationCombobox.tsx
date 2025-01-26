@@ -43,7 +43,7 @@ export function OrganizationCombobox() {
 
   const [organizations, setOrganizations] = useState<Organization[]>([])
 
-  const { setOrganizationId} = useStore()
+  const { setOrganizationId } = useStore()
 
   useEffect(() => {
     const fetchOrganizations = async () => {
@@ -70,7 +70,7 @@ export function OrganizationCombobox() {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="w-[50px] h-[50px] justify-between rounded-full"
         >
           {id
             ? organizations.find((organization) => organization.id === id)?.name
