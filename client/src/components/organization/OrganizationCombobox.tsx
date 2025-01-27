@@ -42,13 +42,22 @@ export function OrganizationCombobox() {
 
   const [open, setOpen] = useState(false)
 
-  const [id, setId] = useState(organization_id ? organization_id : "")
+  const [id, setId] = useState(() => {
+    const storedId = localStorage.getItem("organization_id")
+    return storedId ? storedId : organization_id ? organization_id : ""
+  })
 
   const [loading, setLoading] = useState(false)
 
   const [organizations, setOrganizations] = useState<Organization[]>([])
 
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!id) {
+      navigate("/organizations")
+    }
+  }, [id, navigate])
 
   useEffect(() => {
     const fetchOrganizations = async () => {
@@ -65,6 +74,14 @@ export function OrganizationCombobox() {
 
     fetchOrganizations()
   }, [])
+
+  useEffect(() => {
+    if (id) {
+      localStorage.setItem("organization_id", id)
+    } else {
+      localStorage.removeItem("organization_id")
+    }
+  }, [id])
 
   if (loading) return <div>Loading organizations...</div>
 

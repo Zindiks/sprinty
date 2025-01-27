@@ -1,17 +1,24 @@
 import { User2 } from "lucide-react"
-
 import { Skeleton } from "@/components/ui/skeleton"
-
 import { useBoard } from "@/hooks/useBoards"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useStore } from "@/hooks/store/useStore"
+import { useEffect } from "react"
 
 const BoardList = () => {
+  const navigate = useNavigate()
+  const { organization_id, setOrganizationId } = useStore()
 
-    const { organization_id, setBoardId } = useStore()
+  useEffect(() => {
+    const storedOrganizationId = localStorage.getItem("organization_id")
+    if (storedOrganizationId) {
+      setOrganizationId(storedOrganizationId)
+    } else {
+      navigate("/organizations")
+    }
+  }, [setOrganizationId, navigate])
 
   const { GetBoards } = useBoard(organization_id)
-
   const boards = GetBoards()
 
   if (boards.isLoading) return <BoardList.Skeleton />
@@ -42,7 +49,6 @@ const BoardList = () => {
             </div>
           </Link>
         ))}
-
       </div>
     </div>
   )
