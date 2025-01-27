@@ -79,7 +79,7 @@ export const useCards = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["list"],
+        queryKey: ["lists"],
       })
     },
     onError: ({ response }) => {

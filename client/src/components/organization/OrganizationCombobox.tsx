@@ -27,6 +27,8 @@ import {
 } from "@/components/ui/popover"
 import axios from "axios"
 
+import { useNavigate } from "react-router-dom"
+
 import { useStore } from "@/hooks/store/useStore"
 
 const API_HOST = import.meta.env.VITE_API_HOST
@@ -36,14 +38,17 @@ const API_VERSION = import.meta.env.VITE_API_VERSION
 const API_URL = `${API_HOST}:${API_PORT}${API_VERSION}`
 
 export function OrganizationCombobox() {
+  const { setOrganizationId, organization_id } = useStore()
+
   const [open, setOpen] = useState(false)
-  const [id, setId] = useState("")
+
+  const [id, setId] = useState(organization_id ? organization_id : "")
 
   const [loading, setLoading] = useState(false)
 
   const [organizations, setOrganizations] = useState<Organization[]>([])
 
-  const { setOrganizationId} = useStore()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchOrganizations = async () => {
@@ -70,7 +75,7 @@ export function OrganizationCombobox() {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="w-10 h-10 justify-between rounded-full"
         >
           {id
             ? organizations.find((organization) => organization.id === id)?.name
@@ -92,6 +97,7 @@ export function OrganizationCombobox() {
                     setId(currentId === id ? "" : currentId)
                     setOrganizationId(currentId)
                     setOpen(false)
+                    navigate("/boards")
                   }}
                 >
                   {organization.name}

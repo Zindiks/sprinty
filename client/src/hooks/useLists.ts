@@ -80,7 +80,7 @@ export const useLists = (board_id: string) => {
     },
     onSuccess: ({ data }) => {
       queryClient.invalidateQueries({
-        queryKey: ["list"],
+        queryKey: ["lists"],
       })
       toast({
         description: `List ${data.title} successfully created`,
@@ -107,7 +107,7 @@ export const useLists = (board_id: string) => {
     },
     onSuccess: ({ data }) => {
       queryClient.invalidateQueries({
-        queryKey: ["list"],
+        queryKey: ["lists"],
       })
       toast({
         description: `List ${data.title} successfully created`,
@@ -168,7 +168,7 @@ export const useLists = (board_id: string) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["list"],
+        queryKey: ["lists"],
       })
       toast({
         description: `lists succesfully reordered`,
@@ -190,7 +190,7 @@ export const useLists = (board_id: string) => {
     },
     onSuccess: ({ data }) => {
       queryClient.invalidateQueries({
-        queryKey: ["list"],
+        queryKey: ["lists"],
       })
       toast({
         description: `List ${data.title} successfully deleted`,
