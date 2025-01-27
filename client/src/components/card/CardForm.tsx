@@ -90,7 +90,7 @@ const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(
           size={"sm"}
         >
           <PlusIcon className="h-4 w-4 mr-2" />
-          Add a card
+          Add card
         </Button>
       </div>
     )
