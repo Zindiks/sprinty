@@ -4,9 +4,13 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 import { useBoard } from "@/hooks/useBoards"
 import { Link } from "react-router-dom"
+import { useStore } from "@/hooks/store/useStore"
 
 const BoardList = () => {
-  const { GetBoards } = useBoard("b29e1e10-8273-48fc-8fd4-e433fb392c16")
+
+    const { organization_id, setBoardId } = useStore()
+
+  const { GetBoards } = useBoard(organization_id)
 
   const boards = GetBoards()
 
@@ -39,11 +43,6 @@ const BoardList = () => {
           </Link>
         ))}
 
-        {/* <FormPopover>
-          <div role="button">
-            <CreateBoard amount={5} />
-          </div>
-        </FormPopover> */}
       </div>
     </div>
   )

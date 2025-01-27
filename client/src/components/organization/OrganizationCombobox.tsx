@@ -36,14 +36,15 @@ const API_VERSION = import.meta.env.VITE_API_VERSION
 const API_URL = `${API_HOST}:${API_PORT}${API_VERSION}`
 
 export function OrganizationCombobox() {
+  const { setOrganizationId, organization_id } = useStore()
+
   const [open, setOpen] = useState(false)
-  const [id, setId] = useState("")
+
+  const [id, setId] = useState(organization_id ? organization_id : "")
 
   const [loading, setLoading] = useState(false)
 
   const [organizations, setOrganizations] = useState<Organization[]>([])
-
-  const { setOrganizationId } = useStore()
 
   useEffect(() => {
     const fetchOrganizations = async () => {

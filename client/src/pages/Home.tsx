@@ -2,12 +2,9 @@ import BoardList from "@/components/board/BoardList"
 import { CreateBoardModal } from "@/components/board/CreateBoardModal"
 import { CreateOrganizationModal } from "@/components/organization/CreateOrganizationModal"
 import { OrganizationCombobox } from "@/components/organization/OrganizationCombobox"
-import { useStore } from "@/hooks/store/useStore"
+
 
 const Home = () => {
-  const { organization_id } = useStore()
-
-  console.log(organization_id)
 
   return (
     <div className="flex h-screen">
@@ -15,7 +12,6 @@ const Home = () => {
         {/* Your main content goes here */}
         <h1>Main Content</h1>
 
-        <h1>{organization_id}</h1>
 
         <CreateOrganizationModal />
 
