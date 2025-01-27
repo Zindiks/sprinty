@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dialog"
 import { useBoard } from "@/hooks/useBoards"
 import { toast } from "@/hooks/use-toast"
+import { useStore } from "@/hooks/store/useStore"
 
 export function CreateBoardModal() {
   const [open, setOpen] = useState(false)
@@ -20,7 +21,8 @@ export function CreateBoardModal() {
   const [description, setDescription] = useState("")
   const [isLoading, setIsLoading] = useState(false)
 
-  const { createBoard } = useBoard("b29e1e10-8273-48fc-8fd4-e433fb392c16")
+  const { organization_id } = useStore()
+  const { createBoard } = useBoard(organization_id)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
