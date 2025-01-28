@@ -2,7 +2,6 @@ import { BoardService } from "./board.service"
 import { BoardRepository } from "./board.repository"
 import { CreateBoard, UpdateBoard } from "./board.schema"
 
-
 jest.mock("./board.repository")
 
 const BoardRepositoryMock = BoardRepository as jest.Mock<BoardRepository>
@@ -90,4 +89,3 @@ describe("BoardService", () => {
     expect(boardRepository.deleteBoard).toHaveBeenCalledWith(boardId)
   })
 })
-

@@ -1,6 +1,4 @@
-import { Type, Static} from "@sinclair/typebox"
-
-
+import { Type, Static } from "@sinclair/typebox"
 
 const id = Type.String({ format: "uuid" })
 const organization_id = Type.String({ format: "uuid" })
@@ -53,7 +51,6 @@ export class BoardSchema {
     { $id: "BoardResponseSchema" }
   )
 }
-
 
 export type BaseBoard = Static<typeof BoardSchema.BaseBoardSchema>
 export type CreateBoard = Static<typeof BoardSchema.CreateBoardSchema>

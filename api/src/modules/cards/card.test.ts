@@ -74,7 +74,11 @@ describe("CardService", () => {
   })
 
   it("should update a card title", async () => {
-    const input: UpdateCardTitle = { id: "1", list_id: "1", title: "Updated Title" }
+    const input: UpdateCardTitle = {
+      id: "1",
+      list_id: "1",
+      title: "Updated Title",
+    }
     const card = {
       id: input.id,
       list_id: input.list_id,

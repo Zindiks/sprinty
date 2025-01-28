@@ -2,7 +2,6 @@ import { FastifyInstance } from "fastify"
 import { CardController } from "./card.controller"
 import { CardSchema } from "./card.schema"
 
-
 const cardController = new CardController()
 
 export default async function cardRoutes(fastify: FastifyInstance) {
