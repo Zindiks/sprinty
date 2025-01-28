@@ -14,7 +14,7 @@ import cardRoutes from "./modules/cards/card.route"
 
 import { OrganizationSchema } from "./modules/organizations/organization.schema"
 import { BoardSchema } from "./modules/boards/board.schema"
-import { ListSchema } from "./modules/lists/list.model"
+import { ListSchema } from "./modules/lists/list.schema"
 import { CardSchema } from "./modules/cards/card.schema"
 import { swaggerDocs } from "./swagger"
 

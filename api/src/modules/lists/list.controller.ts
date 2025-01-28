@@ -1,127 +1,121 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify"
 import {
-  create,
-  copyList,
-  updateOrder,
-  updateTitle,
-  getByBoardId,
-  deleteList,
-} from "./list.service"
-import {
   CreateList,
   CopyList,
   UpdateListOrderArray,
   UpdateListTitle,
   DeleteList,
-} from "./list.model"
+} from "./list.schema"
+import { ListService } from "./list.service"
 
-export async function getListsByBoardIdController(
-  this: FastifyInstance,
-  request: FastifyRequest<{
-    Params: { board_id: string }
-  }>,
-  reply: FastifyReply
-) {
-  const { board_id } = request.params
+export class ListController {
+  private readonly listService: ListService
 
-  try {
-    const lists = await getByBoardId(this.knex, board_id)
-    if (lists) {
-      return reply.status(200).send(lists)
-    } else {
-      return reply.status(404).send({ message: "no lists" })
+  constructor() {
+    this.listService = new ListService()
+  }
+  async getListsByBoardIdController(
+    request: FastifyRequest<{
+      Params: { board_id: string }
+    }>,
+    reply: FastifyReply
+  ) {
+    const { board_id } = request.params
+
+    try {
+      const lists = await this.listService.getByBoardId(board_id)
+      if (lists) {
+        return reply.status(200).send(lists)
+      } else {
+        return reply.status(404).send({ message: "no lists" })
+      }
+    } catch (err) {
+      return reply.status(500).send(err)
     }
-  } catch (err) {
-    return reply.status(500).send(err)
   }
-}
 
-export async function createListController(
-  this: FastifyInstance,
-  request: FastifyRequest<{
-    Body: CreateList
-  }>,
-  reply: FastifyReply
-) {
-  const body = request.body
+  async createListController(
+    request: FastifyRequest<{
+      Body: CreateList
+    }>,
+    reply: FastifyReply
+  ) {
+    const body = request.body
 
-  try {
-    const list = await create(this.knex, body)
-    return reply.status(201).send(list)
-  } catch (err) {
-    return reply.status(500).send(err)
+    try {
+      const list = await this.listService.create(body)
+      return reply.status(201).send(list)
+    } catch (err) {
+      return reply.status(500).send(err)
+    }
   }
-}
 
-export async function updateListTitleController(
-  this: FastifyInstance,
-  request: FastifyRequest<{
-    Body: UpdateListTitle
-  }>,
-  reply: FastifyReply
-) {
-  const body = request.body
+  async updateListTitleController(
+    request: FastifyRequest<{
+      Body: UpdateListTitle
+    }>,
+    reply: FastifyReply
+  ) {
+    const body = request.body
 
-  try {
-    const list = await updateTitle(this.knex, body)
-    return reply.status(200).send(list)
-  } catch (err) {
-    return reply.status(500).send(err)
+    try {
+      const list = await this.listService.updateTitle(body)
+      return reply.status(200).send(list)
+    } catch (err) {
+      return reply.status(500).send(err)
+    }
   }
-}
 
-export async function updateListOrderController(
-  this: FastifyInstance,
-  request: FastifyRequest<{
-    Body: UpdateListOrderArray
-    Params: { board_id: string }
-  }>,
-  reply: FastifyReply
-) {
-  const body = request.body
-  const { board_id } = request.params
+  async updateListOrderController(
+    request: FastifyRequest<{
+      Body: UpdateListOrderArray
+      Params: { board_id: string }
+    }>,
+    reply: FastifyReply
+  ) {
+    const body = request.body
+    const { board_id } = request.params
 
-  try {
-    await updateOrder(this.knex, body, board_id)
+    try {
+      await this.listService.updateOrder(body, board_id)
 
-    return reply.status(200).send()
-  } catch (err) {
-    return reply.status(500).send(err)
+      return reply.status(200).send()
+    } catch (err) {
+      return reply.status(500).send(err)
+    }
   }
-}
 
-export async function copyListController(
-  this: FastifyInstance,
-  request: FastifyRequest<{
-    Body: CopyList
-  }>,
-  reply: FastifyReply
-) {
-  const body = request.body
+  async copyListController(
+    request: FastifyRequest<{
+      Body: CopyList
+    }>,
+    reply: FastifyReply
+  ) {
+    const body = request.body
 
-  try {
-    const list = await copyList(this.knex, body)
-    return reply.status(200).send(list)
-  } catch (err) {
-    return reply.status(500).send(err)
+    try {
+      const list = await this.listService.copyList(body)
+      return reply.status(200).send(list)
+    } catch (err) {
+      return reply.status(500).send(err)
+    }
   }
-}
 
-export async function deleteListController(
-  this: FastifyInstance,
-  request: FastifyRequest<{
-    Params: DeleteList
-  }>,
-  reply: FastifyReply
-) {
-  const body = request.params
+  async deleteListController(
+    request: FastifyRequest<{
+      Params: DeleteList
+    }>,
+    reply: FastifyReply
+  ) {
+    const body = request.params
 
-  console.log(body)
+    console.log(body)
 
-  try {
-    const list = await deleteList(this.knex, body)
-    return reply.status(200).send(list)
-  } catch (err) {
-    return reply.status(500).send(err)
+    try {
+      const list = await this.listService.deleteList(body)
+      return reply.status(200).send(list)
+    } catch (err) {
+      return reply.status(500).send(err)
+    }
   }
 }

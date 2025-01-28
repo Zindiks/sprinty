@@ -1,14 +1,9 @@
 import { FastifyInstance } from "fastify"
 
-import {
-  createListController,
-  copyListController,
-  updateListOrderController,
-  updateListTitleController,
-  deleteListController,
-  getListsByBoardIdController,
-} from "./list.controller"
-import { ListSchema } from "./list.model"
+import { ListController } from "./list.controller"
+import { ListSchema } from "./list.schema"
+
+const listController = new ListController()
 
 export default async function listRoutes(fastify: FastifyInstance) {
   fastify.get(
@@ -27,7 +22,7 @@ export default async function listRoutes(fastify: FastifyInstance) {
         description: "Get all lists by board id",
       },
     },
-    getListsByBoardIdController
+    listController.getListsByBoardIdController.bind(listController)
   )
 
   fastify.post(
@@ -42,7 +37,7 @@ export default async function listRoutes(fastify: FastifyInstance) {
         description: "Create a new List",
       },
     },
-    createListController
+    listController.createListController.bind(listController)
   )
 
   fastify.post(
@@ -57,7 +52,7 @@ export default async function listRoutes(fastify: FastifyInstance) {
         description: "Copy a list",
       },
     },
-    copyListController
+    listController.copyListController.bind(listController)
   )
 
   fastify.put(
@@ -76,7 +71,7 @@ export default async function listRoutes(fastify: FastifyInstance) {
         description: "Update a list order",
       },
     },
-    updateListOrderController
+    listController.updateListOrderController.bind(listController)
   )
 
   fastify.patch(
@@ -91,7 +86,7 @@ export default async function listRoutes(fastify: FastifyInstance) {
         description: "Update a list title",
       },
     },
-    updateListTitleController
+    listController.updateListTitleController.bind(listController)
   )
 
   fastify.delete(
@@ -113,6 +108,6 @@ export default async function listRoutes(fastify: FastifyInstance) {
         description: "Delete a list",
       },
     },
-    deleteListController
+    listController.deleteListController.bind(listController)
   )
 }
