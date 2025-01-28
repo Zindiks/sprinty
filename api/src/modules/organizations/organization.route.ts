@@ -1,12 +1,8 @@
 import { FastifyInstance } from "fastify"
-import {
-  createOrganizationController,
-  getAllOrganizationController,
-  getOrganizationController,
-  removeOrganizationController,
-  updateOrganizationController,
-} from "./controller"
-import { OrganizationSchema } from "./model"
+import { OrganizationController } from "./organization.controller"
+import { OrganizationSchema } from "./organization.schema"
+
+const organizationController = new OrganizationController()
 
 export default async function organizationRoutes(fastify: FastifyInstance) {
   fastify.get(
@@ -19,7 +15,9 @@ export default async function organizationRoutes(fastify: FastifyInstance) {
         description: "Get an organization",
       },
     },
-    getOrganizationController
+    organizationController.getOrganizationController.bind(
+      organizationController
+    )
   )
 
   fastify.get(
@@ -36,7 +34,9 @@ export default async function organizationRoutes(fastify: FastifyInstance) {
         description: "Get all organizations",
       },
     },
-    getAllOrganizationController
+    organizationController.getAllOrganizationController.bind(
+      organizationController
+    )
   )
 
   fastify.post(
@@ -52,7 +52,9 @@ export default async function organizationRoutes(fastify: FastifyInstance) {
       },
     },
 
-    createOrganizationController
+    organizationController.createOrganizationController.bind(
+      organizationController
+    )
   )
 
   fastify.put(
@@ -73,7 +75,9 @@ export default async function organizationRoutes(fastify: FastifyInstance) {
         description: "Update an organization",
       },
     },
-    updateOrganizationController
+    organizationController.updateOrganizationController.bind(
+      organizationController
+    )
   )
 
   fastify.delete(
@@ -88,6 +92,8 @@ export default async function organizationRoutes(fastify: FastifyInstance) {
         description: "Delete an organization",
       },
     },
-    removeOrganizationController
+    organizationController.removeOrganizationController.bind(
+      organizationController
+    )
   )
 }
