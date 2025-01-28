@@ -1,9 +1,10 @@
 import Fastify, { FastifyInstance, FastifyReply, FastifyRequest } from "fastify"
 import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox"
-import fastifyCors from "@fastify/cors"
 import knexPlugin from "./db/knexPlugin"
 import oauthRoutes from "./modules/oauth/oauth.route"
 
+import fastifyEnv from "@fastify/env"
+import fastifyCors from "@fastify/cors"
 import swagger from "@fastify/swagger"
 import swagger_ui from "@fastify/swagger-ui"
 
@@ -17,10 +18,11 @@ import { BoardSchema } from "./modules/boards/board.schema"
 import { ListSchema } from "./modules/lists/list.schema"
 import { CardSchema } from "./modules/cards/card.schema"
 import { swaggerDocs } from "./swagger"
+import { options } from "./configs/config"
 
 async function registerPlugins(server: FastifyInstance) {
   server.register(fastifyCors, {
-    origin: "http://localhost:5173", // TODO: Change this to the env variable
+    origin: `http://${server.config.CLIENT_HOST}:${server.config.CLIENT_PORT}`, // TODO: Change this to the env variable
     credentials: true,
   })
 
@@ -66,12 +68,10 @@ export async function createServer() {
   const server = Fastify({
     logger: true,
   }).withTypeProvider<TypeBoxTypeProvider>()
-
+  await server.register(fastifyEnv, options)
   await registerPlugins(server)
   await addSchemas(server)
   await registerRoutes(server)
 
   return server
 }
-
-
