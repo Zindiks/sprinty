@@ -6,14 +6,14 @@ import {
   updateTitle,
   getByBoardId,
   deleteList,
-} from "./service"
+} from "./list.service"
 import {
   CreateList,
   CopyList,
   UpdateListOrderArray,
   UpdateListTitle,
   DeleteList,
-} from "./model"
+} from "./list.model"
 
 export async function getListsByBoardIdController(
   this: FastifyInstance,

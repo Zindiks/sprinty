@@ -1,15 +1,9 @@
 import { FastifyInstance } from "fastify"
+import { CardController } from "./card.controller"
+import { CardSchema } from "./card.schema"
 
-import {
-  createCardController,
-  updateCardOrderController,
-  updateCardTitleController,
-  getCardController,
-  deleteCardController,
-  getCardsByListIdController,
-} from "./controller"
 
-import { CardSchema } from "./model"
+const cardController = new CardController()
 
 export default async function cardRoutes(fastify: FastifyInstance) {
   fastify.get(
@@ -22,7 +16,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
         description: "Get a card",
       },
     },
-    getCardController
+    cardController.getCardController.bind(cardController)
   )
 
   fastify.get(
@@ -35,7 +29,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
         description: "Get cards by list_id",
       },
     },
-    getCardsByListIdController
+    cardController.getCardsByListIdController.bind(cardController)
   )
 
   fastify.post(
@@ -50,7 +44,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
         description: "Create a new Card",
       },
     },
-    createCardController
+    cardController.createCardController.bind(cardController)
   )
 
   fastify.patch(
@@ -65,7 +59,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
         description: "Update a card title",
       },
     },
-    updateCardTitleController
+    cardController.updateCardTitleController.bind(cardController)
   )
 
   fastify.put(
@@ -77,7 +71,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
         description: "Update a card order",
       },
     },
-    updateCardOrderController
+    cardController.updateCardOrderController.bind(cardController)
   )
 
   fastify.delete(
@@ -92,6 +86,6 @@ export default async function cardRoutes(fastify: FastifyInstance) {
         description: "Delete a card",
       },
     },
-    deleteCardController
+    cardController.deleteCardController.bind(cardController)
   )
 }

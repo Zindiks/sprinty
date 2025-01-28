@@ -7,8 +7,8 @@ import {
   updateListTitleController,
   deleteListController,
   getListsByBoardIdController,
-} from "./controller"
-import { ListSchema } from "./model"
+} from "./list.controller"
+import { ListSchema } from "./list.model"
 
 export default async function listRoutes(fastify: FastifyInstance) {
   fastify.get(
@@ -22,7 +22,7 @@ export default async function listRoutes(fastify: FastifyInstance) {
           },
           required: ["board_id"],
         },
-        
+
         tags: ["list"],
         description: "Get all lists by board id",
       },

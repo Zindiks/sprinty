@@ -7,7 +7,7 @@ import {
   FullListResponse,
   DeleteList,
   CopyList,
-} from "./model"
+} from "./list.model"
 
 export async function getByBoardId(
   knex: Knex,

@@ -9,13 +9,13 @@ import swagger_ui from "@fastify/swagger-ui"
 
 import organizationsRouter from "./modules/organizations/route"
 import boardRoutes from "./modules/boards/board.route"
-import listRoutes from "./modules/lists/route"
-import cardRoutes from "./modules/cards/route"
+import listRoutes from "./modules/lists/list.route"
+import cardRoutes from "./modules/cards/card.route"
 
 import { OrganizationSchema } from "./modules/organizations/model"
 import { BoardSchema } from "./modules/boards/board.schema"
-import { ListSchema } from "./modules/lists/model"
-import { CardSchema } from "./modules/cards/model"
+import { ListSchema } from "./modules/lists/list.model"
+import { CardSchema } from "./modules/cards/card.schema"
 import { swaggerDocs } from "./swagger"
 
 class Server {
