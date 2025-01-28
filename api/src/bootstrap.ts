@@ -2,7 +2,7 @@ import Fastify, { FastifyInstance } from "fastify"
 import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox"
 import fastifyCors from "@fastify/cors"
 import knexPlugin from "./db/knexPlugin"
-import oauthRoutes from "./modules/oauth/route"
+import oauthRoutes from "./modules/oauth/oauth.route"
 
 import swagger from "@fastify/swagger"
 import swagger_ui from "@fastify/swagger-ui"
