@@ -1,5 +1,5 @@
-import { ListService } from "./list.service"
-import { ListRepository } from "./list.repository"
+import { ListService } from "../modules/lists/list.service"
+import { ListRepository } from "../modules/lists/list.repository"
 import {
   CreateList,
   UpdateListOrderArray,
@@ -7,9 +7,9 @@ import {
   CopyList,
   DeleteList,
   FullListResponse,
-} from "./list.schema"
+} from "../modules/lists/list.schema"
 
-jest.mock("./list.repository")
+jest.mock("../modules/lists/list.repository")
 
 const ListRepositoryMock = ListRepository as jest.Mock<ListRepository>
 

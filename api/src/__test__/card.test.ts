@@ -1,13 +1,13 @@
-import { CardService } from "./card.service"
-import { CardRepository } from "./card.repository"
+import { CardService } from "../modules/cards/card.service"
+import { CardRepository } from "../modules/cards/card.repository"
 import {
   CreateCard,
   UpdateCardTitle,
   UpdateCardOrderArray,
   DeleteCard,
-} from "./card.schema"
+} from "../modules/cards/card.schema"
 
-jest.mock("./card.repository")
+jest.mock("../modules/cards/card.repository")
 
 const MockedCardRepository = CardRepository as jest.Mock<CardRepository>
 

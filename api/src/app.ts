@@ -1,7 +1,5 @@
-import { config } from "../src/configs/config"
+import { config } from "./configs/config"
 import { createServer } from "./bootstrap"
-
-
 
 async function app() {
   const server = await createServer()

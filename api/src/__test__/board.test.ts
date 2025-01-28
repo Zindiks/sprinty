@@ -1,8 +1,8 @@
-import { BoardService } from "./board.service"
-import { BoardRepository } from "./board.repository"
-import { CreateBoard, UpdateBoard } from "./board.schema"
+import { BoardService } from "../modules/boards/board.service"
+import { BoardRepository } from "../modules/boards/board.repository"
+import { CreateBoard, UpdateBoard } from "../modules/boards/board.schema"
 
-jest.mock("./board.repository")
+jest.mock("../modules/boards/board.repository")
 
 const BoardRepositoryMock = BoardRepository as jest.Mock<BoardRepository>
 

@@ -1,4 +1,4 @@
-import Fastify, { FastifyInstance } from "fastify"
+import Fastify, { FastifyInstance, FastifyReply, FastifyRequest } from "fastify"
 import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox"
 import fastifyCors from "@fastify/cors"
 import knexPlugin from "./db/knexPlugin"
@@ -18,68 +18,60 @@ import { ListSchema } from "./modules/lists/list.schema"
 import { CardSchema } from "./modules/cards/card.schema"
 import { swaggerDocs } from "./swagger"
 
-class Server {
-  private server: FastifyInstance
+async function registerPlugins(server: FastifyInstance) {
+  server.register(fastifyCors, {
+    origin: "http://localhost:5173", // TODO: Change this to the env variable
+    credentials: true,
+  })
 
-  constructor() {
-    this.server = Fastify({
-      logger: true,
-    }).withTypeProvider<TypeBoxTypeProvider>()
+  server.register(swagger, swaggerDocs)
+  server.register(swagger_ui, { routePrefix: "/docs" })
+  server.register(knexPlugin)
+
+  server.register(oauthRoutes, { prefix: "/api/v1/oauth" })
+  server.register(organizationsRouter, { prefix: "/api/v1/organizations" })
+  server.register(boardRoutes, { prefix: "/api/v1/boards" })
+  server.register(listRoutes, { prefix: "/api/v1/lists" })
+  server.register(cardRoutes, { prefix: "/api/v1/cards" })
+}
+
+async function addSchemas(server: FastifyInstance) {
+  for (const schema of Object.values(OrganizationSchema)) {
+    server.addSchema(schema)
   }
 
-  private async registerPlugins() {
-    this.server.register(fastifyCors, {
-      origin: "http://localhost:5173", // TODO: Change this to the env variable
-      credentials: true,
-    })
-
-    this.server.register(swagger, swaggerDocs)
-
-    this.server.register(swagger_ui, { routePrefix: "/docs" })
-
-    this.server.register(knexPlugin)
-    this.server.register(oauthRoutes, { prefix: "/api/v1/oauth" })
-    this.server.register(organizationsRouter, {
-      prefix: "/api/v1/organizations",
-    })
-    this.server.register(boardRoutes, { prefix: "/api/v1/boards" })
-    this.server.register(listRoutes, { prefix: "/api/v1/lists" })
-    this.server.register(cardRoutes, { prefix: "/api/v1/cards" })
+  for (const schema of Object.values(BoardSchema)) {
+    server.addSchema(schema)
   }
 
-  private async addSchemas() {
-    for (const schema of Object.values(OrganizationSchema)) {
-      this.server.addSchema(schema)
-    }
-
-    for (const schema of Object.values(BoardSchema)) {
-      this.server.addSchema(schema)
-    }
-
-    for (const schema of Object.values(ListSchema)) {
-      this.server.addSchema(schema)
-    }
-
-    for (const schema of Object.values(CardSchema)) {
-      this.server.addSchema(schema)
-    }
+  for (const schema of Object.values(ListSchema)) {
+    server.addSchema(schema)
   }
 
-  private async registerRoutes() {
-    this.server.get("/health", async (request, reply) => {
+  for (const schema of Object.values(CardSchema)) {
+    server.addSchema(schema)
+  }
+}
+
+async function registerRoutes(server: FastifyInstance) {
+  server.get(
+    "/health",
+    async (request: FastifyRequest, reply: FastifyReply) => {
       reply.send({ status: "OK" })
-    })
-  }
-
-  public async createServer() {
-    await this.registerPlugins()
-    await this.addSchemas()
-    await this.registerRoutes()
-    return this.server
-  }
+    }
+  )
 }
 
 export async function createServer() {
-  const server = new Server()
-  return server.createServer()
+  const server = Fastify({
+    logger: true,
+  }).withTypeProvider<TypeBoxTypeProvider>()
+
+  await registerPlugins(server)
+  await addSchemas(server)
+  await registerRoutes(server)
+
+  return server
 }
+
+

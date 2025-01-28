@@ -1,11 +1,11 @@
-import { OrganizationService } from "./organization.service"
-import { OrganizationRepository } from "./organization.repository"
+import { OrganizationService } from "../modules/organizations/organization.service"
+import { OrganizationRepository } from "../modules/organizations/organization.repository"
 import {
   CreateOrganization,
   UpdateOrganization,
-} from "./organization.schema"
+} from "../modules/organizations/organization.schema"
 
-jest.mock("./organization.repository")
+jest.mock("../modules/organizations/organization.repository")
 
 const MockedOrganizationRepository = OrganizationRepository as jest.Mock<OrganizationRepository>
 

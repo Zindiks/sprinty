@@ -1,8 +1,8 @@
-import { UserService } from "./oauth.service"
-import { UserRepository } from "./oauth.repository"
-import { OAuthResponse, UserResponse, ProfileResponse } from "./oauth.schema"
+import { UserService } from "../modules/oauth/oauth.service"
+import { UserRepository } from "../modules/oauth/oauth.repository"
+import { OAuthResponse, UserResponse, ProfileResponse } from "../modules/oauth/oauth.schema"
 
-jest.mock("./oauth.repository")
+jest.mock("../modules/oauth/oauth.repository")
 
 const UserRepositoryMock = UserRepository as jest.Mock<UserRepository>
 
