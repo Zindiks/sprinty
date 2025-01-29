@@ -1,9 +1,12 @@
-.env
-.DS_Store
-
-
 node_modules
+dist
+dist-ssr
+*.local
 
+coverage
+.env
+
+bin
 
 # Editor directories and files
 .vscode/*

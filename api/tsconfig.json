@@ -9,7 +9,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "types": ["node", "fastify"]
+    "types": ["node", "fastify", "jest"]
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]

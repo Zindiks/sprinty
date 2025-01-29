@@ -19,7 +19,7 @@
     "@fastify/type-provider-typebox": "^5.1.0",
     "@types/chai": "^5.0.1",
     "@types/dotenv": "^6.1.1",
-    "@types/jest": "^27.0.0",
+    "@types/jest": "^27.5.2",
     "@types/knex": "^0.16.1",
     "@types/mocha": "^10.0.10",
     "@types/nock": "^10.0.3",

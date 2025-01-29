@@ -1,0 +1,7 @@
+daysUntilStale: 30 
+daysUntilClose: 7
+staleLabel: "stale" 
+exemptLabels:
+- "keep-open"
+staleIssueMessage: "This issue is stale because it has been open for 30 days with no activity."
+closeIssueMessage: "This issue was closed due to inactivity."
