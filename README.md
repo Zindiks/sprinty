@@ -1,4 +1,3 @@
-
 [![API Tests](https://github.com/Zindiks/sprinty/actions/workflows/api-tests.yml/badge.svg)](https://github.com/Zindiks/sprinty/actions/workflows/api-tests.yml)
 
 
@@ -21,128 +20,11 @@ The goal of this project is not just to build another task management app — th
 - Plans to implement CI/CD practices to ensure smooth and reliable deployments.
 - Deploying the application to AWS for scalability and real-world hosting experience.
 
-## Features
+## [Features](docs/FEATURES.md)
 
-- **Boards**: Create and manage boards to categorize your projects.
-- **Lists**: Organize tasks into lists within each board.
-- **Cards**: Add cards to lists to represent individual tasks.
-- **Drag-and-Drop**: Seamlessly move cards across lists or reorder them with an intuitive DnD interface.
-- **Task Details**: View and edit detailed information about each task, such as descriptions, due dates, and more.
-- **OAuth2 Authorization**: Secure user authentication and authorization using the OAuth2 protocol.
+## [Getting Started](docs/INSTALLATION.md)
 
-## Tech Stack
-
-Sprinty leverages modern web technologies for a robust and scalable application:
-
-### Frontend
-- **React (TypeScript)**: For building a dynamic and responsive user interface.
-
-### Backend
-- **Fastify (TypeScript)**: A fast and lightweight Node.js framework for API development.
-
-## Getting Started
-
-### Prerequisites
-
-Ensure you have the following installed:
-- **Node.js** (v16 or higher)
-- **npm** or **yarn**
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/sprinty.git
-   cd sprinty
-   ```
-
-2. Install dependencies:
-   ```bash
-   # For backend
-   cd backend
-   npm install
-
-   # For frontend
-   cd ../frontend
-   npm install
-   ```
-
-### Running the Application
-
-
-
-#### Backend (Fastify)
-
-1. Navigate to the backend directory:
-   ```bash
-   cd backend
-   ```
-
-2. Start the Fastify server:
-   ```bash
-   npm run dev
-   ```
-
-3. The server will start at `http://localhost:4000` by default.
-
-#### Frontend (React)
-
-1. Navigate to the frontend directory:
-   ```bash
-   cd frontend
-   ```
-
-2. Start the React development server:
-   ```bash
-   npm run dev
-   ```
-
-3. Open `http://localhost:5173` in your browser to access the application.
-
-### Environment Variables
-
-Create `.env` files in both the `backend` and `frontend` directories to configure the application. Example:
-
-#### Backend (.env)
-```
-PORT=4000
-DATABASE_URL=<your_database_url>
-```
-
-#### Frontend (.env)
-```
-REACT_APP_API_URL=http://localhost:5173
-```
-
-## Project Structure
-
-### Backend
-```
-backend/
-├── src/
-│   ├── modules/
-│   │   ├── <feature>/
-│   │   │   ├── controller.ts
-│   │   │   ├── model.ts
-│   │   │   ├── route.ts
-│   │   │   └── service.ts
-│   └── index.ts
-├── package.json
-└── tsconfig.json
-```
-
-### Frontend
-```
-frontend/
-├── src/
-│   ├── components/
-│   ├── hooks/
-│   ├── pages/
-│   ├── utils/
-│   └── index.tsx
-├── package.json
-└── tsconfig.json
-```
+## [Project Structure](docs/PROJECT_STRUCTURE.md)
 
 ## Contributing
 
