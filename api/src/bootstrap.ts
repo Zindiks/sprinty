@@ -1,13 +1,13 @@
 import Fastify, { FastifyInstance, FastifyReply, FastifyRequest } from "fastify"
 import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox"
-import knexPlugin from "./db/knexPlugin"
-import oauthRoutes from "./modules/oauth/oauth.route"
-
 import fastifyEnv from "@fastify/env"
 import fastifyCors from "@fastify/cors"
+import fastifyMetrics from "fastify-metrics"
 import swagger from "@fastify/swagger"
 import swagger_ui from "@fastify/swagger-ui"
 
+import knexPlugin from "./db/knexPlugin"
+import oauthRoutes from "./modules/oauth/oauth.route"
 import organizationsRouter from "./modules/organizations/organization.route"
 import boardRoutes from "./modules/boards/board.route"
 import listRoutes from "./modules/lists/list.route"
@@ -17,24 +17,21 @@ import { OrganizationSchema } from "./modules/organizations/organization.schema"
 import { BoardSchema } from "./modules/boards/board.schema"
 import { ListSchema } from "./modules/lists/list.schema"
 import { CardSchema } from "./modules/cards/card.schema"
+
 import { swaggerDocs } from "./swagger"
 import { options } from "./configs/config"
 
 async function registerPlugins(server: FastifyInstance) {
+  await server.register(fastifyEnv, options)
   server.register(fastifyCors, {
-    origin: `http://${server.config.CLIENT_HOST}:${server.config.CLIENT_PORT}`, // TODO: Change this to the env variable
+    origin: `http://${server.config.CLIENT_HOST}:${server.config.CLIENT_PORT}`,
     credentials: true,
   })
 
   server.register(swagger, swaggerDocs)
   server.register(swagger_ui, { routePrefix: "/docs" })
   server.register(knexPlugin)
-
-  server.register(oauthRoutes, { prefix: "/api/v1/oauth" })
-  server.register(organizationsRouter, { prefix: "/api/v1/organizations" })
-  server.register(boardRoutes, { prefix: "/api/v1/boards" })
-  server.register(listRoutes, { prefix: "/api/v1/lists" })
-  server.register(cardRoutes, { prefix: "/api/v1/cards" })
+  server.register(fastifyMetrics, { endpoint: "/metrics" })
 }
 
 async function addSchemas(server: FastifyInstance) {
@@ -56,6 +53,22 @@ async function addSchemas(server: FastifyInstance) {
 }
 
 async function registerRoutes(server: FastifyInstance) {
+  server.register(
+    (api) => {
+      api.register(
+        (v1) => {
+          v1.register(oauthRoutes, { prefix: "/oauth" })
+          v1.register(organizationsRouter, { prefix: "/organizations" })
+          v1.register(boardRoutes, { prefix: "/boards" })
+          v1.register(listRoutes, { prefix: "/lists" })
+          v1.register(cardRoutes, { prefix: "/cards" })
+        },
+        { prefix: "/v1" }
+      )
+    },
+    { prefix: "/api" }
+  )
+
   server.get(
     "/health",
     async (request: FastifyRequest, reply: FastifyReply) => {
@@ -68,7 +81,7 @@ export async function createServer() {
   const server = Fastify({
     logger: true,
   }).withTypeProvider<TypeBoxTypeProvider>()
-  await server.register(fastifyEnv, options)
+
   await registerPlugins(server)
   await addSchemas(server)
   await registerRoutes(server)
