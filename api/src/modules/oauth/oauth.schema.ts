@@ -1,6 +1,6 @@
 import { FastifyOAuth2Options } from "@fastify/oauth2"
 import fastifyOauth2 from "@fastify/oauth2"
-import { config } from "../../configs/config"
+import { config } from "../../configs/envConfig"
 import { Type, Static } from "@sinclair/typebox"
 
 export const oauth2Options: FastifyOAuth2Options = {

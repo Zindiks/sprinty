@@ -1,6 +1,6 @@
 import { Knex } from "knex"
 
-import { config } from "../configs/config"
+import { config } from "../configs/envConfig"
 
 const knexConfig: { [key: string]: Knex.Config } = {
   development: {

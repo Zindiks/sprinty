@@ -1,3 +1,5 @@
+import { config } from "./configs/envConfig"
+
 export const swaggerDocs = {
   openapi: {
     info: {
@@ -7,7 +9,7 @@ export const swaggerDocs = {
     },
     servers: [
       {
-        url: "http://localhost:4000", // TODO: Change this to the env variable
+        url: `http://${config.client.host}:${config.client.port}`, // TODO: Change this to the env variable
       },
     ],
     components: {},

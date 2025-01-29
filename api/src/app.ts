@@ -1,4 +1,3 @@
-import { config } from "./configs/config"
 import { createServer } from "./bootstrap"
 
 async function app() {
@@ -6,8 +5,8 @@ async function app() {
 
   server.listen(
     {
-      port: config.api.port,
-      host: config.api.host,
+      port: server.config.API_PORT,
+      host: server.config.API_HOST,
     },
     (err, address) => {
       if (err) {
