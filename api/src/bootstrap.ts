@@ -28,6 +28,8 @@ async function registerPlugins(server: FastifyInstance) {
     credentials: true,
   })
 
+  server.log.info(`http://${server.config.CLIENT_HOST}:${server.config.CLIENT_PORT}`)
+
   server.register(swagger, swaggerDocs)
   server.register(swagger_ui, { routePrefix: "/docs" })
   server.register(knexPlugin)

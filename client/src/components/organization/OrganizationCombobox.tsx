@@ -67,6 +67,8 @@ export function OrganizationCombobox() {
         setLoading(false)
       } catch (err) {
         // setError("Failed to fetch organizations" + err)
+
+        console.log(API_URL)
         console.log(err)
         setLoading(false)
       }
