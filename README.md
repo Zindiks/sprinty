@@ -1,4 +1,5 @@
 [![API Tests](https://github.com/Zindiks/sprinty/actions/workflows/api-tests.yml/badge.svg)](https://github.com/Zindiks/sprinty/actions/workflows/api-tests.yml)
+[![CodeQL Advanced](https://github.com/Zindiks/sprinty/actions/workflows/codeql.yml/badge.svg)](https://github.com/Zindiks/sprinty/actions/workflows/codeql.yml)
 
 
 
