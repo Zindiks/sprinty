@@ -47,7 +47,19 @@ services:
     volumes:
       - grafana-storage:/var/lib/grafana
 
+  cache:
+    container_name: cache-sprinty
+    image: redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    volumes:
+      - cache:/data
+
 volumes:
   postgres:
   prom_data:
   grafana-storage: {}
+  cache:
+    driver: local
+
