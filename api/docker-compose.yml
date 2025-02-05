@@ -1,3 +1,4 @@
+version: "3.8"
 
 services:
   app:
@@ -25,6 +26,15 @@ services:
       - "5432:5432"
     restart: unless-stopped
 
+  cache:
+    container_name: cache-sprinty
+    image: redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    volumes:
+      - cache:/data
+
   prometheus:
     image: prom/prometheus
     container_name: prometheus-sprinty
@@ -46,19 +56,9 @@ services:
     volumes:
       - grafana-storage:/var/lib/grafana
 
-  cache:
-    container_name: cache-sprinty
-    image: redis
-    ports:
-      - "6379:6379"
-    restart: unless-stopped
-    volumes:
-      - cache:/data
-
 volumes:
   postgres:
   prom_data:
   grafana-storage: {}
   cache:
     driver: local
-
