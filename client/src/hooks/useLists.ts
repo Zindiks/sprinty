@@ -1,14 +1,14 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import axios, { AxiosResponse } from "axios"
-import { useToast } from "@/hooks/use-toast"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import axios, { AxiosResponse } from "axios";
+import { useToast } from "@/hooks/use-toast";
 
-import { List } from "@/types/types"
+import { List } from "@/types/types";
 
-const API_HOST = import.meta.env.VITE_API_HOST
-const API_PORT = import.meta.env.VITE_API_PORT
-const API_VERSION = import.meta.env.VITE_API_VERSION
+const API_HOST = import.meta.env.VITE_API_HOST;
+const API_PORT = import.meta.env.VITE_API_PORT;
+const API_VERSION = import.meta.env.VITE_API_VERSION;
 
-const API_URL = `${API_HOST}:${API_PORT}${API_VERSION}`
+const API_URL = `${API_HOST}:${API_PORT}${API_VERSION}`;
 
 // export interface ResponseList {
 //   id: string
@@ -20,55 +20,54 @@ const API_URL = `${API_HOST}:${API_PORT}${API_VERSION}`
 //   updated_at: string
 // }
 
-
 export interface CreateList {
-  title: string
-  board_id: string
+  title: string;
+  board_id: string;
 }
 
 export interface UpdateListTitle {
-  id: string
-  title: string
-  board_id: string
+  id: string;
+  title: string;
+  board_id: string;
 }
 
 export interface DeleteList {
-  id: string
-  board_id: string
+  id: string;
+  board_id: string;
 }
 
 export interface CopyList {
-  id: string
-  board_id: string
+  id: string;
+  board_id: string;
 }
 
 export interface FetchError {
-  message: string
+  message: string;
   response: {
     data: {
-      message: string
-    }
-  }
+      message: string;
+    };
+  };
 }
 
 export const useLists = (board_id: string) => {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
-  const { toast } = useToast()
+  const { toast } = useToast();
 
   const fetchLists = async (board_id: string) => {
     try {
-      const response = await axios.get(`${API_URL}/lists/${board_id}`)
-      return response.data // Получаем данные из response.data
+      const response = await axios.get(`${API_URL}/lists/${board_id}`);
+      return response.data; // Получаем данные из response.data
     } catch (error) {
-      throw new Error(`Error fetching boards: ${error}`)
+      throw new Error(`Error fetching boards: ${error}`);
     }
-  }
+  };
 
   const lists = useQuery<List[], FetchError>({
     queryKey: ["lists", board_id],
     queryFn: () => fetchLists(board_id),
-  })
+  });
 
   const createList = useMutation<AxiosResponse, FetchError, CreateList>({
     mutationFn: (formData) => {
@@ -76,26 +75,26 @@ export const useLists = (board_id: string) => {
         headers: {
           "Content-Type": "application/json",
         },
-      })
+      });
     },
     onSuccess: ({ data }) => {
       queryClient.invalidateQueries({
         queryKey: ["lists"],
-      })
+      });
       toast({
         description: `List ${data.title} successfully created`,
-      })
+      });
     },
     onError: ({ response }) => {
-      console.log(response)
+      console.log(response);
 
       toast({
         variant: "destructive",
         title: "Uh oh! Something went wrong.",
         description: response.data.message,
-      })
+      });
     },
-  })
+  });
 
   const copyList = useMutation<AxiosResponse, FetchError, CopyList>({
     mutationFn: (formData) => {
@@ -103,26 +102,26 @@ export const useLists = (board_id: string) => {
         headers: {
           "Content-Type": "application/json",
         },
-      })
+      });
     },
     onSuccess: ({ data }) => {
       queryClient.invalidateQueries({
         queryKey: ["lists"],
-      })
+      });
       toast({
         description: `List ${data.title} successfully created`,
-      })
+      });
     },
     onError: ({ response }) => {
-      console.log(response)
+      console.log(response);
 
       toast({
         variant: "destructive",
         title: "Uh oh! Something went wrong.",
         description: response.data.message,
-      })
+      });
     },
-  })
+  });
 
   const updateListTitle = useMutation<
     AxiosResponse,
@@ -134,23 +133,23 @@ export const useLists = (board_id: string) => {
         headers: {
           "Content-Type": "application/json",
         },
-      })
+      });
     },
     onSuccess: () => {
       // queryClient.invalidateQueries();
       toast({
         description: `List title has been changed`,
         duration: 1000,
-      })
+      });
     },
     onError: ({ response }) => {
       toast({
         variant: "destructive",
         title: "Uh oh! Something went wrong.",
         description: response.data.message,
-      })
+      });
     },
-  })
+  });
 
   // TODO: Replace temporary Type any
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -163,47 +162,47 @@ export const useLists = (board_id: string) => {
           headers: {
             "Content-Type": "application/json",
           },
-        }
-      )
+        },
+      );
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["lists"],
-      })
+      });
       toast({
         description: `lists succesfully reordered`,
         duration: 1000,
-      })
+      });
     },
     onError: ({ response }) => {
       toast({
         variant: "destructive",
         title: "Uh oh! Something went wrong.",
         description: response.data.message,
-      })
+      });
     },
-  })
+  });
 
   const deleteList = useMutation<AxiosResponse, FetchError, DeleteList>({
     mutationFn: ({ id, board_id }) => {
-      return axios.delete(`${API_URL}/lists/${id}/board/${board_id}`)
+      return axios.delete(`${API_URL}/lists/${id}/board/${board_id}`);
     },
     onSuccess: ({ data }) => {
       queryClient.invalidateQueries({
         queryKey: ["lists"],
-      })
+      });
       toast({
         description: `List ${data.title} successfully deleted`,
-      })
+      });
     },
     onError: ({ message }) => {
       toast({
         variant: "destructive",
         title: "Uh oh! Something went wrong.",
         description: message,
-      })
+      });
     },
-  })
+  });
 
   return {
     lists,
@@ -212,5 +211,5 @@ export const useLists = (board_id: string) => {
     copyList,
     updateListTitle,
     updateListsOrder,
-  }
-}
+  };
+};

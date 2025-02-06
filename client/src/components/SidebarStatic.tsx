@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom"
-import { Plus, Home, Mail, User } from "lucide-react"
+import { Link } from "react-router-dom";
+import { Plus, Home, Mail, User } from "lucide-react";
 
-import { SidebarItem } from "./SidebarItem"
-import { OrganizationCombobox } from "./organization/OrganizationCombobox"
-import { UserAvatar } from "./user/UserAvatar"
+import { SidebarItem } from "./SidebarItem";
+import { OrganizationCombobox } from "./organization/OrganizationCombobox";
+import { UserAvatar } from "./user/UserAvatar";
 
 export const StaticSidebar = () => {
   return (
@@ -40,5 +40,5 @@ export const StaticSidebar = () => {
         <UserAvatar />
       </div>
     </aside>
-  )
-}
+  );
+};

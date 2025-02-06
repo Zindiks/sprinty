@@ -1,57 +1,57 @@
-import { useState } from "react"
+import { useState } from "react";
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { useBoard } from "@/hooks/useBoards"
-import { toast } from "@/hooks/use-toast"
-import { useStore } from "@/hooks/store/useStore"
+} from "@/components/ui/dialog";
+import { useBoard } from "@/hooks/useBoards";
+import { toast } from "@/hooks/use-toast";
+import { useStore } from "@/hooks/store/useStore";
 
 export function CreateBoardModal() {
-  const [open, setOpen] = useState(false)
-  const [title, setTitle] = useState("")
-  const [description, setDescription] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
+  const [open, setOpen] = useState(false);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const { organization_id } = useStore()
-  const { createBoard } = useBoard(organization_id)
+  const { organization_id } = useStore();
+  const { createBoard } = useBoard(organization_id);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
+    e.preventDefault();
+    setIsLoading(true);
 
     try {
       createBoard.mutate({
         title,
         description,
-      })
+      });
       toast({
         title: "Success",
         description: "Board created successfully",
-      })
-      setOpen(false)
-      setTitle("")
-      setDescription("")
+      });
+      setOpen(false);
+      setTitle("");
+      setDescription("");
     } catch (error) {
       toast({
         title: "Error",
         description: `Failed to create Board: ${error}`,
         variant: "destructive",
-      })
+      });
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
 
-    setIsLoading(false)
-  }
+    setIsLoading(false);
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -89,5 +89,5 @@ export function CreateBoardModal() {
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

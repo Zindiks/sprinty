@@ -1,7 +1,7 @@
-import { FastifyOAuth2Options } from "@fastify/oauth2"
-import fastifyOauth2 from "@fastify/oauth2"
-import { config } from "../../configs/envConfig"
-import { Type, Static } from "@sinclair/typebox"
+import { FastifyOAuth2Options } from "@fastify/oauth2";
+import fastifyOauth2 from "@fastify/oauth2";
+import { config } from "../../configs/envConfig";
+import { Type, Static } from "@sinclair/typebox";
 
 export const oauth2Options: FastifyOAuth2Options = {
   name: "githubOAuth2",
@@ -14,18 +14,18 @@ export const oauth2Options: FastifyOAuth2Options = {
   },
   startRedirectPath: "/github",
   callbackUri: "http://localhost:4000/api/v1/oauth/github/callback",
-}
+};
 
-const login = Type.String()
-const github_id = Type.Integer()
-const user_id = Type.String({ format: "uuid" })
+const login = Type.String();
+const github_id = Type.Integer();
+const user_id = Type.String({ format: "uuid" });
 
-const avatar_url = Type.String()
-const email = Type.String()
-const bio = Type.String()
+const avatar_url = Type.String();
+const email = Type.String();
+const bio = Type.String();
 
-const created_at = Type.String({ format: "date-time" })
-const updated_at = Type.String({ format: "date-time" })
+const created_at = Type.String({ format: "date-time" });
+const updated_at = Type.String({ format: "date-time" });
 
 export const OAuthResponseSchema = Type.Object(
   {
@@ -35,8 +35,8 @@ export const OAuthResponseSchema = Type.Object(
     email,
     bio,
   },
-  { $id: "OAuthResponseSchema" }
-)
+  { $id: "OAuthResponseSchema" },
+);
 
 export const UserResponseSchema = Type.Object(
   {
@@ -46,8 +46,8 @@ export const UserResponseSchema = Type.Object(
     created_at,
     updated_at,
   },
-  { $id: "UserResponseSchema" }
-)
+  { $id: "UserResponseSchema" },
+);
 
 export const ProfileResponseSchema = Type.Object({
   id: user_id,
@@ -59,8 +59,8 @@ export const ProfileResponseSchema = Type.Object({
   avatar_url,
   created_at,
   updated_at,
-})
+});
 
-export type OAuthResponse = Static<typeof OAuthResponseSchema>
-export type UserResponse = Static<typeof UserResponseSchema>
-export type ProfileResponse = Static<typeof ProfileResponseSchema>
+export type OAuthResponse = Static<typeof OAuthResponseSchema>;
+export type UserResponse = Static<typeof UserResponseSchema>;
+export type ProfileResponse = Static<typeof ProfileResponseSchema>;

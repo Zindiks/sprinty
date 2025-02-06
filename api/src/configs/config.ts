@@ -13,29 +13,29 @@ const schema = {
     KNEX_PASSWORD: { type: "string", default: "password" },
     KNEX_DATABASE: { type: "string", default: "sprinty-db" },
   },
-}
+};
 
 export const options = {
   confKey: "config", // optional, default: 'config'
   schema: schema,
   dotenv: true,
   data: process.env,
-}
+};
 
 declare module "fastify" {
   interface FastifyInstance {
     config: {
-      API_PORT: number
-      API_HOST: string
-      API_SESSION_SECRET: string
-      GITHUB_CLIENT_ID: string
-      GITHUB_CLIENT_SECRET: string
-      CLIENT_PORT: number
-      CLIENT_HOST: string
-      KNEX_HOST: string
-      KNEX_USERNAME: string
-      KNEX_PASSWORD: string
-      KNEX_DATABASE: string
-    }
+      API_PORT: number;
+      API_HOST: string;
+      API_SESSION_SECRET: string;
+      GITHUB_CLIENT_ID: string;
+      GITHUB_CLIENT_SECRET: string;
+      CLIENT_PORT: number;
+      CLIENT_HOST: string;
+      KNEX_HOST: string;
+      KNEX_USERNAME: string;
+      KNEX_PASSWORD: string;
+      KNEX_DATABASE: string;
+    };
   }
 }

@@ -1,4 +1,4 @@
-import { CardRepository } from "./card.repository"
+import { CardRepository } from "./card.repository";
 import {
   CreateCard,
   UpdateCardOrderArray,
@@ -6,38 +6,38 @@ import {
   DeleteCard,
   FullCardResponse,
   FullCardResponseArray,
-} from "./card.schema"
+} from "./card.schema";
 
 export class CardService {
-  private readonly cardRepository: CardRepository
+  private readonly cardRepository: CardRepository;
 
   constructor() {
-    this.cardRepository = new CardRepository()
+    this.cardRepository = new CardRepository();
   }
 
   async getCardById(id: string): Promise<FullCardResponse | undefined> {
-    return this.cardRepository.getCardById(id)
+    return this.cardRepository.getCardById(id);
   }
 
   async getCardsByListId(list_id: string): Promise<FullCardResponseArray> {
-    return this.cardRepository.getCardsByListId(list_id)
+    return this.cardRepository.getCardsByListId(list_id);
   }
 
   async create(input: CreateCard): Promise<FullCardResponse> {
-    return this.cardRepository.create(input)
+    return this.cardRepository.create(input);
   }
 
   async updateTitle(
-    input: UpdateCardTitle
+    input: UpdateCardTitle,
   ): Promise<FullCardResponse | undefined> {
-    return this.cardRepository.updateTitle(input)
+    return this.cardRepository.updateTitle(input);
   }
 
   async updateOrder(input: UpdateCardOrderArray) {
-    return this.cardRepository.updateOrder(input)
+    return this.cardRepository.updateOrder(input);
   }
 
   async deleteCard(input: DeleteCard) {
-    return this.cardRepository.deleteCard(input)
+    return this.cardRepository.deleteCard(input);
   }
 }

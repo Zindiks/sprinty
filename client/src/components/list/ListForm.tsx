@@ -1,62 +1,61 @@
-import ListWrapper from "@/components/list/ListWrapper"
-import { PlusIcon } from "lucide-react"
-import { ElementRef, useRef, useState } from "react"
-import { useEventListener, useOnClickOutside } from "usehooks-ts"
+import ListWrapper from "@/components/list/ListWrapper";
+import { PlusIcon } from "lucide-react";
+import { ElementRef, useRef, useState } from "react";
+import { useEventListener, useOnClickOutside } from "usehooks-ts";
 
+import { useParams } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
-import { useParams } from "react-router-dom"
-import { Button } from "@/components/ui/button"
-
-import { useLists } from "@/hooks/useLists"
+import { useLists } from "@/hooks/useLists";
 
 const ListForm = () => {
-  const formRef = useRef<ElementRef<"form">>(null)
-  const inputRef = useRef<ElementRef<"input">>(null)
+  const formRef = useRef<ElementRef<"form">>(null);
+  const inputRef = useRef<ElementRef<"input">>(null);
 
-  const { board_id } = useParams()
+  const { board_id } = useParams();
 
-  const [isEditing, setIsEditing] = useState(false)
+  const [isEditing, setIsEditing] = useState(false);
 
   const enableEditing = () => {
-    setIsEditing(true)
+    setIsEditing(true);
     setTimeout(() => {
-      inputRef.current?.focus()
-    })
-  }
+      inputRef.current?.focus();
+    });
+  };
 
   const disableEditing = () => {
-    setIsEditing(false)
-  }
+    setIsEditing(false);
+  };
 
   const onKeyDown = (e: KeyboardEvent) => {
     if (e.key === "Escape") {
-      disableEditing()
+      disableEditing();
     }
-  }
+  };
 
-  useEventListener("keydown", onKeyDown)
-  useOnClickOutside(formRef, disableEditing)
+  useEventListener("keydown", onKeyDown);
+  useOnClickOutside(formRef, disableEditing);
 
-  const { createList } = useLists(board_id as string)
+  const { createList } = useLists(board_id as string);
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const formData = new FormData(formRef.current!)
-    const title = formData.get("title") as string
-    const board_id = formData.get("board_id") as string
+    event.preventDefault();
+    const formData = new FormData(formRef.current!);
+    const title = formData.get("title") as string;
+    const board_id = formData.get("board_id") as string;
 
     createList.mutate(
       { title, board_id },
       {
         onSuccess: ({ data }) => {
-          console.log(data)
+          console.log(data);
         },
         onError: () => {
-          console.log("Something Wrong")
+          console.log("Something Wrong");
         },
-      }
-    )
-  }
+      },
+    );
+  };
 
   if (isEditing) {
     return (
@@ -83,7 +82,7 @@ const ListForm = () => {
           </div>
         </form>
       </ListWrapper>
-    )
+    );
   }
 
   return (
@@ -97,7 +96,7 @@ const ListForm = () => {
         <PlusIcon className={"h-4 w-4 mr-2"} /> Add a List
       </button>
     </ListWrapper>
-  )
-}
+  );
+};
 
-export default ListForm
+export default ListForm;

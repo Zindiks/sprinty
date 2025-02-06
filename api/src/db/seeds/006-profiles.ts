@@ -1,7 +1,7 @@
-import { Knex } from "knex"
+import { Knex } from "knex";
 
 export const seed = async (knex: Knex) => {
-  await knex("profiles").del()
+  await knex("profiles").del();
   await knex("profiles").insert([
     {
       id: knex.raw("gen_random_uuid()"),
@@ -21,5 +21,5 @@ export const seed = async (knex: Knex) => {
       created_at: knex.fn.now(),
       updated_at: knex.fn.now(),
     },
-  ])
-}
+  ]);
+};

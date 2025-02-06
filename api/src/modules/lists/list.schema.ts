@@ -1,12 +1,12 @@
-import { Type, Static } from "@sinclair/typebox"
+import { Type, Static } from "@sinclair/typebox";
 
-const id = Type.String({ format: "uuid" })
-const board_id = Type.String({ format: "uuid" })
-const created_at = Type.String({ format: "date-time" })
-const updated_at = Type.String({ format: "date-time" })
+const id = Type.String({ format: "uuid" });
+const board_id = Type.String({ format: "uuid" });
+const created_at = Type.String({ format: "date-time" });
+const updated_at = Type.String({ format: "date-time" });
 
-const title = Type.String({ minLength: 3, maxLength: 50 })
-const order = Type.Number()
+const title = Type.String({ minLength: 3, maxLength: 50 });
+const order = Type.Number();
 
 export class ListSchema {
   static CreateListSchema = Type.Object(
@@ -14,8 +14,8 @@ export class ListSchema {
       board_id,
       title,
     },
-    { $id: "CreateListSchema" }
-  )
+    { $id: "CreateListSchema" },
+  );
 
   static UpdateListTitleSchema = Type.Object(
     {
@@ -23,39 +23,39 @@ export class ListSchema {
       board_id,
       title,
     },
-    { $id: "UpdateListTitleSchema" }
-  )
+    { $id: "UpdateListTitleSchema" },
+  );
 
   static UpdateListOrderSchema = Type.Object(
     {
       id,
       order,
     },
-    { $id: "UpdateListOrderSchema" }
-  )
+    { $id: "UpdateListOrderSchema" },
+  );
 
   static UpdateListOrderSchemaArray = Type.Array(
     ListSchema.UpdateListOrderSchema,
     {
       $id: "UpdateListsOrderSchema",
-    }
-  )
+    },
+  );
 
   static CopyListSchema = Type.Object(
     {
       id,
       board_id,
     },
-    { $id: "CopyListSchema" }
-  )
+    { $id: "CopyListSchema" },
+  );
 
   static DeleteListSchema = Type.Object(
     {
       id,
       board_id,
     },
-    { $id: "DeleteListSchema" }
-  )
+    { $id: "DeleteListSchema" },
+  );
 
   // RESPONSE SCHEMA
 
@@ -68,16 +68,16 @@ export class ListSchema {
       created_at,
       updated_at,
     },
-    { $id: "FullListResponseSchema" }
-  )
+    { $id: "FullListResponseSchema" },
+  );
 }
 
-export type CreateList = Static<typeof ListSchema.CreateListSchema>
-export type UpdateListTitle = Static<typeof ListSchema.UpdateListTitleSchema>
+export type CreateList = Static<typeof ListSchema.CreateListSchema>;
+export type UpdateListTitle = Static<typeof ListSchema.UpdateListTitleSchema>;
 export type UpdateListOrderArray = Static<
   typeof ListSchema.UpdateListOrderSchemaArray
->
-export type CopyList = Static<typeof ListSchema.CopyListSchema>
-export type DeleteList = Static<typeof ListSchema.DeleteListSchema>
+>;
+export type CopyList = Static<typeof ListSchema.CopyListSchema>;
+export type DeleteList = Static<typeof ListSchema.DeleteListSchema>;
 
-export type FullListResponse = Static<typeof ListSchema.FullListResponseSchema>
+export type FullListResponse = Static<typeof ListSchema.FullListResponseSchema>;

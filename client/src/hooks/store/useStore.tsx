@@ -1,4 +1,4 @@
-import { create } from "zustand"
+import { create } from "zustand";
 
 interface StoreState {
   organization_id: string;
@@ -12,4 +12,4 @@ export const useStore = create<StoreState>((set) => ({
   setOrganizationId: (organization_id: string) => set({ organization_id }),
   board_id: "",
   setBoardId: (board_id: string) => set({ board_id }),
-}))
+}));

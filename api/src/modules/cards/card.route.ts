@@ -1,8 +1,8 @@
-import { FastifyInstance } from "fastify"
-import { CardController } from "./card.controller"
-import { CardSchema } from "./card.schema"
+import { FastifyInstance } from "fastify";
+import { CardController } from "./card.controller";
+import { CardSchema } from "./card.schema";
 
-const cardController = new CardController()
+const cardController = new CardController();
 
 export default async function cardRoutes(fastify: FastifyInstance) {
   fastify.get(
@@ -15,8 +15,8 @@ export default async function cardRoutes(fastify: FastifyInstance) {
         description: "Get a card",
       },
     },
-    cardController.getCardController.bind(cardController)
-  )
+    cardController.getCardController.bind(cardController),
+  );
 
   fastify.get(
     "/list/:list_id",
@@ -28,8 +28,8 @@ export default async function cardRoutes(fastify: FastifyInstance) {
         description: "Get cards by list_id",
       },
     },
-    cardController.getCardsByListIdController.bind(cardController)
-  )
+    cardController.getCardsByListIdController.bind(cardController),
+  );
 
   fastify.post(
     "/",
@@ -43,8 +43,8 @@ export default async function cardRoutes(fastify: FastifyInstance) {
         description: "Create a new Card",
       },
     },
-    cardController.createCardController.bind(cardController)
-  )
+    cardController.createCardController.bind(cardController),
+  );
 
   fastify.patch(
     "/update",
@@ -58,8 +58,8 @@ export default async function cardRoutes(fastify: FastifyInstance) {
         description: "Update a card title",
       },
     },
-    cardController.updateCardTitleController.bind(cardController)
-  )
+    cardController.updateCardTitleController.bind(cardController),
+  );
 
   fastify.put(
     "/order",
@@ -70,8 +70,8 @@ export default async function cardRoutes(fastify: FastifyInstance) {
         description: "Update a card order",
       },
     },
-    cardController.updateCardOrderController.bind(cardController)
-  )
+    cardController.updateCardOrderController.bind(cardController),
+  );
 
   fastify.delete(
     "/:id/list/:list_id",
@@ -85,6 +85,6 @@ export default async function cardRoutes(fastify: FastifyInstance) {
         description: "Delete a card",
       },
     },
-    cardController.deleteCardController.bind(cardController)
-  )
+    cardController.deleteCardController.bind(cardController),
+  );
 }

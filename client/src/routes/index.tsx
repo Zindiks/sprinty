@@ -1,11 +1,11 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
-import Home from "../pages/Home"
-import User from "../pages/User"
-import Marketing from "@/pages/Marketing"
-import Boards from "@/pages/Boards"
-import BoardView from "../pages/BoardView"
-import BoardLayout from "@/pages/BoardLayout"
-import Organizations from "@/pages/Organization"
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Home from "../pages/Home";
+import User from "../pages/User";
+import Marketing from "@/pages/Marketing";
+import Boards from "@/pages/Boards";
+import BoardView from "../pages/BoardView";
+import BoardLayout from "@/pages/BoardLayout";
+import Organizations from "@/pages/Organization";
 // import BoardEdit from "../pages/BoardEdit"
 
 const AppRoutes = () => (
@@ -23,6 +23,6 @@ const AppRoutes = () => (
       </Route>
     </Routes>
   </Router>
-)
+);
 
-export default AppRoutes
+export default AppRoutes;

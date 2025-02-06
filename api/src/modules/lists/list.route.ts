@@ -1,9 +1,9 @@
-import { FastifyInstance } from "fastify"
+import { FastifyInstance } from "fastify";
 
-import { ListController } from "./list.controller"
-import { ListSchema } from "./list.schema"
+import { ListController } from "./list.controller";
+import { ListSchema } from "./list.schema";
 
-const listController = new ListController()
+const listController = new ListController();
 
 export default async function listRoutes(fastify: FastifyInstance) {
   fastify.get(
@@ -22,8 +22,8 @@ export default async function listRoutes(fastify: FastifyInstance) {
         description: "Get all lists by board id",
       },
     },
-    listController.getListsByBoardIdController.bind(listController)
-  )
+    listController.getListsByBoardIdController.bind(listController),
+  );
 
   fastify.post(
     "/",
@@ -37,8 +37,8 @@ export default async function listRoutes(fastify: FastifyInstance) {
         description: "Create a new List",
       },
     },
-    listController.createListController.bind(listController)
-  )
+    listController.createListController.bind(listController),
+  );
 
   fastify.post(
     "/copy",
@@ -52,8 +52,8 @@ export default async function listRoutes(fastify: FastifyInstance) {
         description: "Copy a list",
       },
     },
-    listController.copyListController.bind(listController)
-  )
+    listController.copyListController.bind(listController),
+  );
 
   fastify.put(
     "/order/:board_id",
@@ -71,8 +71,8 @@ export default async function listRoutes(fastify: FastifyInstance) {
         description: "Update a list order",
       },
     },
-    listController.updateListOrderController.bind(listController)
-  )
+    listController.updateListOrderController.bind(listController),
+  );
 
   fastify.patch(
     "/update",
@@ -86,8 +86,8 @@ export default async function listRoutes(fastify: FastifyInstance) {
         description: "Update a list title",
       },
     },
-    listController.updateListTitleController.bind(listController)
-  )
+    listController.updateListTitleController.bind(listController),
+  );
 
   fastify.delete(
     "/:id/board/:board_id",
@@ -108,6 +108,6 @@ export default async function listRoutes(fastify: FastifyInstance) {
         description: "Delete a list",
       },
     },
-    listController.deleteListController.bind(listController)
-  )
+    listController.deleteListController.bind(listController),
+  );
 }

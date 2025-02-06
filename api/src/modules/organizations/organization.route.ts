@@ -1,8 +1,8 @@
-import { FastifyInstance } from "fastify"
-import { OrganizationController } from "./organization.controller"
-import { OrganizationSchema } from "./organization.schema"
+import { FastifyInstance } from "fastify";
+import { OrganizationController } from "./organization.controller";
+import { OrganizationSchema } from "./organization.schema";
 
-const organizationController = new OrganizationController()
+const organizationController = new OrganizationController();
 
 export default async function organizationRoutes(fastify: FastifyInstance) {
   fastify.get(
@@ -16,9 +16,9 @@ export default async function organizationRoutes(fastify: FastifyInstance) {
       },
     },
     organizationController.getOrganizationController.bind(
-      organizationController
-    )
-  )
+      organizationController,
+    ),
+  );
 
   fastify.get(
     "/all",
@@ -35,9 +35,9 @@ export default async function organizationRoutes(fastify: FastifyInstance) {
       },
     },
     organizationController.getAllOrganizationController.bind(
-      organizationController
-    )
-  )
+      organizationController,
+    ),
+  );
 
   fastify.post(
     "/",
@@ -53,9 +53,9 @@ export default async function organizationRoutes(fastify: FastifyInstance) {
     },
 
     organizationController.createOrganizationController.bind(
-      organizationController
-    )
-  )
+      organizationController,
+    ),
+  );
 
   fastify.put(
     "/:id",
@@ -76,9 +76,9 @@ export default async function organizationRoutes(fastify: FastifyInstance) {
       },
     },
     organizationController.updateOrganizationController.bind(
-      organizationController
-    )
-  )
+      organizationController,
+    ),
+  );
 
   fastify.delete(
     "/:id",
@@ -93,7 +93,7 @@ export default async function organizationRoutes(fastify: FastifyInstance) {
       },
     },
     organizationController.removeOrganizationController.bind(
-      organizationController
-    )
-  )
+      organizationController,
+    ),
+  );
 }

@@ -1,77 +1,77 @@
-import { ElementRef, useRef, useState } from "react"
-import { List } from "@/types/types"
-import { useEventListener } from "usehooks-ts"
-import { useLists } from "@/hooks/useLists"
-import { useQueryClient } from "@tanstack/react-query"
-import ListOptions from "@/components/list/ListOptions"
+import { ElementRef, useRef, useState } from "react";
+import { List } from "@/types/types";
+import { useEventListener } from "usehooks-ts";
+import { useLists } from "@/hooks/useLists";
+import { useQueryClient } from "@tanstack/react-query";
+import ListOptions from "@/components/list/ListOptions";
 
 interface ListHeaderProps {
-  data: List
-  onAddCard: () => void
+  data: List;
+  onAddCard: () => void;
 }
 
 const ListHeader = ({ data }: ListHeaderProps) => {
-  const [title, setTitle] = useState(data.title)
+  const [title, setTitle] = useState(data.title);
 
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
-  const [isEditing, setIsEditing] = useState(false)
+  const [isEditing, setIsEditing] = useState(false);
 
-  const formRef = useRef<ElementRef<"form">>(null)
-  const inputRef = useRef<ElementRef<"input">>(null)
+  const formRef = useRef<ElementRef<"form">>(null);
+  const inputRef = useRef<ElementRef<"input">>(null);
 
-  const { updateListTitle } = useLists(data.board_id)
+  const { updateListTitle } = useLists(data.board_id);
 
   const enableEditing = () => {
-    setIsEditing(true)
+    setIsEditing(true);
     setTimeout(() => {
-      inputRef.current?.focus()
-      inputRef.current?.select()
-    })
-  }
+      inputRef.current?.focus();
+      inputRef.current?.select();
+    });
+  };
 
   const disableEditing = () => {
-    setIsEditing(false)
-  }
+    setIsEditing(false);
+  };
 
   const onKeyDown = (e: KeyboardEvent) => {
     if (e.key === "Escape") {
-      disableEditing()
+      disableEditing();
     }
-  }
+  };
 
-  useEventListener("keydown", onKeyDown)
+  useEventListener("keydown", onKeyDown);
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const formData = new FormData(formRef.current!)
-    const id = formData.get("id") as string
-    const title = formData.get("title") as string
-    const board_id = formData.get("board_id") as string
+    event.preventDefault();
+    const formData = new FormData(formRef.current!);
+    const id = formData.get("id") as string;
+    const title = formData.get("title") as string;
+    const board_id = formData.get("board_id") as string;
 
     if (title === data.title) {
-      disableEditing()
-      return
+      disableEditing();
+      return;
     }
 
     updateListTitle.mutate(
       { id, title, board_id },
       {
         onSuccess: ({ data }) => {
-          queryClient.invalidateQueries({ queryKey: ["list"] })
-          setTitle(data.title)
-          disableEditing()
+          queryClient.invalidateQueries({ queryKey: ["list"] });
+          setTitle(data.title);
+          disableEditing();
         },
         onError: () => {
-          console.log("Something Wrong")
+          console.log("Something Wrong");
         },
-      }
-    )
-  }
+      },
+    );
+  };
 
   const onBlur = () => {
-    formRef.current?.requestSubmit()
-  }
+    formRef.current?.requestSubmit();
+  };
 
   return (
     <div className="pt-2 px-2 text-sm font-semibold flex justify-between items-center gap-x-2 pb-2">
@@ -108,7 +108,7 @@ const ListHeader = ({ data }: ListHeaderProps) => {
 
       <ListOptions data={data} onAddCard={() => {}} />
     </div>
-  )
-}
+  );
+};
 
-export default ListHeader
+export default ListHeader;

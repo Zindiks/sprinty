@@ -1,121 +1,121 @@
-import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify"
+import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import {
   CreateList,
   CopyList,
   UpdateListOrderArray,
   UpdateListTitle,
   DeleteList,
-} from "./list.schema"
-import { ListService } from "./list.service"
+} from "./list.schema";
+import { ListService } from "./list.service";
 
 export class ListController {
-  private readonly listService: ListService
+  private readonly listService: ListService;
 
   constructor() {
-    this.listService = new ListService()
+    this.listService = new ListService();
   }
   async getListsByBoardIdController(
     request: FastifyRequest<{
-      Params: { board_id: string }
+      Params: { board_id: string };
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
-    const { board_id } = request.params
+    const { board_id } = request.params;
 
     try {
-      const lists = await this.listService.getByBoardId(board_id)
+      const lists = await this.listService.getByBoardId(board_id);
       if (lists) {
-        return reply.status(200).send(lists)
+        return reply.status(200).send(lists);
       } else {
-        return reply.status(404).send({ message: "no lists" })
+        return reply.status(404).send({ message: "no lists" });
       }
     } catch (err) {
-      return reply.status(500).send(err)
+      return reply.status(500).send(err);
     }
   }
 
   async createListController(
     request: FastifyRequest<{
-      Body: CreateList
+      Body: CreateList;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
-    const body = request.body
+    const body = request.body;
 
     try {
-      const list = await this.listService.create(body)
-      return reply.status(201).send(list)
+      const list = await this.listService.create(body);
+      return reply.status(201).send(list);
     } catch (err) {
-      return reply.status(500).send(err)
+      return reply.status(500).send(err);
     }
   }
 
   async updateListTitleController(
     request: FastifyRequest<{
-      Body: UpdateListTitle
+      Body: UpdateListTitle;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
-    const body = request.body
+    const body = request.body;
 
     try {
-      const list = await this.listService.updateTitle(body)
-      return reply.status(200).send(list)
+      const list = await this.listService.updateTitle(body);
+      return reply.status(200).send(list);
     } catch (err) {
-      return reply.status(500).send(err)
+      return reply.status(500).send(err);
     }
   }
 
   async updateListOrderController(
     request: FastifyRequest<{
-      Body: UpdateListOrderArray
-      Params: { board_id: string }
+      Body: UpdateListOrderArray;
+      Params: { board_id: string };
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
-    const body = request.body
-    const { board_id } = request.params
+    const body = request.body;
+    const { board_id } = request.params;
 
     try {
-      await this.listService.updateOrder(body, board_id)
+      await this.listService.updateOrder(body, board_id);
 
-      return reply.status(200).send()
+      return reply.status(200).send();
     } catch (err) {
-      return reply.status(500).send(err)
+      return reply.status(500).send(err);
     }
   }
 
   async copyListController(
     request: FastifyRequest<{
-      Body: CopyList
+      Body: CopyList;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
-    const body = request.body
+    const body = request.body;
 
     try {
-      const list = await this.listService.copyList(body)
-      return reply.status(200).send(list)
+      const list = await this.listService.copyList(body);
+      return reply.status(200).send(list);
     } catch (err) {
-      return reply.status(500).send(err)
+      return reply.status(500).send(err);
     }
   }
 
   async deleteListController(
     request: FastifyRequest<{
-      Params: DeleteList
+      Params: DeleteList;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
-    const body = request.params
+    const body = request.params;
 
-    console.log(body)
+    console.log(body);
 
     try {
-      const list = await this.listService.deleteList(body)
-      return reply.status(200).send(list)
+      const list = await this.listService.deleteList(body);
+      return reply.status(200).send(list);
     } catch (err) {
-      return reply.status(500).send(err)
+      return reply.status(500).send(err);
     }
   }
 }

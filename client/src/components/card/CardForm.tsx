@@ -1,59 +1,59 @@
-import { Button } from "@/components/ui/button"
-import { PlusIcon, X } from "lucide-react"
-import { forwardRef, useRef, ElementRef, KeyboardEventHandler } from "react"
-import { FormTextarea } from "@/components/card/FormTextarea"
-import { useOnClickOutside, useEventListener } from "usehooks-ts"
-import { useCards } from "@/hooks/useCards"
+import { Button } from "@/components/ui/button";
+import { PlusIcon, X } from "lucide-react";
+import { forwardRef, useRef, ElementRef, KeyboardEventHandler } from "react";
+import { FormTextarea } from "@/components/card/FormTextarea";
+import { useOnClickOutside, useEventListener } from "usehooks-ts";
+import { useCards } from "@/hooks/useCards";
 
 interface CardFormProps {
-  list_id: string
-  enableEditing: () => void
-  disableEditing: () => void
-  isEditing: boolean
+  list_id: string;
+  enableEditing: () => void;
+  disableEditing: () => void;
+  isEditing: boolean;
 }
 
 const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(
   ({ list_id, enableEditing, disableEditing, isEditing }, ref) => {
-    const formRef = useRef<ElementRef<"form">>(null)
+    const formRef = useRef<ElementRef<"form">>(null);
 
-    const { createCard } = useCards()
+    const { createCard } = useCards();
 
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        disableEditing()
+        disableEditing();
       }
-    }
+    };
 
-    useOnClickOutside(formRef, disableEditing)
-    useEventListener("keydown", onKeyDown)
+    useOnClickOutside(formRef, disableEditing);
+    useEventListener("keydown", onKeyDown);
 
     const onTextareakeyDown: KeyboardEventHandler<HTMLTextAreaElement> = (
-      e
+      e,
     ) => {
       if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault()
-        formRef.current?.requestSubmit()
+        e.preventDefault();
+        formRef.current?.requestSubmit();
       }
-    }
+    };
 
     const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault()
-      const formData = new FormData(formRef.current!)
-      const title = formData.get("title") as string
-      const list_id = formData.get("list_id") as string
+      event.preventDefault();
+      const formData = new FormData(formRef.current!);
+      const title = formData.get("title") as string;
+      const list_id = formData.get("list_id") as string;
 
       createCard.mutate(
         { title, list_id },
         {
           onSuccess: () => {},
           onError: () => {
-            console.log("asdasd")
+            console.log("asdasd");
           },
-        }
-      )
+        },
+      );
 
-      disableEditing()
-    }
+      disableEditing();
+    };
 
     if (isEditing) {
       return (
@@ -78,7 +78,7 @@ const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(
             </Button>
           </div>
         </form>
-      )
+      );
     }
 
     return (
@@ -93,10 +93,10 @@ const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(
           Add card
         </Button>
       </div>
-    )
-  }
-)
+    );
+  },
+);
 
-CardForm.displayName = "CardForm"
+CardForm.displayName = "CardForm";
 
-export default CardForm
+export default CardForm;

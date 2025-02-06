@@ -1,7 +1,7 @@
-import { Knex } from "knex"
+import { Knex } from "knex";
 
 export const seed = async (knex: Knex) => {
-  await knex("organization_admin").del()
+  await knex("organization_admin").del();
   await knex("organization_admin").insert([
     {
       organization_id: knex("organizations")
@@ -9,5 +9,5 @@ export const seed = async (knex: Knex) => {
         .select("id"),
       user_id: knex("users").where("username", "john_doe").select("id"),
     },
-  ])
-}
+  ]);
+};

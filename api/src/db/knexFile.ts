@@ -1,6 +1,6 @@
-import { Knex } from "knex"
+import { Knex } from "knex";
 
-import { config } from "../configs/envConfig"
+import { config } from "../configs/envConfig";
 
 const knexConfig: { [key: string]: Knex.Config } = {
   development: {
@@ -23,6 +23,6 @@ const knexConfig: { [key: string]: Knex.Config } = {
       directory: "./src/db/seeds",
     },
   },
-}
+};
 
-export default knexConfig
+export default knexConfig;

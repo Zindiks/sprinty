@@ -1,8 +1,8 @@
-import { FastifyInstance } from "fastify"
-import { BoardSchema } from "./board.schema"
-import { BoardController } from "./board.controller"
+import { FastifyInstance } from "fastify";
+import { BoardSchema } from "./board.schema";
+import { BoardController } from "./board.controller";
 
-const boardController = new BoardController()
+const boardController = new BoardController();
 
 export default async function boardRoutes(fastify: FastifyInstance) {
   fastify.get(
@@ -15,8 +15,8 @@ export default async function boardRoutes(fastify: FastifyInstance) {
         description: "Get a board",
       },
     },
-    boardController.getBoardController.bind(boardController)
-  )
+    boardController.getBoardController.bind(boardController),
+  );
 
   fastify.get(
     "/:organization_id/all",
@@ -36,8 +36,8 @@ export default async function boardRoutes(fastify: FastifyInstance) {
         description: "Get all boards",
       },
     },
-    boardController.getAllBoardsController.bind(boardController)
-  )
+    boardController.getAllBoardsController.bind(boardController),
+  );
 
   fastify.post(
     "/",
@@ -51,8 +51,8 @@ export default async function boardRoutes(fastify: FastifyInstance) {
         description: "Create a new Board",
       },
     },
-    boardController.createBoardController.bind(boardController)
-  )
+    boardController.createBoardController.bind(boardController),
+  );
 
   fastify.put(
     "/:id",
@@ -72,8 +72,8 @@ export default async function boardRoutes(fastify: FastifyInstance) {
         description: "Update a board",
       },
     },
-    boardController.updateBoardController.bind(boardController)
-  )
+    boardController.updateBoardController.bind(boardController),
+  );
 
   fastify.delete(
     "/:id",
@@ -85,6 +85,6 @@ export default async function boardRoutes(fastify: FastifyInstance) {
         description: "Delete a board",
       },
     },
-    boardController.removeBoardController.bind(boardController)
-  )
+    boardController.removeBoardController.bind(boardController),
+  );
 }

@@ -1,6 +1,6 @@
-import BoardList from "@/components/board/BoardList"
-import { CreateBoardModal } from "@/components/board/CreateBoardModal"
-import { StaticSidebar } from "@/components/SidebarStatic"
+import BoardList from "@/components/board/BoardList";
+import { CreateBoardModal } from "@/components/board/CreateBoardModal";
+import { StaticSidebar } from "@/components/SidebarStatic";
 
 const Boards = () => {
   return (
@@ -11,7 +11,7 @@ const Boards = () => {
         <BoardList />
       </main>
     </div>
-  )
-}
+  );
+};
 
-export default Boards
+export default Boards;

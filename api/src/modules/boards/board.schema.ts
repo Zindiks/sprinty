@@ -1,12 +1,12 @@
-import { Type, Static } from "@sinclair/typebox"
+import { Type, Static } from "@sinclair/typebox";
 
-const id = Type.String({ format: "uuid" })
-const organization_id = Type.String({ format: "uuid" })
-const created_at = Type.String({ format: "date-time" })
-const updated_at = Type.String({ format: "date-time" })
+const id = Type.String({ format: "uuid" });
+const organization_id = Type.String({ format: "uuid" });
+const created_at = Type.String({ format: "date-time" });
+const updated_at = Type.String({ format: "date-time" });
 
-const title = Type.String({ minLength: 3, maxLength: 50 })
-const description = Type.Optional(Type.String({ maxLength: 100 }))
+const title = Type.String({ minLength: 3, maxLength: 50 });
+const description = Type.Optional(Type.String({ maxLength: 100 }));
 
 export class BoardSchema {
   static BaseBoardSchema = Type.Object(
@@ -14,8 +14,8 @@ export class BoardSchema {
       title,
       description,
     },
-    { $id: "BaseBoardSchema" }
-  )
+    { $id: "BaseBoardSchema" },
+  );
 
   static CreateBoardSchema = Type.Object(
     {
@@ -23,19 +23,19 @@ export class BoardSchema {
       title,
       description,
     },
-    { $id: "CreateBoardSchema" }
-  )
+    { $id: "CreateBoardSchema" },
+  );
 
   static UpdateBoardSchema = Type.Partial(BoardSchema.BaseBoardSchema, {
     $id: "UpdateBoardSchema",
-  })
+  });
 
   static DeleteBoardSchema = Type.Object(
     {
       id,
     },
-    { $id: "DeleteBoardSchema" }
-  )
+    { $id: "DeleteBoardSchema" },
+  );
 
   // RESPONSE SCHEMA
   static BoardResponseSchema = Type.Intersect(
@@ -48,12 +48,12 @@ export class BoardSchema {
         updated_at,
       }),
     ],
-    { $id: "BoardResponseSchema" }
-  )
+    { $id: "BoardResponseSchema" },
+  );
 }
 
-export type BaseBoard = Static<typeof BoardSchema.BaseBoardSchema>
-export type CreateBoard = Static<typeof BoardSchema.CreateBoardSchema>
-export type DeleteBoard = Static<typeof BoardSchema.DeleteBoardSchema>
-export type UpdateBoard = Static<typeof BoardSchema.UpdateBoardSchema>
-export type BoardResponse = Static<typeof BoardSchema.BoardResponseSchema>
+export type BaseBoard = Static<typeof BoardSchema.BaseBoardSchema>;
+export type CreateBoard = Static<typeof BoardSchema.CreateBoardSchema>;
+export type DeleteBoard = Static<typeof BoardSchema.DeleteBoardSchema>;
+export type UpdateBoard = Static<typeof BoardSchema.UpdateBoardSchema>;
+export type BoardResponse = Static<typeof BoardSchema.BoardResponseSchema>;

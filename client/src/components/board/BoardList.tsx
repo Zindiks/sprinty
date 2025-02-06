@@ -1,28 +1,28 @@
-import { User2 } from "lucide-react"
-import { Skeleton } from "@/components/ui/skeleton"
-import { useBoard } from "@/hooks/useBoards"
-import { Link, useNavigate } from "react-router-dom"
-import { useStore } from "@/hooks/store/useStore"
-import { useEffect } from "react"
+import { User2 } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useBoard } from "@/hooks/useBoards";
+import { Link, useNavigate } from "react-router-dom";
+import { useStore } from "@/hooks/store/useStore";
+import { useEffect } from "react";
 
 const BoardList = () => {
-  const navigate = useNavigate()
-  const { organization_id, setOrganizationId } = useStore()
+  const navigate = useNavigate();
+  const { organization_id, setOrganizationId } = useStore();
 
   useEffect(() => {
-    const storedOrganizationId = localStorage.getItem("organization_id")
+    const storedOrganizationId = localStorage.getItem("organization_id");
     if (storedOrganizationId) {
-      setOrganizationId(storedOrganizationId)
+      setOrganizationId(storedOrganizationId);
     } else {
-      navigate("/organizations")
+      navigate("/organizations");
     }
-  }, [setOrganizationId, navigate])
+  }, [setOrganizationId, navigate]);
 
-  const { GetBoards } = useBoard(organization_id)
-  const boards = GetBoards()
+  const { GetBoards } = useBoard(organization_id);
+  const boards = GetBoards();
 
-  if (boards.isLoading) return <BoardList.Skeleton />
-  if (boards.isError) return <div>Error loading boards...</div>
+  if (boards.isLoading) return <BoardList.Skeleton />;
+  if (boards.isError) return <div>Error loading boards...</div>;
 
   return (
     <div className="space-y-4">
@@ -51,10 +51,10 @@ const BoardList = () => {
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default BoardList
+export default BoardList;
 
 BoardList.Skeleton = function SkeletonBoardList() {
   return (
@@ -68,5 +68,5 @@ BoardList.Skeleton = function SkeletonBoardList() {
       <Skeleton className={"aspect-video h-full w-full p-2"} />
       <Skeleton className={"aspect-video h-full w-full p-2"} />
     </div>
-  )
-}
+  );
+};

@@ -1,35 +1,35 @@
-import { ElementRef, useRef, useState } from "react"
-import { List } from "@/types/types"
-import ListHeader from "@/components/list/ListHeader"
-import CardForm from "@/components/card/CardForm"
-import { cn } from "@/lib/utils"
-import CardItem from "@/components/card/CardItem"
+import { ElementRef, useRef, useState } from "react";
+import { List } from "@/types/types";
+import ListHeader from "@/components/list/ListHeader";
+import CardForm from "@/components/card/CardForm";
+import { cn } from "@/lib/utils";
+import CardItem from "@/components/card/CardItem";
 
-import { Draggable, Droppable } from "@hello-pangea/dnd"
+import { Draggable, Droppable } from "@hello-pangea/dnd";
 
 interface ListItemProps {
-  index: number
-  data: List
+  index: number;
+  data: List;
 }
 
 const ListItem = ({ data, index }: ListItemProps) => {
-  const [isEditing, setIsEditing] = useState(false)
+  const [isEditing, setIsEditing] = useState(false);
 
-  console.log(data)
+  console.log(data);
 
-  const textareaRef = useRef<ElementRef<"textarea">>(null)
+  const textareaRef = useRef<ElementRef<"textarea">>(null);
 
   const disableEditing = () => {
-    setIsEditing(false)
-  }
+    setIsEditing(false);
+  };
 
   const enableEditing = () => {
-    setIsEditing(true)
+    setIsEditing(true);
 
     setTimeout(() => {
-      textareaRef.current?.focus()
-    })
-  }
+      textareaRef.current?.focus();
+    });
+  };
 
   return (
     <Draggable draggableId={data.id} index={index}>
@@ -52,7 +52,7 @@ const ListItem = ({ data, index }: ListItemProps) => {
                   {...provided.droppableProps}
                   className={cn(
                     "mx-1 px-1 py-0.5 flex flex-col gap-y-2",
-                    data.cards.length > 0 ? "mt-2" : "mt-0"
+                    data.cards.length > 0 ? "mt-2" : "mt-0",
                   )}
                 >
                   {data?.cards?.map((card, index) => {
@@ -62,7 +62,7 @@ const ListItem = ({ data, index }: ListItemProps) => {
                         key={card.id + index}
                         data={card}
                       />
-                    )
+                    );
                   })}
 
                   {provided.placeholder}
@@ -81,7 +81,7 @@ const ListItem = ({ data, index }: ListItemProps) => {
         </li>
       )}
     </Draggable>
-  )
-}
+  );
+};
 
-export default ListItem
+export default ListItem;

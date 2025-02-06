@@ -1,8 +1,8 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import AppRoutes from "./routes"
-import { Toaster } from "./components/ui/toaster"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import AppRoutes from "./routes";
+import { Toaster } from "./components/ui/toaster";
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
 
       <Toaster />
     </QueryClientProvider>
-  )
+  );
 }
 
-export default App
+export default App;

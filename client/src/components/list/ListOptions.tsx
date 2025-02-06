@@ -1,58 +1,58 @@
-import { MoreHorizontal, X } from "lucide-react"
-import { List } from "@/types/types"
+import { MoreHorizontal, X } from "lucide-react";
+import { List } from "@/types/types";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { Button } from "@/components/ui/button"
-import { PopoverClose } from "@radix-ui/react-popover"
-import { useLists } from "@/hooks/useLists"
-import { ElementRef, useRef } from "react"
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { PopoverClose } from "@radix-ui/react-popover";
+import { useLists } from "@/hooks/useLists";
+import { ElementRef, useRef } from "react";
 
 interface ListOptionsProps {
-  data: List
-  onAddCard: () => void
+  data: List;
+  onAddCard: () => void;
 }
 
 //TODO: FORMS are unnecesary. I can use props data to get all necesarry fields to delete, copy or create card
 // I will change it later
 
 const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
-  const closeRef = useRef<ElementRef<"button">>(null)
-  const { deleteList, copyList } = useLists(data.board_id)
+  const closeRef = useRef<ElementRef<"button">>(null);
+  const { deleteList, copyList } = useLists(data.board_id);
 
   const deleteHandler = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const formData = new FormData(event.currentTarget)
-    const id = formData.get("id") as string
-    const board_id = formData.get("board_id") as string
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const id = formData.get("id") as string;
+    const board_id = formData.get("board_id") as string;
 
     deleteList.mutate(
       { id, board_id },
       {
         onSuccess: () => {
-          closeRef.current?.click()
+          closeRef.current?.click();
         },
-      }
-    )
-  }
+      },
+    );
+  };
 
   const copyHandler = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const formData = new FormData(event.currentTarget)
-    const id = formData.get("id") as string
-    const board_id = formData.get("board_id") as string
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const id = formData.get("id") as string;
+    const board_id = formData.get("board_id") as string;
 
     copyList.mutate(
       { id, board_id },
       {
         onSuccess: () => {
-          closeRef.current?.click()
+          closeRef.current?.click();
         },
-      }
-    )
-  }
+      },
+    );
+  };
 
   return (
     <Popover>
@@ -120,7 +120,7 @@ const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
         </div>
       </PopoverContent>
     </Popover>
-  )
-}
+  );
+};
 
-export default ListOptions
+export default ListOptions;

@@ -1,7 +1,7 @@
-import { Knex } from "knex"
+import { Knex } from "knex";
 
 export const seed = async (knex: Knex) => {
-  await knex("user_organization").del()
+  await knex("user_organization").del();
   await knex("user_organization").insert([
     {
       user_id: knex("users").where("username", "john_doe").select("id"),
@@ -15,5 +15,5 @@ export const seed = async (knex: Knex) => {
         .where("title", "Design Studio")
         .select("id"),
     },
-  ])
-}
+  ]);
+};

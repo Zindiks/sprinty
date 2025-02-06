@@ -1,49 +1,48 @@
-import { useState, useEffect } from "react"
-import { Button } from "../components/ui/button"
-
+import { useState, useEffect } from "react";
+import { Button } from "../components/ui/button";
 
 const Marketing = () => {
   const [user, setUser] = useState<{
-    avatar_url: string
-    login: string
-  } | null>(null)
+    avatar_url: string;
+    login: string;
+  } | null>(null);
 
   useEffect(() => {
     const fetchUser = async () => {
       const response = await fetch("http://localhost:4000/api/v1/oauth/user", {
         credentials: "include",
-      })
+      });
       if (response.ok) {
-        const data = await response.json()
-        setUser(data)
-        console.log(data) // Log user data to the console
+        const data = await response.json();
+        setUser(data);
+        console.log(data); // Log user data to the console
       }
-    }
-    fetchUser()
-  }, [])
+    };
+    fetchUser();
+  }, []);
 
   const handleLogin = async () => {
-    window.location.href = "http://localhost:4000/api/v1/oauth/github"
-  }
+    window.location.href = "http://localhost:4000/api/v1/oauth/github";
+  };
 
   const handleLogout = async () => {
     await fetch("http://localhost:4000/api/v1/oauth/logout", {
       method: "POST",
       credentials: "include",
-    })
-    setUser(null)
+    });
+    setUser(null);
     document.cookie =
-      "accessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT"
-  }
+      "accessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+  };
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search)
-    const token = urlParams.get("access_token")
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get("access_token");
     if (token) {
-      document.cookie = `accessToken=${token}; path=/; samesite=strict`
-      window.location.search = ""
+      document.cookie = `accessToken=${token}; path=/; samesite=strict`;
+      window.location.search = "";
     }
-  }, [])
+  }, []);
 
   return (
     <>
@@ -65,7 +64,7 @@ const Marketing = () => {
         Click on the Vite and React logos to learn more
       </p>
     </>
-  )
-}
+  );
+};
 
-export default Marketing
+export default Marketing;

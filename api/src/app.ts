@@ -1,7 +1,7 @@
-import { createServer } from "./bootstrap"
+import { createServer } from "./bootstrap";
 
 async function app() {
-  const server = await createServer()
+  const server = await createServer();
 
   server.listen(
     {
@@ -10,12 +10,12 @@ async function app() {
     },
     (err, address) => {
       if (err) {
-        server.log.error(err)
-        process.exit(1)
+        server.log.error(err);
+        process.exit(1);
       }
-      server.log.info(`Server listening at ${address}`)
-    }
-  )
+      server.log.info(`Server listening at ${address}`);
+    },
+  );
 }
 
-app()
+app();

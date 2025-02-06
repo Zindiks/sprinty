@@ -1,4 +1,4 @@
-import { config } from "./configs/envConfig"
+import { config } from "./configs/envConfig";
 
 export const swaggerDocs = {
   openapi: {
@@ -15,4 +15,4 @@ export const swaggerDocs = {
     components: {},
     security: [],
   },
-}
+};

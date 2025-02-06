@@ -1,6 +1,6 @@
-import dotenv from "dotenv"
+import dotenv from "dotenv";
 
-dotenv.config()
+dotenv.config();
 
 export const config = {
   api: {
@@ -21,4 +21,4 @@ export const config = {
     password: process.env.KNEX_PASSWORD || "password",
     database: process.env.KNEX_DATABASE || "sprinty-db",
   },
-}
+};

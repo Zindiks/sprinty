@@ -1,0 +1,7 @@
+// ...existing code...
+.github
+.vscode
+api/node_modules
+client/node_modules
+docs
+*.md

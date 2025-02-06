@@ -1,7 +1,7 @@
-import type { Card } from "@/types/types"
-import { useState } from "react"
-import { Draggable } from "@hello-pangea/dnd"
-import { Link } from "react-router-dom"
+import type { Card } from "@/types/types";
+import { useState } from "react";
+import { Draggable } from "@hello-pangea/dnd";
+import { Link } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -9,24 +9,24 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 interface CardItemProps {
-  index: number
-  data: Card
+  index: number;
+  data: Card;
 }
 
 const CardItem = ({ index, data }: CardItemProps) => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleCardClick = () => {
-    setIsDialogOpen(true)
-  }
+    setIsDialogOpen(true);
+  };
 
   const handleCloseDialog = () => {
-    setIsDialogOpen(false)
-  }
+    setIsDialogOpen(false);
+  };
 
   return (
     <>
@@ -57,7 +57,7 @@ const CardItem = ({ index, data }: CardItemProps) => {
         </DialogContent>
       </Dialog>
     </>
-  )
-}
+  );
+};
 
-export default CardItem
+export default CardItem;
