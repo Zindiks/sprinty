@@ -2,7 +2,7 @@
   "dependencies": {
     "@fastify/cors": "^10.0.2",
     "@fastify/env": "^5.0.2",
-    "@fastify/oauth2": "^8.1.1",
+    "@fastify/oauth2": "^8.1.2",
     "@fastify/session": "^11.1.0",
     "@fastify/swagger": "^9.4.2",
     "@fastify/swagger-ui": "^5.2.1",
