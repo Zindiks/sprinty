@@ -198,6 +198,55 @@ export class CardSchema {
         completed: Type.Number(),
         percentage: Type.Number(),
       }),
+      comments: Type.Array(
+        Type.Object({
+          id: Type.String({ format: "uuid" }),
+          card_id: Type.String({ format: "uuid" }),
+          user_id: Type.String({ format: "uuid" }),
+          content: Type.String(),
+          parent_comment_id: Type.Optional(Type.String({ format: "uuid" })),
+          is_edited: Type.Boolean(),
+          created_at: Type.String({ format: "date-time" }),
+          updated_at: Type.String({ format: "date-time" }),
+          user: Type.Object({
+            id: Type.String({ format: "uuid" }),
+            email: Type.String(),
+            username: Type.Optional(Type.String()),
+          }),
+        }),
+      ),
+      attachments: Type.Array(
+        Type.Object({
+          id: Type.String({ format: "uuid" }),
+          card_id: Type.String({ format: "uuid" }),
+          filename: Type.String(),
+          original_filename: Type.String(),
+          mime_type: Type.String(),
+          file_size: Type.Number(),
+          uploaded_by: Type.String({ format: "uuid" }),
+          uploaded_at: Type.String({ format: "date-time" }),
+          user: Type.Object({
+            id: Type.String({ format: "uuid" }),
+            email: Type.String(),
+            username: Type.Optional(Type.String()),
+          }),
+        }),
+      ),
+      activities: Type.Array(
+        Type.Object({
+          id: Type.String({ format: "uuid" }),
+          card_id: Type.String({ format: "uuid" }),
+          user_id: Type.String({ format: "uuid" }),
+          action_type: Type.String(),
+          metadata: Type.Any(),
+          created_at: Type.String({ format: "date-time" }),
+          user: Type.Object({
+            id: Type.String({ format: "uuid" }),
+            email: Type.String(),
+            username: Type.Optional(Type.String()),
+          }),
+        }),
+      ),
     },
     { $id: "CardWithDetailsResponseSchema" },
   );

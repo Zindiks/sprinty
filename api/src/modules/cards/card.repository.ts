@@ -107,6 +107,65 @@ export class CardRepository {
     const completed = checklistItems.filter((item) => item.completed).length;
     const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
 
+    // Get comments with user details
+    const comments = await this.knex("comments")
+      .where({ "comments.card_id": id })
+      .join("users", "comments.user_id", "users.id")
+      .leftJoin("profiles", "users.id", "profiles.user_id")
+      .select(
+        "comments.*",
+        this.knex.raw(`
+          json_build_object(
+            'id', users.id,
+            'email', users.email,
+            'username', profiles.username
+          ) as user
+        `),
+      )
+      .orderBy("comments.created_at", "asc");
+
+    // Get attachments with user details
+    const attachments = await this.knex("attachments")
+      .where({ "attachments.card_id": id })
+      .join("users", "attachments.uploaded_by", "users.id")
+      .leftJoin("profiles", "users.id", "profiles.user_id")
+      .select(
+        "attachments.id",
+        "attachments.card_id",
+        "attachments.filename",
+        "attachments.original_filename",
+        "attachments.mime_type",
+        "attachments.file_size",
+        "attachments.uploaded_by",
+        "attachments.uploaded_at",
+        this.knex.raw(`
+          json_build_object(
+            'id', users.id,
+            'email', users.email,
+            'username', profiles.username
+          ) as user
+        `),
+      )
+      .orderBy("attachments.uploaded_at", "desc");
+
+    // Get activities with user details
+    const activities = await this.knex("card_activities")
+      .where({ "card_activities.card_id": id })
+      .join("users", "card_activities.user_id", "users.id")
+      .leftJoin("profiles", "users.id", "profiles.user_id")
+      .select(
+        "card_activities.*",
+        this.knex.raw(`
+          json_build_object(
+            'id', users.id,
+            'email', users.email,
+            'username', profiles.username
+          ) as user
+        `),
+      )
+      .orderBy("card_activities.created_at", "desc")
+      .limit(20);
+
     return {
       ...card,
       assignees: assignees || [],
@@ -117,6 +176,12 @@ export class CardRepository {
         completed,
         percentage,
       },
+      comments: comments || [],
+      attachments: attachments || [],
+      activities: activities.map((activity) => ({
+        ...activity,
+        metadata: activity.metadata ? JSON.parse(activity.metadata) : null,
+      })) || [],
     };
   }
 
