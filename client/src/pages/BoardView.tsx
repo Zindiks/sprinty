@@ -22,19 +22,14 @@ const BoardView = () => {
   const navigate = useNavigate();
   const { organization_id } = useStore();
   const { GetBoard } = useBoard(organization_id);
-
-  if (!board_id) {
-    return <h1>error</h1>;
-  }
-
-  const { lists } = useLists(board_id);
-  const { data } = GetBoard(board_id);
+  const { lists } = useLists(board_id || "");
+  const { data } = GetBoard(board_id || "");
 
   // Initialize real-time WebSocket connection for this board
-  const { presenceUsers, connectionStatus } = useBoardWebSocket(board_id);
+  const { presenceUsers, connectionStatus } = useBoardWebSocket(board_id || "");
 
   // Fetch due date analytics for overdue badge
-  const { data: dueDateAnalytics } = useDueDateAnalytics(board_id);
+  const { data: dueDateAnalytics } = useDueDateAnalytics(board_id || "");
 
   // Card filtering and sorting
   const {
@@ -55,6 +50,10 @@ const BoardView = () => {
     () => getFilterStats(allCards),
     [allCards, getFilterStats]
   );
+
+  if (!board_id) {
+    return <h1>error</h1>;
+  }
 
   if (!data) {
     return <h1>error</h1>;

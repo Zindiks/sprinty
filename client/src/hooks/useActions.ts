@@ -4,13 +4,11 @@ import { useStore } from "@/hooks/store/useStore";
 import { Action } from "@/types/actions";
 import {
   Home,
-  Plus,
   LayoutDashboard,
   Square,
   FileText,
   List as ListIcon,
   User,
-  Settings,
   Search,
   UserPlus,
   Tag,

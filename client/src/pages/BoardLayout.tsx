@@ -2,16 +2,17 @@ import BoardNavBar from "@/components/board/BoardNavBar";
 import { StaticSidebar } from "@/components/SidebarStatic";
 import { useBoard } from "@/hooks/useBoards";
 import { Outlet, useLocation, Navigate, useParams } from "react-router-dom";
+import { useStore } from "@/hooks/store/useStore";
 
 export default function BoardLayout() {
   const location = useLocation();
+  const { board_id } = useParams();
+  const { organization_id } = useStore();
+  const { GetBoard } = useBoard(organization_id);
 
   if (location.pathname === "/board") {
     return <Navigate to="/boards" replace />;
   }
-
-  const { board_id } = useParams();
-  const { GetBoard } = useBoard("b29e1e10-8273-48fc-8fd4-e433fb392c16");
 
   if (!board_id) {
     return <h1>error</h1>;
