@@ -4,8 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Board } from "@/types/types";
 import BoardTitleForm from "./BoardTitleForm";
 import { Button } from "@/components/ui/button";
-import { GlobalSearchDialog } from "@/components/search/GlobalSearchDialog";
-import { useState, useEffect } from "react";
+import { useSearchDialog } from "@/contexts/SearchContext";
 
 interface BoardNavBarProps {
   data: Board;
@@ -18,22 +17,9 @@ const BoardNavBar = ({ data }: BoardNavBarProps) => {
 
   const { deleteBoard } = useBoard(data.organization_id);
   const navigate = useNavigate();
-  const [searchOpen, setSearchOpen] = useState(false);
+  const { openSearch } = useSearchDialog();
 
   console.log(data);
-
-  // Keyboard shortcut for search (Cmd+K or Ctrl+K)
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
-        e.preventDefault();
-        setSearchOpen(true);
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, []);
 
   const handleDelete = (board_id: string) => {
     deleteBoard.mutate(board_id, {
@@ -51,7 +37,7 @@ const BoardNavBar = ({ data }: BoardNavBarProps) => {
         <Button
           variant="ghost"
           size="sm"
-          onClick={() => setSearchOpen(true)}
+          onClick={openSearch}
           className="text-white hover:bg-white/20"
         >
           <Search className="h-4 w-4 mr-2" />
@@ -63,8 +49,6 @@ const BoardNavBar = ({ data }: BoardNavBarProps) => {
         {/*TODO: Popover menu with additional info about board and so on*/}
         <TrashIcon onClick={() => handleDelete(data.id)} className="cursor-pointer" />
       </div>
-
-      <GlobalSearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
     </div>
   );
 };
