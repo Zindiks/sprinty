@@ -19,6 +19,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { DatePicker } from "@/components/ui/date-picker";
+import { useCards } from "@/hooks/useCards";
 import {
   Calendar,
   Flag,
@@ -41,7 +43,17 @@ export const CardDetailsModal = ({
   isOpen,
   onClose,
 }: CardDetailsModalProps) => {
+  const { updateCardDetails } = useCards();
+
   if (!card) return null;
+
+  const handleDueDateChange = (newDueDate: string | null) => {
+    updateCardDetails.mutate({
+      id: card.id,
+      list_id: card.list_id,
+      due_date: newDueDate,
+    });
+  };
 
   const getPriorityColor = (priority?: string) => {
     switch (priority) {
@@ -104,14 +116,21 @@ export const CardDetailsModal = ({
             </div>
           )}
 
+          {/* Due Date Section */}
+          <div>
+            <h3 className="text-sm font-semibold mb-2 flex items-center gap-2">
+              <Calendar className="w-4 h-4" />
+              Due Date
+            </h3>
+            <DatePicker
+              date={card.due_date}
+              onDateChange={handleDueDateChange}
+              placeholder="Set due date"
+            />
+          </div>
+
           {/* Metadata Row */}
           <div className="flex gap-4 text-sm text-muted-foreground">
-            {card.due_date && (
-              <div className="flex items-center gap-1">
-                <Calendar className="w-4 h-4" />
-                <span>{formatDate(card.due_date)}</span>
-              </div>
-            )}
             <div className="flex items-center gap-1">
               <Clock className="w-4 h-4" />
               <span>Created {formatDate(card.created_at)}</span>
