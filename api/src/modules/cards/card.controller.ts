@@ -35,6 +35,44 @@ export class CardController {
     }
   }
 
+  public async getCardWithAssigneesController(
+    request: FastifyRequest<{
+      Params: { id: string };
+    }>,
+    reply: FastifyReply,
+  ) {
+    const { id } = request.params;
+
+    try {
+      const card = await this.cardService.getCardWithAssignees(id);
+      if (!card) {
+        return reply.status(404).send({ message: "Card not found" });
+      }
+      return reply.status(200).send(card);
+    } catch (err) {
+      return reply.status(500).send(err);
+    }
+  }
+
+  public async getCardWithDetailsController(
+    request: FastifyRequest<{
+      Params: { id: string };
+    }>,
+    reply: FastifyReply,
+  ) {
+    const { id } = request.params;
+
+    try {
+      const card = await this.cardService.getCardWithDetails(id);
+      if (!card) {
+        return reply.status(404).send({ message: "Card not found" });
+      }
+      return reply.status(200).send(card);
+    } catch (err) {
+      return reply.status(500).send(err);
+    }
+  }
+
   public async getCardsByListIdController(
     request: FastifyRequest<{
       Params: { list_id: string };

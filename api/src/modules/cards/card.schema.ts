@@ -113,6 +113,94 @@ export class CardSchema {
       $id: "FullCardResponseSchemaArray",
     },
   );
+
+  static CardWithAssigneesResponseSchema = Type.Object(
+    {
+      id,
+      list_id,
+      title,
+      description,
+      status,
+      due_date,
+      priority,
+      order,
+      created_at,
+      updated_at,
+      assignees: Type.Array(
+        Type.Object({
+          id: Type.String({ format: "uuid" }),
+          card_id: Type.String({ format: "uuid" }),
+          user_id: Type.String({ format: "uuid" }),
+          assigned_at: Type.String({ format: "date-time" }),
+          assigned_by: Type.Optional(Type.String({ format: "uuid" })),
+          user: Type.Object({
+            id: Type.String({ format: "uuid" }),
+            email: Type.String(),
+            username: Type.Optional(Type.String()),
+          }),
+        }),
+      ),
+    },
+    { $id: "CardWithAssigneesResponseSchema" },
+  );
+
+  static CardWithDetailsResponseSchema = Type.Object(
+    {
+      id,
+      list_id,
+      title,
+      description,
+      status,
+      due_date,
+      priority,
+      order,
+      created_at,
+      updated_at,
+      assignees: Type.Array(
+        Type.Object({
+          id: Type.String({ format: "uuid" }),
+          card_id: Type.String({ format: "uuid" }),
+          user_id: Type.String({ format: "uuid" }),
+          assigned_at: Type.String({ format: "date-time" }),
+          assigned_by: Type.Optional(Type.String({ format: "uuid" })),
+          user: Type.Object({
+            id: Type.String({ format: "uuid" }),
+            email: Type.String(),
+            username: Type.Optional(Type.String()),
+          }),
+        }),
+      ),
+      labels: Type.Array(
+        Type.Object({
+          id: Type.String({ format: "uuid" }),
+          board_id: Type.String({ format: "uuid" }),
+          name: Type.String(),
+          color: Type.String(),
+          created_at: Type.String({ format: "date-time" }),
+          updated_at: Type.String({ format: "date-time" }),
+        }),
+      ),
+      checklist_items: Type.Array(
+        Type.Object({
+          id: Type.String({ format: "uuid" }),
+          card_id: Type.String({ format: "uuid" }),
+          title: Type.String(),
+          completed: Type.Boolean(),
+          order: Type.Number(),
+          completed_by: Type.Optional(Type.String({ format: "uuid" })),
+          completed_at: Type.Optional(Type.String({ format: "date-time" })),
+          created_at: Type.String({ format: "date-time" }),
+          updated_at: Type.String({ format: "date-time" }),
+        }),
+      ),
+      checklist_progress: Type.Object({
+        total: Type.Number(),
+        completed: Type.Number(),
+        percentage: Type.Number(),
+      }),
+    },
+    { $id: "CardWithDetailsResponseSchema" },
+  );
 }
 
 export type CreateCard = Static<typeof CardSchema.CreateCardSchema>;
@@ -128,3 +216,5 @@ export type FullCardResponse = Static<typeof CardSchema.FullCardResponseSchema>;
 export type FullCardResponseArray = Static<
   typeof CardSchema.FullCardResponseSchemaArray
 >;
+export type CardWithAssigneesResponse = Static<typeof CardSchema.CardWithAssigneesResponseSchema>;
+export type CardWithDetailsResponse = Static<typeof CardSchema.CardWithDetailsResponseSchema>;
