@@ -93,6 +93,36 @@ export interface Attachment {
   user: User;
 }
 
+export type ActivityActionType =
+  | "created"
+  | "updated"
+  | "moved"
+  | "archived"
+  | "assignee_added"
+  | "assignee_removed"
+  | "label_added"
+  | "label_removed"
+  | "comment_added"
+  | "attachment_added"
+  | "checklist_item_added"
+  | "checklist_item_completed"
+  | "due_date_set"
+  | "due_date_changed"
+  | "due_date_removed"
+  | "priority_changed"
+  | "description_changed"
+  | "title_changed";
+
+export interface Activity {
+  id: string;
+  card_id: string;
+  user_id: string;
+  action_type: ActivityActionType;
+  metadata: any;
+  created_at: string;
+  user: User;
+}
+
 export interface Card {
   id: string;
   list_id: string;
@@ -113,6 +143,7 @@ export interface CardWithDetails extends Card {
   checklist_progress: ChecklistProgress;
   comments: Comment[];
   attachments: Attachment[];
+  activities: Activity[];
 }
 
 export interface Profile {

@@ -38,6 +38,7 @@ const CardItem = ({ index, data }: CardItemProps) => {
         checklist_progress: { total: 0, completed: 0, percentage: 0 },
         comments: [],
         attachments: [],
+        activities: [],
       });
     } finally {
       setIsLoading(false);
