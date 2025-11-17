@@ -9,7 +9,6 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
-  CheckSquare,
   MessageSquare,
   Paperclip,
   Activity as ActivityIcon,
@@ -24,6 +23,7 @@ import { DueDatePicker } from "./widgets/DueDatePicker";
 import { CardActions } from "./widgets/CardActions";
 import { AssigneeSection } from "./sections/AssigneeSection";
 import { LabelSection } from "./sections/LabelSection";
+import { ChecklistSection } from "./sections/ChecklistSection";
 
 interface CardDetailsPanelProps {
   cardId: string | null;
@@ -197,64 +197,7 @@ export const CardDetailsPanel = ({
               <Separator />
 
               {/* Checklist Section */}
-              <div className="space-y-3">
-                <h3 className="text-sm font-semibold flex items-center gap-2">
-                  <CheckSquare className="w-4 h-4" />
-                  Checklist
-                  {cardDetails.checklist_progress &&
-                    cardDetails.checklist_progress.total > 0 && (
-                      <span className="text-xs text-muted-foreground">
-                        {cardDetails.checklist_progress.completed}/
-                        {cardDetails.checklist_progress.total}
-                      </span>
-                    )}
-                </h3>
-                {cardDetails.checklist_items &&
-                cardDetails.checklist_items.length > 0 ? (
-                  <div className="space-y-2">
-                    {/* Progress bar */}
-                    {cardDetails.checklist_progress && (
-                      <div className="w-full bg-secondary rounded-full h-2">
-                        <div
-                          className="bg-primary h-2 rounded-full transition-all"
-                          style={{
-                            width: `${cardDetails.checklist_progress.percentage}%`,
-                          }}
-                        />
-                      </div>
-                    )}
-                    {/* Checklist items */}
-                    <div className="space-y-2">
-                      {cardDetails.checklist_items.map((item) => (
-                        <div
-                          key={item.id}
-                          className="flex items-center gap-2 text-sm"
-                        >
-                          <input
-                            type="checkbox"
-                            checked={item.completed}
-                            readOnly
-                            className="rounded"
-                          />
-                          <span
-                            className={
-                              item.completed
-                                ? "line-through text-muted-foreground"
-                                : ""
-                            }
-                          >
-                            {item.title}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <p className="text-sm text-muted-foreground italic">
-                    No checklist items yet
-                  </p>
-                )}
-              </div>
+              <ChecklistSection cardId={cardDetails.id} />
 
               <Separator />
 
