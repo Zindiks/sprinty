@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import type { CardWithDetails } from "@/types/types";
 import {
   Sheet,
@@ -6,11 +6,7 @@ import {
   SheetHeader,
 } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Activity as ActivityIcon,
-} from "lucide-react";
 import { useCardDetails } from "@/hooks/useCardDetails";
 import { useStore } from "@/hooks/store/useStore";
 import { EditableTitle } from "./widgets/EditableTitle";
@@ -24,6 +20,11 @@ import { LabelSection } from "./sections/LabelSection";
 import { ChecklistSection } from "./sections/ChecklistSection";
 import { CommentSection } from "./sections/CommentSection";
 import { AttachmentSection } from "./sections/AttachmentSection";
+import { ActivitySection } from "./sections/ActivitySection";
+import {
+  KeyboardShortcutsDialog,
+  useKeyboardShortcuts,
+} from "./widgets/KeyboardShortcutsDialog";
 
 interface CardDetailsPanelProps {
   cardId: string | null;
@@ -38,12 +39,58 @@ export const CardDetailsPanel = ({
 }: CardDetailsPanelProps) => {
   const { cardDetails, isLoading, updateDetails, deleteCard } = useCardDetails(cardId || undefined);
   const { board_id } = useStore();
+  const { showDialog, setShowDialog } = useKeyboardShortcuts();
 
-  // Handle Escape key
+  // Refs for keyboard navigation
+  const titleRef = useRef<HTMLDivElement>(null);
+  const descriptionRef = useRef<HTMLDivElement>(null);
+  const commentSectionRef = useRef<HTMLDivElement>(null);
+  const assigneeSectionRef = useRef<HTMLDivElement>(null);
+  const labelSectionRef = useRef<HTMLDivElement>(null);
+
+  // Handle keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Ignore if typing in input/textarea
+      const target = e.target as HTMLElement;
+      const isEditing =
+        target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        target.isContentEditable;
+
+      // Always handle Escape
       if (e.key === "Escape" && isOpen) {
         onClose();
+        return;
+      }
+
+      // Skip other shortcuts if editing
+      if (isEditing) return;
+
+      // Card-specific shortcuts
+      if (isOpen && cardDetails) {
+        switch (e.key.toLowerCase()) {
+          case "t":
+            e.preventDefault();
+            titleRef.current?.querySelector("button")?.click();
+            break;
+          case "d":
+            e.preventDefault();
+            descriptionRef.current?.querySelector("button")?.click();
+            break;
+          case "c":
+            e.preventDefault();
+            commentSectionRef.current?.querySelector("textarea")?.focus();
+            break;
+          case "a":
+            e.preventDefault();
+            assigneeSectionRef.current?.querySelector("button")?.click();
+            break;
+          case "l":
+            e.preventDefault();
+            labelSectionRef.current?.querySelector("button")?.click();
+            break;
+        }
       }
     };
 
@@ -54,32 +101,7 @@ export const CardDetailsPanel = ({
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen, onClose]);
-
-  const getPriorityColor = (priority?: string) => {
-    switch (priority) {
-      case "critical":
-        return "destructive";
-      case "high":
-        return "destructive";
-      case "medium":
-        return "default";
-      case "low":
-        return "secondary";
-      default:
-        return "outline";
-    }
-  };
-
-  const formatDate = (dateString?: string) => {
-    if (!dateString) return null;
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    });
-  };
+  }, [isOpen, onClose, cardDetails]);
 
   // Handler functions
   const handleUpdateTitle = (title: string) => {
@@ -134,7 +156,7 @@ export const CardDetailsPanel = ({
           <div className="flex flex-col h-full">
             {/* Header */}
             <SheetHeader className="p-6 pb-4">
-              <div className="flex items-start justify-between pr-8">
+              <div className="flex items-start justify-between pr-8" ref={titleRef}>
                 <EditableTitle
                   value={cardDetails.title}
                   onChange={handleUpdateTitle}
@@ -175,7 +197,7 @@ export const CardDetailsPanel = ({
               <Separator />
 
               {/* Description Section */}
-              <div className="space-y-3">
+              <div className="space-y-3" ref={descriptionRef}>
                 <h3 className="text-sm font-semibold">Description</h3>
                 <EditableDescription
                   value={cardDetails.description}
@@ -187,12 +209,16 @@ export const CardDetailsPanel = ({
               <Separator />
 
               {/* Assignees Section */}
-              <AssigneeSection cardId={cardDetails.id} />
+              <div ref={assigneeSectionRef}>
+                <AssigneeSection cardId={cardDetails.id} />
+              </div>
 
               <Separator />
 
               {/* Labels Section */}
-              <LabelSection cardId={cardDetails.id} boardId={board_id} />
+              <div ref={labelSectionRef}>
+                <LabelSection cardId={cardDetails.id} boardId={board_id} />
+              </div>
 
               <Separator />
 
@@ -202,7 +228,9 @@ export const CardDetailsPanel = ({
               <Separator />
 
               {/* Comments Section */}
-              <CommentSection cardId={cardDetails.id} />
+              <div ref={commentSectionRef}>
+                <CommentSection cardId={cardDetails.id} />
+              </div>
 
               <Separator />
 
@@ -212,43 +240,7 @@ export const CardDetailsPanel = ({
               <Separator />
 
               {/* Activity Section */}
-              <div className="space-y-3">
-                <h3 className="text-sm font-semibold flex items-center gap-2">
-                  <ActivityIcon className="w-4 h-4" />
-                  Activity
-                  {cardDetails.activities && cardDetails.activities.length > 0 && (
-                    <span className="text-xs text-muted-foreground">
-                      ({cardDetails.activities.length})
-                    </span>
-                  )}
-                </h3>
-                {cardDetails.activities && cardDetails.activities.length > 0 ? (
-                  <div className="space-y-3">
-                    {cardDetails.activities.map((activity) => (
-                      <div key={activity.id} className="flex gap-3">
-                        <div className="flex-shrink-0 w-2 h-2 mt-2 rounded-full bg-primary" />
-                        <div className="flex-1">
-                          <p className="text-sm">
-                            <span className="font-medium">
-                              {activity.user.username || activity.user.email}
-                            </span>{" "}
-                            <span className="text-muted-foreground">
-                              {activity.action_type.replace(/_/g, " ")}
-                            </span>
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            {formatDate(activity.created_at)}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-sm text-muted-foreground italic">
-                    No activity yet
-                  </p>
-                )}
-              </div>
+              <ActivitySection cardId={cardDetails.id} />
             </div>
           </div>
         )}
@@ -259,6 +251,9 @@ export const CardDetailsPanel = ({
           </div>
         )}
       </SheetContent>
+
+      {/* Keyboard Shortcuts Dialog */}
+      <KeyboardShortcutsDialog open={showDialog} onOpenChange={setShowDialog} />
     </Sheet>
   );
 };
