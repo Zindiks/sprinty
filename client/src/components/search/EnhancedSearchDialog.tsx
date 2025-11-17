@@ -32,6 +32,7 @@ import {
   Clock,
   Globe,
   Layout,
+  MessageSquare,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -184,13 +185,15 @@ export function EnhancedSearchDialog({
       boards: activeTypes.has("board") ? data.results.boards : [],
       lists: activeTypes.has("list") ? data.results.lists : [],
       cards: activeTypes.has("card") ? data.results.cards : [],
+      comments: data.results.comments || [], // Always show comments if available
     };
 
   const hasResults =
     filteredResults &&
     (filteredResults.boards.length > 0 ||
       filteredResults.lists.length > 0 ||
-      filteredResults.cards.length > 0);
+      filteredResults.cards.length > 0 ||
+      filteredResults.comments.length > 0);
 
   const getIcon = (type: SearchType) => {
     switch (type) {
@@ -365,6 +368,39 @@ export function EnhancedSearchDialog({
                       </span>
                       <span className="text-xs text-muted-foreground truncate">
                         in {card.list_title} • {card.board_title}
+                      </span>
+                    </div>
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            )}
+
+            {filteredResults.comments.length > 0 && (
+              <CommandGroup heading="Comments">
+                {filteredResults.comments.map((comment) => (
+                  <CommandItem
+                    key={comment.id}
+                    value={`comment-${comment.id}`}
+                    onSelect={() =>
+                      handleSelect(
+                        "card",
+                        comment.card_id,
+                        comment.card_title,
+                        comment.board_id
+                      )
+                    }
+                    className="py-3 sm:py-2"
+                  >
+                    <MessageSquare className="mr-2 h-4 w-4 flex-shrink-0" />
+                    <div className="flex flex-col min-w-0 flex-1">
+                      <span className="text-xs text-muted-foreground mb-0.5">
+                        {comment.user_email} on {comment.card_title}
+                      </span>
+                      <span className="font-normal text-sm truncate">
+                        {highlightMatch(comment.content, debouncedQuery)}
+                      </span>
+                      <span className="text-xs text-muted-foreground truncate">
+                        in {comment.list_title} • {comment.board_title}
                       </span>
                     </div>
                   </CommandItem>
