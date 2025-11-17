@@ -198,6 +198,23 @@ export class CardSchema {
         completed: Type.Number(),
         percentage: Type.Number(),
       }),
+      comments: Type.Array(
+        Type.Object({
+          id: Type.String({ format: "uuid" }),
+          card_id: Type.String({ format: "uuid" }),
+          user_id: Type.String({ format: "uuid" }),
+          content: Type.String(),
+          parent_comment_id: Type.Optional(Type.String({ format: "uuid" })),
+          is_edited: Type.Boolean(),
+          created_at: Type.String({ format: "date-time" }),
+          updated_at: Type.String({ format: "date-time" }),
+          user: Type.Object({
+            id: Type.String({ format: "uuid" }),
+            email: Type.String(),
+            username: Type.Optional(Type.String()),
+          }),
+        }),
+      ),
     },
     { $id: "CardWithDetailsResponseSchema" },
   );

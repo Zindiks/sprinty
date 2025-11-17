@@ -107,6 +107,23 @@ export class CardRepository {
     const completed = checklistItems.filter((item) => item.completed).length;
     const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
 
+    // Get comments with user details
+    const comments = await this.knex("comments")
+      .where({ "comments.card_id": id })
+      .join("users", "comments.user_id", "users.id")
+      .leftJoin("profiles", "users.id", "profiles.user_id")
+      .select(
+        "comments.*",
+        this.knex.raw(`
+          json_build_object(
+            'id', users.id,
+            'email', users.email,
+            'username', profiles.username
+          ) as user
+        `),
+      )
+      .orderBy("comments.created_at", "asc");
+
     return {
       ...card,
       assignees: assignees || [],
@@ -117,6 +134,7 @@ export class CardRepository {
         completed,
         percentage,
       },
+      comments: comments || [],
     };
   }
 
