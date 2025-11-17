@@ -1,18 +1,22 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { useSelectionStore } from "./store/useSelectionStore";
+import axios from "axios";
+
+const API_HOST = import.meta.env.VITE_API_HOST;
+const API_PORT = import.meta.env.VITE_API_PORT;
+const API_VERSION = import.meta.env.VITE_API_VERSION;
+const API_URL = `${API_HOST}:${API_PORT}${API_VERSION}`;
 
 /**
  * Hook for bulk card operations
- * Phase 3: UI placeholders
- * Phase 4: Will implement actual API calls
+ * Phase 4: Real API integration
  */
 export const useBulkActions = () => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const { clearSelection } = useSelectionStore();
 
-  // Placeholder mutation - will be replaced with real API calls in Phase 4
   const bulkMoveCardsMutation = useMutation({
     mutationFn: async ({
       cardIds,
@@ -21,14 +25,16 @@ export const useBulkActions = () => {
       cardIds: string[];
       targetListId: string;
     }) => {
-      // TODO Phase 4: Implement API call
-      console.log("Moving cards:", cardIds, "to list:", targetListId);
-      return new Promise((resolve) => setTimeout(resolve, 500));
+      const response = await axios.post(`${API_URL}/cards/bulk/move`, {
+        card_ids: cardIds,
+        target_list_id: targetListId,
+      });
+      return response.data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["lists"] });
       toast({
-        description: "Cards moved successfully",
+        description: data.message || "Cards moved successfully",
       });
       clearSelection();
     },
@@ -48,14 +54,16 @@ export const useBulkActions = () => {
       cardIds: string[];
       userIds: string[];
     }) => {
-      // TODO Phase 4: Implement API call
-      console.log("Assigning users:", userIds, "to cards:", cardIds);
-      return new Promise((resolve) => setTimeout(resolve, 500));
+      const response = await axios.post(`${API_URL}/cards/bulk/assign`, {
+        card_ids: cardIds,
+        user_ids: userIds,
+      });
+      return response.data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["lists"] });
       toast({
-        description: "Users assigned successfully",
+        description: data.message || "Users assigned successfully",
       });
       clearSelection();
     },
@@ -75,14 +83,16 @@ export const useBulkActions = () => {
       cardIds: string[];
       labelIds: string[];
     }) => {
-      // TODO Phase 4: Implement API call
-      console.log("Adding labels:", labelIds, "to cards:", cardIds);
-      return new Promise((resolve) => setTimeout(resolve, 500));
+      const response = await axios.post(`${API_URL}/cards/bulk/labels`, {
+        card_ids: cardIds,
+        label_ids: labelIds,
+      });
+      return response.data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["lists"] });
       toast({
-        description: "Labels added successfully",
+        description: data.message || "Labels added successfully",
       });
       clearSelection();
     },
@@ -102,14 +112,16 @@ export const useBulkActions = () => {
       cardIds: string[];
       dueDate: string | null;
     }) => {
-      // TODO Phase 4: Implement API call
-      console.log("Setting due date:", dueDate, "on cards:", cardIds);
-      return new Promise((resolve) => setTimeout(resolve, 500));
+      const response = await axios.post(`${API_URL}/cards/bulk/due-date`, {
+        card_ids: cardIds,
+        due_date: dueDate,
+      });
+      return response.data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["lists"] });
       toast({
-        description: "Due date set successfully",
+        description: data.message || "Due date set successfully",
       });
       clearSelection();
     },
@@ -123,14 +135,15 @@ export const useBulkActions = () => {
 
   const bulkArchiveCardsMutation = useMutation({
     mutationFn: async ({ cardIds }: { cardIds: string[] }) => {
-      // TODO Phase 4: Implement API call
-      console.log("Archiving cards:", cardIds);
-      return new Promise((resolve) => setTimeout(resolve, 500));
+      const response = await axios.post(`${API_URL}/cards/bulk/archive`, {
+        card_ids: cardIds,
+      });
+      return response.data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["lists"] });
       toast({
-        description: "Cards archived successfully",
+        description: data.message || "Cards archived successfully",
       });
       clearSelection();
     },
@@ -144,14 +157,17 @@ export const useBulkActions = () => {
 
   const bulkDeleteCardsMutation = useMutation({
     mutationFn: async ({ cardIds }: { cardIds: string[] }) => {
-      // TODO Phase 4: Implement API call
-      console.log("Deleting cards:", cardIds);
-      return new Promise((resolve) => setTimeout(resolve, 500));
+      const response = await axios.delete(`${API_URL}/cards/bulk`, {
+        data: {
+          card_ids: cardIds,
+        },
+      });
+      return response.data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["lists"] });
       toast({
-        description: "Cards deleted successfully",
+        description: data.message || "Cards deleted successfully",
       });
       clearSelection();
     },
