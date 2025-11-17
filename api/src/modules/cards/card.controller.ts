@@ -3,6 +3,7 @@ import {
   CreateCard,
   UpdateCardOrderArray,
   UpdateCardTitle,
+  UpdateCardDetails,
   DeleteCard,
 } from "./card.schema";
 import { CardService } from "./card.service";
@@ -72,6 +73,22 @@ export class CardController {
 
     try {
       const card = await this.cardService.updateTitle(body);
+      return reply.status(200).send(card);
+    } catch (err) {
+      return reply.status(500).send(err);
+    }
+  }
+
+  public async updateCardDetailsController(
+    request: FastifyRequest<{
+      Body: UpdateCardDetails;
+    }>,
+    reply: FastifyReply,
+  ) {
+    const body = request.body;
+
+    try {
+      const card = await this.cardService.updateDetails(body);
       return reply.status(200).send(card);
     } catch (err) {
       return reply.status(500).send(err);

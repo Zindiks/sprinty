@@ -61,6 +61,21 @@ export default async function cardRoutes(fastify: FastifyInstance) {
     cardController.updateCardTitleController.bind(cardController),
   );
 
+  fastify.patch(
+    "/details",
+    {
+      schema: {
+        body: CardSchema.UpdateCardDetailsSchema,
+        response: {
+          200: CardSchema.FullCardResponseSchema,
+        },
+        tags: ["card"],
+        description: "Update card details (title, description, status, due_date, priority)",
+      },
+    },
+    cardController.updateCardDetailsController.bind(cardController),
+  );
+
   fastify.put(
     "/order",
     {
