@@ -3,6 +3,7 @@ import {
   CreateCard,
   UpdateCardOrderArray,
   UpdateCardTitle,
+  UpdateCardDetails,
   DeleteCard,
   FullCardResponse,
   FullCardResponseArray,
@@ -31,6 +32,12 @@ export class CardService {
     input: UpdateCardTitle,
   ): Promise<FullCardResponse | undefined> {
     return this.cardRepository.updateTitle(input);
+  }
+
+  async updateDetails(
+    input: UpdateCardDetails,
+  ): Promise<FullCardResponse | undefined> {
+    return this.cardRepository.updateDetails(input);
   }
 
   async updateOrder(input: UpdateCardOrderArray) {

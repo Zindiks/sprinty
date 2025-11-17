@@ -3,6 +3,7 @@ import {
   CreateCard,
   UpdateCardOrderArray,
   UpdateCardTitle,
+  UpdateCardDetails,
   DeleteCard,
   FullCardResponse,
   FullCardResponseArray,
@@ -32,7 +33,7 @@ export class CardRepository {
   }
 
   async create(input: CreateCard): Promise<FullCardResponse> {
-    const { list_id, title, description, status } = input;
+    const { list_id, title, description, status, due_date, priority } = input;
 
     const lastCard = await this.knex(table)
       .where({ list_id })
@@ -43,7 +44,15 @@ export class CardRepository {
     const order = lastCard ? lastCard.order + 1 : 0;
 
     const [card] = await this.knex(table)
-      .insert({ list_id, title, description, status, order })
+      .insert({
+        list_id,
+        title,
+        description,
+        status,
+        due_date,
+        priority: priority || "medium",
+        order
+      })
       .returning("*");
 
     return card;
@@ -55,7 +64,30 @@ export class CardRepository {
     const { id, list_id, title } = input;
 
     const [card] = await this.knex(table)
-      .update({ title })
+      .update({ title, updated_at: this.knex.fn.now() })
+      .where({ id, list_id })
+      .returning("*");
+
+    return card;
+  }
+
+  async updateDetails(
+    input: UpdateCardDetails,
+  ): Promise<FullCardResponse | undefined> {
+    const { id, list_id, ...updates } = input;
+
+    // Filter out undefined values
+    const updateData: Record<string, any> = {};
+    if (updates.title !== undefined) updateData.title = updates.title;
+    if (updates.description !== undefined) updateData.description = updates.description;
+    if (updates.status !== undefined) updateData.status = updates.status;
+    if (updates.due_date !== undefined) updateData.due_date = updates.due_date;
+    if (updates.priority !== undefined) updateData.priority = updates.priority;
+
+    updateData.updated_at = this.knex.fn.now();
+
+    const [card] = await this.knex(table)
+      .update(updateData)
       .where({ id, list_id })
       .returning("*");
 

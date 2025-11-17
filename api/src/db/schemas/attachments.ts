@@ -1,0 +1,25 @@
+import { Knex } from "knex";
+
+export const attachmentSchema = (knex: Knex) => {
+  return knex.schema.createTable("attachments", function (table) {
+    table.uuid("id").primary().defaultTo(knex.raw("gen_random_uuid()"));
+    table
+      .uuid("card_id")
+      .notNullable()
+      .references("id")
+      .inTable("cards")
+      .onDelete("CASCADE");
+    table.string("filename", 255).notNullable();
+    table.string("original_filename", 255).notNullable();
+    table.string("mime_type", 100).notNullable();
+    table.bigInteger("file_size").notNullable();
+    table.string("storage_path", 500).notNullable();
+    table
+      .uuid("uploaded_by")
+      .notNullable()
+      .references("id")
+      .inTable("users")
+      .onDelete("CASCADE");
+    table.timestamp("uploaded_at").defaultTo(knex.fn.now());
+  });
+};
