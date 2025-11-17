@@ -232,6 +232,21 @@ export class CardSchema {
           }),
         }),
       ),
+      activities: Type.Array(
+        Type.Object({
+          id: Type.String({ format: "uuid" }),
+          card_id: Type.String({ format: "uuid" }),
+          user_id: Type.String({ format: "uuid" }),
+          action_type: Type.String(),
+          metadata: Type.Any(),
+          created_at: Type.String({ format: "date-time" }),
+          user: Type.Object({
+            id: Type.String({ format: "uuid" }),
+            email: Type.String(),
+            username: Type.Optional(Type.String()),
+          }),
+        }),
+      ),
     },
     { $id: "CardWithDetailsResponseSchema" },
   );

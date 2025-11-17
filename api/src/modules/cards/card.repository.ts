@@ -148,6 +148,24 @@ export class CardRepository {
       )
       .orderBy("attachments.uploaded_at", "desc");
 
+    // Get activities with user details
+    const activities = await this.knex("card_activities")
+      .where({ "card_activities.card_id": id })
+      .join("users", "card_activities.user_id", "users.id")
+      .leftJoin("profiles", "users.id", "profiles.user_id")
+      .select(
+        "card_activities.*",
+        this.knex.raw(`
+          json_build_object(
+            'id', users.id,
+            'email', users.email,
+            'username', profiles.username
+          ) as user
+        `),
+      )
+      .orderBy("card_activities.created_at", "desc")
+      .limit(20);
+
     return {
       ...card,
       assignees: assignees || [],
@@ -160,6 +178,10 @@ export class CardRepository {
       },
       comments: comments || [],
       attachments: attachments || [],
+      activities: activities.map((activity) => ({
+        ...activity,
+        metadata: activity.metadata ? JSON.parse(activity.metadata) : null,
+      })) || [],
     };
   }
 
