@@ -49,20 +49,28 @@ export function DatePicker({
     const now = DateTime.now();
     return [
       {
-        label: "Today",
-        date: now.endOf("day").toJSDate(),
+        label: "Today 5PM",
+        date: now.set({ hour: 17, minute: 0, second: 0 }).toJSDate(),
       },
       {
-        label: "Tomorrow",
-        date: now.plus({ days: 1 }).endOf("day").toJSDate(),
+        label: "Tomorrow 5PM",
+        date: now.plus({ days: 1 }).set({ hour: 17, minute: 0, second: 0 }).toJSDate(),
       },
       {
-        label: "Next Week",
-        date: now.plus({ weeks: 1 }).endOf("day").toJSDate(),
+        label: "In 3 Days",
+        date: now.plus({ days: 3 }).set({ hour: 17, minute: 0, second: 0 }).toJSDate(),
       },
       {
-        label: "Next Month",
-        date: now.plus({ months: 1 }).endOf("day").toJSDate(),
+        label: "End of Week",
+        date: now.endOf("week").set({ hour: 17, minute: 0, second: 0 }).toJSDate(),
+      },
+      {
+        label: "Next Monday",
+        date: now.plus({ weeks: 1 }).startOf("week").set({ hour: 9, minute: 0, second: 0 }).toJSDate(),
+      },
+      {
+        label: "End of Month",
+        date: now.endOf("month").set({ hour: 17, minute: 0, second: 0 }).toJSDate(),
       },
     ];
   }, []);
@@ -141,16 +149,16 @@ export function DatePicker({
             <>
               <div className="space-y-2">
                 <Label className="text-xs font-medium text-muted-foreground">
-                  Quick Select
+                  Quick Presets
                 </Label>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-3 gap-2">
                   {quickPresets.map((preset) => (
                     <Button
                       key={preset.label}
                       variant="outline"
                       size="sm"
                       onClick={() => handleQuickPreset(preset.date)}
-                      className="h-8"
+                      className="h-8 text-xs"
                     >
                       {preset.label}
                     </Button>

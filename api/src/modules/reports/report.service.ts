@@ -190,4 +190,92 @@ export class ReportService {
 
     return this.generateCSV(activities, headers);
   }
+
+  /**
+   * Format date to iCalendar format (YYYYMMDDTHHMMSSZ)
+   */
+  private formatICalDate(date: Date): string {
+    return date
+      .toISOString()
+      .replace(/[-:]/g, "")
+      .replace(/\.\d{3}/, "");
+  }
+
+  /**
+   * Escape special characters for iCalendar format
+   */
+  private escapeICalText(text: string): string {
+    return text
+      .replace(/\\/g, "\\\\")
+      .replace(/;/g, "\\;")
+      .replace(/,/g, "\\,")
+      .replace(/\n/g, "\\n");
+  }
+
+  /**
+   * Generate board calendar export (.ics)
+   */
+  async generateBoardCalendar(boardId: string): Promise<string> {
+    const cards = await this.knex("cards")
+      .select(
+        "cards.id",
+        "cards.title",
+        "cards.description",
+        "cards.status",
+        "cards.priority",
+        "cards.due_date",
+        "cards.created_at",
+        "cards.updated_at",
+        "lists.title as list_title",
+        "boards.title as board_title"
+      )
+      .join("lists", "cards.list_id", "lists.id")
+      .join("boards", "lists.board_id", "boards.id")
+      .where("lists.board_id", boardId)
+      .whereNotNull("cards.due_date")
+      .orderBy("cards.due_date", "asc");
+
+    const now = new Date();
+    const icalLines = [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//Sprinty//Board Calendar Export//EN",
+      "CALSCALE:GREGORIAN",
+      "METHOD:PUBLISH",
+      `X-WR-CALNAME:${this.escapeICalText(cards[0]?.board_title || "Sprinty Board")}`,
+      "X-WR-TIMEZONE:UTC",
+    ];
+
+    for (const card of cards) {
+      const dueDate = new Date(card.due_date);
+      const description = card.description
+        ? `${this.escapeICalText(card.description)}\\n\\nList: ${this.escapeICalText(card.list_title)}\\nStatus: ${card.status || "N/A"}\\nPriority: ${card.priority || "N/A"}`
+        : `List: ${this.escapeICalText(card.list_title)}\\nStatus: ${card.status || "N/A"}\\nPriority: ${card.priority || "N/A"}`;
+
+      icalLines.push("BEGIN:VEVENT");
+      icalLines.push(`UID:${card.id}@sprinty.app`);
+      icalLines.push(`DTSTAMP:${this.formatICalDate(now)}`);
+      icalLines.push(`DTSTART:${this.formatICalDate(dueDate)}`);
+      icalLines.push(`DTEND:${this.formatICalDate(dueDate)}`);
+      icalLines.push(`SUMMARY:${this.escapeICalText(card.title)}`);
+      icalLines.push(`DESCRIPTION:${description}`);
+      icalLines.push(`LOCATION:${this.escapeICalText(card.list_title)}`);
+      icalLines.push(`CREATED:${this.formatICalDate(new Date(card.created_at))}`);
+      icalLines.push(`LAST-MODIFIED:${this.formatICalDate(new Date(card.updated_at))}`);
+
+      // Set priority based on card priority
+      const icalPriority = card.priority === "critical" ? "1" : card.priority === "high" ? "3" : card.priority === "medium" ? "5" : "9";
+      icalLines.push(`PRIORITY:${icalPriority}`);
+
+      // Set status
+      const icalStatus = card.status === "completed" ? "COMPLETED" : "CONFIRMED";
+      icalLines.push(`STATUS:${icalStatus}`);
+
+      icalLines.push("END:VEVENT");
+    }
+
+    icalLines.push("END:VCALENDAR");
+
+    return icalLines.join("\r\n");
+  }
 }

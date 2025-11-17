@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Calendar, AlertCircle } from "lucide-react";
 import { useDueDateAnalytics } from "@/hooks/useAnalytics";
 import { Badge } from "@/components/ui/badge";
+import { KeyboardShortcutsHelp } from "@/components/board/KeyboardShortcutsHelp";
 
 const BoardView = () => {
   const { board_id } = useParams();
@@ -90,6 +91,7 @@ const BoardView = () => {
                 {dueDateAnalytics.summary.overdue} Overdue
               </Badge>
             )}
+            <KeyboardShortcutsHelp />
             <Button
               variant="outline"
               onClick={() => navigate(`/board/${board_id}/calendar`)}

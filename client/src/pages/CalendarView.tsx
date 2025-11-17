@@ -6,7 +6,7 @@ import { useLists } from "@/hooks/useLists";
 import { useCards } from "@/hooks/useCards";
 import { CardDetailsModal } from "@/components/card/CardDetailsModal";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Calendar, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, Calendar, ChevronLeft, ChevronRight, Download } from "lucide-react";
 import { parseISOToDate, toISOString, getDueDateStatus } from "@/lib/dateUtils";
 import { luxonLocalizer } from "@/lib/calendarLocalizer";
 import axios from "axios";
@@ -138,6 +138,16 @@ const CalendarView = () => {
     };
   }, []);
 
+  // Handle calendar export
+  const handleExportCalendar = () => {
+    if (!board_id) return;
+    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+    window.open(
+      `${API_URL}/api/v1/reports/board/${board_id}/calendar`,
+      "_blank"
+    );
+  };
+
   // Custom toolbar for navigation
   const CustomToolbar = ({ label, onNavigate, onView }: any) => {
     return (
@@ -147,6 +157,15 @@ const CalendarView = () => {
             <Button variant="outline" size="sm" onClick={() => navigate(`/board/${board_id}`)}>
               <ArrowLeft className="h-4 w-4 mr-1" />
               Back to Board
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleExportCalendar}
+              className="gap-2"
+            >
+              <Download className="h-4 w-4" />
+              Export (.ics)
             </Button>
           </div>
 
