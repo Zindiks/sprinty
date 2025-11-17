@@ -96,10 +96,27 @@ export class CardRepository {
       .select("labels.*")
       .orderBy("labels.name", "asc");
 
+    // Get checklist items
+    const checklistItems = await this.knex("checklist_items")
+      .where({ card_id: id })
+      .orderBy("order", "asc")
+      .select("*");
+
+    // Calculate checklist progress
+    const total = checklistItems.length;
+    const completed = checklistItems.filter((item) => item.completed).length;
+    const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+
     return {
       ...card,
       assignees: assignees || [],
       labels: labels || [],
+      checklist_items: checklistItems || [],
+      checklist_progress: {
+        total,
+        completed,
+        percentage,
+      },
     };
   }
 

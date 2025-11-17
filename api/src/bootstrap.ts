@@ -18,6 +18,7 @@ import listRoutes from "./modules/lists/list.route";
 import cardRoutes from "./modules/cards/card.route";
 import assigneeRoutes from "./modules/assignees/assignee.route";
 import labelRoutes from "./modules/labels/label.route";
+import checklistRoutes from "./modules/checklists/checklist.route";
 
 import { OrganizationSchema } from "./modules/organizations/organization.schema";
 import { BoardSchema } from "./modules/boards/board.schema";
@@ -25,6 +26,7 @@ import { ListSchema } from "./modules/lists/list.schema";
 import { CardSchema } from "./modules/cards/card.schema";
 import { AssigneeSchema } from "./modules/assignees/assignee.schema";
 import { LabelSchema } from "./modules/labels/label.schema";
+import { ChecklistSchema } from "./modules/checklists/checklist.schema";
 
 import { swaggerDocs } from "./swagger";
 import { options } from "./configs/config";
@@ -70,6 +72,10 @@ async function addSchemas(server: FastifyInstance) {
   for (const schema of Object.values(LabelSchema)) {
     server.addSchema(schema);
   }
+
+  for (const schema of Object.values(ChecklistSchema)) {
+    server.addSchema(schema);
+  }
 }
 
 async function registerRoutes(server: FastifyInstance) {
@@ -84,6 +90,7 @@ async function registerRoutes(server: FastifyInstance) {
           v1.register(cardRoutes, { prefix: "/cards" });
           v1.register(assigneeRoutes, { prefix: "/assignees" });
           v1.register(labelRoutes, { prefix: "/labels" });
+          v1.register(checklistRoutes, { prefix: "/checklists" });
         },
         { prefix: "/v1" },
       );
