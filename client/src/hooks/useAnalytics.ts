@@ -7,7 +7,11 @@ import {
   MonthlyMetrics,
 } from "../types/types";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+const API_HOST = import.meta.env.VITE_API_HOST;
+const API_PORT = import.meta.env.VITE_API_PORT;
+const API_VERSION = import.meta.env.VITE_API_VERSION;
+
+const API_URL = `${API_HOST}:${API_PORT}${API_VERSION}`;
 
 export interface PersonalStats {
   assignedCards: number;

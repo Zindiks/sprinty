@@ -136,7 +136,12 @@ const ListContainer = ({ data, board_id, filterAndSortCards }: ListContainerProp
         console.log(sourceList.cards);
         console.log(destList.cards);
 
-        updateCardsOrder.mutate([destList.cards, sourceList.id]);
+        // Send all affected cards (both source and destination lists)
+        const allAffectedCards = [
+          ...sourceList.cards,
+          ...destList.cards
+        ];
+        updateCardsOrder.mutate([allAffectedCards, sourceList.id]);
       }
     }
   };

@@ -112,14 +112,15 @@ export const useCards = () => {
         headers: {
           "Content-Type": "application/json",
         },
+        withCredentials: true,
       });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["list"],
+        queryKey: ["lists"],
       });
       toast({
-        description: `lists succesfully reordered`,
+        description: `Cards successfully reordered`,
         duration: 1000,
       });
     },

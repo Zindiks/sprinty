@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,6 +13,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
+import { useStore } from "@/hooks/store/useStore";
 
 export function CreateOrganizationModal() {
   const [open, setOpen] = useState(false);
@@ -19,23 +21,41 @@ export function CreateOrganizationModal() {
   const [description, setDescription] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
+  const setOrganizationId = useStore(state => state.setOrganizationId);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      await axios.post("http://localhost:4000/api/v1/organizations/", {
+      const response = await axios.post("http://localhost:4000/api/v1/organizations/", {
         name,
         description,
+      }, {
+        withCredentials: true,
       });
+
+      const newOrganization = response.data;
+
       toast({
         title: "Success",
         description: "Organization created successfully",
       });
+
+      // Auto-select the newly created organization
+      if (newOrganization && newOrganization.id) {
+        localStorage.setItem("organization_id", newOrganization.id);
+        setOrganizationId(newOrganization.id);
+      }
+
+      // Close modal and reset form
       setOpen(false);
       setName("");
       setDescription("");
+
+      // Navigate to boards page
+      navigate('/boards');
     } catch (error) {
       toast({
         title: "Error",

@@ -98,6 +98,10 @@ export const luxonLocalizer = (): DateLocalizer => {
       return DateTime.fromJSDate(a).equals(DateTime.fromJSDate(b));
     },
 
+    neq: (a: Date, b: Date) => {
+      return !DateTime.fromJSDate(a).equals(DateTime.fromJSDate(b));
+    },
+
     gt: (a: Date, b: Date) => {
       return DateTime.fromJSDate(a) > DateTime.fromJSDate(b);
     },
