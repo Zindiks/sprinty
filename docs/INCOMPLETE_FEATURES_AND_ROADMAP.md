@@ -1,0 +1,670 @@
+# Incomplete Features & Project Roadmap
+
+> **Last Updated:** 2025-11-15
+> **Status:** Active Development
+
+This document tracks incomplete features, known TODOs, and provides a comprehensive roadmap for future development of Sprinty.
+
+---
+
+## Table of Contents
+
+1. [Incomplete Features](#incomplete-features)
+2. [Code TODOs](#code-todos)
+3. [Missing Core Features](#missing-core-features)
+4. [Infrastructure Gaps](#infrastructure-gaps)
+5. [Recommended Roadmap](#recommended-roadmap)
+6. [Priority Matrix](#priority-matrix)
+
+---
+
+## Incomplete Features
+
+### 1. Card Task Details (Partially Implemented)
+
+**Current State:** Basic card schema exists with title, description, and status.
+
+**Missing from FEATURES.md Promise:**
+- ❌ Due dates
+- ❌ Task assignees
+- ❌ Priority levels
+- ❌ Labels/tags
+- ❌ Checklists within cards
+- ❌ File attachments
+- ❌ Comments/discussions
+- ❌ Activity history
+
+**Impact:** High - Core functionality mentioned in project features
+
+---
+
+### 2. User Profiles Management
+
+**Current State:**
+- ✅ Database tables exist (`profiles`, `user_organization`)
+- ✅ OAuth creates profiles
+- ❌ No dedicated CRUD API module for profiles
+- ❌ No UI for editing user profiles
+
+**Missing:**
+- Profile update endpoints
+- Avatar upload functionality
+- User settings page
+- Profile viewing
+
+**Files:**
+- `api/src/db/schemas/profiles.ts` (schema exists)
+- `api/src/db/migrations/20250112221006_create_profiles_table.ts` (migration exists)
+- **Missing:** `api/src/modules/profiles/` (entire module)
+
+---
+
+### 3. Role-Based Access Control (RBAC)
+
+**Current State:**
+- ✅ Database table exists (`user_organization` with role enum: ADMIN, MEMBER, GUEST)
+- ❌ No API endpoints for managing user roles
+- ❌ No middleware for role-based authorization
+- ❌ No UI for inviting users or managing permissions
+
+**Missing:**
+- User invitation system
+- Role assignment/modification endpoints
+- Permission middleware
+- Organization member management UI
+
+**Files:**
+- `api/src/db/schemas/user-organization.ts` (schema exists)
+- `api/src/db/migrations/20250112221021_create_user_organization_table.ts` (migration exists)
+- **Missing:** Authorization middleware, invitation system
+
+---
+
+### 4. AWS Deployment
+
+**Current State:**
+- ❌ Not implemented (mentioned in README as future plan)
+
+**Missing:**
+- AWS infrastructure as code (Terraform/CloudFormation)
+- Deployment scripts
+- Production environment configuration
+- Database hosting setup (RDS)
+- CDN configuration (CloudFront)
+- CI/CD pipeline for deployment
+
+---
+
+## Code TODOs
+
+### High Priority TODOs
+
+| File | Line | TODO | Status |
+|------|------|------|--------|
+| `api/src/swagger.ts` | 12 | Change hardcoded URL to env variable | 🔴 Open |
+| `client/src/hooks/useLists.ts` | 154 | Replace temporary `Type any` | 🟡 Tech Debt |
+| `client/src/components/list/ListOptions.tsx` | 18 | Remove unnecessary forms, use props | 🟡 Refactor |
+| `client/src/components/board/BoardTitleForm.tsx` | 24 | Auto-focus input on edit | 🟢 Enhancement |
+| `client/src/components/board/BoardNavBar.tsx` | 33 | Add popover menu with board info | 🟢 Enhancement |
+
+### Medium Priority TODOs
+
+| File | Line | TODO | Notes |
+|------|------|------|-------|
+| `client/src/components/list/ListContainer.tsx` | 56, 105, 132 | "Trigger API" comments | Appears to be already implemented but comments remain |
+
+**Action:** Verify implementation and remove outdated TODO comments.
+
+---
+
+## Missing Core Features
+
+### 1. Search & Filtering
+
+**Description:** No search functionality exists for boards, lists, or cards.
+
+**Proposed Features:**
+- Global search across all boards
+- Filter cards by status, due date, assignee
+- Search within a specific board
+- Advanced filters (date ranges, tags, etc.)
+
+**Implementation:**
+- Backend: Add search endpoints with query parameters
+- Frontend: Search bar component with debounced input
+- Database: Add full-text search indexes
+
+**Estimated Effort:** Medium (2-3 weeks)
+
+---
+
+### 2. Real-Time Collaboration
+
+**Description:** Changes don't update in real-time for multiple users.
+
+**Proposed Features:**
+- WebSocket connection for live updates
+- Real-time card movements visible to all users
+- Presence indicators (who's viewing/editing)
+- Optimistic UI updates with conflict resolution
+
+**Implementation:**
+- Add Socket.io or native WebSockets
+- Event-driven architecture for board changes
+- Frontend state synchronization
+
+**Estimated Effort:** High (4-6 weeks)
+
+---
+
+### 3. Notifications System
+
+**Description:** No notification system for task updates, assignments, mentions.
+
+**Proposed Features:**
+- In-app notifications
+- Email notifications (optional)
+- Notification preferences
+- Mentions in comments (@user)
+- Due date reminders
+
+**Implementation:**
+- Notification service module
+- WebSocket for real-time delivery
+- Email service integration (SendGrid/SES)
+- Notification preferences API
+
+**Estimated Effort:** Medium (3-4 weeks)
+
+---
+
+### 4. Activity Log & Audit Trail
+
+**Description:** No history of who made what changes.
+
+**Proposed Features:**
+- Card activity timeline
+- Board change history
+- User action logging
+- Rollback/undo capabilities (nice-to-have)
+
+**Implementation:**
+- Activity log table in database
+- Middleware to log all mutations
+- Activity feed UI component
+- Filter/search activity logs
+
+**Estimated Effort:** Medium (2-3 weeks)
+
+---
+
+### 5. Advanced Card Features
+
+#### 5.1 Due Dates & Reminders
+- Add `due_date` column to cards table
+- Calendar view for cards
+- Overdue indicators
+- Reminder notifications
+
+#### 5.2 Labels & Tags
+- New `labels` table (many-to-many with cards)
+- Color-coded labels
+- Label filtering
+- Custom label creation
+
+#### 5.3 Checklists
+- New `checklist_items` table
+- Progress indicators (3/5 items completed)
+- Nested checklists
+
+#### 5.4 File Attachments
+- File upload service (S3 integration)
+- `attachments` table
+- File preview
+- Size limits and validation
+
+#### 5.5 Comments & Discussions
+- New `comments` table
+- Threaded discussions
+- Mentions support
+- Rich text editor
+
+**Estimated Effort (All):** High (6-8 weeks)
+
+---
+
+### 6. Dashboard & Analytics
+
+**Description:** No overview or analytics for task management.
+
+**Proposed Features:**
+- Personal dashboard showing assigned tasks
+- Board statistics (cards by status, completion rate)
+- Time tracking
+- Burndown charts for sprints
+- Export reports (PDF/CSV)
+
+**Implementation:**
+- Analytics service
+- Data aggregation queries
+- Chart libraries (Chart.js, Recharts)
+- Report generation service
+
+**Estimated Effort:** Medium-High (4-5 weeks)
+
+---
+
+### 7. Templates & Automation
+
+**Description:** No board templates or workflow automation.
+
+**Proposed Features:**
+- Board templates (Kanban, Scrum, etc.)
+- List templates
+- Automation rules (move card when status changes)
+- Recurring tasks
+- Card templates
+
+**Implementation:**
+- Templates table
+- Automation engine
+- Rule builder UI
+- Scheduled task runner
+
+**Estimated Effort:** High (5-7 weeks)
+
+---
+
+### 8. Mobile Responsiveness & PWA
+
+**Description:** No Progressive Web App support or mobile optimization.
+
+**Proposed Features:**
+- Mobile-responsive design improvements
+- PWA manifest and service workers
+- Offline support
+- Install as mobile app
+- Push notifications
+
+**Implementation:**
+- Responsive design audit and fixes
+- Service worker implementation
+- IndexedDB for offline storage
+- Push notification API
+
+**Estimated Effort:** Medium (3-4 weeks)
+
+---
+
+## Infrastructure Gaps
+
+### 1. Testing Coverage
+
+**Current State:**
+- ✅ Backend unit tests (Jest)
+- ❌ Frontend tests
+- ❌ Integration tests
+- ❌ E2E tests
+- ❌ Load/performance tests
+
+**Recommendations:**
+- Add React Testing Library + Vitest for frontend
+- Add Playwright/Cypress for E2E tests
+- Add k6 or Artillery for load testing
+- Set up test coverage reporting
+- Add pre-commit hooks for test runs
+
+**Estimated Effort:** Medium (3-4 weeks)
+
+---
+
+### 2. CI/CD Enhancements
+
+**Current State:**
+- ✅ GitHub Actions for API tests
+- ✅ CodeQL security scanning
+- ❌ Frontend tests in CI
+- ❌ Automated deployments
+- ❌ Staging environment
+
+**Recommendations:**
+- Add frontend test workflow
+- Add build and deploy workflows
+- Set up staging environment
+- Automated database migrations
+- Blue-green or canary deployments
+
+**Estimated Effort:** Medium (2-3 weeks)
+
+---
+
+### 3. Security Enhancements
+
+**Missing Security Features:**
+- Rate limiting (API endpoints unprotected)
+- Request validation middleware
+- CSRF protection
+- Content Security Policy headers
+- API key authentication (for integrations)
+- Two-factor authentication (2FA)
+- Session timeout and refresh
+- Audit logging
+
+**Recommendations:**
+- Add `@fastify/rate-limit`
+- Implement helmet.js for security headers
+- Add request size limits
+- Implement 2FA via TOTP
+- Add security headers middleware
+
+**Estimated Effort:** Medium (3-4 weeks)
+
+---
+
+### 4. Performance & Scalability
+
+**Current Gaps:**
+- No caching strategy (Redis exists but underutilized)
+- No database query optimization analysis
+- No CDN for static assets
+- No horizontal scaling strategy
+- No database connection pooling config
+
+**Recommendations:**
+- Implement Redis caching for frequently accessed data
+- Add database query performance monitoring
+- Set up CDN (CloudFront/Cloudflare)
+- Add database read replicas
+- Implement proper connection pooling
+- Add application metrics beyond Prometheus basics
+
+**Estimated Effort:** Medium-High (4-5 weeks)
+
+---
+
+### 5. Observability & Monitoring
+
+**Current State:**
+- ✅ Prometheus metrics endpoint
+- ✅ Grafana dashboards
+- ❌ Application logging aggregation
+- ❌ Error tracking (Sentry/Rollbar)
+- ❌ APM (Application Performance Monitoring)
+- ❌ Distributed tracing
+
+**Recommendations:**
+- Add ELK Stack or Loki for log aggregation
+- Integrate Sentry for error tracking
+- Add APM solution (New Relic/Datadog)
+- Implement OpenTelemetry for tracing
+- Set up alerting rules
+
+**Estimated Effort:** Medium (3-4 weeks)
+
+---
+
+### 6. Documentation
+
+**Current State:**
+- ✅ Basic README
+- ✅ Swagger API docs
+- ✅ Installation guide
+- ❌ Architecture documentation
+- ❌ API usage examples
+- ❌ Contributing guidelines (minimal)
+- ❌ Deployment guide
+- ❌ Changelog
+
+**Recommendations:**
+- Create ARCHITECTURE.md
+- Add API_GUIDE.md with examples
+- Expand CONTRIBUTING.md
+- Create DEPLOYMENT.md
+- Add CHANGELOG.md
+- Document environment variables comprehensively
+- Add troubleshooting guide
+
+**Estimated Effort:** Low-Medium (1-2 weeks)
+
+---
+
+## Recommended Roadmap
+
+### Phase 1: Foundation & Stability (Months 1-2)
+
+**Goal:** Fix existing TODOs, improve test coverage, enhance security.
+
+#### Sprint 1 (Weeks 1-2)
+- [ ] Fix all code TODOs
+- [ ] Add frontend test suite (React Testing Library)
+- [ ] Implement rate limiting
+- [ ] Add security headers middleware
+- [ ] Improve error handling and validation
+
+#### Sprint 2 (Weeks 3-4)
+- [ ] Add E2E tests (Playwright/Cypress)
+- [ ] Implement comprehensive logging
+- [ ] Add error tracking (Sentry)
+- [ ] Create missing documentation
+- [ ] Set up staging environment
+
+**Deliverables:**
+- 80%+ test coverage
+- Security hardened application
+- Complete documentation
+- Staging environment operational
+
+---
+
+### Phase 2: Core Features Enhancement (Months 3-4)
+
+**Goal:** Complete card management features and user profile system.
+
+#### Sprint 3 (Weeks 5-6)
+- [ ] Add due dates to cards
+- [ ] Implement labels/tags system
+- [ ] Create user profile CRUD API
+- [ ] Build user settings UI
+- [ ] Add card comments system
+
+#### Sprint 4 (Weeks 7-8)
+- [ ] Implement checklists
+- [ ] Add file attachments with S3
+- [ ] Create activity log system
+- [ ] Build notification system foundation
+- [ ] Add search functionality
+
+**Deliverables:**
+- Full-featured card management
+- User profile management
+- Activity tracking
+- Basic search
+
+---
+
+### Phase 3: Collaboration & RBAC (Months 5-6)
+
+**Goal:** Enable team collaboration with proper access controls.
+
+#### Sprint 5 (Weeks 9-10)
+- [ ] Build user invitation system
+- [ ] Implement RBAC middleware
+- [ ] Create organization member management UI
+- [ ] Add role-based permissions
+- [ ] Implement team dashboard
+
+#### Sprint 6 (Weeks 11-12)
+- [ ] Add real-time updates (WebSocket)
+- [ ] Implement presence indicators
+- [ ] Build notification delivery system
+- [ ] Add @mentions in comments
+- [ ] Create notification preferences
+
+**Deliverables:**
+- Multi-user collaboration
+- Real-time updates
+- Complete RBAC system
+- Notification system
+
+---
+
+### Phase 4: Analytics & Automation (Months 7-8)
+
+**Goal:** Add productivity features and insights.
+
+#### Sprint 7 (Weeks 13-14)
+- [ ] Build personal dashboard
+- [ ] Add board analytics
+- [ ] Implement time tracking
+- [ ] Create report generation
+- [ ] Add calendar view
+
+#### Sprint 8 (Weeks 15-16)
+- [ ] Build board templates
+- [ ] Implement automation rules
+- [ ] Add recurring tasks
+- [ ] Create workflow builder UI
+- [ ] Add advanced filtering
+
+**Deliverables:**
+- Analytics dashboard
+- Board templates
+- Workflow automation
+- Advanced filtering
+
+---
+
+### Phase 5: Mobile & Performance (Months 9-10)
+
+**Goal:** Optimize for mobile and improve performance.
+
+#### Sprint 9 (Weeks 17-18)
+- [ ] Mobile UI/UX improvements
+- [ ] Implement PWA features
+- [ ] Add offline support
+- [ ] Optimize database queries
+- [ ] Implement comprehensive caching
+
+#### Sprint 10 (Weeks 19-20)
+- [ ] Add push notifications
+- [ ] Implement lazy loading
+- [ ] Optimize bundle size
+- [ ] Add performance monitoring
+- [ ] Load testing and optimization
+
+**Deliverables:**
+- Mobile-optimized application
+- PWA with offline support
+- Performance improvements (50%+ faster)
+- Push notifications
+
+---
+
+### Phase 6: Production Deployment (Months 11-12)
+
+**Goal:** Deploy to AWS with full production infrastructure.
+
+#### Sprint 11 (Weeks 21-22)
+- [ ] Set up AWS infrastructure (Terraform)
+- [ ] Configure RDS PostgreSQL
+- [ ] Set up ElastiCache (Redis)
+- [ ] Configure S3 for file storage
+- [ ] Set up CloudFront CDN
+
+#### Sprint 12 (Weeks 23-24)
+- [ ] Implement CI/CD for AWS
+- [ ] Set up database backups
+- [ ] Configure monitoring and alerts
+- [ ] Perform security audit
+- [ ] Launch production environment
+
+**Deliverables:**
+- Production-ready AWS deployment
+- Automated CI/CD pipeline
+- Comprehensive monitoring
+- Security audit completion
+
+---
+
+## Priority Matrix
+
+### 🔴 Critical (Do First)
+
+1. **Security Enhancements** - Rate limiting, CSRF, security headers
+2. **Fix Code TODOs** - Clean up technical debt
+3. **Error Tracking** - Sentry integration
+4. **Test Coverage** - Frontend and E2E tests
+
+### 🟡 High Priority (Next Quarter)
+
+5. **Card Advanced Features** - Due dates, labels, comments
+6. **User Profile Management** - Complete profile CRUD
+7. **RBAC Implementation** - Role-based access control
+8. **Real-time Updates** - WebSocket implementation
+9. **Search & Filtering** - Global search functionality
+
+### 🟢 Medium Priority (6-12 months)
+
+10. **Activity Log** - Audit trail
+11. **Notifications System** - In-app and email
+12. **Dashboard & Analytics** - Insights and reporting
+13. **Mobile & PWA** - Mobile optimization
+14. **Templates & Automation** - Workflow automation
+
+### 🔵 Low Priority (Nice-to-Have)
+
+15. **Time Tracking** - Advanced productivity features
+16. **Integrations** - Third-party API integrations
+17. **Advanced Reporting** - Custom reports and exports
+18. **AI Features** - Smart suggestions, auto-categorization
+
+---
+
+## Quick Wins (Can be done in < 1 week each)
+
+1. ✅ Fix swagger.ts hardcoded URL → use env variable
+2. ✅ Remove outdated TODO comments in ListContainer.tsx
+3. ✅ Auto-focus input in BoardTitleForm
+4. ✅ Add board info popover in BoardNavBar
+5. ✅ Replace `any` type in useLists.ts
+6. ✅ Refactor ListOptions.tsx forms
+7. ✅ Add CHANGELOG.md
+8. ✅ Add comprehensive .env.example files
+9. ✅ Add request logging middleware
+10. ✅ Add database connection pooling configuration
+
+---
+
+## Contributing to This Roadmap
+
+This roadmap is a living document. To suggest changes:
+
+1. Open an issue with label `roadmap`
+2. Discuss the feature/change in the issue
+3. Update this document via PR after discussion
+4. Link the PR to the issue
+
+---
+
+## Conclusion
+
+Sprinty has a solid foundation with modern technologies and clean architecture. This roadmap provides a structured path to transform it into a full-featured, production-ready task management platform.
+
+**Key Focus Areas:**
+- Security and stability first
+- Core feature completion
+- Team collaboration capabilities
+- Performance and scalability
+- Production deployment
+
+**Estimated Timeline:** 12 months for full roadmap completion
+
+**Next Steps:**
+1. Review and prioritize this roadmap with stakeholders
+2. Create GitHub issues for Phase 1 items
+3. Set up project board to track progress
+4. Begin Sprint 1 of Phase 1
+
+---
+
+*Last updated: 2025-11-15*
