@@ -651,34 +651,33 @@
 
 ---
 
-### Reminders (NOT WORKING)
+### Reminders
 
 | Endpoint | Method | Implementation Status | Test Status | Notes |
 |----------|--------|----------------------|-------------|-------|
-| `/reminders` | POST | ⚠️ NOT REGISTERED | ⚠️ No Tests | Create reminder |
-| `/reminders/card/:card_id` | GET | ⚠️ NOT REGISTERED | ⚠️ No Tests | Get card reminders |
-| `/reminders/user` | GET | ⚠️ NOT REGISTERED | ⚠️ No Tests | Get user reminders |
-| `/reminders/:id` | DELETE | ⚠️ NOT REGISTERED | ⚠️ No Tests | Delete reminder |
+| `/reminders` | POST | ✅ Implemented | ⚠️ No Tests | Create reminder |
+| `/reminders/card/:card_id` | GET | ✅ Implemented | ⚠️ No Tests | Get card reminders |
+| `/reminders/user` | GET | ✅ Implemented | ⚠️ No Tests | Get user reminders |
+| `/reminders/:id` | DELETE | ✅ Implemented | ⚠️ No Tests | Delete reminder |
 
-**Status**: ⚠️ IMPLEMENTED BUT NOT REGISTERED
+**Status**: ✅ IMPLEMENTED | ⚠️ NO TESTS
 
-**Critical Issue:**
-- Routes exist but NOT registered in `/src/bootstrap.ts`
-- Feature is broken - endpoints return 404
-- Database table exists (`card_reminders`)
-- Cron job service exists but may not be running
+**Recent Fix (2025-11-17):**
+- ✅ Routes now registered in `/src/bootstrap.ts`
+- ✅ Endpoints accessible at `/api/v1/reminders`
+- ✅ All 4 endpoints functional
+- ⚠️ No automated tests yet
+- ⚠️ Cron job scheduler needs verification
 
 **Files:**
-- `src/modules/reminders/reminder.route.ts` (EXISTS)
-- `src/modules/reminders/reminder.controller.ts` (EXISTS)
-- `src/modules/reminders/reminder.service.ts` (EXISTS)
-- `src/modules/reminders/reminder.repository.ts` (EXISTS)
-- `src/modules/reminders/reminder.cron.ts` (EXISTS)
+- `src/modules/reminders/reminder.route.ts`
+- `src/modules/reminders/reminder.controller.ts`
+- `src/modules/reminders/reminder.service.ts`
+- `src/modules/reminders/reminder.repository.ts`
+- `src/modules/reminders/reminder.scheduler.ts`
 
-**Fix Required:** Add to bootstrap.ts:
-```typescript
-await server.register(reminderRoutes, { prefix: "/api/v1" })
-```
+**Documentation:**
+- See: `api/docs/reminder-registration-fix/phase-1-done.md`
 
 ---
 
@@ -710,11 +709,11 @@ await server.register(reminderRoutes, { prefix: "/api/v1" })
 
 ### Implementation Status
 - **Total Modules:** 21
-- **Registered Modules:** 20 (95%)
-- **Unregistered Modules:** 1 (Reminders) ⚠️
+- **Registered Modules:** 21 (100%) ✅
+- **Unregistered Modules:** 0
 - **Total Endpoints:** 150+
-- **Fully Implemented:** 149 (99%)
-- **Broken:** 1 (Reminders) ⚠️
+- **Fully Implemented:** 150+ (100%)
+- **Broken:** 0 ✅
 
 ### Testing Status
 - **Modules with Tests:** 6 (28.5%)
@@ -745,17 +744,17 @@ await server.register(reminderRoutes, { prefix: "/api/v1" })
 | ⚠️ Medium | Comments | ⚠️ NO TESTS | - |
 | ⚠️ Medium | Attachments | ⚠️ NO TESTS | Security concern |
 | ⚠️ Medium | Activities | ⚠️ NO TESTS | - |
+| ⚠️ Medium | Reminders | ⚠️ NO TESTS | Cron job needs verification |
 | ⚠️ Low | Profiles | ⚠️ NO TESTS | - |
 | ⚠️ Low | Dashboard Layouts | ⚠️ NO TESTS | - |
 | ⚠️ Low | Reports | ⚠️ NO TESTS | - |
-| 🔴 Critical | Reminders | 🔴 BROKEN | Not registered |
 
 ---
 
 ## Critical Issues Summary
 
 ### 🔴 P0 - Critical (Must Fix Immediately)
-1. **Reminders Not Registered** - Feature exists but doesn't work
+1. ~~**Reminders Not Registered**~~ - ✅ **FIXED 2025-11-17** - Routes now registered
 2. **No Authorization Middleware** - Security vulnerability
 3. **WebSocket No Access Control** - Anyone can join any board
 
