@@ -7,6 +7,7 @@ import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 import fastifyEnv from "@fastify/env";
 import fastifyCors from "@fastify/cors";
 import fastifyMetrics from "fastify-metrics";
+import fastifyMultipart from "@fastify/multipart";
 import swagger from "@fastify/swagger";
 import swagger_ui from "@fastify/swagger-ui";
 
@@ -19,8 +20,6 @@ import cardRoutes from "./modules/cards/card.route";
 import assigneeRoutes from "./modules/assignees/assignee.route";
 import labelRoutes from "./modules/labels/label.route";
 import profileRoutes from "./modules/profiles/profile.route";
-import assigneeRoutes from "./modules/assignees/assignee.route";
-import labelRoutes from "./modules/labels/label.route";
 import checklistRoutes from "./modules/checklists/checklist.route";
 import commentRoutes from "./modules/comments/comment.route";
 import searchRoutes from "./modules/search/search.route";
@@ -28,6 +27,7 @@ import analyticsRoutes from "./modules/analytics/analytics.route";
 import timeTrackingRoutes from "./modules/time-tracking/time-tracking.route";
 import sprintRoutes from "./modules/sprints/sprint.route";
 import reportRoutes from "./modules/reports/report.route";
+import attachmentRoutes from "./modules/attachments/attachment.route";
 
 import { OrganizationSchema } from "./modules/organizations/organization.schema";
 import { BoardSchema } from "./modules/boards/board.schema";
@@ -36,14 +36,13 @@ import { CardSchema } from "./modules/cards/card.schema";
 import { AssigneeSchema } from "./modules/assignees/assignee.schema";
 import { LabelSchema } from "./modules/labels/label.schema";
 import { ProfileSchema } from "./modules/profiles/profile.schema";
-import { AssigneeSchema } from "./modules/assignees/assignee.schema";
-import { LabelSchema } from "./modules/labels/label.schema";
 import { ChecklistSchema } from "./modules/checklists/checklist.schema";
 import { CommentSchema } from "./modules/comments/comment.schema";
 import { SearchSchema } from "./modules/search/search.schema";
 import { AnalyticsSchema } from "./modules/analytics/analytics.schema";
 import { TimeTrackingSchemas } from "./modules/time-tracking/time-tracking.schema";
 import { SprintSchemas } from "./modules/sprints/sprint.schema";
+import { AttachmentSchema } from "./modules/attachments/attachment.schema";
 
 import { swaggerDocs } from "./swagger";
 import { options } from "./configs/config";
@@ -65,6 +64,11 @@ async function registerPlugins(server: FastifyInstance) {
   server.register(swagger_ui, { routePrefix: "/docs" });
   server.register(knexPlugin);
   server.register(fastifyMetrics, { endpoint: "/metrics" });
+  server.register(fastifyMultipart, {
+    limits: {
+      fileSize: 10 * 1024 * 1024, // 10MB
+    },
+  });
 }
 
 async function addSchemas(server: FastifyInstance) {
@@ -87,7 +91,7 @@ async function addSchemas(server: FastifyInstance) {
   for (const schema of Object.values(ProfileSchema)) {
     server.addSchema(schema);
   }
-  
+
   for (const schema of Object.values(AssigneeSchema)) {
     server.addSchema(schema);
   }
@@ -103,7 +107,7 @@ async function addSchemas(server: FastifyInstance) {
   for (const schema of Object.values(CommentSchema)) {
     server.addSchema(schema);
   }
-  
+
   for (const schema of Object.values(SearchSchema)) {
     server.addSchema(schema);
   }
@@ -117,6 +121,10 @@ async function addSchemas(server: FastifyInstance) {
   }
 
   for (const schema of Object.values(SprintSchemas)) {
+    server.addSchema(schema);
+  }
+
+  for (const schema of Object.values(AttachmentSchema)) {
     server.addSchema(schema);
   }
 }
@@ -134,8 +142,6 @@ async function registerRoutes(server: FastifyInstance) {
           v1.register(assigneeRoutes, { prefix: "/assignees" });
           v1.register(labelRoutes, { prefix: "/labels" });
           v1.register(profileRoutes, { prefix: "/profiles" });
-          v1.register(assigneeRoutes, { prefix: "/assignees" });
-          v1.register(labelRoutes, { prefix: "/labels" });
           v1.register(checklistRoutes, { prefix: "/checklists" });
           v1.register(commentRoutes, { prefix: "/comments" });
           v1.register(searchRoutes, { prefix: "/search" });
@@ -143,6 +149,7 @@ async function registerRoutes(server: FastifyInstance) {
           v1.register(timeTrackingRoutes, { prefix: "/time-tracking" });
           v1.register(sprintRoutes, { prefix: "/sprints" });
           v1.register(reportRoutes, { prefix: "/reports" });
+          v1.register(attachmentRoutes, { prefix: "/attachments" });
         },
         { prefix: "/v1" },
       );

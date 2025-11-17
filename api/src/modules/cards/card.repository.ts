@@ -124,6 +124,30 @@ export class CardRepository {
       )
       .orderBy("comments.created_at", "asc");
 
+    // Get attachments with user details
+    const attachments = await this.knex("attachments")
+      .where({ "attachments.card_id": id })
+      .join("users", "attachments.uploaded_by", "users.id")
+      .leftJoin("profiles", "users.id", "profiles.user_id")
+      .select(
+        "attachments.id",
+        "attachments.card_id",
+        "attachments.filename",
+        "attachments.original_filename",
+        "attachments.mime_type",
+        "attachments.file_size",
+        "attachments.uploaded_by",
+        "attachments.uploaded_at",
+        this.knex.raw(`
+          json_build_object(
+            'id', users.id,
+            'email', users.email,
+            'username', profiles.username
+          ) as user
+        `),
+      )
+      .orderBy("attachments.uploaded_at", "desc");
+
     return {
       ...card,
       assignees: assignees || [],
@@ -135,6 +159,7 @@ export class CardRepository {
         percentage,
       },
       comments: comments || [],
+      attachments: attachments || [],
     };
   }
 
