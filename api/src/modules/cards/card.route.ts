@@ -38,6 +38,25 @@ export default async function cardRoutes(fastify: FastifyInstance) {
   );
 
   fastify.get(
+    "/:id/details",
+    {
+      schema: {
+        params: { type: "object", properties: { id: { type: "string" } } },
+        response: {
+          200: CardSchema.CardWithDetailsResponseSchema,
+          404: {
+            type: "object",
+            properties: { message: { type: "string" } },
+          },
+        },
+        tags: ["card"],
+        description: "Get a card with full details (assignees and labels)",
+      },
+    },
+    cardController.getCardWithDetailsController.bind(cardController),
+  );
+
+  fastify.get(
     "/list/:list_id",
     {
       schema: {

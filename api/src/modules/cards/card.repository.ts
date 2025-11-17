@@ -8,6 +8,7 @@ import {
   FullCardResponse,
   FullCardResponseArray,
   CardWithAssigneesResponse,
+  CardWithDetailsResponse,
 } from "./card.schema";
 import knexInstance from "../../db/knexInstance";
 
@@ -56,6 +57,49 @@ export class CardRepository {
     return {
       ...card,
       assignees: assignees || [],
+    };
+  }
+
+  async getCardWithDetails(
+    id: string,
+  ): Promise<CardWithDetailsResponse | undefined> {
+    const card = await this.getCardById(id);
+    if (!card) {
+      return undefined;
+    }
+
+    // Get assignees
+    const assignees = await this.knex("card_assignees")
+      .where({ "card_assignees.card_id": id })
+      .join("users", "card_assignees.user_id", "users.id")
+      .leftJoin("profiles", "users.id", "profiles.user_id")
+      .select(
+        "card_assignees.id",
+        "card_assignees.card_id",
+        "card_assignees.user_id",
+        "card_assignees.assigned_at",
+        "card_assignees.assigned_by",
+        this.knex.raw(`
+          json_build_object(
+            'id', users.id,
+            'email', users.email,
+            'username', profiles.username
+          ) as user
+        `),
+      )
+      .orderBy("card_assignees.assigned_at", "asc");
+
+    // Get labels
+    const labels = await this.knex("labels")
+      .join("card_labels", "labels.id", "card_labels.label_id")
+      .where({ "card_labels.card_id": id })
+      .select("labels.*")
+      .orderBy("labels.name", "asc");
+
+    return {
+      ...card,
+      assignees: assignees || [],
+      labels: labels || [],
     };
   }
 
