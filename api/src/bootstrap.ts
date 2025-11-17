@@ -17,12 +17,19 @@ import boardRoutes from "./modules/boards/board.route";
 import listRoutes from "./modules/lists/list.route";
 import cardRoutes from "./modules/cards/card.route";
 import searchRoutes from "./modules/search/search.route";
+import analyticsRoutes from "./modules/analytics/analytics.route";
+import timeTrackingRoutes from "./modules/time-tracking/time-tracking.route";
+import sprintRoutes from "./modules/sprints/sprint.route";
+import reportRoutes from "./modules/reports/report.route";
 
 import { OrganizationSchema } from "./modules/organizations/organization.schema";
 import { BoardSchema } from "./modules/boards/board.schema";
 import { ListSchema } from "./modules/lists/list.schema";
 import { CardSchema } from "./modules/cards/card.schema";
 import { SearchSchema } from "./modules/search/search.schema";
+import { AnalyticsSchema } from "./modules/analytics/analytics.schema";
+import { TimeTrackingSchemas } from "./modules/time-tracking/time-tracking.schema";
+import { SprintSchemas } from "./modules/sprints/sprint.schema";
 
 import { swaggerDocs } from "./swagger";
 import { options } from "./configs/config";
@@ -66,6 +73,18 @@ async function addSchemas(server: FastifyInstance) {
   for (const schema of Object.values(SearchSchema)) {
     server.addSchema(schema);
   }
+
+  for (const schema of Object.values(AnalyticsSchema)) {
+    server.addSchema(schema);
+  }
+
+  for (const schema of Object.values(TimeTrackingSchemas)) {
+    server.addSchema(schema);
+  }
+
+  for (const schema of Object.values(SprintSchemas)) {
+    server.addSchema(schema);
+  }
 }
 
 async function registerRoutes(server: FastifyInstance) {
@@ -79,6 +98,10 @@ async function registerRoutes(server: FastifyInstance) {
           v1.register(listRoutes, { prefix: "/lists" });
           v1.register(cardRoutes, { prefix: "/cards" });
           v1.register(searchRoutes, { prefix: "/search" });
+          v1.register(analyticsRoutes, { prefix: "/analytics" });
+          v1.register(timeTrackingRoutes, { prefix: "/time-tracking" });
+          v1.register(sprintRoutes, { prefix: "/sprints" });
+          v1.register(reportRoutes, { prefix: "/reports" });
         },
         { prefix: "/v1" },
       );

@@ -6,6 +6,7 @@ import Boards from "@/pages/Boards";
 import BoardView from "../pages/BoardView";
 import BoardLayout from "@/pages/BoardLayout";
 import Organizations from "@/pages/Organization";
+import Dashboard from "@/pages/Dashboard";
 // import BoardEdit from "../pages/BoardEdit"
 
 const AppRoutes = () => (
@@ -15,6 +16,7 @@ const AppRoutes = () => (
       <Route path="/user" element={<User />} />
       <Route path="/marketing" element={<Marketing />} />
       <Route path="/boards" element={<Boards />} />
+      <Route path="/dashboard" element={<Dashboard />} />
 
       <Route path="/organizations" element={<Organizations />} />
 
