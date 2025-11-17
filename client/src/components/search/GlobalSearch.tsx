@@ -1,13 +1,15 @@
 import { useEffect } from "react";
 import { useSearchDialog } from "@/contexts/SearchContext";
-import { EnhancedSearchDialog } from "./EnhancedSearchDialog";
+import { CommandPalette } from "./CommandPalette";
 
 /**
  * GlobalSearch Component
  *
- * Provides global search functionality with keyboard shortcuts:
- * - Cmd+K / Ctrl+K: Open search
- * - /: Open search (when not in input field)
+ * Provides global command palette with search and quick actions:
+ * - Cmd+K / Ctrl+K: Open command palette
+ * - /: Open command palette (when not in input field)
+ *
+ * Phase 3: Now includes quick actions alongside search
  *
  * This component should be mounted at the app root level.
  */
@@ -35,7 +37,7 @@ export function GlobalSearch() {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [openSearch]);
 
-  return <EnhancedSearchDialog open={searchOpen} onOpenChange={setSearchOpen} />;
+  return <CommandPalette open={searchOpen} onOpenChange={setSearchOpen} />;
 }
 
 /**
