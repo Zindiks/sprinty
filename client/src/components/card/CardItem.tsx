@@ -1,10 +1,12 @@
 import type { Card, CardWithDetails } from "@/types/types";
 import { useState } from "react";
 import { Draggable } from "@hello-pangea/dnd";
-import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { CardDetailsModal } from "./CardDetailsModal";
-import { Calendar, Flag, Users, CheckSquare } from "lucide-react";
+import { CardCheckbox } from "./CardCheckbox";
+import { Calendar, Flag } from "lucide-react";
+import { useSelectionStore } from "@/hooks/store/useSelectionStore";
+import { cn } from "@/lib/utils";
 import axios from "axios";
 
 interface CardItemProps {
@@ -15,12 +17,46 @@ interface CardItemProps {
 const CardItem = ({ index, data }: CardItemProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [cardDetails, setCardDetails] = useState<CardWithDetails | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+
+  // Selection state
+  const {
+    selectionMode,
+    isCardSelected,
+    toggleCard,
+    selectCard,
+    lastSelectedCardId,
+  } = useSelectionStore();
+
+  const isSelected = isCardSelected(data.id);
 
   const handleCardClick = async (e: React.MouseEvent) => {
+    // If in selection mode, handle selection instead of opening modal
+    if (selectionMode) {
+      e.preventDefault();
+
+      // Cmd/Ctrl + Click - Toggle individual card
+      if (e.metaKey || e.ctrlKey) {
+        toggleCard(data.id);
+        return;
+      }
+
+      // Shift + Click - Range selection
+      if (e.shiftKey && lastSelectedCardId) {
+        // Get all card IDs from the parent list
+        // We'll need to pass this from the parent component
+        // For now, just select this card
+        selectCard(data.id);
+        return;
+      }
+
+      // Regular click in selection mode - Toggle
+      toggleCard(data.id);
+      return;
+    }
+
+    // Normal behavior - open modal
     e.preventDefault();
     setIsDialogOpen(true);
-    setIsLoading(true);
 
     try {
       const response = await axios.get(
@@ -40,8 +76,6 @@ const CardItem = ({ index, data }: CardItemProps) => {
         attachments: [],
         activities: [],
       });
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -66,16 +100,35 @@ const CardItem = ({ index, data }: CardItemProps) => {
 
   return (
     <>
-      <Draggable draggableId={data.id} index={index}>
+      <Draggable
+        draggableId={data.id}
+        index={index}
+        isDragDisabled={selectionMode}
+      >
         {(provided) => (
           <div
             {...provided.dragHandleProps}
             {...provided.draggableProps}
             ref={provided.innerRef}
             role="button"
-            className="border-2 border-transparent hover:border-primary py-2 px-3 text-sm bg-background rounded-md shadow-sm cursor-pointer"
+            className={cn(
+              "group relative border-2 py-2 px-3 text-sm bg-background rounded-md shadow-sm cursor-pointer transition-all",
+              selectionMode && "pl-8",
+              isSelected
+                ? "border-blue-500 bg-blue-50 ring-2 ring-blue-500 ring-opacity-50"
+                : "border-transparent hover:border-primary"
+            )}
             onClick={handleCardClick}
           >
+            {/* Selection Checkbox */}
+            <CardCheckbox
+              cardId={data.id}
+              cardTitle={data.title}
+              isSelected={isSelected}
+              onToggle={toggleCard}
+              visible={selectionMode || isSelected}
+            />
+
             <div className="space-y-2">
               <div className="font-medium">{data.title}</div>
 

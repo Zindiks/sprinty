@@ -4,6 +4,7 @@ import { useEventListener } from "usehooks-ts";
 import { useLists } from "@/hooks/useLists";
 import { useQueryClient } from "@tanstack/react-query";
 import ListOptions from "@/components/list/ListOptions";
+import { SelectionModeButton } from "@/components/card/SelectionModeButton";
 
 interface ListHeaderProps {
   data: List;
@@ -106,7 +107,10 @@ const ListHeader = ({ data }: ListHeaderProps) => {
         </div>
       )}
 
-      <ListOptions data={data} onAddCard={() => {}} />
+      <div className="flex items-center gap-1">
+        <SelectionModeButton />
+        <ListOptions data={data} onAddCard={() => {}} />
+      </div>
     </div>
   );
 };
