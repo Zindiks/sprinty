@@ -158,6 +158,13 @@ export interface Profile {
   updated_at: string;
 }
 
+// Card label association
+export interface CardLabel {
+  card_id: string;
+  label_id: string;
+  label: Label;
+}
+
 // Search types
 export interface BoardResult {
   id: string;
@@ -316,4 +323,60 @@ export interface DashboardLayout {
   isDefault: boolean;
   created_at: string;
   updated_at: string;
+// Template types
+export interface TemplateCard {
+  title: string;
+  description?: string;
+}
+
+export interface TemplateList {
+  title: string;
+  order: number;
+  exampleCards?: TemplateCard[];
+}
+
+export interface TemplateStructure {
+  lists: TemplateList[];
+}
+
+export interface Template {
+  id: string;
+  name: string;
+  description?: string;
+  category: string;
+  icon?: string;
+  is_system: boolean;
+  organization_id?: string | null;
+  created_by?: string | null;
+  structure: TemplateStructure;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface TemplatesCollection {
+  system: Template[];
+  custom: Template[];
+}
+
+export interface CreateBoardFromTemplateRequest {
+  template_id: string;
+  organization_id: string;
+  board_title?: string;
+  include_example_cards: boolean;
+}
+
+export interface CreateTemplateFromBoardRequest {
+  board_id: string;
+  template_name: string;
+  description?: string;
+  category: string;
+  icon?: string;
+  include_cards_as_examples: boolean;
+}
+
+export interface UpdateTemplateRequest {
+  name?: string;
+  description?: string;
+  icon?: string;
+  structure?: TemplateStructure;
 }
