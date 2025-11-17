@@ -141,6 +141,20 @@ export class AnalyticsController {
   async getDueDateAnalytics(
     request: FastifyRequest<{
       Params: BoardAnalyticsParams;
+    }>,
+    reply: FastifyReply
+  ) {
+    try {
+      const { boardId } = request.params;
+      const analytics = await this.service.getDueDateAnalytics(boardId);
+      return reply.code(200).send(analytics);
+    } catch (error) {
+      request.log.error(error);
+      return reply.code(500).send({ error: "Internal server error" });
+    }
+  }
+
+  /**
    * GET /api/v1/analytics/trends/personal
    * Get productivity trends for a user
    */
@@ -154,9 +168,6 @@ export class AnalyticsController {
     reply: FastifyReply
   ) {
     try {
-      const { boardId } = request.params;
-      const analytics = await this.service.getDueDateAnalytics(boardId);
-      return reply.code(200).send(analytics);
       const { organizationId, period, daysBack } = request.query;
       // @ts-ignore - user is added by auth middleware
       const userId = request.user?.id;

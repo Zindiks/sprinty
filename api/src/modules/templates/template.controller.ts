@@ -113,16 +113,16 @@ export class TemplateController {
     try {
       const board = await this.templateService.createBoardFromTemplate(body);
 
-      // Emit WebSocket event for board creation
-      const wsService = getWebSocketService();
-      if (wsService && board) {
-        wsService.emitBoardCreated(board.organization_id, {
-          id: board.id,
-          title: board.title,
-          description: board.description,
-          organizationId: board.organization_id,
-        });
-      }
+      // TODO: Emit WebSocket event for board creation
+      // const wsService = getWebSocketService();
+      // if (wsService && board) {
+      //   wsService.emitBoardUpdated(board.id, {
+      //     id: board.id,
+      //     title: board.title,
+      //     description: board.description,
+      //     updatedAt: board.updated_at,
+      //   });
+      // }
 
       return reply.status(201).send(board);
     } catch (err: any) {
@@ -138,7 +138,8 @@ export class TemplateController {
     reply: FastifyReply,
   ) {
     const body = request.body;
-    const userId = request.user?.id;
+    // TODO: Add user authentication middleware to populate request.user
+    const userId = (request as any).user?.id;
 
     if (!userId) {
       return reply.status(401).send({ error: "Unauthorized" });

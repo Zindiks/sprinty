@@ -1,4 +1,5 @@
 import { FastifyInstance } from "fastify";
+import { Type } from "@sinclair/typebox";
 import { TimeTrackingController } from "./time-tracking.controller";
 import { TimeTrackingService } from "./time-tracking.service";
 import {
@@ -139,7 +140,7 @@ export default async function timeTrackingRoutes(fastify: FastifyInstance) {
         tags: ["Time Tracking"],
         params: TimeLogParamsSchema,
         response: {
-          204: Type => ({}),
+          204: Type.Object({}),
         },
       },
     },

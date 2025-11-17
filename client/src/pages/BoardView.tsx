@@ -11,7 +11,6 @@ import { ReminderListener } from "@/components/realtime/ReminderListener";
 import { FilterBar } from "@/components/board/FilterBar";
 import { useCardFilters } from "@/hooks/useCardFilters";
 import { useMemo } from "react";
-import type { Card } from "@/types/types";
 import { Button } from "@/components/ui/button";
 import { Calendar, AlertCircle } from "lucide-react";
 import { useDueDateAnalytics } from "@/hooks/useAnalytics";
@@ -52,7 +51,10 @@ const BoardView = () => {
     return (lists.data || []).flatMap((list) => list.cards || []);
   }, [lists.data]);
 
-  const stats = useMemo(() => getFilterStats(allCards), [allCards, getFilterStats]);
+  const stats = useMemo(
+    () => getFilterStats(allCards),
+    [allCards, getFilterStats]
+  );
 
   if (!data) {
     return <h1>error</h1>;

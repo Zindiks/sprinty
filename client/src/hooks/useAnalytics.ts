@@ -217,6 +217,9 @@ export const useDueDateAnalytics = (boardId: string | null) => {
       return data;
     },
     enabled: !!boardId,
+  });
+};
+
 // Hook to fetch productivity trends
 export const useProductivityTrends = (
   organizationId: string | null,

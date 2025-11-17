@@ -44,7 +44,10 @@ import { ProfileSchema } from "./modules/profiles/profile.schema";
 import { ChecklistSchema } from "./modules/checklists/checklist.schema";
 import { CommentSchema } from "./modules/comments/comment.schema";
 import { SearchSchema } from "./modules/search/search.schema";
-import { AnalyticsSchema } from "./modules/analytics/analytics.schema";
+import {
+  AnalyticsSchema,
+  AnalyticsSchemaNested,
+} from "./modules/analytics/analytics.schema";
 import { TimeTrackingSchemas } from "./modules/time-tracking/time-tracking.schema";
 import { SprintSchemas } from "./modules/sprints/sprint.schema";
 import { AttachmentSchema } from "./modules/attachments/attachment.schema";
@@ -70,7 +73,7 @@ async function registerPlugins(server: FastifyInstance) {
   });
 
   server.log.info(
-    `http://${server.config.CLIENT_HOST}:${server.config.CLIENT_PORT}`,
+    `http://${server.config.CLIENT_HOST}:${server.config.CLIENT_PORT}`
   );
 
   server.register(swagger, swaggerDocs);
@@ -125,6 +128,13 @@ async function addSchemas(server: FastifyInstance) {
     server.addSchema(schema);
   }
 
+  // Register Analytics schemas
+  // Register nested schemas first, then top-level schemas
+  // This ensures nested schemas are available when parent schemas reference them
+  for (const schema of Object.values(AnalyticsSchemaNested)) {
+    server.addSchema(schema);
+  }
+
   for (const schema of Object.values(AnalyticsSchema)) {
     server.addSchema(schema);
   }
@@ -148,6 +158,8 @@ async function addSchemas(server: FastifyInstance) {
   for (const schema of Object.values(DashboardLayoutsSchema)) {
     server.addSchema(schema);
   }
+
+  // Register template schemas
   for (const schema of Object.values(TemplateSchema)) {
     server.addSchema(schema);
   }
@@ -185,17 +197,17 @@ async function registerRoutes(server: FastifyInstance) {
           v1.register(templateRoutes, { prefix: "/templates" });
           v1.register(reminderRoutes, { prefix: "/reminders" });
         },
-        { prefix: "/v1" },
+        { prefix: "/v1" }
       );
     },
-    { prefix: "/api" },
+    { prefix: "/api" }
   );
 
   server.get(
     "/health",
     async (request: FastifyRequest, reply: FastifyReply) => {
       reply.send({ status: "OK" });
-    },
+    }
   );
 }
 
@@ -215,10 +227,7 @@ export async function createServer() {
   await addSchemas(server);
   await registerRoutes(server);
 
-  // Initialize WebSocket server after Fastify is ready
-  await server.ready();
-
-  // Get the underlying HTTP server
+  // Get the underlying HTTP server (before calling ready())
   const httpServer = server.server;
 
   // Get CORS origin from config
@@ -228,11 +237,14 @@ export async function createServer() {
   const { io, wsService } = initializeWebSocketServer(httpServer, corsOrigin);
   wsServiceInstance = wsService;
 
-  server.log.info("WebSocket server initialized and ready");
-
-  // Decorate Fastify instance with WebSocket service
+  // Decorate Fastify instance with WebSocket service (before ready())
   server.decorate("wsService", wsService);
   server.decorate("io", io);
+
+  server.log.info("WebSocket server initialized and ready");
+
+  // Ready the server after all decorators are added
+  await server.ready();
 
   return server;
 }

@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter as Router } from "react-router-dom";
 import AppRoutes from "./routes";
 import { Toaster } from "./components/ui/toaster";
 import { UserProvider } from "./contexts/UserContext";
@@ -36,13 +37,15 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <UserProvider apiBaseUrl="http://localhost:4000">
-        <SearchProvider>
-          <WebSocketIntegration>
-            <AppRoutes />
-            <GlobalSearch />
-            <Toaster />
-          </WebSocketIntegration>
-        </SearchProvider>
+        <Router>
+          <SearchProvider>
+            <WebSocketIntegration>
+              <AppRoutes />
+              <GlobalSearch />
+              <Toaster />
+            </WebSocketIntegration>
+          </SearchProvider>
+        </Router>
       </UserProvider>
     </QueryClientProvider>
   );

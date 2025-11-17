@@ -17,10 +17,9 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { Download, Clock, CheckCircle, AlertCircle, TrendingUp } from "lucide-react";
+import { Download, Clock, CheckCircle, AlertCircle, TrendingUp, LayoutDashboard, LineChart, Calendar, Target, Layout } from "lucide-react";
 import { OverdueCardsWidget } from "@/components/dashboard/OverdueCardsWidget";
 import { UpcomingDueDatesWidget } from "@/components/dashboard/UpcomingDueDatesWidget";
-import { Download, Clock, CheckCircle, AlertCircle, TrendingUp, LayoutDashboard, LineChart, Calendar, Target, Layout } from "lucide-react";
 
 // Import new widget components
 import ProductivityTrendChart from "../components/dashboard/widgets/ProductivityTrendChart";
@@ -193,8 +192,6 @@ const Dashboard = () => {
           </div>
         )}
 
-        {/* Board Analytics */}
-        {board_id && boardAnalytics && (
         {/* Tab Content */}
         {!loadingPersonal && (
           <>

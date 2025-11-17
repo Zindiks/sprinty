@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
 import User from "../pages/User";
 import Marketing from "@/pages/Marketing";
@@ -12,23 +12,21 @@ import ProfilePage from "@/pages/ProfilePage";
 // import BoardEdit from "../pages/BoardEdit"
 
 const AppRoutes = () => (
-  <Router>
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/user" element={<User />} />
-      <Route path="/profile" element={<ProfilePage />} />
-      <Route path="/marketing" element={<Marketing />} />
-      <Route path="/boards" element={<Boards />} />
-      <Route path="/dashboard" element={<Dashboard />} />
+  <Routes>
+    <Route path="/" element={<Home />} />
+    <Route path="/user" element={<User />} />
+    <Route path="/profile" element={<ProfilePage />} />
+    <Route path="/marketing" element={<Marketing />} />
+    <Route path="/boards" element={<Boards />} />
+    <Route path="/dashboard" element={<Dashboard />} />
 
-      <Route path="/organizations" element={<Organizations />} />
+    <Route path="/organizations" element={<Organizations />} />
 
-      <Route path="board" element={<BoardLayout />}>
-        <Route path=":board_id" element={<BoardView />} />
-        <Route path=":board_id/calendar" element={<CalendarView />} />
-      </Route>
-    </Routes>
-  </Router>
+    <Route path="board" element={<BoardLayout />}>
+      <Route path=":board_id" element={<BoardView />} />
+      <Route path=":board_id/calendar" element={<CalendarView />} />
+    </Route>
+  </Routes>
 );
 
 export default AppRoutes;
