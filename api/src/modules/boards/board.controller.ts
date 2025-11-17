@@ -1,6 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { CreateBoard, UpdateBoard } from "./board.schema";
 import { BoardService } from "./board.service";
+import { getWebSocketService } from "../../bootstrap";
 
 export class BoardController {
   private readonly boardService: BoardService;
@@ -56,6 +57,18 @@ export class BoardController {
     const { id } = request.params;
     try {
       const result = await this.boardService.update(body, id);
+
+      // Emit WebSocket event for board update
+      const wsService = getWebSocketService();
+      if (wsService && result) {
+        wsService.emitBoardUpdated(id, {
+          id: result.id,
+          title: result.title,
+          description: result.description,
+          updatedAt: result.updated_at,
+        });
+      }
+
       return reply.status(200).send(result);
     } catch (err) {
       return reply.status(500).send(err);
@@ -69,6 +82,18 @@ export class BoardController {
     const { id } = request.params;
     try {
       const result = await this.boardService.deleteBoard(id);
+
+      // Emit WebSocket event for board deletion
+      const wsService = getWebSocketService();
+      if (wsService) {
+        wsService.emitBoardDeleted(id, {
+          boardId: id,
+        });
+
+        // Disconnect all users from the deleted board
+        await wsService.disconnectAllFromBoard(id);
+      }
+
       return reply.status(200).send(result);
     } catch (err) {
       return reply.status(500).send(err);

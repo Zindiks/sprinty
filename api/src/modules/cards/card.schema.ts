@@ -180,6 +180,24 @@ export class CardSchema {
           updated_at: Type.String({ format: "date-time" }),
         }),
       ),
+      checklist_items: Type.Array(
+        Type.Object({
+          id: Type.String({ format: "uuid" }),
+          card_id: Type.String({ format: "uuid" }),
+          title: Type.String(),
+          completed: Type.Boolean(),
+          order: Type.Number(),
+          completed_by: Type.Optional(Type.String({ format: "uuid" })),
+          completed_at: Type.Optional(Type.String({ format: "date-time" })),
+          created_at: Type.String({ format: "date-time" }),
+          updated_at: Type.String({ format: "date-time" }),
+        }),
+      ),
+      checklist_progress: Type.Object({
+        total: Type.Number(),
+        completed: Type.Number(),
+        percentage: Type.Number(),
+      }),
     },
     { $id: "CardWithDetailsResponseSchema" },
   );
