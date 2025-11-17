@@ -4,23 +4,25 @@ import {
   Sheet,
   SheetContent,
   SheetHeader,
-  SheetTitle,
 } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
-  Calendar,
-  Flag,
   Users,
   Tag,
   CheckSquare,
   MessageSquare,
   Paperclip,
   Activity as ActivityIcon,
-  Loader2,
 } from "lucide-react";
 import { useCardDetails } from "@/hooks/useCardDetails";
+import { EditableTitle } from "./widgets/EditableTitle";
+import { EditableDescription } from "./widgets/EditableDescription";
+import { PrioritySelector } from "./widgets/PrioritySelector";
+import { StatusSelector } from "./widgets/StatusSelector";
+import { DueDatePicker } from "./widgets/DueDatePicker";
+import { CardActions } from "./widgets/CardActions";
 
 interface CardDetailsPanelProps {
   cardId: string | null;
@@ -33,7 +35,7 @@ export const CardDetailsPanel = ({
   isOpen,
   onClose,
 }: CardDetailsPanelProps) => {
-  const { cardDetails, isLoading } = useCardDetails(cardId || undefined);
+  const { cardDetails, isLoading, updateDetails, deleteCard } = useCardDetails(cardId || undefined);
 
   // Handle Escape key
   useEffect(() => {
@@ -77,6 +79,44 @@ export const CardDetailsPanel = ({
     });
   };
 
+  // Handler functions
+  const handleUpdateTitle = (title: string) => {
+    if (!cardId) return;
+    updateDetails.mutate({ id: cardId, title });
+  };
+
+  const handleUpdateDescription = (description: string) => {
+    if (!cardId) return;
+    updateDetails.mutate({ id: cardId, description });
+  };
+
+  const handleUpdatePriority = (priority: "low" | "medium" | "high" | "critical" | undefined) => {
+    if (!cardId) return;
+    updateDetails.mutate({ id: cardId, priority });
+  };
+
+  const handleUpdateStatus = (status: string) => {
+    if (!cardId) return;
+    updateDetails.mutate({ id: cardId, status });
+  };
+
+  const handleUpdateDueDate = (due_date: string | undefined) => {
+    if (!cardId) return;
+    updateDetails.mutate({ id: cardId, due_date });
+  };
+
+  const handleDeleteCard = () => {
+    if (!cardId || !cardDetails) return;
+    deleteCard.mutate(
+      { id: cardId, list_id: cardDetails.list_id },
+      {
+        onSuccess: () => {
+          onClose();
+        },
+      }
+    );
+  };
+
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent size="wide" className="overflow-y-auto p-0">
@@ -92,9 +132,18 @@ export const CardDetailsPanel = ({
           <div className="flex flex-col h-full">
             {/* Header */}
             <SheetHeader className="p-6 pb-4">
-              <SheetTitle className="text-2xl font-bold pr-8">
-                {cardDetails.title}
-              </SheetTitle>
+              <div className="flex items-start justify-between pr-8">
+                <EditableTitle
+                  value={cardDetails.title}
+                  onChange={handleUpdateTitle}
+                  disabled={updateDetails.isPending}
+                />
+                <CardActions
+                  cardId={cardDetails.id}
+                  onDelete={handleDeleteCard}
+                  disabled={deleteCard.isPending}
+                />
+              </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 in list <span className="font-medium">List Name</span>
               </div>
@@ -103,50 +152,34 @@ export const CardDetailsPanel = ({
             {/* Main Content */}
             <div className="flex-1 px-6 pb-6 space-y-6">
               {/* Metadata Section */}
-              <div className="flex flex-wrap gap-4">
-                {/* Priority */}
-                {cardDetails.priority && (
-                  <div className="flex items-center gap-2">
-                    <Flag className="w-4 h-4 text-muted-foreground" />
-                    <Badge variant={getPriorityColor(cardDetails.priority)}>
-                      {cardDetails.priority}
-                    </Badge>
-                  </div>
-                )}
-
-                {/* Status */}
-                {cardDetails.status && (
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm text-muted-foreground">Status:</span>
-                    <Badge variant="outline">{cardDetails.status}</Badge>
-                  </div>
-                )}
-
-                {/* Due Date */}
-                {cardDetails.due_date && (
-                  <div className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4 text-muted-foreground" />
-                    <span className="text-sm">{formatDate(cardDetails.due_date)}</span>
-                  </div>
-                )}
+              <div className="flex flex-wrap gap-3">
+                <PrioritySelector
+                  value={cardDetails.priority}
+                  onChange={handleUpdatePriority}
+                  disabled={updateDetails.isPending}
+                />
+                <StatusSelector
+                  value={cardDetails.status}
+                  onChange={handleUpdateStatus}
+                  disabled={updateDetails.isPending}
+                />
+                <DueDatePicker
+                  value={cardDetails.due_date}
+                  onChange={handleUpdateDueDate}
+                  disabled={updateDetails.isPending}
+                />
               </div>
 
               <Separator />
 
               {/* Description Section */}
-              <div className="space-y-2">
-                <h3 className="text-sm font-semibold flex items-center gap-2">
-                  Description
-                </h3>
-                {cardDetails.description ? (
-                  <div className="text-sm text-muted-foreground whitespace-pre-wrap">
-                    {cardDetails.description}
-                  </div>
-                ) : (
-                  <p className="text-sm text-muted-foreground italic">
-                    No description provided
-                  </p>
-                )}
+              <div className="space-y-3">
+                <h3 className="text-sm font-semibold">Description</h3>
+                <EditableDescription
+                  value={cardDetails.description}
+                  onChange={handleUpdateDescription}
+                  disabled={updateDetails.isPending}
+                />
               </div>
 
               <Separator />
