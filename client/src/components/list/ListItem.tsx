@@ -1,5 +1,5 @@
-import { ElementRef, useRef, useState } from "react";
-import { List } from "@/types/types";
+import { ElementRef, useRef, useState, useMemo } from "react";
+import { List, Card } from "@/types/types";
 import ListHeader from "@/components/list/ListHeader";
 import CardForm from "@/components/card/CardForm";
 import { cn } from "@/lib/utils";
@@ -10,14 +10,21 @@ import { Draggable, Droppable } from "@hello-pangea/dnd";
 interface ListItemProps {
   index: number;
   data: List;
+  filterAndSortCards?: (cards: Card[]) => Card[];
 }
 
-const ListItem = ({ data, index }: ListItemProps) => {
+const ListItem = ({ data, index, filterAndSortCards }: ListItemProps) => {
   const [isEditing, setIsEditing] = useState(false);
 
   console.log(data);
 
   const textareaRef = useRef<ElementRef<"textarea">>(null);
+
+  // Apply filters and sorting to cards
+  const filteredCards = useMemo(() => {
+    if (!filterAndSortCards) return data.cards || [];
+    return filterAndSortCards(data.cards || []);
+  }, [data.cards, filterAndSortCards]);
 
   const disableEditing = () => {
     setIsEditing(false);
@@ -52,10 +59,10 @@ const ListItem = ({ data, index }: ListItemProps) => {
                   {...provided.droppableProps}
                   className={cn(
                     "mx-1 px-1 py-0.5 flex flex-col gap-y-2",
-                    data.cards.length > 0 ? "mt-2" : "mt-0",
+                    filteredCards.length > 0 ? "mt-2" : "mt-0",
                   )}
                 >
-                  {data?.cards?.map((card, index) => {
+                  {filteredCards.map((card, index) => {
                     return (
                       <CardItem
                         index={index}

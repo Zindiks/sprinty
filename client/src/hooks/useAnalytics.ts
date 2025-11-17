@@ -92,6 +92,38 @@ export interface VelocityMetric {
   cards_completed: string;
 }
 
+export interface DueDateCard {
+  id: string;
+  title: string;
+  due_date: string | null;
+  priority: "low" | "medium" | "high" | "critical";
+  status: string | null;
+  list_id: string;
+  list_title: string;
+}
+
+export interface DueDateSummary {
+  overdue: number;
+  dueToday: number;
+  dueThisWeek: number;
+  upcoming: number;
+  noDueDate: number;
+}
+
+export interface DueDateByPriority {
+  critical: number;
+  high: number;
+  medium: number;
+  low: number;
+}
+
+export interface DueDateAnalytics {
+  summary: DueDateSummary;
+  byPriority: DueDateByPriority;
+  overdueCards: DueDateCard[];
+  dueTodayCards: DueDateCard[];
+}
+
 // Hook to fetch personal dashboard
 export const usePersonalDashboard = (organizationId: string | null) => {
   return useQuery<PersonalDashboard>({
@@ -173,6 +205,18 @@ export const useAssignedTasks = (organizationId: string | null) => {
   });
 };
 
+// Hook to fetch due date analytics
+export const useDueDateAnalytics = (boardId: string | null) => {
+  return useQuery<DueDateAnalytics>({
+    queryKey: ["analytics", "board", boardId, "due-dates"],
+    queryFn: async () => {
+      const { data } = await axios.get(
+        `${API_URL}/api/v1/analytics/board/${boardId}/due-dates`,
+        { withCredentials: true }
+      );
+      return data;
+    },
+    enabled: !!boardId,
 // Hook to fetch productivity trends
 export const useProductivityTrends = (
   organizationId: string | null,

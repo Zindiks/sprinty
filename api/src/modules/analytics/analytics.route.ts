@@ -10,6 +10,7 @@ import {
   SprintBurndownResponseSchema,
   VelocityResponseSchema,
   AssignedTaskSchema,
+  DueDateAnalyticsResponseSchema,
 } from "./analytics.schema";
 
 export default async function analyticsRoutes(fastify: FastifyInstance) {
@@ -96,6 +97,20 @@ export default async function analyticsRoutes(fastify: FastifyInstance) {
     controller.getAssignedTasks.bind(controller)
   );
 
+  // Get due date analytics
+  fastify.get(
+    "/board/:boardId/due-dates",
+    {
+      schema: {
+        description: "Get due date analytics for a board",
+        tags: ["Analytics"],
+        params: BoardAnalyticsParamsSchema,
+        response: {
+          200: DueDateAnalyticsResponseSchema,
+        },
+      },
+    },
+    controller.getDueDateAnalytics.bind(controller)
   // Get productivity trends
   fastify.get(
     "/trends/personal",

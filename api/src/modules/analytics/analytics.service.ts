@@ -64,6 +64,10 @@ export class AnalyticsService {
   }
 
   /**
+   * Get due date analytics for a board
+   */
+  async getDueDateAnalytics(boardId: string) {
+    return this.repository.getDueDateAnalytics(boardId);
    * Get productivity trends for a user
    */
   async getProductivityTrends(

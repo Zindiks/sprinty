@@ -17,6 +17,9 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { Download, Clock, CheckCircle, AlertCircle, TrendingUp } from "lucide-react";
+import { OverdueCardsWidget } from "@/components/dashboard/OverdueCardsWidget";
+import { UpcomingDueDatesWidget } from "@/components/dashboard/UpcomingDueDatesWidget";
 import { Download, Clock, CheckCircle, AlertCircle, TrendingUp, LayoutDashboard, LineChart, Calendar, Target, Layout } from "lucide-react";
 
 // Import new widget components
@@ -182,6 +185,16 @@ const Dashboard = () => {
           </div>
         )}
 
+        {/* Due Date Widgets */}
+        {board_id && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <OverdueCardsWidget boardId={board_id} />
+            <UpcomingDueDatesWidget boardId={board_id} />
+          </div>
+        )}
+
+        {/* Board Analytics */}
+        {board_id && boardAnalytics && (
         {/* Tab Content */}
         {!loadingPersonal && (
           <>

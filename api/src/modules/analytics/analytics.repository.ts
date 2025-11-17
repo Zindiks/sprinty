@@ -306,6 +306,136 @@ export class AnalyticsRepository {
   }
 
   /**
+   * Get detailed due date analytics for a board
+   */
+  async getDueDateAnalytics(boardId: string) {
+    const now = this.knex.raw("NOW()");
+
+    // Get overdue cards count
+    const overdueCards = await this.knex("cards")
+      .join("lists", "cards.list_id", "lists.id")
+      .where("lists.board_id", boardId)
+      .whereNotNull("cards.due_date")
+      .where("cards.due_date", "<", now)
+      .whereNot("cards.status", "completed")
+      .count("* as count")
+      .first();
+
+    // Get cards due today
+    const dueToday = await this.knex("cards")
+      .join("lists", "cards.list_id", "lists.id")
+      .where("lists.board_id", boardId)
+      .whereNotNull("cards.due_date")
+      .whereRaw("DATE(cards.due_date) = CURRENT_DATE")
+      .whereNot("cards.status", "completed")
+      .count("* as count")
+      .first();
+
+    // Get cards due this week
+    const dueThisWeek = await this.knex("cards")
+      .join("lists", "cards.list_id", "lists.id")
+      .where("lists.board_id", boardId)
+      .whereNotNull("cards.due_date")
+      .where("cards.due_date", ">=", now)
+      .where("cards.due_date", "<=", this.knex.raw("NOW() + INTERVAL '7 days'"))
+      .whereNot("cards.status", "completed")
+      .count("* as count")
+      .first();
+
+    // Get upcoming cards (beyond this week)
+    const upcoming = await this.knex("cards")
+      .join("lists", "cards.list_id", "lists.id")
+      .where("lists.board_id", boardId)
+      .whereNotNull("cards.due_date")
+      .where("cards.due_date", ">", this.knex.raw("NOW() + INTERVAL '7 days'"))
+      .whereNot("cards.status", "completed")
+      .count("* as count")
+      .first();
+
+    // Get cards with no due date
+    const noDueDate = await this.knex("cards")
+      .join("lists", "cards.list_id", "lists.id")
+      .where("lists.board_id", boardId)
+      .whereNull("cards.due_date")
+      .whereNot("cards.status", "completed")
+      .count("* as count")
+      .first();
+
+    // Get breakdown by priority
+    const byPriority = await this.knex("cards")
+      .join("lists", "cards.list_id", "lists.id")
+      .where("lists.board_id", boardId)
+      .whereNotNull("cards.due_date")
+      .where("cards.due_date", "<", now)
+      .whereNot("cards.status", "completed")
+      .select("cards.priority")
+      .count("* as count")
+      .groupBy("cards.priority");
+
+    // Get overdue cards list
+    const overdueCardsList = await this.knex("cards")
+      .select(
+        "cards.id",
+        "cards.title",
+        "cards.due_date",
+        "cards.priority",
+        "cards.status",
+        "lists.id as list_id",
+        "lists.title as list_title"
+      )
+      .join("lists", "cards.list_id", "lists.id")
+      .where("lists.board_id", boardId)
+      .whereNotNull("cards.due_date")
+      .where("cards.due_date", "<", now)
+      .whereNot("cards.status", "completed")
+      .orderBy("cards.due_date", "asc")
+      .limit(20);
+
+    // Get cards due today list
+    const dueTodayList = await this.knex("cards")
+      .select(
+        "cards.id",
+        "cards.title",
+        "cards.due_date",
+        "cards.priority",
+        "cards.status",
+        "lists.id as list_id",
+        "lists.title as list_title"
+      )
+      .join("lists", "cards.list_id", "lists.id")
+      .where("lists.board_id", boardId)
+      .whereNotNull("cards.due_date")
+      .whereRaw("DATE(cards.due_date) = CURRENT_DATE")
+      .whereNot("cards.status", "completed")
+      .orderBy("cards.due_date", "asc")
+      .limit(20);
+
+    return {
+      summary: {
+        overdue: parseInt(overdueCards?.count as string) || 0,
+        dueToday: parseInt(dueToday?.count as string) || 0,
+        dueThisWeek: parseInt(dueThisWeek?.count as string) || 0,
+        upcoming: parseInt(upcoming?.count as string) || 0,
+        noDueDate: parseInt(noDueDate?.count as string) || 0,
+      },
+      byPriority: {
+        critical: byPriority.find((p) => p.priority === "critical")
+          ? parseInt(byPriority.find((p) => p.priority === "critical")!.count as string)
+          : 0,
+        high: byPriority.find((p) => p.priority === "high")
+          ? parseInt(byPriority.find((p) => p.priority === "high")!.count as string)
+          : 0,
+        medium: byPriority.find((p) => p.priority === "medium")
+          ? parseInt(byPriority.find((p) => p.priority === "medium")!.count as string)
+          : 0,
+        low: byPriority.find((p) => p.priority === "low")
+          ? parseInt(byPriority.find((p) => p.priority === "low")!.count as string)
+          : 0,
+      },
+      overdueCards: overdueCardsList,
+      dueTodayCards: dueTodayList,
+    };
+  }
    * Get productivity trends (cards created vs completed over time)
    */
   async getProductivityTrends(
