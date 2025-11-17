@@ -31,6 +31,7 @@ import attachmentRoutes from "./modules/attachments/attachment.route";
 import activityRoutes from "./modules/activities/activity.route";
 import dashboardLayoutsRoutes from "./modules/dashboard-layouts/dashboard-layouts.route";
 import templateRoutes from "./modules/templates/template.route";
+import reminderRoutes from "./modules/reminders/reminder.route";
 
 import { OrganizationSchema } from "./modules/organizations/organization.schema";
 import { TemplateSchema } from "./modules/templates/template.schema";
@@ -49,6 +50,12 @@ import { SprintSchemas } from "./modules/sprints/sprint.schema";
 import { AttachmentSchema } from "./modules/attachments/attachment.schema";
 import { ActivitySchema } from "./modules/activities/activity.schema";
 import { DashboardLayoutsSchema } from "./modules/dashboard-layouts/dashboard-layouts.schema";
+import {
+  ReminderSchema,
+  CreateReminderSchema,
+  GetCardRemindersSchema,
+  DeleteReminderSchema,
+} from "./modules/reminders/reminder.schema";
 
 import { swaggerDocs } from "./swagger";
 import { options } from "./configs/config";
@@ -144,6 +151,12 @@ async function addSchemas(server: FastifyInstance) {
   for (const schema of Object.values(TemplateSchema)) {
     server.addSchema(schema);
   }
+
+  // Add reminder schemas
+  server.addSchema(ReminderSchema);
+  server.addSchema(CreateReminderSchema);
+  server.addSchema(GetCardRemindersSchema);
+  server.addSchema(DeleteReminderSchema);
 }
 
 async function registerRoutes(server: FastifyInstance) {
@@ -170,6 +183,7 @@ async function registerRoutes(server: FastifyInstance) {
           v1.register(activityRoutes, { prefix: "/activities" });
           v1.register(dashboardLayoutsRoutes, { prefix: "/dashboard-layouts" });
           v1.register(templateRoutes, { prefix: "/templates" });
+          v1.register(reminderRoutes, { prefix: "/reminders" });
         },
         { prefix: "/v1" },
       );
