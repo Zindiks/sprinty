@@ -1,5 +1,11 @@
 import { SearchRepository } from "./search.repository";
-import { SearchQuery, SearchResponse } from "./search.schema";
+import {
+  SearchQuery,
+  SearchResponse,
+  BoardResult,
+  ListResult,
+  CardResult,
+} from "./search.schema";
 
 export class SearchService {
   private readonly searchRepository: SearchRepository;
@@ -14,7 +20,11 @@ export class SearchService {
   async search(params: SearchQuery): Promise<SearchResponse> {
     const { query, type = "all" } = params;
 
-    let results = {
+    let results: {
+      boards: BoardResult[];
+      lists: ListResult[];
+      cards: CardResult[];
+    } = {
       boards: [],
       lists: [],
       cards: [],
