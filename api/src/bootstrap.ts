@@ -24,6 +24,8 @@ import { CardSchema } from "./modules/cards/card.schema";
 
 import { swaggerDocs } from "./swagger";
 import { options } from "./configs/config";
+import { initializeWebSocketServer } from "./modules/websocket/websocket.server";
+import { WebSocketService } from "./modules/websocket/websocket.service";
 
 async function registerPlugins(server: FastifyInstance) {
   await server.register(fastifyEnv, options);
@@ -85,6 +87,13 @@ async function registerRoutes(server: FastifyInstance) {
   );
 }
 
+// Global WebSocket service instance
+let wsServiceInstance: WebSocketService | null = null;
+
+export function getWebSocketService(): WebSocketService | null {
+  return wsServiceInstance;
+}
+
 export async function createServer() {
   const server = Fastify({
     logger: true,
@@ -93,6 +102,25 @@ export async function createServer() {
   await registerPlugins(server);
   await addSchemas(server);
   await registerRoutes(server);
+
+  // Initialize WebSocket server after Fastify is ready
+  await server.ready();
+
+  // Get the underlying HTTP server
+  const httpServer = server.server;
+
+  // Get CORS origin from config
+  const corsOrigin = `http://${server.config.CLIENT_HOST}:${server.config.CLIENT_PORT}`;
+
+  // Initialize WebSocket
+  const { io, wsService } = initializeWebSocketServer(httpServer, corsOrigin);
+  wsServiceInstance = wsService;
+
+  server.log.info("WebSocket server initialized and ready");
+
+  // Decorate Fastify instance with WebSocket service
+  server.decorate("wsService", wsService);
+  server.decorate("io", io);
 
   return server;
 }
