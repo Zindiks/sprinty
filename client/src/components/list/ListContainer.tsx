@@ -1,6 +1,6 @@
 "use client";
 
-import { List } from "@/types/types";
+import { List, Card } from "@/types/types";
 import { useEffect, useState } from "react";
 
 import ListForm from "@/components/list/ListForm";
@@ -14,6 +14,7 @@ import { useCards } from "@/hooks/useCards";
 interface ListContainerProps {
   data: List[];
   board_id: string;
+  filterAndSortCards?: (cards: Card[]) => Card[];
 }
 
 function reorder<T>(list: T[], startIndex: number, endIndex: number) {
@@ -23,7 +24,7 @@ function reorder<T>(list: T[], startIndex: number, endIndex: number) {
   return result;
 }
 
-const ListContainer = ({ data, board_id }: ListContainerProps) => {
+const ListContainer = ({ data, board_id, filterAndSortCards }: ListContainerProps) => {
   const [orderedData, setOrderedData] = useState(data ? data : []);
 
   const { updateListsOrder } = useLists(board_id);
@@ -153,7 +154,14 @@ const ListContainer = ({ data, board_id }: ListContainerProps) => {
             className="flex gap-x-3 h-full"
           >
             {orderedData?.map((list, index) => {
-              return <ListItem key={list.id} index={index} data={list} />;
+              return (
+                <ListItem
+                  key={list.id}
+                  index={index}
+                  data={list}
+                  filterAndSortCards={filterAndSortCards}
+                />
+              );
             })}
 
             {provided.placeholder}

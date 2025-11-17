@@ -1,10 +1,13 @@
-import { TrashIcon, Search } from "lucide-react";
+import { TrashIcon, Search, BookTemplate } from "lucide-react";
 import { useBoard } from "@/hooks/useBoards";
 import { useNavigate } from "react-router-dom";
 import { Board } from "@/types/types";
 import BoardTitleForm from "./BoardTitleForm";
 import { Button } from "@/components/ui/button";
 import { useSearchDialog } from "@/contexts/SearchContext";
+import { GlobalSearchDialog } from "@/components/search/GlobalSearchDialog";
+import { SaveAsTemplateDialog } from "@/components/templates/SaveAsTemplateDialog";
+import { useState, useEffect } from "react";
 
 interface BoardNavBarProps {
   data: Board;
@@ -18,6 +21,8 @@ const BoardNavBar = ({ data }: BoardNavBarProps) => {
   const { deleteBoard } = useBoard(data.organization_id);
   const navigate = useNavigate();
   const { openSearch } = useSearchDialog();
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [saveTemplateOpen, setSaveTemplateOpen] = useState(false);
 
   console.log(data);
 
@@ -46,9 +51,30 @@ const BoardNavBar = ({ data }: BoardNavBarProps) => {
             <span className="text-xs">⌘</span>K
           </kbd>
         </Button>
+
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => setSaveTemplateOpen(true)}
+          className="text-white hover:bg-white/20"
+        >
+          <BookTemplate className="h-4 w-4 mr-2" />
+          Save as Template
+        </Button>
+
         {/*TODO: Popover menu with additional info about board and so on*/}
-        <TrashIcon onClick={() => handleDelete(data.id)} className="cursor-pointer" />
+        <TrashIcon
+          onClick={() => handleDelete(data.id)}
+          className="cursor-pointer hover:text-red-400 transition-colors"
+        />
       </div>
+
+      <GlobalSearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
+      <SaveAsTemplateDialog
+        open={saveTemplateOpen}
+        onOpenChange={setSaveTemplateOpen}
+        boardId={data.id}
+      />
     </div>
   );
 };

@@ -39,6 +39,16 @@ export interface CopyCard {
   list_id: string;
 }
 
+export interface UpdateCardDetails {
+  id: string;
+  list_id: string;
+  title?: string;
+  description?: string | null;
+  status?: string;
+  due_date?: string | null;
+  priority?: "low" | "medium" | "high" | "critical";
+}
+
 export interface FetchError {
   message: string;
   response: {
@@ -110,6 +120,39 @@ export const useCards = () => {
       });
       toast({
         description: `lists succesfully reordered`,
+        duration: 1000,
+      });
+    },
+    onError: ({ response }) => {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: response.data.message,
+      });
+    },
+  });
+
+  const updateCardDetails = useMutation<AxiosResponse, FetchError, UpdateCardDetails>({
+    mutationFn: (formData) => {
+      return axios.patch(
+        `${API_URL}/cards/details`,
+        JSON.stringify(formData),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["lists"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["card-details"],
+      });
+      toast({
+        description: `Card updated successfully`,
         duration: 1000,
       });
     },
@@ -211,6 +254,7 @@ export const useCards = () => {
   return {
     createCard,
     updateCardsOrder,
+    updateCardDetails,
   };
 };
 

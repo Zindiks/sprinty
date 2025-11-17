@@ -70,4 +70,19 @@ export default async function reportRoutes(fastify: FastifyInstance) {
     },
     controller.generateUserActivityReport.bind(controller)
   );
+
+  // Board calendar export
+  fastify.get(
+    "/board/:boardId/calendar",
+    {
+      schema: {
+        description: "Generate board calendar export (iCalendar .ics format)",
+        tags: ["Reports"],
+        params: Type.Object({
+          boardId: Type.String({ format: "uuid" }),
+        }),
+      },
+    },
+    controller.generateBoardCalendar.bind(controller)
+  );
 }

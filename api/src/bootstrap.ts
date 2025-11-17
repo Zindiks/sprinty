@@ -29,8 +29,11 @@ import sprintRoutes from "./modules/sprints/sprint.route";
 import reportRoutes from "./modules/reports/report.route";
 import attachmentRoutes from "./modules/attachments/attachment.route";
 import activityRoutes from "./modules/activities/activity.route";
+import dashboardLayoutsRoutes from "./modules/dashboard-layouts/dashboard-layouts.route";
+import templateRoutes from "./modules/templates/template.route";
 
 import { OrganizationSchema } from "./modules/organizations/organization.schema";
+import { TemplateSchema } from "./modules/templates/template.schema";
 import { BoardSchema } from "./modules/boards/board.schema";
 import { ListSchema } from "./modules/lists/list.schema";
 import { CardSchema } from "./modules/cards/card.schema";
@@ -45,6 +48,7 @@ import { TimeTrackingSchemas } from "./modules/time-tracking/time-tracking.schem
 import { SprintSchemas } from "./modules/sprints/sprint.schema";
 import { AttachmentSchema } from "./modules/attachments/attachment.schema";
 import { ActivitySchema } from "./modules/activities/activity.schema";
+import { DashboardLayoutsSchema } from "./modules/dashboard-layouts/dashboard-layouts.schema";
 
 import { swaggerDocs } from "./swagger";
 import { options } from "./configs/config";
@@ -133,6 +137,13 @@ async function addSchemas(server: FastifyInstance) {
   for (const schema of Object.values(ActivitySchema)) {
     server.addSchema(schema);
   }
+
+  for (const schema of Object.values(DashboardLayoutsSchema)) {
+    server.addSchema(schema);
+  }
+  for (const schema of Object.values(TemplateSchema)) {
+    server.addSchema(schema);
+  }
 }
 
 async function registerRoutes(server: FastifyInstance) {
@@ -157,6 +168,8 @@ async function registerRoutes(server: FastifyInstance) {
           v1.register(reportRoutes, { prefix: "/reports" });
           v1.register(attachmentRoutes, { prefix: "/attachments" });
           v1.register(activityRoutes, { prefix: "/activities" });
+          v1.register(dashboardLayoutsRoutes, { prefix: "/dashboard-layouts" });
+          v1.register(templateRoutes, { prefix: "/templates" });
         },
         { prefix: "/v1" },
       );

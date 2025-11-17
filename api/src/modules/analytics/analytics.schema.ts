@@ -142,6 +142,44 @@ export const VelocityMetricSchema = Type.Object({
 
 export const VelocityResponseSchema = Type.Array(VelocityMetricSchema);
 
+// Due Date Analytics Schemas
+export const DueDateCardSchema = Type.Object({
+  id: Type.String({ format: "uuid" }),
+  title: Type.String(),
+  due_date: Type.Union([Type.String(), Type.Null()]),
+  priority: Type.Union([
+    Type.Literal("low"),
+    Type.Literal("medium"),
+    Type.Literal("high"),
+    Type.Literal("critical"),
+  ]),
+  status: Type.Union([Type.String(), Type.Null()]),
+  list_id: Type.String({ format: "uuid" }),
+  list_title: Type.String(),
+});
+
+export const DueDateSummarySchema = Type.Object({
+  overdue: Type.Number(),
+  dueToday: Type.Number(),
+  dueThisWeek: Type.Number(),
+  upcoming: Type.Number(),
+  noDueDate: Type.Number(),
+});
+
+export const DueDateByPrioritySchema = Type.Object({
+  critical: Type.Number(),
+  high: Type.Number(),
+  medium: Type.Number(),
+  low: Type.Number(),
+});
+
+export const DueDateAnalyticsResponseSchema = Type.Object({
+  summary: DueDateSummarySchema,
+  byPriority: DueDateByPrioritySchema,
+  overdueCards: Type.Array(DueDateCardSchema),
+  dueTodayCards: Type.Array(DueDateCardSchema),
+});
+
 // Type exports
 export type PersonalDashboardQuery = Static<typeof PersonalDashboardQuerySchema>;
 export type BoardAnalyticsParams = Static<typeof BoardAnalyticsParamsSchema>;
@@ -150,6 +188,7 @@ export type PersonalDashboardResponse = Static<typeof PersonalDashboardResponseS
 export type BoardAnalyticsResponse = Static<typeof BoardAnalyticsResponseSchema>;
 export type SprintBurndownResponse = Static<typeof SprintBurndownResponseSchema>;
 export type VelocityResponse = Static<typeof VelocityResponseSchema>;
+export type DueDateAnalyticsResponse = Static<typeof DueDateAnalyticsResponseSchema>;
 
 // Schema collection for registration
 export const AnalyticsSchema = {
@@ -160,4 +199,5 @@ export const AnalyticsSchema = {
   BoardAnalyticsResponseSchema,
   SprintBurndownResponseSchema,
   VelocityResponseSchema,
+  DueDateAnalyticsResponseSchema,
 };
