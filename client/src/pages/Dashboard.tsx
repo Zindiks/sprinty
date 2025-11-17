@@ -1,7 +1,9 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { usePersonalDashboard, useBoardAnalytics } from "../hooks/useAnalytics";
 import { useStore } from "../hooks/store/useStore";
 import { useDashboardStore } from "../hooks/store/useDashboardStore";
+import { useLayoutStore } from "../hooks/store/useLayoutStore";
+import { useDefaultLayout, useUpdateLayout, useCreateLayout } from "../hooks/useDashboardLayouts";
 import {
   BarChart,
   Bar,
@@ -15,7 +17,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { Download, Clock, CheckCircle, AlertCircle, TrendingUp, LayoutDashboard, LineChart, Calendar, Target } from "lucide-react";
+import { Download, Clock, CheckCircle, AlertCircle, TrendingUp, LayoutDashboard, LineChart, Calendar, Target, Layout } from "lucide-react";
 
 // Import new widget components
 import ProductivityTrendChart from "../components/dashboard/widgets/ProductivityTrendChart";
@@ -25,14 +27,22 @@ import MonthlyCompletionWidget from "../components/dashboard/widgets/MonthlyComp
 import VelocityChart from "../components/dashboard/widgets/VelocityChart";
 import DashboardFilters from "../components/dashboard/DashboardFilters";
 import QuickFilterButtons from "../components/dashboard/QuickFilterButtons";
+import DashboardGrid from "../components/dashboard/customizable/DashboardGrid";
 import { filterAndSortTasks } from "../utils/filterTasks";
+import { layoutTemplates } from "../components/dashboard/customizable/layoutTemplates";
 
-type TabType = "overview" | "trends" | "boards" | "sprint";
+type TabType = "overview" | "trends" | "boards" | "sprint" | "custom";
 
 const Dashboard = () => {
   const { organization_id, board_id } = useStore();
   const { filters } = useDashboardStore();
+  const { widgets, setWidgets, isEditMode, setEditMode } = useLayoutStore();
   const [activeTab, setActiveTab] = useState<TabType>("overview");
+
+  // Dashboard layouts hooks
+  const { data: defaultLayout } = useDefaultLayout();
+  const updateLayoutMutation = useUpdateLayout();
+  const createLayoutMutation = useCreateLayout();
 
   const { data: personalDashboard, isLoading: loadingPersonal } =
     usePersonalDashboard(organization_id);
@@ -44,6 +54,16 @@ const Dashboard = () => {
     if (!personalDashboard?.recentTasks) return [];
     return filterAndSortTasks(personalDashboard.recentTasks, filters);
   }, [personalDashboard?.recentTasks, filters]);
+
+  // Load default layout or initialize with default template
+  useEffect(() => {
+    if (defaultLayout && defaultLayout.widgets) {
+      setWidgets(defaultLayout.widgets);
+    } else if (widgets.length === 0) {
+      // Initialize with default template if no widgets
+      setWidgets(layoutTemplates.default.widgets);
+    }
+  }, [defaultLayout]);
 
   const COLORS = {
     primary: "#3b82f6",
@@ -80,8 +100,32 @@ const Dashboard = () => {
     );
   }
 
+  // Handler for saving custom layout
+  const handleSaveLayout = async () => {
+    try {
+      if (defaultLayout) {
+        // Update existing default layout
+        await updateLayoutMutation.mutateAsync({
+          layoutId: defaultLayout.id,
+          input: { widgets },
+        });
+      } else {
+        // Create new default layout
+        await createLayoutMutation.mutateAsync({
+          name: "My Custom Dashboard",
+          widgets,
+          is_default: true,
+        });
+      }
+      setEditMode(false);
+    } catch (error) {
+      console.error("Failed to save layout:", error);
+    }
+  };
+
   const tabs = [
     { id: "overview" as TabType, label: "Overview", icon: LayoutDashboard },
+    { id: "custom" as TabType, label: "Custom", icon: Layout },
     { id: "trends" as TabType, label: "Trends", icon: LineChart },
     { id: "boards" as TabType, label: "Boards", icon: Target },
     { id: "sprint" as TabType, label: "Sprint Analytics", icon: Calendar },
@@ -471,6 +515,18 @@ const Dashboard = () => {
             {activeTab === "boards" && (
               <div className="space-y-8">
                 <BoardsOverviewWidget organizationId={organization_id} />
+              </div>
+            )}
+
+            {/* Custom Dashboard Tab */}
+            {activeTab === "custom" && (
+              <div className="space-y-8">
+                <DashboardGrid
+                  widgets={widgets}
+                  onWidgetsChange={setWidgets}
+                  onSave={handleSaveLayout}
+                  isEditing={isEditMode}
+                />
               </div>
             )}
 
