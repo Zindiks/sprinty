@@ -7,6 +7,10 @@ import { useBoardWebSocket } from "@/hooks/websocket/useBoardWebSocket";
 import { PresenceIndicator } from "@/components/realtime/PresenceIndicator";
 import { ConnectionStatusBanner } from "@/components/realtime/ConnectionStatusBanner";
 import { RealtimeActivityFeed } from "@/components/realtime/RealtimeActivityFeed";
+import { FilterBar } from "@/components/board/FilterBar";
+import { useCardFilters } from "@/hooks/useCardFilters";
+import { useMemo } from "react";
+import type { Card } from "@/types/types";
 
 const BoardView = () => {
   const { board_id } = useParams();
@@ -22,6 +26,23 @@ const BoardView = () => {
 
   // Initialize real-time WebSocket connection for this board
   const { presenceUsers, connectionStatus } = useBoardWebSocket(board_id);
+
+  // Card filtering and sorting
+  const {
+    filters,
+    setDueDateFilter,
+    setSortOption,
+    resetFilters,
+    filterAndSortCards,
+    getFilterStats,
+  } = useCardFilters();
+
+  // Get all cards from all lists for stats
+  const allCards = useMemo(() => {
+    return (lists.data || []).flatMap((list) => list.cards || []);
+  }, [lists.data]);
+
+  const stats = useMemo(() => getFilterStats(allCards), [allCards, getFilterStats]);
 
   if (!data) {
     return <h1>error</h1>;
@@ -39,11 +60,25 @@ const BoardView = () => {
 
         {/* Presence Indicator */}
         <PresenceIndicator users={presenceUsers} maxVisible={5} />
+
+        {/* Filter Bar */}
+        <FilterBar
+          dueDateFilter={filters.dueDate}
+          sortOption={filters.sort}
+          onDueDateFilterChange={setDueDateFilter}
+          onSortChange={setSortOption}
+          onReset={resetFilters}
+          stats={stats}
+        />
       </div>
 
       {/* Board Content */}
       <div className="flex-1 overflow-x-scroll bg-gradient-to-br from-blue-50 via-white to-purple-50">
-        <ListContainer board_id={board_id} data={lists.data || []} />
+        <ListContainer
+          board_id={board_id}
+          data={lists.data || []}
+          filterAndSortCards={filterAndSortCards}
+        />
       </div>
     </div>
   );
