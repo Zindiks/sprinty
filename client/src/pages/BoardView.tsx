@@ -7,6 +7,7 @@ import { useBoardWebSocket } from "@/hooks/websocket/useBoardWebSocket";
 import { PresenceIndicator } from "@/components/realtime/PresenceIndicator";
 import { ConnectionStatusBanner } from "@/components/realtime/ConnectionStatusBanner";
 import { RealtimeActivityFeed } from "@/components/realtime/RealtimeActivityFeed";
+import { ReminderListener } from "@/components/realtime/ReminderListener";
 import { FilterBar } from "@/components/board/FilterBar";
 import { useCardFilters } from "@/hooks/useCardFilters";
 import { useMemo } from "react";
@@ -55,6 +56,9 @@ const BoardView = () => {
     <div className="flex h-full w-full flex-col">
       {/* Real-time activity feed (manages toasts in background) */}
       <RealtimeActivityFeed boardId={board_id} />
+
+      {/* Reminder listener (manages reminder notifications in background) */}
+      <ReminderListener />
 
       {/* Header with connection status and presence */}
       <div className="sticky top-0 z-10 bg-white border-b border-gray-200 px-4 py-3 space-y-2">

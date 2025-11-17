@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { DatePicker } from "@/components/ui/date-picker";
+import { ReminderSection } from "@/components/card/ReminderSection";
 import { useCards } from "@/hooks/useCards";
 import {
   Calendar,
@@ -30,6 +31,7 @@ import {
   Paperclip,
   Clock,
   Activity as ActivityIcon,
+  Bell,
 } from "lucide-react";
 
 interface CardDetailsModalProps {
@@ -126,6 +128,19 @@ export const CardDetailsModal = ({
               date={card.due_date}
               onDateChange={handleDueDateChange}
               placeholder="Set due date"
+            />
+          </div>
+
+          {/* Reminders Section */}
+          <div>
+            <h3 className="text-sm font-semibold mb-2 flex items-center gap-2">
+              <Bell className="w-4 h-4" />
+              Reminders
+            </h3>
+            <ReminderSection
+              cardId={card.id}
+              userId={(window as any).user?.id || ""}
+              dueDate={card.due_date}
             />
           </div>
 
