@@ -87,41 +87,47 @@ export const handlers = [
     return HttpResponse.json(newList, { status: 201 });
   }),
 
-  // PUT /lists/:id - Update list
-  http.put(`${API_URL}/lists/:listId`, async ({ params, request }) => {
-    const { listId } = params;
+  // PATCH /lists/update - Update list title
+  http.patch(`${API_URL}/lists/update`, async ({ request }) => {
     const body = (await request.json()) as any;
     const updatedList = mockList({
-      id: listId as string,
+      id: body.id as string,
       title: body.title,
+      board_id: body.board_id,
     });
     return HttpResponse.json(updatedList);
   }),
 
-  // DELETE /lists/:id - Delete list
-  http.delete(`${API_URL}/lists/:listId`, ({ params }) => {
+  // DELETE /lists/:id/board/:boardId - Delete list
+  http.delete(`${API_URL}/lists/:listId/board/:boardId`, ({ params }) => {
     const { listId } = params;
+    const deletedList = mockList({ id: listId as string, title: 'Deleted List' });
     return HttpResponse.json({
       success: true,
       id: listId,
+      title: deletedList.title,
     });
   }),
 
-  // POST /lists/:id/copy - Copy list
-  http.post(`${API_URL}/lists/:listId/copy`, ({ params }) => {
-    const { listId } = params;
+  // POST /lists/copy - Copy list
+  http.post(`${API_URL}/lists/copy`, async ({ request }) => {
+    const body = (await request.json()) as any;
     const copiedList = mockList({
+      id: body.id,
+      board_id: body.board_id,
       title: 'Copied List',
     });
     return HttpResponse.json(copiedList, { status: 201 });
   }),
 
-  // PUT /lists/reorder - Reorder lists
-  http.put(`${API_URL}/lists/reorder`, async ({ request }) => {
+  // PUT /lists/order/:boardId - Reorder lists
+  http.put(`${API_URL}/lists/order/:boardId`, async ({ params, request }) => {
+    const { boardId } = params;
     const body = (await request.json()) as any;
     return HttpResponse.json({
       success: true,
-      lists: body.lists,
+      board_id: boardId,
+      lists: body.lists || body,
     });
   }),
 
@@ -139,8 +145,8 @@ export const handlers = [
     return HttpResponse.json(cards);
   }),
 
-  // GET /cards/details/:cardId - Fetch card with details
-  http.get(`${API_URL}/cards/details/:cardId`, ({ params }) => {
+  // GET /cards/:cardId/details - Fetch card with details
+  http.get(`${API_URL}/cards/:cardId/details`, ({ params }) => {
     const { cardId } = params;
     const card = mockCard({ id: cardId as string });
     // Return card with all details (would be CardWithDetails in real app)
@@ -192,12 +198,61 @@ export const handlers = [
     return HttpResponse.json(updatedCard);
   }),
 
+  // PATCH /cards/details - Update card details (used by useCards)
+  http.patch(`${API_URL}/cards/details`, async ({ request }) => {
+    const body = (await request.json()) as any;
+    const updatedCard = mockCard({
+      id: body.id as string,
+      list_id: body.list_id,
+      title: body.title,
+      description: body.description,
+      status: body.status,
+      due_date: body.due_date,
+      priority: body.priority,
+    });
+    return HttpResponse.json(updatedCard);
+  }),
+
+  // PATCH /cards/:cardId/details - Update card details (used by useCardDetails)
+  http.patch(`${API_URL}/cards/:cardId/details`, async ({ params, request }) => {
+    const { cardId } = params;
+    const body = (await request.json()) as any;
+    const updatedCard = mockCard({
+      id: cardId as string,
+      title: body.title,
+      description: body.description,
+      status: body.status,
+      due_date: body.due_date,
+      priority: body.priority,
+    });
+    return HttpResponse.json(updatedCard);
+  }),
+
+  // PUT /cards/order - Reorder cards
+  http.put(`${API_URL}/cards/order`, async ({ request }) => {
+    const body = (await request.json()) as any;
+    return HttpResponse.json({
+      success: true,
+      cards: body.cards || body,
+    });
+  }),
+
   // DELETE /cards/:id - Delete card
   http.delete(`${API_URL}/cards/:cardId`, ({ params }) => {
     const { cardId } = params;
     return HttpResponse.json({
       success: true,
       id: cardId,
+    });
+  }),
+
+  // DELETE /cards/:cardId/list/:listId - Delete card from list
+  http.delete(`${API_URL}/cards/:cardId/list/:listId`, ({ params }) => {
+    const { cardId, listId } = params;
+    return HttpResponse.json({
+      success: true,
+      id: cardId,
+      list_id: listId,
     });
   }),
 
@@ -307,6 +362,49 @@ export const errorHandlers = {
     );
   }),
 
+  // List errors
+  listsFetchError: http.get(`${API_URL}/lists/:boardId`, () => {
+    return HttpResponse.json(
+      { error: 'Failed to fetch lists' },
+      { status: 500 }
+    );
+  }),
+
+  listCreateError: http.post(`${API_URL}/lists`, () => {
+    return HttpResponse.json(
+      { error: 'Failed to create list' },
+      { status: 400 }
+    );
+  }),
+
+  listCopyError: http.post(`${API_URL}/lists/copy`, () => {
+    return HttpResponse.json(
+      { error: 'Failed to copy list' },
+      { status: 500 }
+    );
+  }),
+
+  listUpdateError: http.patch(`${API_URL}/lists/update`, () => {
+    return HttpResponse.json(
+      { error: 'Failed to update list' },
+      { status: 500 }
+    );
+  }),
+
+  listDeleteError: http.delete(`${API_URL}/lists/:listId/board/:boardId`, () => {
+    return HttpResponse.json(
+      { error: 'Failed to delete list' },
+      { status: 500 }
+    );
+  }),
+
+  listReorderError: http.put(`${API_URL}/lists/order/:boardId`, () => {
+    return HttpResponse.json(
+      { error: 'Failed to reorder lists' },
+      { status: 500 }
+    );
+  }),
+
   // Card errors
   cardCreateError: http.post(`${API_URL}/cards`, () => {
     return HttpResponse.json(
@@ -318,6 +416,43 @@ export const errorHandlers = {
   cardUpdateError: http.put(`${API_URL}/cards/:cardId`, () => {
     return HttpResponse.json(
       { error: 'Failed to update card' },
+      { status: 500 }
+    );
+  }),
+
+  cardDetailsFetchError: http.get(`${API_URL}/cards/:cardId/details`, () => {
+    return HttpResponse.json(
+      { error: 'Failed to fetch card details' },
+      { status: 500 }
+    );
+  }),
+
+  // Error handler for useCards endpoint
+  cardDetailsUpdateError: http.patch(`${API_URL}/cards/details`, () => {
+    return HttpResponse.json(
+      { error: 'Failed to update card details' },
+      { status: 500 }
+    );
+  }),
+
+  // Error handler for useCardDetails endpoint
+  cardDetailsUpdateErrorWithId: http.patch(`${API_URL}/cards/:cardId/details`, () => {
+    return HttpResponse.json(
+      { error: 'Failed to update card details' },
+      { status: 500 }
+    );
+  }),
+
+  cardDeleteError: http.delete(`${API_URL}/cards/:cardId/list/:listId`, () => {
+    return HttpResponse.json(
+      { error: 'Failed to delete card' },
+      { status: 500 }
+    );
+  }),
+
+  cardReorderError: http.put(`${API_URL}/cards/order`, () => {
+    return HttpResponse.json(
+      { error: 'Failed to reorder cards' },
       { status: 500 }
     );
   }),
