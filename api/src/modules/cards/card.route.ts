@@ -1,8 +1,10 @@
 import { FastifyInstance } from "fastify";
 import { CardController } from "./card.controller";
+import { BulkController } from "./bulk.controller";
 import { CardSchema } from "./card.schema";
 
 const cardController = new CardController();
+const bulkController = new BulkController();
 
 export default async function cardRoutes(fastify: FastifyInstance) {
   fastify.get(
@@ -139,5 +141,118 @@ export default async function cardRoutes(fastify: FastifyInstance) {
       },
     },
     cardController.deleteCardController.bind(cardController),
+  );
+
+  // Bulk operations
+  fastify.post(
+    "/bulk/move",
+    {
+      schema: {
+        body: {
+          type: "object",
+          required: ["card_ids", "target_list_id"],
+          properties: {
+            card_ids: { type: "array", items: { type: "string" } },
+            target_list_id: { type: "string" },
+          },
+        },
+        tags: ["card", "bulk"],
+        description: "Move multiple cards to a target list",
+      },
+    },
+    bulkController.bulkMoveCards.bind(bulkController),
+  );
+
+  fastify.post(
+    "/bulk/assign",
+    {
+      schema: {
+        body: {
+          type: "object",
+          required: ["card_ids", "user_ids"],
+          properties: {
+            card_ids: { type: "array", items: { type: "string" } },
+            user_ids: { type: "array", items: { type: "string" } },
+          },
+        },
+        tags: ["card", "bulk"],
+        description: "Assign users to multiple cards",
+      },
+    },
+    bulkController.bulkAssignUsers.bind(bulkController),
+  );
+
+  fastify.post(
+    "/bulk/labels",
+    {
+      schema: {
+        body: {
+          type: "object",
+          required: ["card_ids", "label_ids"],
+          properties: {
+            card_ids: { type: "array", items: { type: "string" } },
+            label_ids: { type: "array", items: { type: "string" } },
+          },
+        },
+        tags: ["card", "bulk"],
+        description: "Add labels to multiple cards",
+      },
+    },
+    bulkController.bulkAddLabels.bind(bulkController),
+  );
+
+  fastify.post(
+    "/bulk/due-date",
+    {
+      schema: {
+        body: {
+          type: "object",
+          required: ["card_ids"],
+          properties: {
+            card_ids: { type: "array", items: { type: "string" } },
+            due_date: { type: ["string", "null"] },
+          },
+        },
+        tags: ["card", "bulk"],
+        description: "Set due date on multiple cards",
+      },
+    },
+    bulkController.bulkSetDueDate.bind(bulkController),
+  );
+
+  fastify.post(
+    "/bulk/archive",
+    {
+      schema: {
+        body: {
+          type: "object",
+          required: ["card_ids"],
+          properties: {
+            card_ids: { type: "array", items: { type: "string" } },
+          },
+        },
+        tags: ["card", "bulk"],
+        description: "Archive multiple cards",
+      },
+    },
+    bulkController.bulkArchiveCards.bind(bulkController),
+  );
+
+  fastify.delete(
+    "/bulk",
+    {
+      schema: {
+        body: {
+          type: "object",
+          required: ["card_ids"],
+          properties: {
+            card_ids: { type: "array", items: { type: "string" } },
+          },
+        },
+        tags: ["card", "bulk"],
+        description: "Delete multiple cards",
+      },
+    },
+    bulkController.bulkDeleteCards.bind(bulkController),
   );
 }

@@ -4,6 +4,7 @@ import ListHeader from "@/components/list/ListHeader";
 import CardForm from "@/components/card/CardForm";
 import { cn } from "@/lib/utils";
 import CardItem from "@/components/card/CardItem";
+import { useSelectionKeyboard } from "@/hooks/useSelectionKeyboard";
 
 import { Draggable, Droppable } from "@hello-pangea/dnd";
 
@@ -20,6 +21,11 @@ const ListItem = ({ data, index, filterAndSortCards }: ListItemProps) => {
 
   const textareaRef = useRef<ElementRef<"textarea">>(null);
 
+  // Enable keyboard shortcuts for this list
+  useSelectionKeyboard({
+    listId: data.id,
+    cardIds: data.cards.map((c) => c.id),
+  });
   // Apply filters and sorting to cards
   const filteredCards = useMemo(() => {
     if (!filterAndSortCards) return data.cards || [];
@@ -68,6 +74,7 @@ const ListItem = ({ data, index, filterAndSortCards }: ListItemProps) => {
                         index={index}
                         key={card.id + index}
                         data={card}
+                        allCardIds={data.cards.map((c) => c.id)}
                       />
                     );
                   })}
