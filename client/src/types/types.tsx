@@ -26,6 +26,73 @@ export interface List {
   cards: Card[];
 }
 
+export interface User {
+  id: string;
+  email: string;
+  username?: string;
+}
+
+export interface Assignee {
+  id: string;
+  card_id: string;
+  user_id: string;
+  assigned_at: string;
+  assigned_by?: string;
+  user: User;
+}
+
+export interface Label {
+  id: string;
+  board_id: string;
+  name: string;
+  color: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ChecklistItem {
+  id: string;
+  card_id: string;
+  title: string;
+  completed: boolean;
+  order: number;
+  completed_by?: string;
+  completed_at?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ChecklistProgress {
+  total: number;
+  completed: number;
+  percentage: number;
+}
+
+export interface Comment {
+  id: string;
+  card_id: string;
+  user_id: string;
+  content: string;
+  parent_comment_id?: string;
+  is_edited: boolean;
+  created_at: string;
+  updated_at: string;
+  user: User;
+  replies?: Comment[];
+}
+
+export interface Attachment {
+  id: string;
+  card_id: string;
+  filename: string;
+  original_filename: string;
+  mime_type: string;
+  file_size: number;
+  uploaded_by: string;
+  uploaded_at: string;
+  user: User;
+}
+
 export interface Card {
   id: string;
   list_id: string;
@@ -33,8 +100,19 @@ export interface Card {
   order: number;
   description?: string;
   status: string;
+  due_date?: string;
+  priority?: "low" | "medium" | "high" | "critical";
   created_at: string;
   updated_at: string;
+}
+
+export interface CardWithDetails extends Card {
+  assignees: Assignee[];
+  labels: Label[];
+  checklist_items: ChecklistItem[];
+  checklist_progress: ChecklistProgress;
+  comments: Comment[];
+  attachments: Attachment[];
 }
 
 export interface Profile {
