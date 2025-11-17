@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 import ListForm from "@/components/list/ListForm";
 import ListItem from "@/components/list/ListItem";
-import { SelectionIndicator } from "@/components/card/SelectionIndicator";
+import { BulkActionsToolbar } from "@/components/card/BulkActionsToolbar";
 
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 // import { assign } from "lodash"
@@ -166,8 +166,8 @@ const ListContainer = ({ data, board_id }: ListContainerProps) => {
         </Droppable>
       </DragDropContext>
 
-      {/* Selection indicator - shows count and clear button */}
-      <SelectionIndicator />
+      {/* Bulk actions toolbar - shows when cards are selected */}
+      <BulkActionsToolbar />
     </>
   );
 };
