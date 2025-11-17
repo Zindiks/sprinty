@@ -37,6 +37,16 @@ export interface Card {
   updated_at: string;
 }
 
+export interface Profile {
+  id: string;
+  user_id: string;
+  username: string;
+  email: string;
+  description?: string;
+  date_of_birth?: string;
+  avatar_url?: string;
+  created_at: string;
+  updated_at: string;
 // Search types
 export interface BoardResult {
   id: string;

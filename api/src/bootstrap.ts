@@ -16,6 +16,7 @@ import organizationsRouter from "./modules/organizations/organization.route";
 import boardRoutes from "./modules/boards/board.route";
 import listRoutes from "./modules/lists/list.route";
 import cardRoutes from "./modules/cards/card.route";
+import profileRoutes from "./modules/profiles/profile.route";
 import assigneeRoutes from "./modules/assignees/assignee.route";
 import labelRoutes from "./modules/labels/label.route";
 import checklistRoutes from "./modules/checklists/checklist.route";
@@ -25,6 +26,7 @@ import { OrganizationSchema } from "./modules/organizations/organization.schema"
 import { BoardSchema } from "./modules/boards/board.schema";
 import { ListSchema } from "./modules/lists/list.schema";
 import { CardSchema } from "./modules/cards/card.schema";
+import { ProfileSchema } from "./modules/profiles/profile.schema";
 import { AssigneeSchema } from "./modules/assignees/assignee.schema";
 import { LabelSchema } from "./modules/labels/label.schema";
 import { ChecklistSchema } from "./modules/checklists/checklist.schema";
@@ -69,6 +71,10 @@ async function addSchemas(server: FastifyInstance) {
     server.addSchema(schema);
   }
 
+  for (const schema of Object.values(ProfileSchema)) {
+    server.addSchema(schema);
+  }
+  
   for (const schema of Object.values(AssigneeSchema)) {
     server.addSchema(schema);
   }
@@ -96,6 +102,7 @@ async function registerRoutes(server: FastifyInstance) {
           v1.register(boardRoutes, { prefix: "/boards" });
           v1.register(listRoutes, { prefix: "/lists" });
           v1.register(cardRoutes, { prefix: "/cards" });
+          v1.register(profileRoutes, { prefix: "/profiles" });
           v1.register(assigneeRoutes, { prefix: "/assignees" });
           v1.register(labelRoutes, { prefix: "/labels" });
           v1.register(checklistRoutes, { prefix: "/checklists" });
