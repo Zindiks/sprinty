@@ -10,10 +10,11 @@ const mockKnex = knexInstance as jest.Mocked<Knex>;
 describe("BulkService", () => {
   let bulkService: BulkService;
   let mockTrx: any;
+  let mockQueryBuilder: any; // Move to describe scope
 
   beforeEach(() => {
-    // Create a mock query builder
-    const mockQueryBuilder = {
+    // Create a shared mock query builder that we can reference
+    mockQueryBuilder = {
       where: jest.fn().mockReturnThis(),
       whereIn: jest.fn().mockReturnThis(),
       whereNot: jest.fn().mockReturnThis(),
@@ -35,8 +36,9 @@ describe("BulkService", () => {
       now: jest.fn(() => new Date()),
     };
 
-    // Copy methods to mockTrx for direct access
+    // Copy methods to mockTrx for direct access AND store reference
     Object.assign(mockTrx, mockQueryBuilder);
+    mockTrx.queryBuilder = mockQueryBuilder;
 
     // Mock transaction
     mockKnex.transaction = jest.fn(async (callback) => {
@@ -150,11 +152,9 @@ describe("BulkService", () => {
       };
 
       const error = new Error("Database error");
-      mockKnex.transaction = jest.fn(async (callback) => {
-        return await callback(mockTrx);
-      }) as any;
 
-      mockTrx.update = jest.fn().mockRejectedValue(error);
+      // Mock update to reject on the query builder
+      mockQueryBuilder.update = jest.fn().mockRejectedValue(error);
 
       // Act & Assert
       await expect(bulkService.moveCards(input)).rejects.toThrow(
@@ -188,16 +188,13 @@ describe("BulkService", () => {
         user_ids: ["user-a"],
       };
 
-      // onConflict should ignore duplicates
-      mockTrx.ignore = jest.fn().mockResolvedValue([]);
-
       // Act
       const result = await bulkService.assignUsers(input);
 
       // Assert
       expect(result.success).toBe(true);
-      expect(mockTrx.onConflict).toHaveBeenCalled();
-      expect(mockTrx.ignore).toHaveBeenCalled();
+      expect(mockQueryBuilder.onConflict).toHaveBeenCalled();
+      expect(mockQueryBuilder.ignore).toHaveBeenCalled();
     });
 
     it("should assign single user to single card", async () => {
@@ -252,10 +249,9 @@ describe("BulkService", () => {
       };
 
       const error = new Error("Assignment failed");
-      mockTrx.insert = jest.fn().mockRejectedValue(error);
-      mockKnex.transaction = jest.fn(async (callback) => {
-        return await callback(mockTrx);
-      }) as any;
+
+      // Mock the chain to reject at ignore() to maintain chaining
+      mockQueryBuilder.ignore = jest.fn().mockRejectedValue(error);
 
       // Act & Assert
       await expect(bulkService.assignUsers(input)).rejects.toThrow(
@@ -530,10 +526,9 @@ describe("BulkService", () => {
         card_ids: ["card-1"],
       };
 
-      const deleteOrder: string[] = [];
-      mockTrx.del = jest.fn(() => {
-        // Track which table is being deleted
-        deleteOrder.push("del");
+      let deleteCallCount = 0;
+      mockQueryBuilder.del = jest.fn(() => {
+        deleteCallCount++;
         return Promise.resolve(1);
       });
 
@@ -541,9 +536,10 @@ describe("BulkService", () => {
       await bulkService.deleteCards(input);
 
       // Assert
-      // Should delete from multiple tables (assignees, labels, checklists, comments, attachments, activities, cards)
-      expect(mockTrx.del).toHaveBeenCalled();
-      expect(mockTrx.whereIn).toHaveBeenCalled();
+      // Should delete from 7 tables (assignees, labels, checklists, comments, attachments, activities, cards)
+      expect(deleteCallCount).toBeGreaterThanOrEqual(7);
+      expect(mockQueryBuilder.del).toHaveBeenCalled();
+      expect(mockQueryBuilder.whereIn).toHaveBeenCalled();
     });
 
     it("should delete assignees, labels, checklists, comments, attachments, activities", async () => {
@@ -583,10 +579,9 @@ describe("BulkService", () => {
       };
 
       const error = new Error("Deletion failed");
-      mockTrx.del = jest.fn().mockRejectedValue(error);
-      mockKnex.transaction = jest.fn(async (callback) => {
-        return await callback(mockTrx);
-      }) as any;
+
+      // Mock del to reject on the query builder
+      mockQueryBuilder.del = jest.fn().mockRejectedValue(error);
 
       // Act & Assert
       await expect(bulkService.deleteCards(input)).rejects.toThrow(
@@ -637,10 +632,9 @@ describe("BulkService", () => {
       const input = { card_ids: ["card-1"], target_list_id: "list-1" };
 
       const error = new Error("Operation failed");
-      mockTrx.update = jest.fn().mockRejectedValue(error);
-      mockKnex.transaction = jest.fn(async (callback) => {
-        return await callback(mockTrx);
-      }) as any;
+
+      // Mock update to reject on the query builder
+      mockQueryBuilder.update = jest.fn().mockRejectedValue(error);
 
       await expect(bulkService.moveCards(input)).rejects.toThrow();
     });
