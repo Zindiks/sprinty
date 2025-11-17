@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Plus, Home, Mail, User } from "lucide-react";
+import { Plus, Home, Mail, User, UserCircle } from "lucide-react";
 
 import { SidebarItem } from "./SidebarItem";
 import { OrganizationCombobox } from "./organization/OrganizationCombobox";
@@ -27,6 +27,10 @@ export const StaticSidebar = () => {
 
         <Link to="/user">
           <SidebarItem icon={User} tooltip="User" />
+        </Link>
+
+        <Link to="/profile">
+          <SidebarItem icon={UserCircle} tooltip="Profile" />
         </Link>
 
         {/* Other items */}
