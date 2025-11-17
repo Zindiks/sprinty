@@ -2,7 +2,7 @@ import ListContainer from "@/components/list/ListContainer";
 import { useStore } from "@/hooks/store/useStore";
 import { useBoard } from "@/hooks/useBoards";
 import { useLists } from "@/hooks/useLists";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useBoardWebSocket } from "@/hooks/websocket/useBoardWebSocket";
 import { PresenceIndicator } from "@/components/realtime/PresenceIndicator";
 import { ConnectionStatusBanner } from "@/components/realtime/ConnectionStatusBanner";
@@ -11,9 +11,12 @@ import { FilterBar } from "@/components/board/FilterBar";
 import { useCardFilters } from "@/hooks/useCardFilters";
 import { useMemo } from "react";
 import type { Card } from "@/types/types";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "lucide-react";
 
 const BoardView = () => {
   const { board_id } = useParams();
+  const navigate = useNavigate();
   const { organization_id } = useStore();
   const { GetBoard } = useBoard(organization_id);
 
@@ -61,15 +64,25 @@ const BoardView = () => {
         {/* Presence Indicator */}
         <PresenceIndicator users={presenceUsers} maxVisible={5} />
 
-        {/* Filter Bar */}
-        <FilterBar
-          dueDateFilter={filters.dueDate}
-          sortOption={filters.sort}
-          onDueDateFilterChange={setDueDateFilter}
-          onSortChange={setSortOption}
-          onReset={resetFilters}
-          stats={stats}
-        />
+        {/* Filter Bar and Calendar Button */}
+        <div className="flex items-center justify-between gap-4 flex-wrap">
+          <FilterBar
+            dueDateFilter={filters.dueDate}
+            sortOption={filters.sort}
+            onDueDateFilterChange={setDueDateFilter}
+            onSortChange={setSortOption}
+            onReset={resetFilters}
+            stats={stats}
+          />
+          <Button
+            variant="outline"
+            onClick={() => navigate(`/board/${board_id}/calendar`)}
+            className="gap-2"
+          >
+            <Calendar className="h-4 w-4" />
+            Calendar View
+          </Button>
+        </div>
       </div>
 
       {/* Board Content */}

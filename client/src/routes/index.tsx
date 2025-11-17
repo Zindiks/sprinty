@@ -4,6 +4,7 @@ import User from "../pages/User";
 import Marketing from "@/pages/Marketing";
 import Boards from "@/pages/Boards";
 import BoardView from "../pages/BoardView";
+import CalendarView from "../pages/CalendarView";
 import BoardLayout from "@/pages/BoardLayout";
 import Organizations from "@/pages/Organization";
 import Dashboard from "@/pages/Dashboard";
@@ -24,6 +25,7 @@ const AppRoutes = () => (
 
       <Route path="board" element={<BoardLayout />}>
         <Route path=":board_id" element={<BoardView />} />
+        <Route path=":board_id/calendar" element={<CalendarView />} />
       </Route>
     </Routes>
   </Router>
