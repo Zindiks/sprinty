@@ -86,6 +86,7 @@ describe("SearchService", () => {
           boards: mockBoards,
           lists: mockLists,
           cards: mockCards,
+          comments: [],
         },
       });
       expect(searchRepository.searchAll).toHaveBeenCalledWith(params);
@@ -169,6 +170,7 @@ describe("SearchService", () => {
           boards: [],
           lists: [],
           cards: mockCards,
+          comments: [],
         },
       });
       expect(searchRepository.searchCards).toHaveBeenCalledWith(
@@ -176,6 +178,13 @@ describe("SearchService", () => {
         "org-1",
         undefined,
         50,
+        {
+          assignee_id: undefined,
+          label_id: undefined,
+          date_from: undefined,
+          date_to: undefined,
+          include_archived: undefined,
+        },
       );
     });
 
