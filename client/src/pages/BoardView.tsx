@@ -4,7 +4,9 @@ import { useBoard } from "@/hooks/useBoards";
 import { useLists } from "@/hooks/useLists";
 import { useParams } from "react-router-dom";
 import { useBoardWebSocket } from "@/hooks/websocket/useBoardWebSocket";
-import { ConnectionStatus } from "@/types/websocket.types";
+import { PresenceIndicator } from "@/components/realtime/PresenceIndicator";
+import { ConnectionStatusBanner } from "@/components/realtime/ConnectionStatusBanner";
+import { RealtimeActivityFeed } from "@/components/realtime/RealtimeActivityFeed";
 
 const BoardView = () => {
   const { board_id } = useParams();
@@ -26,43 +28,21 @@ const BoardView = () => {
   }
 
   return (
-    <div className="flex h-full w-full flex-col overflow-x-scroll">
-      {/* Connection status indicator */}
-      {connectionStatus !== ConnectionStatus.CONNECTED && (
-        <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-2 text-sm">
-          {connectionStatus === ConnectionStatus.CONNECTING && "Connecting to real-time updates..."}
-          {connectionStatus === ConnectionStatus.DISCONNECTED && "Disconnected from real-time updates"}
-          {connectionStatus === ConnectionStatus.ERROR && "Error connecting to real-time updates"}
-        </div>
-      )}
+    <div className="flex h-full w-full flex-col">
+      {/* Real-time activity feed (manages toasts in background) */}
+      <RealtimeActivityFeed boardId={board_id} />
 
-      {/* Presence indicator */}
-      {presenceUsers.length > 0 && (
-        <div className="bg-blue-50 p-2 text-sm border-b">
-          <span className="font-medium">Active users:</span> {presenceUsers.length}
-          <div className="flex gap-2 mt-1">
-            {presenceUsers.map((user) => (
-              <div
-                key={user.id}
-                className="flex items-center gap-1 bg-white px-2 py-1 rounded border"
-                title={user.email}
-              >
-                {user.avatarUrl && (
-                  <img
-                    src={user.avatarUrl}
-                    alt={user.email}
-                    className="w-5 h-5 rounded-full"
-                  />
-                )}
-                <span className="text-xs">{user.email}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+      {/* Header with connection status and presence */}
+      <div className="sticky top-0 z-10 bg-white border-b border-gray-200 px-4 py-3 space-y-2">
+        {/* Connection Status Banner */}
+        <ConnectionStatusBanner status={connectionStatus} />
 
-      <div className="flex-1">
-        <h1>{organization_id}</h1>
+        {/* Presence Indicator */}
+        <PresenceIndicator users={presenceUsers} maxVisible={5} />
+      </div>
+
+      {/* Board Content */}
+      <div className="flex-1 overflow-x-scroll bg-gradient-to-br from-blue-50 via-white to-purple-50">
         <ListContainer board_id={board_id} data={lists.data || []} />
       </div>
     </div>
