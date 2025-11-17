@@ -3,9 +3,12 @@ import {
   CreateCard,
   UpdateCardOrderArray,
   UpdateCardTitle,
+  UpdateCardDetails,
   DeleteCard,
   FullCardResponse,
   FullCardResponseArray,
+  CardWithAssigneesResponse,
+  CardWithDetailsResponse,
 } from "./card.schema";
 import knexInstance from "../../db/knexInstance";
 
@@ -23,6 +26,100 @@ export class CardRepository {
     return data;
   }
 
+  async getCardWithAssignees(
+    id: string,
+  ): Promise<CardWithAssigneesResponse | undefined> {
+    const card = await this.getCardById(id);
+    if (!card) {
+      return undefined;
+    }
+
+    const assignees = await this.knex("card_assignees")
+      .where({ "card_assignees.card_id": id })
+      .join("users", "card_assignees.user_id", "users.id")
+      .leftJoin("profiles", "users.id", "profiles.user_id")
+      .select(
+        "card_assignees.id",
+        "card_assignees.card_id",
+        "card_assignees.user_id",
+        "card_assignees.assigned_at",
+        "card_assignees.assigned_by",
+        this.knex.raw(`
+          json_build_object(
+            'id', users.id,
+            'email', users.email,
+            'username', profiles.username
+          ) as user
+        `),
+      )
+      .orderBy("card_assignees.assigned_at", "asc");
+
+    return {
+      ...card,
+      assignees: assignees || [],
+    };
+  }
+
+  async getCardWithDetails(
+    id: string,
+  ): Promise<CardWithDetailsResponse | undefined> {
+    const card = await this.getCardById(id);
+    if (!card) {
+      return undefined;
+    }
+
+    // Get assignees
+    const assignees = await this.knex("card_assignees")
+      .where({ "card_assignees.card_id": id })
+      .join("users", "card_assignees.user_id", "users.id")
+      .leftJoin("profiles", "users.id", "profiles.user_id")
+      .select(
+        "card_assignees.id",
+        "card_assignees.card_id",
+        "card_assignees.user_id",
+        "card_assignees.assigned_at",
+        "card_assignees.assigned_by",
+        this.knex.raw(`
+          json_build_object(
+            'id', users.id,
+            'email', users.email,
+            'username', profiles.username
+          ) as user
+        `),
+      )
+      .orderBy("card_assignees.assigned_at", "asc");
+
+    // Get labels
+    const labels = await this.knex("labels")
+      .join("card_labels", "labels.id", "card_labels.label_id")
+      .where({ "card_labels.card_id": id })
+      .select("labels.*")
+      .orderBy("labels.name", "asc");
+
+    // Get checklist items
+    const checklistItems = await this.knex("checklist_items")
+      .where({ card_id: id })
+      .orderBy("order", "asc")
+      .select("*");
+
+    // Calculate checklist progress
+    const total = checklistItems.length;
+    const completed = checklistItems.filter((item) => item.completed).length;
+    const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+    return {
+      ...card,
+      assignees: assignees || [],
+      labels: labels || [],
+      checklist_items: checklistItems || [],
+      checklist_progress: {
+        total,
+        completed,
+        percentage,
+      },
+    };
+  }
+
   async getCardsByListId(list_id: string): Promise<FullCardResponseArray> {
     const data = await this.knex(table)
       .where({ list_id })
@@ -32,7 +129,7 @@ export class CardRepository {
   }
 
   async create(input: CreateCard): Promise<FullCardResponse> {
-    const { list_id, title, description, status } = input;
+    const { list_id, title, description, status, due_date, priority } = input;
 
     const lastCard = await this.knex(table)
       .where({ list_id })
@@ -43,7 +140,15 @@ export class CardRepository {
     const order = lastCard ? lastCard.order + 1 : 0;
 
     const [card] = await this.knex(table)
-      .insert({ list_id, title, description, status, order })
+      .insert({
+        list_id,
+        title,
+        description,
+        status,
+        due_date,
+        priority: priority || "medium",
+        order
+      })
       .returning("*");
 
     return card;
@@ -55,7 +160,30 @@ export class CardRepository {
     const { id, list_id, title } = input;
 
     const [card] = await this.knex(table)
-      .update({ title })
+      .update({ title, updated_at: this.knex.fn.now() })
+      .where({ id, list_id })
+      .returning("*");
+
+    return card;
+  }
+
+  async updateDetails(
+    input: UpdateCardDetails,
+  ): Promise<FullCardResponse | undefined> {
+    const { id, list_id, ...updates } = input;
+
+    // Filter out undefined values
+    const updateData: Record<string, any> = {};
+    if (updates.title !== undefined) updateData.title = updates.title;
+    if (updates.description !== undefined) updateData.description = updates.description;
+    if (updates.status !== undefined) updateData.status = updates.status;
+    if (updates.due_date !== undefined) updateData.due_date = updates.due_date;
+    if (updates.priority !== undefined) updateData.priority = updates.priority;
+
+    updateData.updated_at = this.knex.fn.now();
+
+    const [card] = await this.knex(table)
+      .update(updateData)
       .where({ id, list_id })
       .returning("*");
 

@@ -19,6 +19,10 @@ export class ListService {
     return this.listRepository.getByBoardId(board_id);
   }
 
+  async getListById(id: string): Promise<FullListResponse | undefined> {
+    return this.listRepository.getListById(id);
+  }
+
   async create(input: CreateList): Promise<FullListResponse> {
     return this.listRepository.create(input);
   }

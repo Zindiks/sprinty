@@ -3,9 +3,12 @@ import {
   CreateCard,
   UpdateCardOrderArray,
   UpdateCardTitle,
+  UpdateCardDetails,
   DeleteCard,
   FullCardResponse,
   FullCardResponseArray,
+  CardWithAssigneesResponse,
+  CardWithDetailsResponse,
 } from "./card.schema";
 
 export class CardService {
@@ -17,6 +20,18 @@ export class CardService {
 
   async getCardById(id: string): Promise<FullCardResponse | undefined> {
     return this.cardRepository.getCardById(id);
+  }
+
+  async getCardWithAssignees(
+    id: string,
+  ): Promise<CardWithAssigneesResponse | undefined> {
+    return this.cardRepository.getCardWithAssignees(id);
+  }
+
+  async getCardWithDetails(
+    id: string,
+  ): Promise<CardWithDetailsResponse | undefined> {
+    return this.cardRepository.getCardWithDetails(id);
   }
 
   async getCardsByListId(list_id: string): Promise<FullCardResponseArray> {
@@ -31,6 +46,12 @@ export class CardService {
     input: UpdateCardTitle,
   ): Promise<FullCardResponse | undefined> {
     return this.cardRepository.updateTitle(input);
+  }
+
+  async updateDetails(
+    input: UpdateCardDetails,
+  ): Promise<FullCardResponse | undefined> {
+    return this.cardRepository.updateDetails(input);
   }
 
   async updateOrder(input: UpdateCardOrderArray) {

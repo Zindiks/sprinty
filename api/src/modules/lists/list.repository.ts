@@ -26,7 +26,7 @@ export class ListRepository {
         this.knex.raw(`
           COALESCE(
             json_agg(
-              CASE 
+              CASE
                 WHEN cards.id IS NOT NULL THEN cards
                 ELSE NULL
               END
@@ -41,6 +41,15 @@ export class ListRepository {
       .orderBy("lists.order", "asc");
 
     return data;
+  }
+
+  async getListById(id: string): Promise<FullListResponse | undefined> {
+    const list = await this.knex(table)
+      .select("*")
+      .where({ id })
+      .first();
+
+    return list;
   }
 
   async create(input: CreateList): Promise<FullListResponse> {

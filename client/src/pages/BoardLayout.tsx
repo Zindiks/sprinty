@@ -29,9 +29,11 @@ export default function BoardLayout() {
       {/* Main Content */}
       <div className="flex flex-col" style={{ width: "calc(100% - 64px)" }}>
         {/* Board Navbar */}
-        <div className="w-full">
-          <BoardNavBar data={data} />
-        </div>
+        {data && (
+          <div className="w-full">
+            <BoardNavBar data={data} />
+          </div>
+        )}
 
         {/* Outlet with horizontal scroll */}
         <div id="outlet" className="flex-1 w-full overflow-x-scroll">

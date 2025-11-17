@@ -19,6 +19,44 @@ export default async function cardRoutes(fastify: FastifyInstance) {
   );
 
   fastify.get(
+    "/:id/with-assignees",
+    {
+      schema: {
+        params: { type: "object", properties: { id: { type: "string" } } },
+        response: {
+          200: CardSchema.CardWithAssigneesResponseSchema,
+          404: {
+            type: "object",
+            properties: { message: { type: "string" } },
+          },
+        },
+        tags: ["card"],
+        description: "Get a card with assignee details",
+      },
+    },
+    cardController.getCardWithAssigneesController.bind(cardController),
+  );
+
+  fastify.get(
+    "/:id/details",
+    {
+      schema: {
+        params: { type: "object", properties: { id: { type: "string" } } },
+        response: {
+          200: CardSchema.CardWithDetailsResponseSchema,
+          404: {
+            type: "object",
+            properties: { message: { type: "string" } },
+          },
+        },
+        tags: ["card"],
+        description: "Get a card with full details (assignees and labels)",
+      },
+    },
+    cardController.getCardWithDetailsController.bind(cardController),
+  );
+
+  fastify.get(
     "/list/:list_id",
     {
       schema: {
@@ -59,6 +97,21 @@ export default async function cardRoutes(fastify: FastifyInstance) {
       },
     },
     cardController.updateCardTitleController.bind(cardController),
+  );
+
+  fastify.patch(
+    "/details",
+    {
+      schema: {
+        body: CardSchema.UpdateCardDetailsSchema,
+        response: {
+          200: CardSchema.FullCardResponseSchema,
+        },
+        tags: ["card"],
+        description: "Update card details (title, description, status, due_date, priority)",
+      },
+    },
+    cardController.updateCardDetailsController.bind(cardController),
   );
 
   fastify.put(
