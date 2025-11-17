@@ -16,11 +16,13 @@ import organizationsRouter from "./modules/organizations/organization.route";
 import boardRoutes from "./modules/boards/board.route";
 import listRoutes from "./modules/lists/list.route";
 import cardRoutes from "./modules/cards/card.route";
+import profileRoutes from "./modules/profiles/profile.route";
 
 import { OrganizationSchema } from "./modules/organizations/organization.schema";
 import { BoardSchema } from "./modules/boards/board.schema";
 import { ListSchema } from "./modules/lists/list.schema";
 import { CardSchema } from "./modules/cards/card.schema";
+import { ProfileSchema } from "./modules/profiles/profile.schema";
 
 import { swaggerDocs } from "./swagger";
 import { options } from "./configs/config";
@@ -58,6 +60,10 @@ async function addSchemas(server: FastifyInstance) {
   for (const schema of Object.values(CardSchema)) {
     server.addSchema(schema);
   }
+
+  for (const schema of Object.values(ProfileSchema)) {
+    server.addSchema(schema);
+  }
 }
 
 async function registerRoutes(server: FastifyInstance) {
@@ -70,6 +76,7 @@ async function registerRoutes(server: FastifyInstance) {
           v1.register(boardRoutes, { prefix: "/boards" });
           v1.register(listRoutes, { prefix: "/lists" });
           v1.register(cardRoutes, { prefix: "/cards" });
+          v1.register(profileRoutes, { prefix: "/profiles" });
         },
         { prefix: "/v1" },
       );
