@@ -33,6 +33,8 @@ import {
   Globe,
   Layout,
   MessageSquare,
+  Filter,
+  X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -62,6 +64,13 @@ export function EnhancedSearchDialog({
   );
   const [searchScope, setSearchScope] = useState<"global" | "board">("global");
   const [recentItems, setRecentItems] = useState<RecentItem[]>([]);
+
+  // Phase 2C: Advanced filters
+  const [showFilters, setShowFilters] = useState(false);
+  const [assigneeId, setAssigneeId] = useState<string>("");
+  const [labelId, setLabelId] = useState<string>("");
+  const [dateFrom, setDateFrom] = useState<string>("");
+  const [dateTo, setDateTo] = useState<string>("");
 
   const { organization_id, board_id } = useStore();
   const navigate = useNavigate();
@@ -96,9 +105,25 @@ export function EnhancedSearchDialog({
       board_id: searchScope === "board" ? board_id : undefined,
       type: "all",
       limit: 30,
+      // Phase 2C: Include filters in search
+      ...(assigneeId && { assignee_id: assigneeId }),
+      ...(labelId && { label_id: labelId }),
+      ...(dateFrom && { date_from: dateFrom }),
+      ...(dateTo && { date_to: dateTo }),
     },
     debouncedQuery.length >= 1
   );
+
+  // Check if any filters are active
+  const hasActiveFilters = !!(assigneeId || labelId || dateFrom || dateTo);
+
+  // Clear all filters
+  const clearFilters = () => {
+    setAssigneeId("");
+    setLabelId("");
+    setDateFrom("");
+    setDateTo("");
+  };
 
   const saveRecentItem = useCallback((item: RecentItem) => {
     setRecentItems((prev) => {
@@ -244,28 +269,120 @@ export function EnhancedSearchDialog({
           })}
         </div>
 
-        {/* Scope Toggle */}
-        {board_id && (
+        {/* Scope & Filters Toggle */}
+        <div className="flex gap-1">
+          {board_id && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={toggleScope}
+              className="h-7 px-2 text-xs"
+            >
+              {searchScope === "global" ? (
+                <>
+                  <Globe className="h-3 w-3 mr-1" />
+                  All Boards
+                </>
+              ) : (
+                <>
+                  <Layout className="h-3 w-3 mr-1" />
+                  This Board
+                </>
+              )}
+            </Button>
+          )}
+
           <Button
-            variant="ghost"
+            variant={showFilters || hasActiveFilters ? "secondary" : "ghost"}
             size="sm"
-            onClick={toggleScope}
-            className="h-7 px-2 text-xs"
+            onClick={() => setShowFilters(!showFilters)}
+            className={cn(
+              "h-7 px-2 text-xs",
+              hasActiveFilters && "bg-secondary"
+            )}
           >
-            {searchScope === "global" ? (
-              <>
-                <Globe className="h-3 w-3 mr-1" />
-                All Boards
-              </>
-            ) : (
-              <>
-                <Layout className="h-3 w-3 mr-1" />
-                This Board
-              </>
+            <Filter className="h-3 w-3 mr-1" />
+            Filters
+            {hasActiveFilters && (
+              <span className="ml-1 px-1 bg-primary text-primary-foreground rounded-full text-[10px]">
+                •
+              </span>
             )}
           </Button>
-        )}
+        </div>
       </div>
+
+      {/* Advanced Filters Panel */}
+      {showFilters && (
+        <div className="px-3 py-3 border-b bg-muted/10 space-y-2">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-medium">Advanced Filters</span>
+            {hasActiveFilters && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={clearFilters}
+                className="h-6 px-2 text-xs"
+              >
+                <X className="h-3 w-3 mr-1" />
+                Clear All
+              </Button>
+            )}
+          </div>
+
+          <div className="grid grid-cols-2 gap-2">
+            <div className="space-y-1">
+              <label className="text-xs text-muted-foreground">
+                Assignee ID
+              </label>
+              <input
+                type="text"
+                placeholder="UUID..."
+                value={assigneeId}
+                onChange={(e) => setAssigneeId(e.target.value)}
+                className="w-full h-7 px-2 text-xs border rounded-md bg-background"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs text-muted-foreground">Label ID</label>
+              <input
+                type="text"
+                placeholder="UUID..."
+                value={labelId}
+                onChange={(e) => setLabelId(e.target.value)}
+                className="w-full h-7 px-2 text-xs border rounded-md bg-background"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs text-muted-foreground">
+                From Date
+              </label>
+              <input
+                type="date"
+                value={dateFrom}
+                onChange={(e) => setDateFrom(e.target.value)}
+                className="w-full h-7 px-2 text-xs border rounded-md bg-background"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs text-muted-foreground">To Date</label>
+              <input
+                type="date"
+                value={dateTo}
+                onChange={(e) => setDateTo(e.target.value)}
+                className="w-full h-7 px-2 text-xs border rounded-md bg-background"
+              />
+            </div>
+          </div>
+
+          <p className="text-xs text-muted-foreground mt-2">
+            Tip: Filters apply to card search results
+          </p>
+        </div>
+      )}
 
       <CommandList>
         {/* Loading State */}
