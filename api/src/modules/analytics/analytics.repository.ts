@@ -294,10 +294,10 @@ export class AnalyticsRepository {
       )
       .count("cards.id as cards_completed")
       .leftJoin("cards", function () {
-        this.on("cards.sprint_id", "=", "sprints.id").andOn(
+        this.on("cards.sprint_id", "=", "sprints.id").andOnVal(
           "cards.status",
           "=",
-          this.client.raw("?", ["completed"])
+          "completed"
         );
       })
       .where("sprints.board_id", boardId)
@@ -436,6 +436,8 @@ export class AnalyticsRepository {
       dueTodayCards: dueTodayList,
     };
   }
+
+  /**
    * Get productivity trends (cards created vs completed over time)
    */
   async getProductivityTrends(
@@ -483,7 +485,7 @@ export class AnalyticsRepository {
     // Merge data by date
     const dataMap = new Map<string, { date: string; cardsCreated: number; cardsCompleted: number }>();
 
-    cardsCreated.forEach((row) => {
+    cardsCreated.forEach((row: any) => {
       const date = row.date;
       dataMap.set(date, {
         date,
@@ -492,7 +494,7 @@ export class AnalyticsRepository {
       });
     });
 
-    cardsCompleted.forEach((row) => {
+    cardsCompleted.forEach((row: any) => {
       const date = row.date;
       const existing = dataMap.get(date) || { date, cardsCreated: 0, cardsCompleted: 0 };
       existing.cardsCompleted = parseInt(row.count as string);
