@@ -41,8 +41,7 @@ function App() {
           <SearchProvider>
             <WebSocketIntegration>
               <AppRoutes />
-              <GlobalSearch />
-              <Toaster />
+              <GlobalSearch />              <Toaster />
             </WebSocketIntegration>
           </SearchProvider>
         </Router>
