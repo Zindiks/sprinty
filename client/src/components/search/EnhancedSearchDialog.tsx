@@ -32,6 +32,9 @@ import {
   Clock,
   Globe,
   Layout,
+  MessageSquare,
+  Filter,
+  X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -61,6 +64,13 @@ export function EnhancedSearchDialog({
   );
   const [searchScope, setSearchScope] = useState<"global" | "board">("global");
   const [recentItems, setRecentItems] = useState<RecentItem[]>([]);
+
+  // Phase 2C: Advanced filters
+  const [showFilters, setShowFilters] = useState(false);
+  const [assigneeId, setAssigneeId] = useState<string>("");
+  const [labelId, setLabelId] = useState<string>("");
+  const [dateFrom, setDateFrom] = useState<string>("");
+  const [dateTo, setDateTo] = useState<string>("");
 
   const { organization_id, board_id } = useStore();
   const navigate = useNavigate();
@@ -95,9 +105,25 @@ export function EnhancedSearchDialog({
       board_id: searchScope === "board" ? board_id : undefined,
       type: "all",
       limit: 30,
+      // Phase 2C: Include filters in search
+      ...(assigneeId && { assignee_id: assigneeId }),
+      ...(labelId && { label_id: labelId }),
+      ...(dateFrom && { date_from: dateFrom }),
+      ...(dateTo && { date_to: dateTo }),
     },
     debouncedQuery.length >= 1
   );
+
+  // Check if any filters are active
+  const hasActiveFilters = !!(assigneeId || labelId || dateFrom || dateTo);
+
+  // Clear all filters
+  const clearFilters = () => {
+    setAssigneeId("");
+    setLabelId("");
+    setDateFrom("");
+    setDateTo("");
+  };
 
   const saveRecentItem = useCallback((item: RecentItem) => {
     setRecentItems((prev) => {
@@ -184,13 +210,15 @@ export function EnhancedSearchDialog({
       boards: activeTypes.has("board") ? data.results.boards : [],
       lists: activeTypes.has("list") ? data.results.lists : [],
       cards: activeTypes.has("card") ? data.results.cards : [],
+      comments: data.results.comments || [], // Always show comments if available
     };
 
   const hasResults =
     filteredResults &&
     (filteredResults.boards.length > 0 ||
       filteredResults.lists.length > 0 ||
-      filteredResults.cards.length > 0);
+      filteredResults.cards.length > 0 ||
+      filteredResults.comments.length > 0);
 
   const getIcon = (type: SearchType) => {
     switch (type) {
@@ -241,28 +269,120 @@ export function EnhancedSearchDialog({
           })}
         </div>
 
-        {/* Scope Toggle */}
-        {board_id && (
+        {/* Scope & Filters Toggle */}
+        <div className="flex gap-1">
+          {board_id && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={toggleScope}
+              className="h-7 px-2 text-xs"
+            >
+              {searchScope === "global" ? (
+                <>
+                  <Globe className="h-3 w-3 mr-1" />
+                  All Boards
+                </>
+              ) : (
+                <>
+                  <Layout className="h-3 w-3 mr-1" />
+                  This Board
+                </>
+              )}
+            </Button>
+          )}
+
           <Button
-            variant="ghost"
+            variant={showFilters || hasActiveFilters ? "secondary" : "ghost"}
             size="sm"
-            onClick={toggleScope}
-            className="h-7 px-2 text-xs"
+            onClick={() => setShowFilters(!showFilters)}
+            className={cn(
+              "h-7 px-2 text-xs",
+              hasActiveFilters && "bg-secondary"
+            )}
           >
-            {searchScope === "global" ? (
-              <>
-                <Globe className="h-3 w-3 mr-1" />
-                All Boards
-              </>
-            ) : (
-              <>
-                <Layout className="h-3 w-3 mr-1" />
-                This Board
-              </>
+            <Filter className="h-3 w-3 mr-1" />
+            Filters
+            {hasActiveFilters && (
+              <span className="ml-1 px-1 bg-primary text-primary-foreground rounded-full text-[10px]">
+                •
+              </span>
             )}
           </Button>
-        )}
+        </div>
       </div>
+
+      {/* Advanced Filters Panel */}
+      {showFilters && (
+        <div className="px-3 py-3 border-b bg-muted/10 space-y-2">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-medium">Advanced Filters</span>
+            {hasActiveFilters && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={clearFilters}
+                className="h-6 px-2 text-xs"
+              >
+                <X className="h-3 w-3 mr-1" />
+                Clear All
+              </Button>
+            )}
+          </div>
+
+          <div className="grid grid-cols-2 gap-2">
+            <div className="space-y-1">
+              <label className="text-xs text-muted-foreground">
+                Assignee ID
+              </label>
+              <input
+                type="text"
+                placeholder="UUID..."
+                value={assigneeId}
+                onChange={(e) => setAssigneeId(e.target.value)}
+                className="w-full h-7 px-2 text-xs border rounded-md bg-background"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs text-muted-foreground">Label ID</label>
+              <input
+                type="text"
+                placeholder="UUID..."
+                value={labelId}
+                onChange={(e) => setLabelId(e.target.value)}
+                className="w-full h-7 px-2 text-xs border rounded-md bg-background"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs text-muted-foreground">
+                From Date
+              </label>
+              <input
+                type="date"
+                value={dateFrom}
+                onChange={(e) => setDateFrom(e.target.value)}
+                className="w-full h-7 px-2 text-xs border rounded-md bg-background"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs text-muted-foreground">To Date</label>
+              <input
+                type="date"
+                value={dateTo}
+                onChange={(e) => setDateTo(e.target.value)}
+                className="w-full h-7 px-2 text-xs border rounded-md bg-background"
+              />
+            </div>
+          </div>
+
+          <p className="text-xs text-muted-foreground mt-2">
+            Tip: Filters apply to card search results
+          </p>
+        </div>
+      )}
 
       <CommandList>
         {/* Loading State */}
@@ -365,6 +485,39 @@ export function EnhancedSearchDialog({
                       </span>
                       <span className="text-xs text-muted-foreground truncate">
                         in {card.list_title} • {card.board_title}
+                      </span>
+                    </div>
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            )}
+
+            {filteredResults.comments.length > 0 && (
+              <CommandGroup heading="Comments">
+                {filteredResults.comments.map((comment) => (
+                  <CommandItem
+                    key={comment.id}
+                    value={`comment-${comment.id}`}
+                    onSelect={() =>
+                      handleSelect(
+                        "card",
+                        comment.card_id,
+                        comment.card_title,
+                        comment.board_id
+                      )
+                    }
+                    className="py-3 sm:py-2"
+                  >
+                    <MessageSquare className="mr-2 h-4 w-4 flex-shrink-0" />
+                    <div className="flex flex-col min-w-0 flex-1">
+                      <span className="text-xs text-muted-foreground mb-0.5">
+                        {comment.user_email} on {comment.card_title}
+                      </span>
+                      <span className="font-normal text-sm truncate">
+                        {highlightMatch(comment.content, debouncedQuery)}
+                      </span>
+                      <span className="text-xs text-muted-foreground truncate">
+                        in {comment.list_title} • {comment.board_title}
                       </span>
                     </div>
                   </CommandItem>

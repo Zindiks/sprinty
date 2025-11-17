@@ -3,7 +3,9 @@ import AppRoutes from "./routes";
 import { Toaster } from "./components/ui/toaster";
 import { UserProvider } from "./contexts/UserContext";
 import { WebSocketProvider } from "./contexts/WebSocketContext";
+import { SearchProvider } from "./contexts/SearchContext";
 import { useUser } from "./contexts/UserContext";
+import { GlobalSearch } from "./components/search/GlobalSearch";
 
 const queryClient = new QueryClient();
 
@@ -34,10 +36,13 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <UserProvider apiBaseUrl="http://localhost:4000">
-        <WebSocketIntegration>
-          <AppRoutes />
-          <Toaster />
-        </WebSocketIntegration>
+        <SearchProvider>
+          <WebSocketIntegration>
+            <AppRoutes />
+            <GlobalSearch />
+            <Toaster />
+          </WebSocketIntegration>
+        </SearchProvider>
       </UserProvider>
     </QueryClientProvider>
   );

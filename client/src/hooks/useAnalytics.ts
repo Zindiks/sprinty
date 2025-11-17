@@ -1,5 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import {
+  ProductivityTrend,
+  BoardOverview,
+  WeeklyMetrics,
+  MonthlyMetrics,
+} from "../types/types";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
 
@@ -86,6 +92,38 @@ export interface VelocityMetric {
   cards_completed: string;
 }
 
+export interface DueDateCard {
+  id: string;
+  title: string;
+  due_date: string | null;
+  priority: "low" | "medium" | "high" | "critical";
+  status: string | null;
+  list_id: string;
+  list_title: string;
+}
+
+export interface DueDateSummary {
+  overdue: number;
+  dueToday: number;
+  dueThisWeek: number;
+  upcoming: number;
+  noDueDate: number;
+}
+
+export interface DueDateByPriority {
+  critical: number;
+  high: number;
+  medium: number;
+  low: number;
+}
+
+export interface DueDateAnalytics {
+  summary: DueDateSummary;
+  byPriority: DueDateByPriority;
+  overdueCards: DueDateCard[];
+  dueTodayCards: DueDateCard[];
+}
+
 // Hook to fetch personal dashboard
 export const usePersonalDashboard = (organizationId: string | null) => {
   return useQuery<PersonalDashboard>({
@@ -158,6 +196,100 @@ export const useAssignedTasks = (organizationId: string | null) => {
         `${API_URL}/api/v1/analytics/tasks/assigned`,
         {
           params: { organizationId },
+          withCredentials: true,
+        }
+      );
+      return data;
+    },
+    enabled: !!organizationId,
+  });
+};
+
+// Hook to fetch due date analytics
+export const useDueDateAnalytics = (boardId: string | null) => {
+  return useQuery<DueDateAnalytics>({
+    queryKey: ["analytics", "board", boardId, "due-dates"],
+    queryFn: async () => {
+      const { data } = await axios.get(
+        `${API_URL}/api/v1/analytics/board/${boardId}/due-dates`,
+        { withCredentials: true }
+      );
+      return data;
+    },
+    enabled: !!boardId,
+// Hook to fetch productivity trends
+export const useProductivityTrends = (
+  organizationId: string | null,
+  period: "weekly" | "monthly" = "weekly",
+  daysBack?: number
+) => {
+  return useQuery<ProductivityTrend>({
+    queryKey: ["analytics", "trends", "personal", organizationId, period, daysBack],
+    queryFn: async () => {
+      const { data } = await axios.get(
+        `${API_URL}/api/v1/analytics/trends/personal`,
+        {
+          params: { organizationId, period, daysBack },
+          withCredentials: true,
+        }
+      );
+      return data;
+    },
+    enabled: !!organizationId,
+  });
+};
+
+// Hook to fetch boards overview
+export const useBoardsOverview = (organizationId: string | null) => {
+  return useQuery<BoardOverview[]>({
+    queryKey: ["analytics", "boards", "overview", organizationId],
+    queryFn: async () => {
+      const { data } = await axios.get(
+        `${API_URL}/api/v1/analytics/boards/overview`,
+        {
+          params: { organizationId },
+          withCredentials: true,
+        }
+      );
+      return data;
+    },
+    enabled: !!organizationId,
+  });
+};
+
+// Hook to fetch weekly metrics
+export const useWeeklyMetrics = (
+  organizationId: string | null,
+  weeksBack: number = 4
+) => {
+  return useQuery<WeeklyMetrics[]>({
+    queryKey: ["analytics", "metrics", "weekly", organizationId, weeksBack],
+    queryFn: async () => {
+      const { data } = await axios.get(
+        `${API_URL}/api/v1/analytics/metrics/weekly`,
+        {
+          params: { organizationId, weeksBack },
+          withCredentials: true,
+        }
+      );
+      return data;
+    },
+    enabled: !!organizationId,
+  });
+};
+
+// Hook to fetch monthly metrics
+export const useMonthlyMetrics = (
+  organizationId: string | null,
+  monthsBack: number = 6
+) => {
+  return useQuery<MonthlyMetrics[]>({
+    queryKey: ["analytics", "metrics", "monthly", organizationId, monthsBack],
+    queryFn: async () => {
+      const { data } = await axios.get(
+        `${API_URL}/api/v1/analytics/metrics/monthly`,
+        {
+          params: { organizationId, monthsBack },
           withCredentials: true,
         }
       );

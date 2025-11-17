@@ -144,4 +144,31 @@ export class ReportController {
       return reply.code(500).send({ error: "Internal server error" });
     }
   }
+
+  /**
+   * GET /api/v1/reports/board/:boardId/calendar
+   * Generate board calendar export (.ics)
+   */
+  async generateBoardCalendar(
+    request: FastifyRequest<{
+      Params: BoardReportParams;
+    }>,
+    reply: FastifyReply
+  ) {
+    try {
+      const { boardId } = request.params;
+      const ical = await this.service.generateBoardCalendar(boardId);
+
+      reply
+        .header("Content-Type", "text/calendar; charset=utf-8")
+        .header(
+          "Content-Disposition",
+          `attachment; filename="board-${boardId}-calendar.ics"`
+        )
+        .send(ical);
+    } catch (error) {
+      request.log.error(error);
+      return reply.code(500).send({ error: "Internal server error" });
+    }
+  }
 }
