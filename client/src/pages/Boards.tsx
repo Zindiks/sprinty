@@ -1,26 +1,12 @@
 import BoardList from "@/components/board/BoardList";
 import { CreateBoardModal } from "@/components/board/CreateBoardModal";
 import { StaticSidebar } from "@/components/SidebarStatic";
-import { GlobalSearchDialog } from "@/components/search/GlobalSearchDialog";
+import { useSearchDialog } from "@/contexts/SearchContext";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
-import { useState, useEffect } from "react";
 
 const Boards = () => {
-  const [searchOpen, setSearchOpen] = useState(false);
-
-  // Keyboard shortcut for search (Cmd+K or Ctrl+K)
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
-        e.preventDefault();
-        setSearchOpen(true);
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  const { openSearch } = useSearchDialog();
 
   return (
     <div className="flex h-screen">
@@ -31,7 +17,7 @@ const Boards = () => {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => setSearchOpen(true)}
+            onClick={openSearch}
           >
             <Search className="h-4 w-4 mr-2" />
             Search
@@ -42,7 +28,6 @@ const Boards = () => {
         </div>
         <CreateBoardModal />
         <BoardList />
-        <GlobalSearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
       </main>
     </div>
   );

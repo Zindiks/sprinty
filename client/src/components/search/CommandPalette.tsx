@@ -1,14 +1,12 @@
 /**
- * Enhanced Search Dialog - Prototype Implementation
+ * Command Palette - Phase 3 Implementation
  *
- * This is an enhanced version of GlobalSearchDialog with Phase 1 improvements:
- * - Type filter toggles
- * - Recent items
- * - Search scope indicator
- * - Better mobile experience
- * - Result highlighting
- *
- * To use: Replace GlobalSearchDialog import with this component
+ * Combines quick actions with global search in a unified command interface.
+ * Features:
+ * - Quick actions (create, navigate, assign)
+ * - Global search (boards, lists, cards, comments)
+ * - Context-aware action filtering
+ * - Keyboard-driven navigation
  */
 
 import { useEffect, useState, useCallback } from "react";
@@ -20,9 +18,11 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
+  CommandSeparator,
 } from "@/components/ui/command";
 import { Button } from "@/components/ui/button";
 import { useSearch } from "@/hooks/useSearch";
+import { useActions } from "@/hooks/useActions";
 import { useStore } from "@/hooks/store/useStore";
 import {
   Loader2,
@@ -35,10 +35,11 @@ import {
   MessageSquare,
   Filter,
   X,
+  Zap,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface EnhancedSearchDialogProps {
+interface CommandPaletteProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
@@ -53,10 +54,7 @@ interface RecentItem {
 
 type SearchType = "board" | "list" | "card";
 
-export function EnhancedSearchDialog({
-  open,
-  onOpenChange,
-}: EnhancedSearchDialogProps) {
+export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [activeTypes, setActiveTypes] = useState<Set<SearchType>>(
@@ -75,6 +73,7 @@ export function EnhancedSearchDialog({
   const { organization_id, board_id } = useStore();
   const navigate = useNavigate();
   const { search } = useSearch();
+  const { filterActions } = useActions();
 
   // Load recent items from localStorage
   useEffect(() => {
@@ -113,6 +112,10 @@ export function EnhancedSearchDialog({
     },
     debouncedQuery.length >= 1
   );
+
+  // Filter actions based on search query
+  const filteredActions = filterActions(searchQuery);
+  const showActions = searchQuery.length >= 1 && filteredActions.length > 0;
 
   // Check if any filters are active
   const hasActiveFilters = !!(assigneeId || labelId || dateFrom || dateTo);
@@ -163,12 +166,20 @@ export function EnhancedSearchDialog({
     [navigate, onOpenChange, saveRecentItem]
   );
 
+  const handleActionSelect = useCallback(
+    (action: { handler: () => void | Promise<void> }) => {
+      action.handler();
+      onOpenChange(false);
+      setSearchQuery("");
+    },
+    [onOpenChange]
+  );
+
   const toggleType = (type: SearchType) => {
     setActiveTypes((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(type)) {
         if (newSet.size > 1) {
-          // Don't allow deselecting all
           newSet.delete(type);
         }
       } else {
@@ -210,7 +221,7 @@ export function EnhancedSearchDialog({
       boards: activeTypes.has("board") ? data.results.boards : [],
       lists: activeTypes.has("list") ? data.results.lists : [],
       cards: activeTypes.has("card") ? data.results.cards : [],
-      comments: data.results.comments || [], // Always show comments if available
+      comments: data.results.comments || [],
     };
 
   const hasResults =
@@ -238,7 +249,7 @@ export function EnhancedSearchDialog({
       className="sm:max-w-[640px] max-h-screen sm:max-h-[85vh]"
     >
       <CommandInput
-        placeholder="Search boards, lists, and cards..."
+        placeholder="Type a command or search..."
         value={searchQuery}
         onValueChange={setSearchQuery}
       />
@@ -385,6 +396,41 @@ export function EnhancedSearchDialog({
       )}
 
       <CommandList>
+        {/* Quick Actions */}
+        {showActions && (
+          <>
+            <CommandGroup heading={<div className="flex items-center gap-1"><Zap className="h-3 w-3" /> Quick Actions</div>}>
+              {filteredActions.map((action) => (
+                <CommandItem
+                  key={action.id}
+                  value={action.id}
+                  onSelect={() => handleActionSelect(action)}
+                  className="py-3 sm:py-2"
+                >
+                  <action.icon className="mr-2 h-4 w-4 flex-shrink-0 text-primary" />
+                  <div className="flex flex-col min-w-0 flex-1">
+                    <span className="font-medium truncate">
+                      {highlightMatch(action.label, searchQuery)}
+                    </span>
+                    {action.description && (
+                      <span className="text-xs text-muted-foreground truncate">
+                        {action.description}
+                      </span>
+                    )}
+                  </div>
+                  {action.shortcut && (
+                    <kbd className="ml-2 px-1.5 py-0.5 text-xs font-mono bg-muted rounded">
+                      {action.shortcut}
+                    </kbd>
+                  )}
+                </CommandItem>
+              ))}
+            </CommandGroup>
+
+            {(hasResults || (isLoading || isFetching)) && <CommandSeparator />}
+          </>
+        )}
+
         {/* Loading State */}
         {(isLoading || isFetching) && debouncedQuery.length >= 1 && (
           <div className="flex items-center justify-center p-8">
@@ -396,7 +442,8 @@ export function EnhancedSearchDialog({
         {!isLoading &&
           !isFetching &&
           debouncedQuery.length >= 1 &&
-          !hasResults && (
+          !hasResults &&
+          !showActions && (
             <CommandEmpty>
               <div className="p-4 space-y-3 text-center">
                 <p className="text-sm">No results found for "{debouncedQuery}"</p>
@@ -412,7 +459,7 @@ export function EnhancedSearchDialog({
             </CommandEmpty>
           )}
 
-        {/* Search Results */}
+        {/* Search Results - same as EnhancedSearchDialog */}
         {hasResults && filteredResults && (
           <>
             {filteredResults.boards.length > 0 && (
@@ -551,23 +598,23 @@ export function EnhancedSearchDialog({
         )}
 
         {/* Empty State with Instructions */}
-        {!debouncedQuery && recentItems.length === 0 && (
+        {!debouncedQuery && recentItems.length === 0 && !showActions && (
           <div className="p-6 text-center space-y-3">
             <p className="text-sm text-muted-foreground">
-              Type to search across all boards, lists, and cards
+              Type a command or search across boards, lists, and cards
             </p>
             <div className="text-xs text-muted-foreground space-y-1">
               <p className="font-medium">Keyboard shortcuts:</p>
               <div className="flex flex-col items-center gap-1">
                 <p>
                   <kbd className="px-2 py-1 bg-muted rounded text-xs">↑↓</kbd>{" "}
-                  Navigate results
+                  Navigate
                 </p>
                 <p>
                   <kbd className="px-2 py-1 bg-muted rounded text-xs">
                     Enter
                   </kbd>{" "}
-                  Open selected
+                  Select
                 </p>
                 <p>
                   <kbd className="px-2 py-1 bg-muted rounded text-xs">Esc</kbd>{" "}

@@ -202,6 +202,22 @@ export interface CardResult {
   result_type: "card";
 }
 
+export interface CommentResult {
+  id: string;
+  content: string;
+  card_id: string;
+  card_title: string;
+  list_id: string;
+  list_title: string;
+  board_id: string;
+  board_title: string;
+  user_id: string;
+  user_email: string;
+  created_at: string;
+  updated_at: string;
+  result_type: "comment";
+}
+
 export interface SearchResponse {
   query: string;
   total: number;
@@ -209,6 +225,7 @@ export interface SearchResponse {
     boards: BoardResult[];
     lists: ListResult[];
     cards: CardResult[];
+    comments: CommentResult[];
   };
 }
 
@@ -216,8 +233,14 @@ export interface SearchParams {
   query: string;
   organization_id: string;
   board_id?: string;
-  type?: "board" | "list" | "card" | "all";
+  type?: "board" | "list" | "card" | "comment" | "all";
   limit?: number;
+  // Phase 2 filters
+  assignee_id?: string;
+  label_id?: string;
+  date_from?: string;
+  date_to?: string;
+  include_archived?: boolean;
 }
 
 // Dashboard & Analytics types

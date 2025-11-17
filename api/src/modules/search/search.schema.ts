@@ -16,10 +16,17 @@ export class SearchSchema {
           Type.Literal("board"),
           Type.Literal("list"),
           Type.Literal("card"),
+          Type.Literal("comment"),
           Type.Literal("all"),
         ]),
       ),
       limit: Type.Optional(Type.Number({ minimum: 1, maximum: 100 })),
+      // New filter parameters for Phase 2
+      assignee_id: Type.Optional(Type.String({ format: "uuid" })),
+      label_id: Type.Optional(Type.String({ format: "uuid" })),
+      date_from: Type.Optional(Type.String({ format: "date-time" })),
+      date_to: Type.Optional(Type.String({ format: "date-time" })),
+      include_archived: Type.Optional(Type.Boolean()),
     },
     { $id: "SearchQuerySchema" },
   );
@@ -61,6 +68,22 @@ export class SearchSchema {
     result_type: Type.Literal("card"),
   });
 
+  static CommentResultSchema = Type.Object({
+    id,
+    content: Type.String(),
+    card_id: Type.String({ format: "uuid" }),
+    card_title: Type.String(),
+    list_id: Type.String({ format: "uuid" }),
+    list_title: Type.String(),
+    board_id: Type.String({ format: "uuid" }),
+    board_title: Type.String(),
+    user_id: Type.String({ format: "uuid" }),
+    user_email: Type.String(),
+    created_at,
+    updated_at,
+    result_type: Type.Literal("comment"),
+  });
+
   // Combined search response schema
   static SearchResponseSchema = Type.Object(
     {
@@ -70,6 +93,7 @@ export class SearchSchema {
         boards: Type.Array(SearchSchema.BoardResultSchema),
         lists: Type.Array(SearchSchema.ListResultSchema),
         cards: Type.Array(SearchSchema.CardResultSchema),
+        comments: Type.Array(SearchSchema.CommentResultSchema),
       }),
     },
     { $id: "SearchResponseSchema" },
@@ -80,4 +104,5 @@ export type SearchQuery = Static<typeof SearchSchema.SearchQuerySchema>;
 export type BoardResult = Static<typeof SearchSchema.BoardResultSchema>;
 export type ListResult = Static<typeof SearchSchema.ListResultSchema>;
 export type CardResult = Static<typeof SearchSchema.CardResultSchema>;
+export type CommentResult = Static<typeof SearchSchema.CommentResultSchema>;
 export type SearchResponse = Static<typeof SearchSchema.SearchResponseSchema>;

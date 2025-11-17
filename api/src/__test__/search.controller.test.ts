@@ -55,6 +55,7 @@ describe("SearchController", () => {
           ],
           lists: [],
           cards: [],
+          comments: [],
         },
       };
 
@@ -127,6 +128,7 @@ describe("SearchController", () => {
           boards: [],
           lists: [],
           cards: [],
+          comments: [],
         },
       };
 
@@ -173,6 +175,7 @@ describe("SearchController", () => {
               result_type: "card" as const,
             },
           ],
+          comments: [],
         },
       };
 

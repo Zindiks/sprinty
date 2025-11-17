@@ -74,6 +74,7 @@ describe("SearchService", () => {
         boards: mockBoards,
         lists: mockLists,
         cards: mockCards,
+        comments: [],
       });
 
       const result = await searchService.search(params);
@@ -109,6 +110,7 @@ describe("SearchService", () => {
           boards: mockBoards,
           lists: [],
           cards: [],
+          comments: [],
         },
       });
       expect(searchRepository.searchBoards).toHaveBeenCalledWith(
@@ -137,6 +139,7 @@ describe("SearchService", () => {
           boards: [],
           lists: mockLists,
           cards: [],
+          comments: [],
         },
       });
       expect(searchRepository.searchLists).toHaveBeenCalledWith(
@@ -196,6 +199,7 @@ describe("SearchService", () => {
           boards: [],
           lists: mockLists,
           cards: [],
+          comments: [],
         },
       });
       expect(searchRepository.searchLists).toHaveBeenCalledWith(
@@ -216,6 +220,7 @@ describe("SearchService", () => {
         boards: mockBoards,
         lists: [],
         cards: [],
+          comments: [],
       });
 
       const result = await searchService.search(params);
@@ -235,6 +240,7 @@ describe("SearchService", () => {
         boards: [],
         lists: [],
         cards: [],
+          comments: [],
       });
 
       const result = await searchService.search(params);
@@ -246,6 +252,7 @@ describe("SearchService", () => {
           boards: [],
           lists: [],
           cards: [],
+          comments: [],
         },
       });
     });
