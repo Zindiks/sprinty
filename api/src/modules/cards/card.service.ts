@@ -7,6 +7,7 @@ import {
   DeleteCard,
   FullCardResponse,
   FullCardResponseArray,
+  CardWithAssigneesResponse,
 } from "./card.schema";
 
 export class CardService {
@@ -18,6 +19,12 @@ export class CardService {
 
   async getCardById(id: string): Promise<FullCardResponse | undefined> {
     return this.cardRepository.getCardById(id);
+  }
+
+  async getCardWithAssignees(
+    id: string,
+  ): Promise<CardWithAssigneesResponse | undefined> {
+    return this.cardRepository.getCardWithAssignees(id);
   }
 
   async getCardsByListId(list_id: string): Promise<FullCardResponseArray> {

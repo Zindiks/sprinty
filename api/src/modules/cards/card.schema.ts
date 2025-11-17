@@ -113,6 +113,36 @@ export class CardSchema {
       $id: "FullCardResponseSchemaArray",
     },
   );
+
+  static CardWithAssigneesResponseSchema = Type.Object(
+    {
+      id,
+      list_id,
+      title,
+      description,
+      status,
+      due_date,
+      priority,
+      order,
+      created_at,
+      updated_at,
+      assignees: Type.Array(
+        Type.Object({
+          id: Type.String({ format: "uuid" }),
+          card_id: Type.String({ format: "uuid" }),
+          user_id: Type.String({ format: "uuid" }),
+          assigned_at: Type.String({ format: "date-time" }),
+          assigned_by: Type.Optional(Type.String({ format: "uuid" })),
+          user: Type.Object({
+            id: Type.String({ format: "uuid" }),
+            email: Type.String(),
+            username: Type.Optional(Type.String()),
+          }),
+        }),
+      ),
+    },
+    { $id: "CardWithAssigneesResponseSchema" },
+  );
 }
 
 export type CreateCard = Static<typeof CardSchema.CreateCardSchema>;
@@ -128,3 +158,4 @@ export type FullCardResponse = Static<typeof CardSchema.FullCardResponseSchema>;
 export type FullCardResponseArray = Static<
   typeof CardSchema.FullCardResponseSchemaArray
 >;
+export type CardWithAssigneesResponse = Static<typeof CardSchema.CardWithAssigneesResponseSchema>;

@@ -19,6 +19,25 @@ export default async function cardRoutes(fastify: FastifyInstance) {
   );
 
   fastify.get(
+    "/:id/with-assignees",
+    {
+      schema: {
+        params: { type: "object", properties: { id: { type: "string" } } },
+        response: {
+          200: CardSchema.CardWithAssigneesResponseSchema,
+          404: {
+            type: "object",
+            properties: { message: { type: "string" } },
+          },
+        },
+        tags: ["card"],
+        description: "Get a card with assignee details",
+      },
+    },
+    cardController.getCardWithAssigneesController.bind(cardController),
+  );
+
+  fastify.get(
     "/list/:list_id",
     {
       schema: {

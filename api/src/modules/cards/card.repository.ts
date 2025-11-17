@@ -7,6 +7,7 @@ import {
   DeleteCard,
   FullCardResponse,
   FullCardResponseArray,
+  CardWithAssigneesResponse,
 } from "./card.schema";
 import knexInstance from "../../db/knexInstance";
 
@@ -22,6 +23,40 @@ export class CardRepository {
   async getCardById(id: string): Promise<FullCardResponse | undefined> {
     const [data] = await this.knex(table).where({ id }).select("*");
     return data;
+  }
+
+  async getCardWithAssignees(
+    id: string,
+  ): Promise<CardWithAssigneesResponse | undefined> {
+    const card = await this.getCardById(id);
+    if (!card) {
+      return undefined;
+    }
+
+    const assignees = await this.knex("card_assignees")
+      .where({ "card_assignees.card_id": id })
+      .join("users", "card_assignees.user_id", "users.id")
+      .leftJoin("profiles", "users.id", "profiles.user_id")
+      .select(
+        "card_assignees.id",
+        "card_assignees.card_id",
+        "card_assignees.user_id",
+        "card_assignees.assigned_at",
+        "card_assignees.assigned_by",
+        this.knex.raw(`
+          json_build_object(
+            'id', users.id,
+            'email', users.email,
+            'username', profiles.username
+          ) as user
+        `),
+      )
+      .orderBy("card_assignees.assigned_at", "asc");
+
+    return {
+      ...card,
+      assignees: assignees || [],
+    };
   }
 
   async getCardsByListId(list_id: string): Promise<FullCardResponseArray> {
