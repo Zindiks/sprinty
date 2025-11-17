@@ -9,20 +9,21 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
-  Users,
-  Tag,
   CheckSquare,
   MessageSquare,
   Paperclip,
   Activity as ActivityIcon,
 } from "lucide-react";
 import { useCardDetails } from "@/hooks/useCardDetails";
+import { useStore } from "@/hooks/store/useStore";
 import { EditableTitle } from "./widgets/EditableTitle";
 import { EditableDescription } from "./widgets/EditableDescription";
 import { PrioritySelector } from "./widgets/PrioritySelector";
 import { StatusSelector } from "./widgets/StatusSelector";
 import { DueDatePicker } from "./widgets/DueDatePicker";
 import { CardActions } from "./widgets/CardActions";
+import { AssigneeSection } from "./sections/AssigneeSection";
+import { LabelSection } from "./sections/LabelSection";
 
 interface CardDetailsPanelProps {
   cardId: string | null;
@@ -36,6 +37,7 @@ export const CardDetailsPanel = ({
   onClose,
 }: CardDetailsPanelProps) => {
   const { cardDetails, isLoading, updateDetails, deleteCard } = useCardDetails(cardId || undefined);
+  const { board_id } = useStore();
 
   // Handle Escape key
   useEffect(() => {
@@ -185,52 +187,12 @@ export const CardDetailsPanel = ({
               <Separator />
 
               {/* Assignees Section */}
-              <div className="space-y-3">
-                <h3 className="text-sm font-semibold flex items-center gap-2">
-                  <Users className="w-4 h-4" />
-                  Assignees
-                </h3>
-                {cardDetails.assignees && cardDetails.assignees.length > 0 ? (
-                  <div className="flex flex-wrap gap-2">
-                    {cardDetails.assignees.map((assignee) => (
-                      <Badge key={assignee.id} variant="secondary">
-                        {assignee.user.username || assignee.user.email}
-                      </Badge>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-sm text-muted-foreground italic">
-                    No assignees yet
-                  </p>
-                )}
-              </div>
+              <AssigneeSection cardId={cardDetails.id} />
 
               <Separator />
 
               {/* Labels Section */}
-              <div className="space-y-3">
-                <h3 className="text-sm font-semibold flex items-center gap-2">
-                  <Tag className="w-4 h-4" />
-                  Labels
-                </h3>
-                {cardDetails.labels && cardDetails.labels.length > 0 ? (
-                  <div className="flex flex-wrap gap-2">
-                    {cardDetails.labels.map((label) => (
-                      <Badge
-                        key={label.id}
-                        style={{ backgroundColor: label.color }}
-                        className="text-white"
-                      >
-                        {label.name}
-                      </Badge>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-sm text-muted-foreground italic">
-                    No labels yet
-                  </p>
-                )}
-              </div>
+              <LabelSection cardId={cardDetails.id} boardId={board_id} />
 
               <Separator />
 
