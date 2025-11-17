@@ -62,4 +62,11 @@ export class AnalyticsService {
   async getUserAssignedTasks(userId: string, organizationId: string) {
     return this.repository.getAssignedTasks(userId, organizationId);
   }
+
+  /**
+   * Get due date analytics for a board
+   */
+  async getDueDateAnalytics(boardId: string) {
+    return this.repository.getDueDateAnalytics(boardId);
+  }
 }

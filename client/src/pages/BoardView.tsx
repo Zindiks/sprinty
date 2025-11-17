@@ -13,7 +13,9 @@ import { useCardFilters } from "@/hooks/useCardFilters";
 import { useMemo } from "react";
 import type { Card } from "@/types/types";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "lucide-react";
+import { Calendar, AlertCircle } from "lucide-react";
+import { useDueDateAnalytics } from "@/hooks/useAnalytics";
+import { Badge } from "@/components/ui/badge";
 
 const BoardView = () => {
   const { board_id } = useParams();
@@ -30,6 +32,9 @@ const BoardView = () => {
 
   // Initialize real-time WebSocket connection for this board
   const { presenceUsers, connectionStatus } = useBoardWebSocket(board_id);
+
+  // Fetch due date analytics for overdue badge
+  const { data: dueDateAnalytics } = useDueDateAnalytics(board_id);
 
   // Card filtering and sorting
   const {
@@ -68,7 +73,7 @@ const BoardView = () => {
         {/* Presence Indicator */}
         <PresenceIndicator users={presenceUsers} maxVisible={5} />
 
-        {/* Filter Bar and Calendar Button */}
+        {/* Filter Bar, Overdue Badge, and Calendar Button */}
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <FilterBar
             dueDateFilter={filters.dueDate}
@@ -78,14 +83,22 @@ const BoardView = () => {
             onReset={resetFilters}
             stats={stats}
           />
-          <Button
-            variant="outline"
-            onClick={() => navigate(`/board/${board_id}/calendar`)}
-            className="gap-2"
-          >
-            <Calendar className="h-4 w-4" />
-            Calendar View
-          </Button>
+          <div className="flex items-center gap-2">
+            {dueDateAnalytics && dueDateAnalytics.summary.overdue > 0 && (
+              <Badge variant="destructive" className="gap-1 px-3 py-1">
+                <AlertCircle className="h-3 w-3" />
+                {dueDateAnalytics.summary.overdue} Overdue
+              </Badge>
+            )}
+            <Button
+              variant="outline"
+              onClick={() => navigate(`/board/${board_id}/calendar`)}
+              className="gap-2"
+            >
+              <Calendar className="h-4 w-4" />
+              Calendar View
+            </Button>
+          </div>
         </div>
       </div>
 

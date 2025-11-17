@@ -133,4 +133,24 @@ export class AnalyticsController {
       return reply.code(500).send({ error: "Internal server error" });
     }
   }
+
+  /**
+   * GET /api/v1/analytics/board/:boardId/due-dates
+   * Get due date analytics for a board
+   */
+  async getDueDateAnalytics(
+    request: FastifyRequest<{
+      Params: BoardAnalyticsParams;
+    }>,
+    reply: FastifyReply
+  ) {
+    try {
+      const { boardId } = request.params;
+      const analytics = await this.service.getDueDateAnalytics(boardId);
+      return reply.code(200).send(analytics);
+    } catch (error) {
+      request.log.error(error);
+      return reply.code(500).send({ error: "Internal server error" });
+    }
+  }
 }
