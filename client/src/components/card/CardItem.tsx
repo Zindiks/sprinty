@@ -12,9 +12,10 @@ import axios from "axios";
 interface CardItemProps {
   index: number;
   data: Card;
+  allCardIds?: string[];
 }
 
-const CardItem = ({ index, data }: CardItemProps) => {
+const CardItem = ({ index, data, allCardIds = [] }: CardItemProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [cardDetails, setCardDetails] = useState<CardWithDetails | null>(null);
 
@@ -23,7 +24,7 @@ const CardItem = ({ index, data }: CardItemProps) => {
     selectionMode,
     isCardSelected,
     toggleCard,
-    selectCard,
+    selectRange,
     lastSelectedCardId,
   } = useSelectionStore();
 
@@ -41,11 +42,8 @@ const CardItem = ({ index, data }: CardItemProps) => {
       }
 
       // Shift + Click - Range selection
-      if (e.shiftKey && lastSelectedCardId) {
-        // Get all card IDs from the parent list
-        // We'll need to pass this from the parent component
-        // For now, just select this card
-        selectCard(data.id);
+      if (e.shiftKey && lastSelectedCardId && allCardIds.length > 0) {
+        selectRange(lastSelectedCardId, data.id, allCardIds);
         return;
       }
 

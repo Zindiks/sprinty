@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 import ListForm from "@/components/list/ListForm";
 import ListItem from "@/components/list/ListItem";
+import { SelectionIndicator } from "@/components/card/SelectionIndicator";
 
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 // import { assign } from "lodash"
@@ -144,25 +145,30 @@ const ListContainer = ({ data, board_id }: ListContainerProps) => {
   }
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId="lists" type="list" direction="horizontal">
-        {(provided) => (
-          <ol
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-            className="flex gap-x-3 h-full"
-          >
-            {orderedData?.map((list, index) => {
-              return <ListItem key={list.id} index={index} data={list} />;
-            })}
+    <>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId="lists" type="list" direction="horizontal">
+          {(provided) => (
+            <ol
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              className="flex gap-x-3 h-full"
+            >
+              {orderedData?.map((list, index) => {
+                return <ListItem key={list.id} index={index} data={list} />;
+              })}
 
-            {provided.placeholder}
-            <ListForm />
-            <div className={"flex shrink-0 w-1"}></div>
-          </ol>
-        )}
-      </Droppable>
-    </DragDropContext>
+              {provided.placeholder}
+              <ListForm />
+              <div className={"flex shrink-0 w-1"}></div>
+            </ol>
+          )}
+        </Droppable>
+      </DragDropContext>
+
+      {/* Selection indicator - shows count and clear button */}
+      <SelectionIndicator />
+    </>
   );
 };
 

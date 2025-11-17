@@ -4,6 +4,7 @@ import ListHeader from "@/components/list/ListHeader";
 import CardForm from "@/components/card/CardForm";
 import { cn } from "@/lib/utils";
 import CardItem from "@/components/card/CardItem";
+import { useSelectionKeyboard } from "@/hooks/useSelectionKeyboard";
 
 import { Draggable, Droppable } from "@hello-pangea/dnd";
 
@@ -18,6 +19,12 @@ const ListItem = ({ data, index }: ListItemProps) => {
   console.log(data);
 
   const textareaRef = useRef<ElementRef<"textarea">>(null);
+
+  // Enable keyboard shortcuts for this list
+  useSelectionKeyboard({
+    listId: data.id,
+    cardIds: data.cards.map((c) => c.id),
+  });
 
   const disableEditing = () => {
     setIsEditing(false);
@@ -61,6 +68,7 @@ const ListItem = ({ data, index }: ListItemProps) => {
                         index={index}
                         key={card.id + index}
                         data={card}
+                        allCardIds={data.cards.map((c) => c.id)}
                       />
                     );
                   })}
