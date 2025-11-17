@@ -1,6 +1,6 @@
 # Incomplete Features & Project Roadmap
 
-> **Last Updated:** 2025-11-15
+> **Last Updated:** 2025-11-17
 > **Status:** Active Development
 
 This document tracks incomplete features, known TODOs, and provides a comprehensive roadmap for future development of Sprinty.
@@ -9,12 +9,52 @@ This document tracks incomplete features, known TODOs, and provides a comprehens
 
 ## Table of Contents
 
-1. [Incomplete Features](#incomplete-features)
-2. [Code TODOs](#code-todos)
-3. [Missing Core Features](#missing-core-features)
-4. [Infrastructure Gaps](#infrastructure-gaps)
-5. [Recommended Roadmap](#recommended-roadmap)
-6. [Priority Matrix](#priority-matrix)
+1. [Recently Completed](#recently-completed)
+2. [Incomplete Features](#incomplete-features)
+3. [Code TODOs](#code-todos)
+4. [Missing Core Features](#missing-core-features)
+5. [Infrastructure Gaps](#infrastructure-gaps)
+6. [Recommended Roadmap](#recommended-roadmap)
+7. [Priority Matrix](#priority-matrix)
+
+---
+
+## Recently Completed
+
+### ✅ User Profiles Management (Completed: 2025-11-17)
+
+**Implementation Details:**
+- ✅ **Backend API Module** (`api/src/modules/profiles/`)
+  - profile.schema.ts - TypeBox validation schemas
+  - profile.repository.ts - Data access layer with uniqueness checks
+  - profile.service.ts - Business logic with validation
+  - profile.controller.ts - HTTP request handlers
+  - profile.route.ts - RESTful API endpoints
+- ✅ **Frontend Components**
+  - ProfilePage.tsx - User profile viewing page
+  - EditProfileModal.tsx - Profile editing modal
+  - useProfile.ts - React Query hook
+  - Card UI component (shadcn/ui)
+- ✅ **Features Implemented**
+  - View user profile (username, email, bio, date of birth, avatar)
+  - Edit profile with validation
+  - Username and email uniqueness validation
+  - Real-time updates with React Query
+  - Toast notifications for success/error
+  - Loading states with skeleton UI
+- ✅ **API Endpoints**
+  - GET /api/v1/profiles/user/:user_id
+  - GET /api/v1/profiles/:id
+  - POST /api/v1/profiles
+  - PUT /api/v1/profiles/user/:user_id
+  - DELETE /api/v1/profiles/user/:user_id
+
+**Commit:** `ae44a4e` - "feat: implement comprehensive user profile CRUD module"
+
+**Still Missing from Profile System:**
+- Avatar upload functionality (S3 integration) - currently only URL input
+- Profile privacy settings
+- Profile completeness indicator
 
 ---
 
@@ -38,28 +78,7 @@ This document tracks incomplete features, known TODOs, and provides a comprehens
 
 ---
 
-### 2. User Profiles Management
-
-**Current State:**
-- ✅ Database tables exist (`profiles`, `user_organization`)
-- ✅ OAuth creates profiles
-- ❌ No dedicated CRUD API module for profiles
-- ❌ No UI for editing user profiles
-
-**Missing:**
-- Profile update endpoints
-- Avatar upload functionality
-- User settings page
-- Profile viewing
-
-**Files:**
-- `api/src/db/schemas/profiles.ts` (schema exists)
-- `api/src/db/migrations/20250112221006_create_profiles_table.ts` (migration exists)
-- **Missing:** `api/src/modules/profiles/` (entire module)
-
----
-
-### 3. Role-Based Access Control (RBAC)
+### 2. Role-Based Access Control (RBAC)
 
 **Current State:**
 - ✅ Database table exists (`user_organization` with role enum: ADMIN, MEMBER, GUEST)
@@ -80,7 +99,7 @@ This document tracks incomplete features, known TODOs, and provides a comprehens
 
 ---
 
-### 4. AWS Deployment
+### 3. AWS Deployment
 
 **Current State:**
 - ❌ Not implemented (mentioned in README as future plan)
@@ -409,6 +428,7 @@ This document tracks incomplete features, known TODOs, and provides a comprehens
 - ✅ Basic README
 - ✅ Swagger API docs
 - ✅ Installation guide
+- ✅ Incomplete features roadmap (this document)
 - ❌ Architecture documentation
 - ❌ API usage examples
 - ❌ Contributing guidelines (minimal)
@@ -458,13 +478,13 @@ This document tracks incomplete features, known TODOs, and provides a comprehens
 
 ### Phase 2: Core Features Enhancement (Months 3-4)
 
-**Goal:** Complete card management features and user profile system.
+**Goal:** Complete card management features and enhance user system.
 
-#### Sprint 3 (Weeks 5-6)
+#### Sprint 3 (Weeks 5-6) - **PARTIALLY COMPLETED**
 - [ ] Add due dates to cards
 - [ ] Implement labels/tags system
-- [ ] Create user profile CRUD API
-- [ ] Build user settings UI
+- [x] ✅ Create user profile CRUD API (Completed 2025-11-17)
+- [x] ✅ Build user settings UI (Completed 2025-11-17)
 - [ ] Add card comments system
 
 #### Sprint 4 (Weeks 7-8)
@@ -476,9 +496,11 @@ This document tracks incomplete features, known TODOs, and provides a comprehens
 
 **Deliverables:**
 - Full-featured card management
-- User profile management
+- ✅ User profile management (COMPLETED)
 - Activity tracking
 - Basic search
+
+**Progress:** 2/10 tasks completed (20%)
 
 ---
 
@@ -598,7 +620,7 @@ This document tracks incomplete features, known TODOs, and provides a comprehens
 ### 🟡 High Priority (Next Quarter)
 
 5. **Card Advanced Features** - Due dates, labels, comments
-6. **User Profile Management** - Complete profile CRUD
+6. ~~**User Profile Management**~~ - ✅ **COMPLETED** (2025-11-17)
 7. **RBAC Implementation** - Role-based access control
 8. **Real-time Updates** - WebSocket implementation
 9. **Search & Filtering** - Global search functionality
@@ -622,16 +644,40 @@ This document tracks incomplete features, known TODOs, and provides a comprehens
 
 ## Quick Wins (Can be done in < 1 week each)
 
-1. ✅ Fix swagger.ts hardcoded URL → use env variable
-2. ✅ Remove outdated TODO comments in ListContainer.tsx
-3. ✅ Auto-focus input in BoardTitleForm
-4. ✅ Add board info popover in BoardNavBar
-5. ✅ Replace `any` type in useLists.ts
-6. ✅ Refactor ListOptions.tsx forms
-7. ✅ Add CHANGELOG.md
-8. ✅ Add comprehensive .env.example files
-9. ✅ Add request logging middleware
-10. ✅ Add database connection pooling configuration
+### Not Started
+1. ❌ Fix swagger.ts hardcoded URL → use env variable
+2. ❌ Remove outdated TODO comments in ListContainer.tsx
+3. ❌ Auto-focus input in BoardTitleForm
+4. ❌ Add board info popover in BoardNavBar
+5. ❌ Replace `any` type in useLists.ts
+6. ❌ Refactor ListOptions.tsx forms
+7. ❌ Add CHANGELOG.md
+8. ❌ Add comprehensive .env.example files
+9. ❌ Add request logging middleware
+10. ❌ Add database connection pooling configuration
+
+---
+
+## Progress Tracking
+
+### Overall Completion Status
+
+**Phase 1: Foundation & Stability** - 0% (0/10 tasks)
+**Phase 2: Core Features Enhancement** - 20% (2/10 tasks)
+- ✅ User profile CRUD API
+- ✅ User settings UI
+
+**Phase 3: Collaboration & RBAC** - 0% (0/10 tasks)
+**Phase 4: Analytics & Automation** - 0% (0/10 tasks)
+**Phase 5: Mobile & Performance** - 0% (0/10 tasks)
+**Phase 6: Production Deployment** - 0% (0/10 tasks)
+
+**Total Project Completion:** ~3% (2/60 major tasks)
+
+### Recent Activity
+
+- **2025-11-17:** ✅ Completed user profile CRUD module (backend + frontend)
+- **2025-11-15:** 📝 Created initial roadmap document
 
 ---
 
@@ -659,12 +705,16 @@ Sprinty has a solid foundation with modern technologies and clean architecture. 
 
 **Estimated Timeline:** 12 months for full roadmap completion
 
+**Current Status:** Early development phase with ~3% completion
+
 **Next Steps:**
-1. Review and prioritize this roadmap with stakeholders
-2. Create GitHub issues for Phase 1 items
-3. Set up project board to track progress
-4. Begin Sprint 1 of Phase 1
+1. ✅ Complete user profile management (DONE)
+2. Continue with Phase 2 - Sprint 3 remaining tasks
+3. Focus on card advanced features (due dates, labels, comments)
+4. Implement security enhancements
+5. Add comprehensive testing
 
 ---
 
-*Last updated: 2025-11-15*
+*Last updated: 2025-11-17*
+*Document version: 2.0*
