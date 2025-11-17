@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { usePersonalDashboard, useBoardAnalytics } from "../hooks/useAnalytics";
 import { useStore } from "../hooks/store/useStore";
+import { useDashboardStore } from "../hooks/store/useDashboardStore";
 import {
   BarChart,
   Bar,
@@ -22,17 +23,27 @@ import BoardsOverviewWidget from "../components/dashboard/widgets/BoardsOverview
 import WeeklyCompletionWidget from "../components/dashboard/widgets/WeeklyCompletionWidget";
 import MonthlyCompletionWidget from "../components/dashboard/widgets/MonthlyCompletionWidget";
 import VelocityChart from "../components/dashboard/widgets/VelocityChart";
+import DashboardFilters from "../components/dashboard/DashboardFilters";
+import QuickFilterButtons from "../components/dashboard/QuickFilterButtons";
+import { filterAndSortTasks } from "../utils/filterTasks";
 
 type TabType = "overview" | "trends" | "boards" | "sprint";
 
 const Dashboard = () => {
   const { organization_id, board_id } = useStore();
+  const { filters } = useDashboardStore();
   const [activeTab, setActiveTab] = useState<TabType>("overview");
 
   const { data: personalDashboard, isLoading: loadingPersonal } =
     usePersonalDashboard(organization_id);
   const { data: boardAnalytics, isLoading: loadingBoard } =
     useBoardAnalytics(board_id);
+
+  // Filter and sort tasks
+  const filteredTasks = useMemo(() => {
+    if (!personalDashboard?.recentTasks) return [];
+    return filterAndSortTasks(personalDashboard.recentTasks, filters);
+  }, [personalDashboard?.recentTasks, filters]);
 
   const COLORS = {
     primary: "#3b82f6",
@@ -109,6 +120,16 @@ const Dashboard = () => {
             })}
           </nav>
         </div>
+
+        {/* Filters and Quick Actions - Show only on Overview tab */}
+        {activeTab === "overview" && (
+          <>
+            <QuickFilterButtons />
+            <div className="mt-4">
+              <DashboardFilters />
+            </div>
+          </>
+        )}
 
         {/* Loading State */}
         {(loadingPersonal || loadingBoard) && (
@@ -370,9 +391,15 @@ const Dashboard = () => {
                 {/* Assigned Tasks */}
                 {personalDashboard && personalDashboard.recentTasks.length > 0 && (
                   <div className="bg-white rounded-lg shadow p-6">
-                    <h2 className="text-xl font-bold text-gray-900 mb-6">Your Assigned Tasks</h2>
-                    <div className="space-y-4">
-                      {personalDashboard.recentTasks.map((task) => (
+                    <div className="flex items-center justify-between mb-6">
+                      <h2 className="text-xl font-bold text-gray-900">Your Assigned Tasks</h2>
+                      <span className="text-sm text-gray-500">
+                        Showing {filteredTasks.length} of {personalDashboard.recentTasks.length} tasks
+                      </span>
+                    </div>
+                    {filteredTasks.length > 0 ? (
+                      <div className="space-y-4">
+                        {filteredTasks.map((task) => (
                         <div
                           key={task.id}
                           className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition"
@@ -409,6 +436,12 @@ const Dashboard = () => {
                         </div>
                       ))}
                     </div>
+                    ) : (
+                      <div className="text-center py-12 text-gray-500">
+                        <p>No tasks match the current filters.</p>
+                        <p className="text-sm mt-2">Try adjusting your filters to see more results.</p>
+                      </div>
+                    )}
                   </div>
                 )}
 
