@@ -9,8 +9,6 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
-  MessageSquare,
-  Paperclip,
   Activity as ActivityIcon,
 } from "lucide-react";
 import { useCardDetails } from "@/hooks/useCardDetails";
@@ -24,6 +22,8 @@ import { CardActions } from "./widgets/CardActions";
 import { AssigneeSection } from "./sections/AssigneeSection";
 import { LabelSection } from "./sections/LabelSection";
 import { ChecklistSection } from "./sections/ChecklistSection";
+import { CommentSection } from "./sections/CommentSection";
+import { AttachmentSection } from "./sections/AttachmentSection";
 
 interface CardDetailsPanelProps {
   cardId: string | null;
@@ -202,108 +202,12 @@ export const CardDetailsPanel = ({
               <Separator />
 
               {/* Comments Section */}
-              <div className="space-y-3">
-                <h3 className="text-sm font-semibold flex items-center gap-2">
-                  <MessageSquare className="w-4 h-4" />
-                  Comments
-                  {cardDetails.comments && cardDetails.comments.length > 0 && (
-                    <span className="text-xs text-muted-foreground">
-                      ({cardDetails.comments.length})
-                    </span>
-                  )}
-                </h3>
-                {cardDetails.comments && cardDetails.comments.length > 0 ? (
-                  <div className="space-y-4">
-                    {cardDetails.comments.map((comment) => (
-                      <div key={comment.id} className="space-y-2">
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm font-medium">
-                            {comment.user.username || comment.user.email}
-                          </span>
-                          <span className="text-xs text-muted-foreground">
-                            {formatDate(comment.created_at)}
-                          </span>
-                          {comment.is_edited && (
-                            <span className="text-xs text-muted-foreground italic">
-                              (edited)
-                            </span>
-                          )}
-                        </div>
-                        <p className="text-sm text-muted-foreground">
-                          {comment.content}
-                        </p>
-                        {/* Render replies if any */}
-                        {comment.replies && comment.replies.length > 0 && (
-                          <div className="ml-6 space-y-3 border-l-2 pl-4">
-                            {comment.replies.map((reply) => (
-                              <div key={reply.id} className="space-y-2">
-                                <div className="flex items-center gap-2">
-                                  <span className="text-sm font-medium">
-                                    {reply.user.username || reply.user.email}
-                                  </span>
-                                  <span className="text-xs text-muted-foreground">
-                                    {formatDate(reply.created_at)}
-                                  </span>
-                                </div>
-                                <p className="text-sm text-muted-foreground">
-                                  {reply.content}
-                                </p>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-sm text-muted-foreground italic">
-                    No comments yet
-                  </p>
-                )}
-              </div>
+              <CommentSection cardId={cardDetails.id} />
 
               <Separator />
 
               {/* Attachments Section */}
-              <div className="space-y-3">
-                <h3 className="text-sm font-semibold flex items-center gap-2">
-                  <Paperclip className="w-4 h-4" />
-                  Attachments
-                  {cardDetails.attachments &&
-                    cardDetails.attachments.length > 0 && (
-                      <span className="text-xs text-muted-foreground">
-                        ({cardDetails.attachments.length})
-                      </span>
-                    )}
-                </h3>
-                {cardDetails.attachments &&
-                cardDetails.attachments.length > 0 ? (
-                  <div className="space-y-2">
-                    {cardDetails.attachments.map((attachment) => (
-                      <div
-                        key={attachment.id}
-                        className="flex items-center justify-between p-2 rounded border"
-                      >
-                        <div className="flex items-center gap-2">
-                          <Paperclip className="w-4 h-4 text-muted-foreground" />
-                          <div>
-                            <p className="text-sm font-medium">
-                              {attachment.filename}
-                            </p>
-                            <p className="text-xs text-muted-foreground">
-                              {(attachment.file_size / 1024).toFixed(2)} KB
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-sm text-muted-foreground italic">
-                    No attachments yet
-                  </p>
-                )}
-              </div>
+              <AttachmentSection cardId={cardDetails.id} />
 
               <Separator />
 
