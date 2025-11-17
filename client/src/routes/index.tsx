@@ -9,22 +9,44 @@ import BoardLayout from "@/pages/BoardLayout";
 import Organizations from "@/pages/Organization";
 import Dashboard from "@/pages/Dashboard";
 import ProfilePage from "@/pages/ProfilePage";
-// import BoardEdit from "../pages/BoardEdit"
+import { ProtectedRoute, OrganizationGuard } from "@/components/auth";
 
+/**
+ * AppRoutes - Application Routing Configuration
+ *
+ * Route Structure:
+ * - / (Home/Marketing) - Public route
+ * - /user - Legacy user page (consider removing)
+ * - Protected routes (requires authentication):
+ *   - /profile - User profile management
+ *   - /organizations - Organization selection
+ *   - Organization-dependent routes (requires org selection):
+ *     - /boards - Board list
+ *     - /board/:board_id - Board view
+ *     - /board/:board_id/calendar - Calendar view
+ *     - /dashboard - Analytics dashboard
+ */
 const AppRoutes = () => (
   <Routes>
-    <Route path="/" element={<Home />} />
-    <Route path="/user" element={<User />} />
-    <Route path="/profile" element={<ProfilePage />} />
-    <Route path="/marketing" element={<Marketing />} />
-    <Route path="/boards" element={<Boards />} />
-    <Route path="/dashboard" element={<Dashboard />} />
+    {/* Public Routes */}
+    <Route path="/" element={<Marketing />} />
+    <Route path="/user" element={<User />} /> {/* Legacy - consider removing */}
 
-    <Route path="/organizations" element={<Organizations />} />
+    {/* Protected Routes - Require Authentication */}
+    <Route element={<ProtectedRoute />}>
+      <Route path="/profile" element={<ProfilePage />} />
+      <Route path="/organizations" element={<Organizations />} />
 
-    <Route path="board" element={<BoardLayout />}>
-      <Route path=":board_id" element={<BoardView />} />
-      <Route path=":board_id/calendar" element={<CalendarView />} />
+      {/* Organization-Dependent Routes - Require Org Selection */}
+      <Route element={<OrganizationGuard />}>
+        <Route path="/boards" element={<Boards />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+
+        <Route path="board" element={<BoardLayout />}>
+          <Route path=":board_id" element={<BoardView />} />
+          <Route path=":board_id/calendar" element={<CalendarView />} />
+        </Route>
+      </Route>
     </Route>
   </Routes>
 );
