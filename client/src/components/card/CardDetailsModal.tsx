@@ -6,6 +6,8 @@ import type {
   Attachment,
   Label,
   Assignee,
+  Activity,
+  ActivityActionType,
 } from "@/types/types";
 import {
   Dialog,
@@ -25,6 +27,7 @@ import {
   MessageSquare,
   Paperclip,
   Clock,
+  Activity as ActivityIcon,
 } from "lucide-react";
 
 interface CardDetailsModalProps {
@@ -303,8 +306,99 @@ export const CardDetailsModal = ({
               </div>
             </div>
           )}
+
+          {/* Activity Timeline */}
+          {card.activities && card.activities.length > 0 && (
+            <>
+              <Separator />
+              <div>
+                <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
+                  <ActivityIcon className="w-4 h-4" />
+                  Activity Timeline ({card.activities.length})
+                </h3>
+                <div className="space-y-3">
+                  {card.activities.map((activity: Activity) => (
+                    <div
+                      key={activity.id}
+                      className="flex items-start gap-3 text-sm"
+                    >
+                      <div className="w-2 h-2 rounded-full bg-primary mt-2" />
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="font-medium">
+                            {activity.user.username || activity.user.email}
+                          </span>
+                          <span className="text-muted-foreground">
+                            {formatActivityAction(activity.action_type)}
+                          </span>
+                          {activity.metadata && (
+                            <span className="text-xs text-muted-foreground">
+                              {formatActivityMetadata(activity.action_type, activity.metadata)}
+                            </span>
+                          )}
+                        </div>
+                        <span className="text-xs text-muted-foreground">
+                          {formatDate(activity.created_at)}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </DialogContent>
     </Dialog>
   );
+};
+
+const formatActivityAction = (actionType: ActivityActionType): string => {
+  const actionMap: Record<ActivityActionType, string> = {
+    created: "created this card",
+    updated: "updated this card",
+    moved: "moved this card",
+    archived: "archived this card",
+    assignee_added: "added an assignee",
+    assignee_removed: "removed an assignee",
+    label_added: "added a label",
+    label_removed: "removed a label",
+    comment_added: "added a comment",
+    attachment_added: "added an attachment",
+    checklist_item_added: "added a checklist item",
+    checklist_item_completed: "completed a checklist item",
+    due_date_set: "set the due date",
+    due_date_changed: "changed the due date",
+    due_date_removed: "removed the due date",
+    priority_changed: "changed the priority",
+    description_changed: "updated the description",
+    title_changed: "changed the title",
+  };
+  return actionMap[actionType] || actionType;
+};
+
+const formatActivityMetadata = (actionType: ActivityActionType, metadata: any): string => {
+  if (!metadata) return "";
+
+  try {
+    switch (actionType) {
+      case "priority_changed":
+        return metadata.new_value ? `to ${metadata.new_value}` : "";
+      case "label_added":
+      case "label_removed":
+        return metadata.label_name ? `"${metadata.label_name}"` : "";
+      case "assignee_added":
+      case "assignee_removed":
+        return metadata.assignee_name ? `${metadata.assignee_name}` : "";
+      case "due_date_set":
+      case "due_date_changed":
+        return metadata.new_value ? `to ${new Date(metadata.new_value).toLocaleDateString()}` : "";
+      case "title_changed":
+        return metadata.new_value ? `to "${metadata.new_value}"` : "";
+      default:
+        return "";
+    }
+  } catch {
+    return "";
+  }
 };
