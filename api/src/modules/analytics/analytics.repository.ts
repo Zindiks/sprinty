@@ -304,4 +304,421 @@ export class AnalyticsRepository {
       .groupBy("sprints.id", "sprints.name", "sprints.start_date", "sprints.end_date", "sprints.status")
       .orderBy("sprints.start_date", "desc");
   }
+
+  /**
+   * Get productivity trends (cards created vs completed over time)
+   */
+  async getProductivityTrends(
+    userId: string,
+    organizationId: string,
+    period: "weekly" | "monthly",
+    daysBack: number = 90
+  ) {
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() - daysBack);
+
+    // Get cards created over time
+    const cardsCreated = await this.knex("cards")
+      .join("lists", "cards.list_id", "lists.id")
+      .join("boards", "lists.board_id", "boards.id")
+      .join("card_assignees", "cards.id", "card_assignees.card_id")
+      .where("card_assignees.user_id", userId)
+      .where("boards.organization_id", organizationId)
+      .where("cards.created_at", ">=", startDate.toISOString())
+      .select(
+        this.knex.raw("DATE(cards.created_at) as date"),
+        this.knex.raw("COUNT(*) as count")
+      )
+      .groupBy(this.knex.raw("DATE(cards.created_at)"))
+      .orderBy("date", "asc");
+
+    // Get cards completed over time (using card_activities)
+    const cardsCompleted = await this.knex("card_activities")
+      .join("cards", "card_activities.card_id", "cards.id")
+      .join("lists", "cards.list_id", "lists.id")
+      .join("boards", "lists.board_id", "boards.id")
+      .join("card_assignees", "cards.id", "card_assignees.card_id")
+      .where("card_assignees.user_id", userId)
+      .where("boards.organization_id", organizationId)
+      .where("card_activities.action_type", "updated")
+      .whereRaw("card_activities.metadata->>'status' = 'completed'")
+      .where("card_activities.created_at", ">=", startDate.toISOString())
+      .select(
+        this.knex.raw("DATE(card_activities.created_at) as date"),
+        this.knex.raw("COUNT(*) as count")
+      )
+      .groupBy(this.knex.raw("DATE(card_activities.created_at)"))
+      .orderBy("date", "asc");
+
+    // Merge data by date
+    const dataMap = new Map<string, { date: string; cardsCreated: number; cardsCompleted: number }>();
+
+    cardsCreated.forEach((row) => {
+      const date = row.date;
+      dataMap.set(date, {
+        date,
+        cardsCreated: parseInt(row.count as string),
+        cardsCompleted: 0,
+      });
+    });
+
+    cardsCompleted.forEach((row) => {
+      const date = row.date;
+      const existing = dataMap.get(date) || { date, cardsCreated: 0, cardsCompleted: 0 };
+      existing.cardsCompleted = parseInt(row.count as string);
+      dataMap.set(date, existing);
+    });
+
+    const data = Array.from(dataMap.values()).map((item) => ({
+      ...item,
+      netChange: item.cardsCreated - item.cardsCompleted,
+    }));
+
+    // Calculate summary
+    const totalCreated = data.reduce((sum, item) => sum + item.cardsCreated, 0);
+    const totalCompleted = data.reduce((sum, item) => sum + item.cardsCompleted, 0);
+    const averagePerPeriod = data.length > 0 ? totalCompleted / data.length : 0;
+
+    // Determine trend (simple linear regression slope)
+    let trend: "increasing" | "decreasing" | "stable" = "stable";
+    if (data.length > 1) {
+      const recentHalf = data.slice(Math.floor(data.length / 2));
+      const recentAvg = recentHalf.reduce((sum, item) => sum + item.cardsCompleted, 0) / recentHalf.length;
+      const earlierHalf = data.slice(0, Math.floor(data.length / 2));
+      const earlierAvg = earlierHalf.reduce((sum, item) => sum + item.cardsCompleted, 0) / earlierHalf.length;
+
+      if (recentAvg > earlierAvg * 1.1) trend = "increasing";
+      else if (recentAvg < earlierAvg * 0.9) trend = "decreasing";
+    }
+
+    return {
+      period,
+      data,
+      summary: {
+        totalCreated,
+        totalCompleted,
+        averagePerPeriod: Math.round(averagePerPeriod * 100) / 100,
+        trend,
+      },
+    };
+  }
+
+  /**
+   * Get boards overview for a user
+   */
+  async getBoardsOverview(userId: string, organizationId: string) {
+    // Get all boards where user has assigned cards
+    const boards = await this.knex("boards")
+      .distinct("boards.id", "boards.title", "boards.organization_id")
+      .join("lists", "boards.id", "lists.board_id")
+      .join("cards", "lists.id", "cards.list_id")
+      .join("card_assignees", "cards.id", "card_assignees.card_id")
+      .where("card_assignees.user_id", userId)
+      .where("boards.organization_id", organizationId);
+
+    // For each board, get statistics
+    const boardOverviews = await Promise.all(
+      boards.map(async (board) => {
+        const [totalCards, completedCards, inProgressCards, overdueCards, lastActivity, assignedToMeCount] = await Promise.all([
+          // Total cards
+          this.knex("cards")
+            .join("lists", "cards.list_id", "lists.id")
+            .where("lists.board_id", board.id)
+            .count("* as count")
+            .first(),
+
+          // Completed cards
+          this.knex("cards")
+            .join("lists", "cards.list_id", "lists.id")
+            .where("lists.board_id", board.id)
+            .where("cards.status", "completed")
+            .count("* as count")
+            .first(),
+
+          // In progress cards
+          this.knex("cards")
+            .join("lists", "cards.list_id", "lists.id")
+            .where("lists.board_id", board.id)
+            .where("cards.status", "in_progress")
+            .count("* as count")
+            .first(),
+
+          // Overdue cards
+          this.knex("cards")
+            .join("lists", "cards.list_id", "lists.id")
+            .where("lists.board_id", board.id)
+            .whereNotNull("cards.due_date")
+            .where("cards.due_date", "<", this.knex.raw("NOW()"))
+            .whereNot("cards.status", "completed")
+            .count("* as count")
+            .first(),
+
+          // Last activity
+          this.knex("card_activities")
+            .join("cards", "card_activities.card_id", "cards.id")
+            .join("lists", "cards.list_id", "lists.id")
+            .where("lists.board_id", board.id)
+            .orderBy("card_activities.created_at", "desc")
+            .select("card_activities.created_at")
+            .first(),
+
+          // Cards assigned to me
+          this.knex("cards")
+            .join("lists", "cards.list_id", "lists.id")
+            .join("card_assignees", "cards.id", "card_assignees.card_id")
+            .where("lists.board_id", board.id)
+            .where("card_assignees.user_id", userId)
+            .count("* as count")
+            .first(),
+        ]);
+
+        const total = parseInt(totalCards?.count as string) || 0;
+        const completed = parseInt(completedCards?.count as string) || 0;
+        const completionRate = total > 0 ? (completed / total) * 100 : 0;
+
+        return {
+          id: board.id,
+          title: board.title,
+          organization_id: board.organization_id,
+          totalCards: total,
+          completedCards: completed,
+          inProgressCards: parseInt(inProgressCards?.count as string) || 0,
+          overdueCards: parseInt(overdueCards?.count as string) || 0,
+          completionRate: Math.round(completionRate * 100) / 100,
+          lastActivity: lastActivity?.created_at || null,
+          assignedToMeCount: parseInt(assignedToMeCount?.count as string) || 0,
+        };
+      })
+    );
+
+    return boardOverviews;
+  }
+
+  /**
+   * Get weekly metrics for a user
+   */
+  async getWeeklyMetrics(userId: string, organizationId: string, weeksBack: number = 4) {
+    const metrics = [];
+
+    for (let i = 0; i < weeksBack; i++) {
+      const weekEnd = new Date();
+      weekEnd.setDate(weekEnd.getDate() - (i * 7));
+      const weekStart = new Date(weekEnd);
+      weekStart.setDate(weekStart.getDate() - 6);
+
+      // Cards created this week
+      const cardsCreated = await this.knex("cards")
+        .join("lists", "cards.list_id", "lists.id")
+        .join("boards", "lists.board_id", "boards.id")
+        .join("card_assignees", "cards.id", "card_assignees.card_id")
+        .where("card_assignees.user_id", userId)
+        .where("boards.organization_id", organizationId)
+        .whereBetween("cards.created_at", [weekStart.toISOString(), weekEnd.toISOString()])
+        .count("* as count")
+        .first();
+
+      // Cards completed this week
+      const cardsCompleted = await this.knex("card_activities")
+        .join("cards", "card_activities.card_id", "cards.id")
+        .join("lists", "cards.list_id", "lists.id")
+        .join("boards", "lists.board_id", "boards.id")
+        .join("card_assignees", "cards.id", "card_assignees.card_id")
+        .where("card_assignees.user_id", userId)
+        .where("boards.organization_id", organizationId)
+        .where("card_activities.action_type", "updated")
+        .whereRaw("card_activities.metadata->>'status' = 'completed'")
+        .whereBetween("card_activities.created_at", [weekStart.toISOString(), weekEnd.toISOString()])
+        .count("* as count")
+        .first();
+
+      // Time spent this week
+      const timeSpent = await this.knex("time_logs")
+        .join("cards", "time_logs.card_id", "cards.id")
+        .join("lists", "cards.list_id", "lists.id")
+        .join("boards", "lists.board_id", "boards.id")
+        .where("time_logs.user_id", userId)
+        .where("boards.organization_id", organizationId)
+        .whereBetween("time_logs.logged_at", [weekStart.toISOString(), weekEnd.toISOString()])
+        .sum("time_logs.duration_minutes as total_minutes")
+        .first();
+
+      // Top boards this week
+      const topBoards = await this.knex("cards")
+        .join("lists", "cards.list_id", "lists.id")
+        .join("boards", "lists.board_id", "boards.id")
+        .join("card_assignees", "cards.id", "card_assignees.card_id")
+        .join("card_activities", "cards.id", "card_activities.card_id")
+        .where("card_assignees.user_id", userId)
+        .where("boards.organization_id", organizationId)
+        .where("card_activities.action_type", "updated")
+        .whereRaw("card_activities.metadata->>'status' = 'completed'")
+        .whereBetween("card_activities.created_at", [weekStart.toISOString(), weekEnd.toISOString()])
+        .select("boards.id as board_id", "boards.title as board_title")
+        .count("* as cards_completed")
+        .groupBy("boards.id", "boards.title")
+        .orderBy("cards_completed", "desc")
+        .limit(3);
+
+      const created = parseInt(cardsCreated?.count as string) || 0;
+      const completed = parseInt(cardsCompleted?.count as string) || 0;
+      const completionRate = created > 0 ? (completed / created) * 100 : 0;
+      const totalMinutes = parseInt(timeSpent?.total_minutes as string) || 0;
+
+      metrics.push({
+        weekStartDate: weekStart.toISOString().split("T")[0],
+        weekEndDate: weekEnd.toISOString().split("T")[0],
+        cardsCreated: created,
+        cardsCompleted: completed,
+        timeSpentHours: Math.round((totalMinutes / 60) * 100) / 100,
+        completionRate: Math.round(completionRate * 100) / 100,
+        topBoards: topBoards.map((board) => ({
+          boardId: board.board_id,
+          boardTitle: board.board_title,
+          cardsCompleted: parseInt(board.cards_completed as string),
+        })),
+      });
+    }
+
+    return metrics.reverse(); // Return oldest to newest
+  }
+
+  /**
+   * Get monthly metrics for a user
+   */
+  async getMonthlyMetrics(userId: string, organizationId: string, monthsBack: number = 6) {
+    const metrics = [];
+
+    for (let i = 0; i < monthsBack; i++) {
+      const monthEnd = new Date();
+      monthEnd.setMonth(monthEnd.getMonth() - i);
+      monthEnd.setDate(1);
+      monthEnd.setMonth(monthEnd.getMonth() + 1);
+      monthEnd.setDate(0); // Last day of month
+
+      const monthStart = new Date(monthEnd);
+      monthStart.setDate(1);
+
+      const month = monthStart.toISOString().split("T")[0].substring(0, 7); // YYYY-MM
+      const monthName = monthStart.toLocaleString("default", { month: "long", year: "numeric" });
+
+      // Cards created this month
+      const cardsCreated = await this.knex("cards")
+        .join("lists", "cards.list_id", "lists.id")
+        .join("boards", "lists.board_id", "boards.id")
+        .join("card_assignees", "cards.id", "card_assignees.card_id")
+        .where("card_assignees.user_id", userId)
+        .where("boards.organization_id", organizationId)
+        .whereBetween("cards.created_at", [monthStart.toISOString(), monthEnd.toISOString()])
+        .count("* as count")
+        .first();
+
+      // Cards completed this month
+      const cardsCompleted = await this.knex("card_activities")
+        .join("cards", "card_activities.card_id", "cards.id")
+        .join("lists", "cards.list_id", "lists.id")
+        .join("boards", "lists.board_id", "boards.id")
+        .join("card_assignees", "cards.id", "card_assignees.card_id")
+        .where("card_assignees.user_id", userId)
+        .where("boards.organization_id", organizationId)
+        .where("card_activities.action_type", "updated")
+        .whereRaw("card_activities.metadata->>'status' = 'completed'")
+        .whereBetween("card_activities.created_at", [monthStart.toISOString(), monthEnd.toISOString()])
+        .count("* as count")
+        .first();
+
+      // Time spent this month
+      const timeSpent = await this.knex("time_logs")
+        .join("cards", "time_logs.card_id", "cards.id")
+        .join("lists", "cards.list_id", "lists.id")
+        .join("boards", "lists.board_id", "boards.id")
+        .where("time_logs.user_id", userId)
+        .where("boards.organization_id", organizationId)
+        .whereBetween("time_logs.logged_at", [monthStart.toISOString(), monthEnd.toISOString()])
+        .sum("time_logs.duration_minutes as total_minutes")
+        .first();
+
+      // Weekly breakdown
+      const weeklyBreakdown = [];
+      const weeksInMonth = Math.ceil((monthEnd.getTime() - monthStart.getTime()) / (7 * 24 * 60 * 60 * 1000));
+
+      for (let week = 0; week < weeksInMonth; week++) {
+        const weekStartDate = new Date(monthStart);
+        weekStartDate.setDate(monthStart.getDate() + (week * 7));
+        const weekEndDate = new Date(weekStartDate);
+        weekEndDate.setDate(weekEndDate.getDate() + 6);
+        if (weekEndDate > monthEnd) weekEndDate.setTime(monthEnd.getTime());
+
+        const weekCompleted = await this.knex("card_activities")
+          .join("cards", "card_activities.card_id", "cards.id")
+          .join("lists", "cards.list_id", "lists.id")
+          .join("boards", "lists.board_id", "boards.id")
+          .join("card_assignees", "cards.id", "card_assignees.card_id")
+          .where("card_assignees.user_id", userId)
+          .where("boards.organization_id", organizationId)
+          .where("card_activities.action_type", "updated")
+          .whereRaw("card_activities.metadata->>'status' = 'completed'")
+          .whereBetween("card_activities.created_at", [weekStartDate.toISOString(), weekEndDate.toISOString()])
+          .count("* as count")
+          .first();
+
+        const weekTime = await this.knex("time_logs")
+          .join("cards", "time_logs.card_id", "cards.id")
+          .join("lists", "cards.list_id", "lists.id")
+          .join("boards", "lists.board_id", "boards.id")
+          .where("time_logs.user_id", userId)
+          .where("boards.organization_id", organizationId)
+          .whereBetween("time_logs.logged_at", [weekStartDate.toISOString(), weekEndDate.toISOString()])
+          .sum("time_logs.duration_minutes as total_minutes")
+          .first();
+
+        weeklyBreakdown.push({
+          weekNumber: week + 1,
+          cardsCompleted: parseInt(weekCompleted?.count as string) || 0,
+          timeSpentHours: Math.round(((parseInt(weekTime?.total_minutes as string) || 0) / 60) * 100) / 100,
+        });
+      }
+
+      // Top boards this month
+      const topBoards = await this.knex("cards")
+        .join("lists", "cards.list_id", "lists.id")
+        .join("boards", "lists.board_id", "boards.id")
+        .join("card_assignees", "cards.id", "card_assignees.card_id")
+        .join("card_activities", "cards.id", "card_activities.card_id")
+        .leftJoin("time_logs", "cards.id", "time_logs.card_id")
+        .where("card_assignees.user_id", userId)
+        .where("boards.organization_id", organizationId)
+        .where("card_activities.action_type", "updated")
+        .whereRaw("card_activities.metadata->>'status' = 'completed'")
+        .whereBetween("card_activities.created_at", [monthStart.toISOString(), monthEnd.toISOString()])
+        .select("boards.id as board_id", "boards.title as board_title")
+        .count("cards.id as cards_completed")
+        .sum("time_logs.duration_minutes as total_minutes")
+        .groupBy("boards.id", "boards.title")
+        .orderBy("cards_completed", "desc")
+        .limit(5);
+
+      const created = parseInt(cardsCreated?.count as string) || 0;
+      const completed = parseInt(cardsCompleted?.count as string) || 0;
+      const completionRate = created > 0 ? (completed / created) * 100 : 0;
+      const totalMinutes = parseInt(timeSpent?.total_minutes as string) || 0;
+
+      metrics.push({
+        month,
+        monthName,
+        cardsCreated: created,
+        cardsCompleted: completed,
+        timeSpentHours: Math.round((totalMinutes / 60) * 100) / 100,
+        completionRate: Math.round(completionRate * 100) / 100,
+        weeklyBreakdown,
+        topBoards: topBoards.map((board) => ({
+          boardId: board.board_id,
+          boardTitle: board.board_title,
+          cardsCompleted: parseInt(board.cards_completed as string),
+          timeSpentHours: Math.round(((parseInt(board.total_minutes as string) || 0) / 60) * 100) / 100,
+        })),
+      });
+    }
+
+    return metrics.reverse(); // Return oldest to newest
+  }
 }

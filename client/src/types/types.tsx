@@ -156,6 +156,8 @@ export interface Profile {
   avatar_url?: string;
   created_at: string;
   updated_at: string;
+}
+
 // Search types
 export interface BoardResult {
   id: string;
@@ -209,4 +211,109 @@ export interface SearchParams {
   board_id?: string;
   type?: "board" | "list" | "card" | "all";
   limit?: number;
+}
+
+// Dashboard & Analytics types
+export interface ProductivityTrendDataPoint {
+  date: string;
+  cardsCreated: number;
+  cardsCompleted: number;
+  netChange: number;
+}
+
+export interface ProductivityTrend {
+  period: "weekly" | "monthly";
+  data: ProductivityTrendDataPoint[];
+  summary: {
+    totalCreated: number;
+    totalCompleted: number;
+    averagePerPeriod: number;
+    trend: "increasing" | "decreasing" | "stable";
+  };
+}
+
+export interface BoardOverview {
+  id: string;
+  title: string;
+  organization_id: string;
+  totalCards: number;
+  completedCards: number;
+  inProgressCards: number;
+  overdueCards: number;
+  completionRate: number;
+  lastActivity: string | null;
+  assignedToMeCount: number;
+}
+
+export interface WeeklyMetrics {
+  weekStartDate: string;
+  weekEndDate: string;
+  cardsCreated: number;
+  cardsCompleted: number;
+  timeSpentHours: number;
+  completionRate: number;
+  topBoards: Array<{
+    boardId: string;
+    boardTitle: string;
+    cardsCompleted: number;
+  }>;
+}
+
+export interface MonthlyMetrics {
+  month: string; // Format: "YYYY-MM"
+  monthName: string; // Format: "January 2025"
+  cardsCreated: number;
+  cardsCompleted: number;
+  timeSpentHours: number;
+  completionRate: number;
+  weeklyBreakdown: Array<{
+    weekNumber: number;
+    cardsCompleted: number;
+    timeSpentHours: number;
+  }>;
+  topBoards: Array<{
+    boardId: string;
+    boardTitle: string;
+    cardsCompleted: number;
+    timeSpentHours: number;
+  }>;
+}
+
+export type WidgetType =
+  | "PERSONAL_STATS"
+  | "ASSIGNED_TASKS"
+  | "PRODUCTIVITY_TREND"
+  | "BOARD_ANALYTICS"
+  | "TIME_TRACKING"
+  | "RECENT_ACTIVITY"
+  | "BOARDS_OVERVIEW"
+  | "SPRINT_BURNDOWN"
+  | "VELOCITY_CHART"
+  | "WEEKLY_METRICS"
+  | "MONTHLY_METRICS";
+
+export interface WidgetConfig {
+  id: string;
+  type: WidgetType;
+  title: string;
+  enabled: boolean;
+  position: {
+    x: number;
+    y: number;
+  };
+  size: {
+    width: number;
+    height: number;
+  };
+  settings?: Record<string, any>;
+}
+
+export interface DashboardLayout {
+  id: string;
+  user_id: string;
+  name: string;
+  widgets: WidgetConfig[];
+  isDefault: boolean;
+  created_at: string;
+  updated_at: string;
 }
