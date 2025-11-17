@@ -146,7 +146,7 @@ export class TemplateService {
 
     // Build template structure
     const structure: TemplateStructure = {
-      lists: lists.map((list) => ({
+      lists: lists.map((list: any) => ({
         title: list.title,
         order: list.order,
         exampleCards:

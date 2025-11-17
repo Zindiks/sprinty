@@ -6,7 +6,13 @@ import { useLists } from "@/hooks/useLists";
 import { useCards } from "@/hooks/useCards";
 import { CardDetailsModal } from "@/components/card/CardDetailsModal";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Calendar, ChevronLeft, ChevronRight, Download } from "lucide-react";
+import {
+  ArrowLeft,
+  Calendar,
+  ChevronLeft,
+  ChevronRight,
+  Download,
+} from "lucide-react";
 import { parseISOToDate, toISOString, getDueDateStatus } from "@/lib/dateUtils";
 import { luxonLocalizer } from "@/lib/calendarLocalizer";
 import axios from "axios";
@@ -29,7 +35,9 @@ const CalendarView = () => {
   const navigate = useNavigate();
   const [view, setView] = useState<View>("month");
   const [date, setDate] = useState(new Date());
-  const [selectedCard, setSelectedCard] = useState<CardWithDetails | null>(null);
+  const [selectedCard, setSelectedCard] = useState<CardWithDetails | null>(
+    null
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoadingCard, setIsLoadingCard] = useState(false);
 
@@ -62,7 +70,7 @@ const CalendarView = () => {
 
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/v1/cards/${event.resource.id}/details`
+        `http://localhost:4000/api/v1/cards/${event.resource.id}/details`
       );
       setSelectedCard(response.data);
     } catch (error) {
@@ -133,7 +141,10 @@ const CalendarView = () => {
         color: "white",
         display: "block",
         fontSize: "0.875rem",
-        fontWeight: card.priority === "critical" || card.priority === "high" ? "600" : "normal",
+        fontWeight:
+          card.priority === "critical" || card.priority === "high"
+            ? "600"
+            : "normal",
       },
     };
   }, []);
@@ -154,7 +165,11 @@ const CalendarView = () => {
       <div className="rbc-toolbar mb-4">
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" onClick={() => navigate(`/board/${board_id}`)}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => navigate(`/board/${board_id}`)}
+            >
               <ArrowLeft className="h-4 w-4 mr-1" />
               Back to Board
             </Button>
@@ -170,13 +185,21 @@ const CalendarView = () => {
           </div>
 
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="icon" onClick={() => onNavigate("PREV")}>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => onNavigate("PREV")}
+            >
               <ChevronLeft className="h-4 w-4" />
             </Button>
             <Button variant="outline" onClick={() => onNavigate("TODAY")}>
               Today
             </Button>
-            <Button variant="outline" size="icon" onClick={() => onNavigate("NEXT")}>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => onNavigate("NEXT")}
+            >
               <ChevronRight className="h-4 w-4" />
             </Button>
             <span className="font-semibold text-lg px-4">{label}</span>

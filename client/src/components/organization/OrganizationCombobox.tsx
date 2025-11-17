@@ -31,11 +31,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useStore } from "@/hooks/store/useStore";
 
-const API_HOST = import.meta.env.VITE_API_HOST;
-const API_PORT = import.meta.env.VITE_API_PORT;
-const API_VERSION = import.meta.env.VITE_API_VERSION;
-
-const API_URL = `${API_HOST}:${API_PORT}${API_VERSION}`;
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
 export function OrganizationCombobox() {
   const { setOrganizationId, organization_id } = useStore();
@@ -62,14 +58,14 @@ export function OrganizationCombobox() {
   useEffect(() => {
     const fetchOrganizations = async () => {
       try {
-        const response = await axios.get(`${API_URL}/organizations/all`);
+        setLoading(true);
+        const response = await axios.get(`${API_URL}/api/v1/organizations/`, {
+          withCredentials: true,
+        });
         setOrganizations(response.data);
         setLoading(false);
       } catch (err) {
-        // setError("Failed to fetch organizations" + err)
-
-        console.log(API_URL);
-        console.log(err);
+        console.error("Failed to fetch organizations:", err);
         setLoading(false);
       }
     };

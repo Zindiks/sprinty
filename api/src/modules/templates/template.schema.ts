@@ -72,7 +72,7 @@ export class TemplateSchema {
     { $id: "DeleteTemplateSchema" },
   );
 
-  // Response schema
+  // Response schema (used for single template responses)
   static TemplateResponseSchema = Type.Object(
     {
       id,
@@ -90,11 +90,39 @@ export class TemplateSchema {
     { $id: "TemplateResponseSchema" },
   );
 
-  // Templates collection response
+  // Templates collection response (uses direct reference to avoid duplicate registration)
   static TemplatesCollectionSchema = Type.Object(
     {
-      system: Type.Array(TemplateSchema.TemplateResponseSchema),
-      custom: Type.Array(TemplateSchema.TemplateResponseSchema),
+      system: Type.Array(
+        Type.Object({
+          id,
+          name,
+          description,
+          category,
+          icon,
+          is_system,
+          organization_id: Type.Union([organization_id, Type.Null()]),
+          created_by: Type.Union([created_by, Type.Null()]),
+          structure: TemplateStructureSchema,
+          created_at,
+          updated_at,
+        })
+      ),
+      custom: Type.Array(
+        Type.Object({
+          id,
+          name,
+          description,
+          category,
+          icon,
+          is_system,
+          organization_id: Type.Union([organization_id, Type.Null()]),
+          created_by: Type.Union([created_by, Type.Null()]),
+          structure: TemplateStructureSchema,
+          created_at,
+          updated_at,
+        })
+      ),
     },
     { $id: "TemplatesCollectionSchema" },
   );

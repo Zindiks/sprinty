@@ -7,6 +7,7 @@ import {
 } from "./attachment.schema";
 import path from "path";
 import fs from "fs/promises";
+import * as fsSync from "fs";
 import { pipeline } from "stream/promises";
 import crypto from "crypto";
 
@@ -78,7 +79,7 @@ export class AttachmentController {
       const storagePath = path.join(this.uploadDir, uniqueFilename);
 
       // Save file to disk
-      await pipeline(data.file, fs.createWriteStream(storagePath));
+      await pipeline(data.file, fsSync.createWriteStream(storagePath));
 
       // Get file stats for file size
       const stats = await fs.stat(storagePath);
@@ -181,7 +182,7 @@ export class AttachmentController {
       );
 
       // Stream file to response
-      const fileStream = fs.createReadStream(attachment.storage_path);
+      const fileStream = fsSync.createReadStream(attachment.storage_path);
       return reply.send(fileStream);
     } catch (error) {
       request.log.error(error);

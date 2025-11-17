@@ -132,17 +132,17 @@ export const useCards = () => {
     },
   });
 
-  const updateCardDetails = useMutation<AxiosResponse, FetchError, UpdateCardDetails>({
+  const updateCardDetails = useMutation<
+    AxiosResponse,
+    FetchError,
+    UpdateCardDetails
+  >({
     mutationFn: (formData) => {
-      return axios.patch(
-        `${API_URL}/cards/details`,
-        JSON.stringify(formData),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      return axios.patch(`${API_URL}/cards/details`, JSON.stringify(formData), {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({

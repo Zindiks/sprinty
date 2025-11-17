@@ -32,57 +32,69 @@ export class SearchSchema {
   );
 
   // Individual result schemas
-  static BoardResultSchema = Type.Object({
-    id,
-    title: Type.String(),
-    description: Type.Optional(Type.String()),
-    organization_id: Type.String({ format: "uuid" }),
-    created_at,
-    updated_at,
-    result_type: Type.Literal("board"),
-  });
+  static BoardResultSchema = Type.Object(
+    {
+      id,
+      title: Type.String(),
+      description: Type.Optional(Type.String()),
+      organization_id: Type.String({ format: "uuid" }),
+      created_at,
+      updated_at,
+      result_type: Type.Literal("board"),
+    },
+    { $id: "BoardResultSchema" }
+  );
 
-  static ListResultSchema = Type.Object({
-    id,
-    title: Type.String(),
-    board_id: Type.String({ format: "uuid" }),
-    board_title: Type.String(),
-    order: Type.Number(),
-    created_at,
-    updated_at,
-    result_type: Type.Literal("list"),
-  });
+  static ListResultSchema = Type.Object(
+    {
+      id,
+      title: Type.String(),
+      board_id: Type.String({ format: "uuid" }),
+      board_title: Type.String(),
+      order: Type.Number(),
+      created_at,
+      updated_at,
+      result_type: Type.Literal("list"),
+    },
+    { $id: "ListResultSchema" }
+  );
 
-  static CardResultSchema = Type.Object({
-    id,
-    title: Type.String(),
-    description: Type.Optional(Type.String()),
-    status: Type.Optional(Type.String()),
-    list_id: Type.String({ format: "uuid" }),
-    list_title: Type.String(),
-    board_id: Type.String({ format: "uuid" }),
-    board_title: Type.String(),
-    order: Type.Number(),
-    created_at,
-    updated_at,
-    result_type: Type.Literal("card"),
-  });
+  static CardResultSchema = Type.Object(
+    {
+      id,
+      title: Type.String(),
+      description: Type.Optional(Type.String()),
+      status: Type.Optional(Type.String()),
+      list_id: Type.String({ format: "uuid" }),
+      list_title: Type.String(),
+      board_id: Type.String({ format: "uuid" }),
+      board_title: Type.String(),
+      order: Type.Number(),
+      created_at,
+      updated_at,
+      result_type: Type.Literal("card"),
+    },
+    { $id: "CardResultSchema" }
+  );
 
-  static CommentResultSchema = Type.Object({
-    id,
-    content: Type.String(),
-    card_id: Type.String({ format: "uuid" }),
-    card_title: Type.String(),
-    list_id: Type.String({ format: "uuid" }),
-    list_title: Type.String(),
-    board_id: Type.String({ format: "uuid" }),
-    board_title: Type.String(),
-    user_id: Type.String({ format: "uuid" }),
-    user_email: Type.String(),
-    created_at,
-    updated_at,
-    result_type: Type.Literal("comment"),
-  });
+  static CommentResultSchema = Type.Object(
+    {
+      id,
+      content: Type.String(),
+      card_id: Type.String({ format: "uuid" }),
+      card_title: Type.String(),
+      list_id: Type.String({ format: "uuid" }),
+      list_title: Type.String(),
+      board_id: Type.String({ format: "uuid" }),
+      board_title: Type.String(),
+      user_id: Type.String({ format: "uuid" }),
+      user_email: Type.String(),
+      created_at,
+      updated_at,
+      result_type: Type.Literal("comment"),
+    },
+    { $id: "CommentResultSchema" }
+  );
 
   // Combined search response schema
   static SearchResponseSchema = Type.Object(

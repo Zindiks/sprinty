@@ -111,6 +111,8 @@ export default async function analyticsRoutes(fastify: FastifyInstance) {
       },
     },
     controller.getDueDateAnalytics.bind(controller)
+  );
+
   // Get productivity trends
   fastify.get(
     "/trends/personal",

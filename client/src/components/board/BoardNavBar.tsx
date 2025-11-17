@@ -7,22 +7,22 @@ import { Button } from "@/components/ui/button";
 import { useSearchDialog } from "@/contexts/SearchContext";
 import { GlobalSearchDialog } from "@/components/search/GlobalSearchDialog";
 import { SaveAsTemplateDialog } from "@/components/templates/SaveAsTemplateDialog";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 interface BoardNavBarProps {
   data: Board;
 }
 
 const BoardNavBar = ({ data }: BoardNavBarProps) => {
-  if (!data) {
-    return <h1>error</h1>;
-  }
-
-  const { deleteBoard } = useBoard(data.organization_id);
+  const { deleteBoard } = useBoard(data?.organization_id);
   const navigate = useNavigate();
   const { openSearch } = useSearchDialog();
   const [searchOpen, setSearchOpen] = useState(false);
   const [saveTemplateOpen, setSaveTemplateOpen] = useState(false);
+
+  if (!data) {
+    return <h1>error</h1>;
+  }
 
   console.log(data);
 

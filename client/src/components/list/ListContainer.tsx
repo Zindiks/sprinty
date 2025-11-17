@@ -156,7 +156,14 @@ const ListContainer = ({ data, board_id, filterAndSortCards }: ListContainerProp
               className="flex gap-x-3 h-full"
             >
               {orderedData?.map((list, index) => {
-                return <ListItem key={list.id} index={index} data={list} />;
+                return (
+                  <ListItem
+                    key={list.id}
+                    index={index}
+                    data={list}
+                    filterAndSortCards={filterAndSortCards}
+                  />
+                );
               })}
 
               {provided.placeholder}
@@ -170,32 +177,6 @@ const ListContainer = ({ data, board_id, filterAndSortCards }: ListContainerProp
       {/* Bulk actions toolbar - shows when cards are selected */}
       <BulkActionsToolbar />
     </>
-    <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId="lists" type="list" direction="horizontal">
-        {(provided) => (
-          <ol
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-            className="flex gap-x-3 h-full"
-          >
-            {orderedData?.map((list, index) => {
-              return (
-                <ListItem
-                  key={list.id}
-                  index={index}
-                  data={list}
-                  filterAndSortCards={filterAndSortCards}
-                />
-              );
-            })}
-
-            {provided.placeholder}
-            <ListForm />
-            <div className={"flex shrink-0 w-1"}></div>
-          </ol>
-        )}
-      </Droppable>
-    </DragDropContext>
   );
 };
 

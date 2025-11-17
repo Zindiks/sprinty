@@ -40,17 +40,15 @@ export class BulkController {
 
       const result = await this.bulkService.moveCards(request.body);
 
-      // Broadcast WebSocket event
-      const wsService = getWebSocketService();
-      if (wsService) {
-        wsService.broadcastToBoard("board_update", {
-          type: "BULK_CARDS_MOVED",
-          payload: {
-            card_ids,
-            target_list_id,
-          },
-        });
-      }
+      // TODO: Broadcast WebSocket event
+      // Requires board_id to be added to input schema
+      // const wsService = getWebSocketService();
+      // if (wsService && result.board_id) {
+      //   wsService.emitBoardUpdated(result.board_id, {
+      //     id: result.board_id,
+      //     updatedAt: new Date().toISOString(),
+      //   });
+      // }
 
       return reply.status(200).send(result);
     } catch (err) {
@@ -82,17 +80,14 @@ export class BulkController {
 
       const result = await this.bulkService.assignUsers(request.body);
 
-      // Broadcast WebSocket event
-      const wsService = getWebSocketService();
-      if (wsService) {
-        wsService.broadcastToBoard("board_update", {
-          type: "BULK_USERS_ASSIGNED",
-          payload: {
-            card_ids,
-            user_ids,
-          },
-        });
-      }
+      // TODO: Broadcast WebSocket event
+      // const wsService = getWebSocketService();
+      // if (wsService && result.board_id) {
+      //   wsService.emitBoardUpdated(result.board_id, {
+      //     id: result.board_id,
+      //     updatedAt: new Date().toISOString(),
+      //   });
+      // }
 
       return reply.status(200).send(result);
     } catch (err) {
@@ -124,17 +119,14 @@ export class BulkController {
 
       const result = await this.bulkService.addLabels(request.body);
 
-      // Broadcast WebSocket event
-      const wsService = getWebSocketService();
-      if (wsService) {
-        wsService.broadcastToBoard("board_update", {
-          type: "BULK_LABELS_ADDED",
-          payload: {
-            card_ids,
-            label_ids,
-          },
-        });
-      }
+      // TODO: Broadcast WebSocket event
+      // const wsService = getWebSocketService();
+      // if (wsService && result.board_id) {
+      //   wsService.emitBoardUpdated(result.board_id, {
+      //     id: result.board_id,
+      //     updatedAt: new Date().toISOString(),
+      //   });
+      // }
 
       return reply.status(200).send(result);
     } catch (err) {
@@ -162,17 +154,14 @@ export class BulkController {
 
       const result = await this.bulkService.setDueDate(request.body);
 
-      // Broadcast WebSocket event
-      const wsService = getWebSocketService();
-      if (wsService) {
-        wsService.broadcastToBoard("board_update", {
-          type: "BULK_DUE_DATE_SET",
-          payload: {
-            card_ids,
-            due_date,
-          },
-        });
-      }
+      // TODO: Broadcast WebSocket event
+      // const wsService = getWebSocketService();
+      // if (wsService && result.board_id) {
+      //   wsService.emitBoardUpdated(result.board_id, {
+      //     id: result.board_id,
+      //     updatedAt: new Date().toISOString(),
+      //   });
+      // }
 
       return reply.status(200).send(result);
     } catch (err) {
@@ -200,16 +189,14 @@ export class BulkController {
 
       const result = await this.bulkService.archiveCards(request.body);
 
-      // Broadcast WebSocket event
-      const wsService = getWebSocketService();
-      if (wsService) {
-        wsService.broadcastToBoard("board_update", {
-          type: "BULK_CARDS_ARCHIVED",
-          payload: {
-            card_ids,
-          },
-        });
-      }
+      // TODO: Broadcast WebSocket event
+      // const wsService = getWebSocketService();
+      // if (wsService && result.board_id) {
+      //   wsService.emitBoardUpdated(result.board_id, {
+      //     id: result.board_id,
+      //     updatedAt: new Date().toISOString(),
+      //   });
+      // }
 
       return reply.status(200).send(result);
     } catch (err) {
@@ -237,16 +224,14 @@ export class BulkController {
 
       const result = await this.bulkService.deleteCards(request.body);
 
-      // Broadcast WebSocket event
-      const wsService = getWebSocketService();
-      if (wsService) {
-        wsService.broadcastToBoard("board_update", {
-          type: "BULK_CARDS_DELETED",
-          payload: {
-            card_ids,
-          },
-        });
-      }
+      // TODO: Broadcast WebSocket event
+      // const wsService = getWebSocketService();
+      // if (wsService && result.board_id) {
+      //   wsService.emitBoardUpdated(result.board_id, {
+      //     id: result.board_id,
+      //     updatedAt: new Date().toISOString(),
+      //   });
+      // }
 
       return reply.status(200).send(result);
     } catch (err) {

@@ -2,20 +2,16 @@ import type { Card } from "@/types/types";
 import { useState } from "react";
 import { Draggable } from "@hello-pangea/dnd";
 import { Badge } from "@/components/ui/badge";
-import { CardDetailsModal } from "./CardDetailsModal";
 import { CardCheckbox } from "./CardCheckbox";
-import { Calendar, Flag } from "lucide-react";
+import { Calendar, Flag, AlertCircle, Clock } from "lucide-react";
 import { useSelectionStore } from "@/hooks/store/useSelectionStore";
 import { cn } from "@/lib/utils";
-import { Calendar, Flag, Users, CheckSquare, AlertCircle, Clock } from "lucide-react";
-import axios from "axios";
 import {
   formatDueDateShort,
   getDueDateColor,
   getDueDateStatus
 } from "@/lib/dateUtils";
 import { CardDetailsPanel } from "./CardDetailsPanel";
-import { Calendar, Flag } from "lucide-react";
 
 interface CardItemProps {
   index: number;
@@ -24,8 +20,8 @@ interface CardItemProps {
 }
 
 const CardItem = ({ index, data, allCardIds = [] }: CardItemProps) => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [cardDetails, setCardDetails] = useState<CardWithDetails | null>(null);
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
 
   // Selection state
   const {
@@ -38,8 +34,8 @@ const CardItem = ({ index, data, allCardIds = [] }: CardItemProps) => {
 
   const isSelected = isCardSelected(data.id);
 
-  const handleCardClick = async (e: React.MouseEvent) => {
-    // If in selection mode, handle selection instead of opening modal
+  const handleCardClick = (e: React.MouseEvent) => {
+    // If in selection mode, handle selection instead of opening panel
     if (selectionMode) {
       e.preventDefault();
 
@@ -60,34 +56,7 @@ const CardItem = ({ index, data, allCardIds = [] }: CardItemProps) => {
       return;
     }
 
-    // Normal behavior - open modal
-    e.preventDefault();
-    setIsDialogOpen(true);
-
-    try {
-      const response = await axios.get(
-        `http://localhost:8080/api/v1/cards/${data.id}/details`
-      );
-      setCardDetails(response.data);
-    } catch (error) {
-      console.error("Failed to fetch card details:", error);
-      // Fallback to basic card data
-      setCardDetails({
-        ...data,
-        assignees: [],
-        labels: [],
-        checklist_items: [],
-        checklist_progress: { total: 0, completed: 0, percentage: 0 },
-        comments: [],
-        attachments: [],
-        activities: [],
-      });
-    }
-const CardItem = ({ index, data }: CardItemProps) => {
-  const [isPanelOpen, setIsPanelOpen] = useState(false);
-  const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
-
-  const handleCardClick = (e: React.MouseEvent) => {
+    // Normal behavior - open panel
     e.preventDefault();
     setSelectedCardId(data.id);
     setIsPanelOpen(true);
