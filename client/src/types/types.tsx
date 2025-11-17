@@ -156,6 +156,15 @@ export interface Profile {
   avatar_url?: string;
   created_at: string;
   updated_at: string;
+}
+
+// Card label association
+export interface CardLabel {
+  card_id: string;
+  label_id: string;
+  label: Label;
+}
+
 // Search types
 export interface BoardResult {
   id: string;
