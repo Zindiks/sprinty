@@ -47,7 +47,7 @@ export class CardRepository {
         this.knex.raw(`
           json_build_object(
             'id', users.id,
-            'email', users.email,
+            'email', profiles.email,
             'username', profiles.username
           ) as user
         `),
@@ -82,7 +82,7 @@ export class CardRepository {
         this.knex.raw(`
           json_build_object(
             'id', users.id,
-            'email', users.email,
+            'email', profiles.email,
             'username', profiles.username
           ) as user
         `),
@@ -117,7 +117,7 @@ export class CardRepository {
         this.knex.raw(`
           json_build_object(
             'id', users.id,
-            'email', users.email,
+            'email', profiles.email,
             'username', profiles.username
           ) as user
         `),
@@ -141,7 +141,7 @@ export class CardRepository {
         this.knex.raw(`
           json_build_object(
             'id', users.id,
-            'email', users.email,
+            'email', profiles.email,
             'username', profiles.username
           ) as user
         `),
@@ -158,7 +158,7 @@ export class CardRepository {
         this.knex.raw(`
           json_build_object(
             'id', users.id,
-            'email', users.email,
+            'email', profiles.email,
             'username', profiles.username
           ) as user
         `),
