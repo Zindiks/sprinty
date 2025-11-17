@@ -156,6 +156,15 @@ export interface Profile {
   avatar_url?: string;
   created_at: string;
   updated_at: string;
+}
+
+// Card label association
+export interface CardLabel {
+  card_id: string;
+  label_id: string;
+  label: Label;
+}
+
 // Search types
 export interface BoardResult {
   id: string;
@@ -209,4 +218,165 @@ export interface SearchParams {
   board_id?: string;
   type?: "board" | "list" | "card" | "all";
   limit?: number;
+}
+
+// Dashboard & Analytics types
+export interface ProductivityTrendDataPoint {
+  date: string;
+  cardsCreated: number;
+  cardsCompleted: number;
+  netChange: number;
+}
+
+export interface ProductivityTrend {
+  period: "weekly" | "monthly";
+  data: ProductivityTrendDataPoint[];
+  summary: {
+    totalCreated: number;
+    totalCompleted: number;
+    averagePerPeriod: number;
+    trend: "increasing" | "decreasing" | "stable";
+  };
+}
+
+export interface BoardOverview {
+  id: string;
+  title: string;
+  organization_id: string;
+  totalCards: number;
+  completedCards: number;
+  inProgressCards: number;
+  overdueCards: number;
+  completionRate: number;
+  lastActivity: string | null;
+  assignedToMeCount: number;
+}
+
+export interface WeeklyMetrics {
+  weekStartDate: string;
+  weekEndDate: string;
+  cardsCreated: number;
+  cardsCompleted: number;
+  timeSpentHours: number;
+  completionRate: number;
+  topBoards: Array<{
+    boardId: string;
+    boardTitle: string;
+    cardsCompleted: number;
+  }>;
+}
+
+export interface MonthlyMetrics {
+  month: string; // Format: "YYYY-MM"
+  monthName: string; // Format: "January 2025"
+  cardsCreated: number;
+  cardsCompleted: number;
+  timeSpentHours: number;
+  completionRate: number;
+  weeklyBreakdown: Array<{
+    weekNumber: number;
+    cardsCompleted: number;
+    timeSpentHours: number;
+  }>;
+  topBoards: Array<{
+    boardId: string;
+    boardTitle: string;
+    cardsCompleted: number;
+    timeSpentHours: number;
+  }>;
+}
+
+export type WidgetType =
+  | "PERSONAL_STATS"
+  | "ASSIGNED_TASKS"
+  | "PRODUCTIVITY_TREND"
+  | "BOARD_ANALYTICS"
+  | "TIME_TRACKING"
+  | "RECENT_ACTIVITY"
+  | "BOARDS_OVERVIEW"
+  | "SPRINT_BURNDOWN"
+  | "VELOCITY_CHART"
+  | "WEEKLY_METRICS"
+  | "MONTHLY_METRICS";
+
+export interface WidgetConfig {
+  id: string;
+  type: WidgetType;
+  title: string;
+  enabled: boolean;
+  position: {
+    x: number;
+    y: number;
+  };
+  size: {
+    width: number;
+    height: number;
+  };
+  settings?: Record<string, any>;
+}
+
+export interface DashboardLayout {
+  id: string;
+  user_id: string;
+  name: string;
+  widgets: WidgetConfig[];
+  isDefault: boolean;
+  created_at: string;
+  updated_at: string;
+// Template types
+export interface TemplateCard {
+  title: string;
+  description?: string;
+}
+
+export interface TemplateList {
+  title: string;
+  order: number;
+  exampleCards?: TemplateCard[];
+}
+
+export interface TemplateStructure {
+  lists: TemplateList[];
+}
+
+export interface Template {
+  id: string;
+  name: string;
+  description?: string;
+  category: string;
+  icon?: string;
+  is_system: boolean;
+  organization_id?: string | null;
+  created_by?: string | null;
+  structure: TemplateStructure;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface TemplatesCollection {
+  system: Template[];
+  custom: Template[];
+}
+
+export interface CreateBoardFromTemplateRequest {
+  template_id: string;
+  organization_id: string;
+  board_title?: string;
+  include_example_cards: boolean;
+}
+
+export interface CreateTemplateFromBoardRequest {
+  board_id: string;
+  template_name: string;
+  description?: string;
+  category: string;
+  icon?: string;
+  include_cards_as_examples: boolean;
+}
+
+export interface UpdateTemplateRequest {
+  name?: string;
+  description?: string;
+  icon?: string;
+  structure?: TemplateStructure;
 }

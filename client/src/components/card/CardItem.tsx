@@ -1,7 +1,6 @@
-import type { Card, CardWithDetails } from "@/types/types";
+import type { Card } from "@/types/types";
 import { useState } from "react";
 import { Draggable } from "@hello-pangea/dnd";
-import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { CardDetailsModal } from "./CardDetailsModal";
 import { Calendar, Flag, Users, CheckSquare, AlertCircle, Clock } from "lucide-react";
@@ -11,6 +10,8 @@ import {
   getDueDateColor,
   getDueDateStatus
 } from "@/lib/dateUtils";
+import { CardDetailsPanel } from "./CardDetailsPanel";
+import { Calendar, Flag } from "lucide-react";
 
 interface CardItemProps {
   index: number;
@@ -18,41 +19,18 @@ interface CardItemProps {
 }
 
 const CardItem = ({ index, data }: CardItemProps) => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [cardDetails, setCardDetails] = useState<CardWithDetails | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
 
-  const handleCardClick = async (e: React.MouseEvent) => {
+  const handleCardClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    setIsDialogOpen(true);
-    setIsLoading(true);
-
-    try {
-      const response = await axios.get(
-        `http://localhost:8080/api/v1/cards/${data.id}/details`
-      );
-      setCardDetails(response.data);
-    } catch (error) {
-      console.error("Failed to fetch card details:", error);
-      // Fallback to basic card data
-      setCardDetails({
-        ...data,
-        assignees: [],
-        labels: [],
-        checklist_items: [],
-        checklist_progress: { total: 0, completed: 0, percentage: 0 },
-        comments: [],
-        attachments: [],
-        activities: [],
-      });
-    } finally {
-      setIsLoading(false);
-    }
+    setSelectedCardId(data.id);
+    setIsPanelOpen(true);
   };
 
-  const handleCloseDialog = () => {
-    setIsDialogOpen(false);
-    setCardDetails(null);
+  const handleClosePanel = () => {
+    setIsPanelOpen(false);
+    setSelectedCardId(null);
   };
 
   const getPriorityColor = (priority?: string) => {
@@ -120,10 +98,10 @@ const CardItem = ({ index, data }: CardItemProps) => {
         )}
       </Draggable>
 
-      <CardDetailsModal
-        card={cardDetails}
-        isOpen={isDialogOpen}
-        onClose={handleCloseDialog}
+      <CardDetailsPanel
+        cardId={selectedCardId}
+        isOpen={isPanelOpen}
+        onClose={handleClosePanel}
       />
     </>
   );
