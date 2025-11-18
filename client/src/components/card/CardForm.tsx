@@ -24,7 +24,7 @@ const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(
       }
     };
 
-    useOnClickOutside(formRef, disableEditing);
+    useOnClickOutside(formRef as React.RefObject<HTMLElement>, disableEditing);
     useEventListener("keydown", onKeyDown);
 
     const onTextareakeyDown: KeyboardEventHandler<HTMLTextAreaElement> = (
