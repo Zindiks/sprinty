@@ -2,6 +2,11 @@ import { FastifyInstance } from "fastify";
 import { CardController } from "./card.controller";
 import { BulkController } from "./bulk.controller";
 import { CardSchema } from "./card.schema";
+import {
+  requireCardAccess,
+  requireListAccess,
+  requireBulkCardAccess
+} from "../../middleware/authorization.middleware";
 
 const cardController = new CardController();
 const bulkController = new BulkController();
@@ -10,6 +15,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/:id",
     {
+      preHandler: [requireCardAccess],
       schema: {
         params: { type: "object", properties: { id: { type: "string" } } },
         response: { 200: CardSchema.FullCardResponseSchema },
@@ -23,6 +29,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/:id/with-assignees",
     {
+      preHandler: [requireCardAccess],
       schema: {
         params: { type: "object", properties: { id: { type: "string" } } },
         response: {
@@ -42,6 +49,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/:id/details",
     {
+      preHandler: [requireCardAccess],
       schema: {
         params: { type: "object", properties: { id: { type: "string" } } },
         response: {
@@ -61,6 +69,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/list/:list_id",
     {
+      preHandler: [requireListAccess],
       schema: {
         params: { type: "object", properties: { list_id: { type: "string" } } },
         response: { 200: CardSchema.FullCardResponseSchemaArray },
@@ -74,6 +83,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
   fastify.post(
     "/",
     {
+      preHandler: [requireListAccess],
       schema: {
         body: CardSchema.CreateCardSchema,
         response: {
@@ -89,6 +99,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
   fastify.patch(
     "/update",
     {
+      preHandler: [requireCardAccess],
       schema: {
         body: CardSchema.UpdateCardTitleSchema,
         response: {
@@ -104,6 +115,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
   fastify.patch(
     "/details",
     {
+      preHandler: [requireCardAccess],
       schema: {
         body: CardSchema.UpdateCardDetailsSchema,
         response: {
@@ -119,6 +131,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
   fastify.put(
     "/order",
     {
+      preHandler: [requireBulkCardAccess],
       schema: {
         body: CardSchema.UpdateCardOrderSchemaArray,
         tags: ["card"],
@@ -131,6 +144,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
   fastify.delete(
     "/:id/list/:list_id",
     {
+      preHandler: [requireCardAccess],
       schema: {
         params: CardSchema.DeleteCardSchema,
         response: {
@@ -147,6 +161,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
   fastify.post(
     "/bulk/move",
     {
+      preHandler: [requireBulkCardAccess],
       schema: {
         body: {
           type: "object",
@@ -166,6 +181,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
   fastify.post(
     "/bulk/assign",
     {
+      preHandler: [requireBulkCardAccess],
       schema: {
         body: {
           type: "object",
@@ -185,6 +201,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
   fastify.post(
     "/bulk/labels",
     {
+      preHandler: [requireBulkCardAccess],
       schema: {
         body: {
           type: "object",
@@ -204,6 +221,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
   fastify.post(
     "/bulk/due-date",
     {
+      preHandler: [requireBulkCardAccess],
       schema: {
         body: {
           type: "object",
@@ -223,6 +241,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
   fastify.post(
     "/bulk/archive",
     {
+      preHandler: [requireBulkCardAccess],
       schema: {
         body: {
           type: "object",
@@ -241,6 +260,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
   fastify.delete(
     "/bulk",
     {
+      preHandler: [requireBulkCardAccess],
       schema: {
         body: {
           type: "object",

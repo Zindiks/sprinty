@@ -1,6 +1,10 @@
 import { FastifyInstance } from "fastify";
 import { CommentController } from "./comment.controller";
 import { CommentSchema } from "./comment.schema";
+import {
+  requireCardAccess,
+  requireCommentAccess
+} from "../../middleware/authorization.middleware";
 
 const commentController = new CommentController();
 
@@ -9,6 +13,7 @@ export default async function commentRoutes(fastify: FastifyInstance) {
   fastify.post(
     "/",
     {
+      preHandler: [requireCardAccess],
       schema: {
         body: CommentSchema.CreateCommentSchema,
         response: {
@@ -25,6 +30,7 @@ export default async function commentRoutes(fastify: FastifyInstance) {
   fastify.patch(
     "/",
     {
+      preHandler: [requireCommentAccess],
       schema: {
         body: CommentSchema.UpdateCommentSchema,
         response: {
@@ -45,6 +51,7 @@ export default async function commentRoutes(fastify: FastifyInstance) {
   fastify.delete(
     "/:id/card/:card_id",
     {
+      preHandler: [requireCardAccess],
       schema: {
         params: CommentSchema.DeleteCommentSchema,
         response: {
@@ -68,6 +75,7 @@ export default async function commentRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/:id/card/:card_id",
     {
+      preHandler: [requireCardAccess],
       schema: {
         params: {
           type: "object",
@@ -94,6 +102,7 @@ export default async function commentRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/card/:card_id",
     {
+      preHandler: [requireCardAccess],
       schema: {
         params: {
           type: "object",
@@ -115,6 +124,7 @@ export default async function commentRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/card/:card_id/with-users",
     {
+      preHandler: [requireCardAccess],
       schema: {
         params: {
           type: "object",
@@ -136,6 +146,7 @@ export default async function commentRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/card/:card_id/threaded",
     {
+      preHandler: [requireCardAccess],
       schema: {
         params: {
           type: "object",
@@ -157,6 +168,7 @@ export default async function commentRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/:comment_id/replies",
     {
+      preHandler: [requireCommentAccess],
       schema: {
         params: {
           type: "object",
@@ -178,6 +190,7 @@ export default async function commentRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/card/:card_id/count",
     {
+      preHandler: [requireCardAccess],
       schema: {
         params: {
           type: "object",

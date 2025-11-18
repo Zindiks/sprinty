@@ -1,6 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { OrganizationController } from "./organization.controller";
 import { OrganizationSchema } from "./organization.schema";
+import { requireOrgMember, requireOrgAdmin } from "../../middleware/authorization.middleware";
 
 const organizationController = new OrganizationController();
 
@@ -8,6 +9,7 @@ export default async function organizationRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/:id",
     {
+      preHandler: [requireOrgMember],
       schema: {
         params: { type: "object", properties: { id: { type: "string" } } },
         response: { 200: OrganizationSchema.OrganizationResponseSchema },
@@ -60,6 +62,7 @@ export default async function organizationRoutes(fastify: FastifyInstance) {
   fastify.put(
     "/:id",
     {
+      preHandler: [requireOrgAdmin],
       schema: {
         params: {
           type: "object",
@@ -83,6 +86,7 @@ export default async function organizationRoutes(fastify: FastifyInstance) {
   fastify.delete(
     "/:id",
     {
+      preHandler: [requireOrgAdmin],
       schema: {
         params: OrganizationSchema.DeleteOrganizationSchema,
         response: {

@@ -2,6 +2,10 @@ import { FastifyInstance } from "fastify";
 
 import { ListController } from "./list.controller";
 import { ListSchema } from "./list.schema";
+import {
+  requireBoardAccess,
+  requireListAccess
+} from "../../middleware/authorization.middleware";
 
 const listController = new ListController();
 
@@ -9,6 +13,7 @@ export default async function listRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/:board_id",
     {
+      preHandler: [requireBoardAccess],
       schema: {
         params: {
           type: "object",
@@ -28,6 +33,7 @@ export default async function listRoutes(fastify: FastifyInstance) {
   fastify.post(
     "/",
     {
+      preHandler: [requireBoardAccess],
       schema: {
         body: ListSchema.CreateListSchema,
         response: {
@@ -43,6 +49,7 @@ export default async function listRoutes(fastify: FastifyInstance) {
   fastify.post(
     "/copy",
     {
+      preHandler: [requireListAccess],
       schema: {
         body: ListSchema.CopyListSchema,
         response: {
@@ -58,6 +65,7 @@ export default async function listRoutes(fastify: FastifyInstance) {
   fastify.put(
     "/order/:board_id",
     {
+      preHandler: [requireBoardAccess],
       schema: {
         body: ListSchema.UpdateListOrderSchemaArray,
         params: {
@@ -77,6 +85,7 @@ export default async function listRoutes(fastify: FastifyInstance) {
   fastify.patch(
     "/update",
     {
+      preHandler: [requireListAccess],
       schema: {
         body: ListSchema.UpdateListTitleSchema,
         response: {
@@ -92,6 +101,7 @@ export default async function listRoutes(fastify: FastifyInstance) {
   fastify.delete(
     "/:id/board/:board_id",
     {
+      preHandler: [requireBoardAccess],
       schema: {
         params: {
           type: "object",

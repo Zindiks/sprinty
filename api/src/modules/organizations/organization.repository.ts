@@ -28,6 +28,11 @@ export class OrganizationRepository {
     return await this.knex(table).select("*");
   }
 
+  async getByIds(ids: string[]): Promise<OrganizationResponse[]> {
+    if (ids.length === 0) return [];
+    return await this.knex(table).select("*").whereIn("id", ids);
+  }
+
   async create(input: CreateOrganization): Promise<OrganizationResponse> {
     const [organization] = await this.knex(table).insert(input).returning("*");
 

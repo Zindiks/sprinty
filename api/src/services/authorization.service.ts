@@ -169,6 +169,72 @@ export class AuthorizationService {
 
     return boards.map(b => b.id)
   }
+
+  /**
+   * Add user to organization with specified role
+   * @param userId - User UUID
+   * @param orgId - Organization UUID
+   * @param role - User role (ADMIN, MEMBER, GUEST)
+   */
+  async addUserToOrganization(userId: string, orgId: string, role: UserRole): Promise<void> {
+    await this.knex('user_organization').insert({
+      user_id: userId,
+      organization_id: orgId,
+      role: role
+    })
+  }
+
+  /**
+   * Remove user from organization
+   * @param userId - User UUID
+   * @param orgId - Organization UUID
+   */
+  async removeUserFromOrganization(userId: string, orgId: string): Promise<void> {
+    await this.knex('user_organization')
+      .where({ user_id: userId, organization_id: orgId })
+      .delete()
+  }
+
+  /**
+   * Update user's role in organization
+   * @param userId - User UUID
+   * @param orgId - Organization UUID
+   * @param role - New role
+   */
+  async updateUserRole(userId: string, orgId: string, role: UserRole): Promise<void> {
+    await this.knex('user_organization')
+      .where({ user_id: userId, organization_id: orgId })
+      .update({ role })
+  }
+
+  /**
+   * Get card ID from comment ID
+   * @param commentId - Comment UUID
+   * @returns Card UUID or null if comment not found
+   */
+  async getCommentCard(commentId: string): Promise<string | null> {
+    const comment = await this.knex('comments')
+      .where({ id: commentId })
+      .first()
+
+    return comment?.card_id || null
+  }
+
+  /**
+   * Check if user can access comment (via card access)
+   * @param userId - User UUID
+   * @param commentId - Comment UUID
+   * @returns true if user can access the comment's card, false otherwise
+   */
+  async canAccessComment(userId: string, commentId: string): Promise<boolean> {
+    const cardId = await this.getCommentCard(commentId)
+
+    if (!cardId) {
+      return false
+    }
+
+    return await this.canAccessCard(userId, cardId)
+  }
 }
 
 // Export singleton instance

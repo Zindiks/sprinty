@@ -20,6 +20,10 @@ export class OrganizationService {
     return await this.organizationRepository.getAll();
   }
 
+  async getByIds(ids: string[]): Promise<OrganizationResponse[]> {
+    return await this.organizationRepository.getByIds(ids);
+  }
+
   async create(input: CreateOrganization): Promise<OrganizationResponse> {
     return await this.organizationRepository.create(input);
   }

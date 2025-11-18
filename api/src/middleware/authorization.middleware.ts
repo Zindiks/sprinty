@@ -252,3 +252,148 @@ export async function requireOrgAccessForBoards(
     })
   }
 }
+
+/**
+ * requireBoardOrgAdmin Middleware
+ *
+ * Requires user to be an admin of the board's organization.
+ * Used for admin-only board operations (delete board, etc.)
+ * Returns 403 Forbidden if user is not an admin.
+ *
+ * Usage:
+ * ```typescript
+ * fastify.delete('/boards/:id', {
+ *   preHandler: [requireAuth, requireBoardOrgAdmin],
+ *   handler: controller.deleteBoard
+ * })
+ * ```
+ */
+export async function requireBoardOrgAdmin(
+  request: FastifyRequest,
+  reply: FastifyReply
+): Promise<void> {
+  const userId = request.user!.id
+
+  // Try to get board_id from params or body
+  const boardId = (request.params as any).id ||
+                  (request.params as any).board_id ||
+                  (request.body as any)?.board_id
+
+  if (!boardId) {
+    return reply.code(400).send({
+      statusCode: 400,
+      error: 'Bad Request',
+      message: 'board_id is required',
+    })
+  }
+
+  // Get the board's organization
+  const orgId = await authorizationService.getBoardOrganization(boardId)
+
+  if (!orgId) {
+    return reply.code(404).send({
+      statusCode: 404,
+      error: 'Not Found',
+      message: 'Board not found',
+    })
+  }
+
+  // Check if user is admin of the organization
+  const isAdmin = await authorizationService.isOrgAdmin(userId, orgId)
+
+  if (!isAdmin) {
+    return reply.code(403).send({
+      statusCode: 403,
+      error: 'Forbidden',
+      message: 'Admin access required for this operation',
+    })
+  }
+}
+
+/**
+ * requireBulkCardAccess Middleware
+ *
+ * Requires user to have access to all cards in a bulk operation.
+ * Expects card_ids array in request body.
+ * Returns 403 Forbidden if user cannot access any of the cards.
+ *
+ * Usage:
+ * ```typescript
+ * fastify.post('/cards/bulk/move', {
+ *   preHandler: [requireAuth, requireBulkCardAccess],
+ *   handler: controller.bulkMoveCards
+ * })
+ * ```
+ */
+export async function requireBulkCardAccess(
+  request: FastifyRequest,
+  reply: FastifyReply
+): Promise<void> {
+  const userId = request.user!.id
+  const cardIds = (request.body as any)?.card_ids
+
+  if (!cardIds || !Array.isArray(cardIds) || cardIds.length === 0) {
+    return reply.code(400).send({
+      statusCode: 400,
+      error: 'Bad Request',
+      message: 'card_ids array is required',
+    })
+  }
+
+  // Check access for each card
+  for (const cardId of cardIds) {
+    const hasAccess = await authorizationService.canAccessCard(userId, cardId)
+
+    if (!hasAccess) {
+      return reply.code(403).send({
+        statusCode: 403,
+        error: 'Forbidden',
+        message: 'You do not have access to one or more cards',
+      })
+    }
+  }
+}
+
+/**
+ * requireCommentAccess Middleware
+ *
+ * Requires user to have access to the comment (via card access).
+ * Returns 403 Forbidden if user cannot access the comment.
+ *
+ * Usage:
+ * ```typescript
+ * fastify.get('/comments/:comment_id/replies', {
+ *   preHandler: [requireAuth, requireCommentAccess],
+ *   handler: controller.getReplies
+ * })
+ * ```
+ */
+export async function requireCommentAccess(
+  request: FastifyRequest,
+  reply: FastifyReply
+): Promise<void> {
+  const userId = request.user!.id
+
+  // Try to get comment_id from params or body
+  const commentId = (request.params as any).id ||
+                    (request.params as any).comment_id ||
+                    (request.body as any)?.comment_id
+
+  if (!commentId) {
+    return reply.code(400).send({
+      statusCode: 400,
+      error: 'Bad Request',
+      message: 'comment_id is required',
+    })
+  }
+
+  const hasAccess = await authorizationService.canAccessComment(userId, commentId)
+
+  if (!hasAccess) {
+    return reply.code(403).send({
+      statusCode: 403,
+      error: 'Forbidden',
+      message: 'You do not have access to this resource',
+    })
+  }
+}

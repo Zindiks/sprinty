@@ -1,6 +1,12 @@
 import { FastifyInstance } from "fastify";
 import { BoardSchema } from "./board.schema";
 import { BoardController } from "./board.controller";
+import {
+  requireBoardAccess,
+  requireOrgAccessForBoards,
+  requireOrgAdmin,
+  requireBoardOrgAdmin
+} from "../../middleware/authorization.middleware";
 
 const boardController = new BoardController();
 
@@ -8,6 +14,7 @@ export default async function boardRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/:id",
     {
+      preHandler: [requireBoardAccess],
       schema: {
         params: { type: "object", properties: { id: { type: "string" } } },
         response: { 200: BoardSchema.BoardResponseSchema },
@@ -21,6 +28,7 @@ export default async function boardRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/:organization_id/all",
     {
+      preHandler: [requireOrgAccessForBoards],
       schema: {
         params: {
           type: "object",
@@ -42,6 +50,7 @@ export default async function boardRoutes(fastify: FastifyInstance) {
   fastify.post(
     "/",
     {
+      preHandler: [requireOrgAdmin],
       schema: {
         body: BoardSchema.CreateBoardSchema,
         response: {
@@ -57,6 +66,7 @@ export default async function boardRoutes(fastify: FastifyInstance) {
   fastify.put(
     "/:id",
     {
+      preHandler: [requireBoardAccess],
       schema: {
         params: {
           type: "object",
@@ -78,6 +88,7 @@ export default async function boardRoutes(fastify: FastifyInstance) {
   fastify.delete(
     "/:id",
     {
+      preHandler: [requireBoardOrgAdmin],
       schema: {
         params: BoardSchema.DeleteBoardSchema,
         response: { 200: BoardSchema.DeleteBoardSchema },

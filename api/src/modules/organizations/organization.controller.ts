@@ -1,6 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { OrganizationService } from "./organization.service";
 import { CreateOrganization, UpdateOrganization } from "./organization.schema";
+import { authorizationService } from "../../services/authorization.service";
 
 export class OrganizationController {
   private readonly organizationService: OrganizationService;
@@ -28,8 +29,13 @@ export class OrganizationController {
     request: FastifyRequest,
     reply: FastifyReply,
   ) {
+    // requireAuth middleware ensures request.user exists
+    const userId = request.user!.id;
+
     try {
-      const result = await this.organizationService.getAll();
+      // Get only organizations the user is a member of
+      const userOrgIds = await authorizationService.getUserOrganizations(userId);
+      const result = await this.organizationService.getByIds(userOrgIds);
       return reply.status(200).send(result);
     } catch (err) {
       return reply.status(500).send(err);
@@ -43,10 +49,16 @@ export class OrganizationController {
     reply: FastifyReply,
   ) {
     const body = request.body;
+    // requireAuth middleware ensures request.user exists
+    const userId = request.user!.id;
 
     try {
-      const board = await this.organizationService.create(body);
-      return reply.status(201).send(board);
+      const organization = await this.organizationService.create(body);
+
+      // Add the creator as an admin of the organization
+      await authorizationService.addUserToOrganization(userId, organization.id, 'ADMIN');
+
+      return reply.status(201).send(organization);
     } catch (err) {
       return reply.status(500).send(err);
     }
