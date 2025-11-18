@@ -1,14 +1,14 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { AxiosResponse } from "axios";
-import apiClient from "@/lib/axios";
-import { useToast } from "@/hooks/use-toast";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { AxiosResponse } from 'axios';
+import apiClient from '@/lib/axios';
+import { useToast } from '@/hooks/use-toast';
 
 export interface Reminder {
   id: string;
   card_id: string;
   user_id: string;
   reminder_time: string;
-  reminder_type: "24h" | "1h" | "custom";
+  reminder_type: '24h' | '1h' | 'custom';
   sent: boolean;
   created_at: string;
 }
@@ -17,7 +17,7 @@ export interface CreateReminder {
   card_id: string;
   user_id: string;
   reminder_time: string;
-  reminder_type: "24h" | "1h" | "custom";
+  reminder_type: '24h' | '1h' | 'custom';
 }
 
 interface FetchError {
@@ -35,7 +35,7 @@ export const useReminders = (cardId?: string) => {
 
   // Fetch reminders for a card
   const { data: reminders, isLoading } = useQuery<Reminder[]>({
-    queryKey: ["reminders", cardId],
+    queryKey: ['reminders', cardId],
     queryFn: async () => {
       if (!cardId) return [];
       const response = await apiClient.get(`/reminders/card/${cardId}`);
@@ -50,16 +50,16 @@ export const useReminders = (cardId?: string) => {
       return apiClient.post(`/reminders`, data);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["reminders", cardId] });
+      queryClient.invalidateQueries({ queryKey: ['reminders', cardId] });
       toast({
-        description: "Reminder created successfully",
+        description: 'Reminder created successfully',
         duration: 2000,
       });
     },
     onError: ({ response }) => {
       toast({
-        variant: "destructive",
-        title: "Failed to create reminder",
+        variant: 'destructive',
+        title: 'Failed to create reminder',
         description: response.data.message,
       });
     },
@@ -71,17 +71,17 @@ export const useReminders = (cardId?: string) => {
       return apiClient.delete(`/reminders/${reminderId}`);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["reminders", cardId] });
+      queryClient.invalidateQueries({ queryKey: ['reminders', cardId] });
       toast({
-        description: "Reminder deleted",
+        description: 'Reminder deleted',
         duration: 2000,
       });
     },
     onError: ({ response }) => {
       toast({
-        variant: "destructive",
-        title: "Failed to delete reminder",
-        description: response?.data?.message || "An error occurred",
+        variant: 'destructive',
+        title: 'Failed to delete reminder',
+        description: response?.data?.message || 'An error occurred',
       });
     },
   });

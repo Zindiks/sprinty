@@ -1,10 +1,6 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import {
   Dialog,
   DialogContent,
@@ -12,9 +8,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { MoreHorizontal, Trash2, Link2 } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+} from '@/components/ui/dialog';
+import { MoreHorizontal, Trash2, Link2 } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 interface CardActionsProps {
   cardId: string;
@@ -22,11 +18,7 @@ interface CardActionsProps {
   disabled?: boolean;
 }
 
-export const CardActions = ({
-  cardId,
-  onDelete,
-  disabled = false,
-}: CardActionsProps) => {
+export const CardActions = ({ cardId, onDelete, disabled = false }: CardActionsProps) => {
   const [open, setOpen] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const { toast } = useToast();
@@ -35,7 +27,7 @@ export const CardActions = ({
     const url = `${window.location.origin}/card/${cardId}`;
     navigator.clipboard.writeText(url);
     toast({
-      description: "Card link copied to clipboard",
+      description: 'Card link copied to clipboard',
       duration: 2000,
     });
     setOpen(false);
@@ -55,12 +47,7 @@ export const CardActions = ({
     <>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button
-            variant="ghost"
-            size="sm"
-            disabled={disabled}
-            className="h-8 w-8 p-0"
-          >
+          <Button variant="ghost" size="sm" disabled={disabled} className="h-8 w-8 p-0">
             <MoreHorizontal className="w-4 h-4" />
           </Button>
         </PopoverTrigger>
@@ -90,15 +77,12 @@ export const CardActions = ({
           <DialogHeader>
             <DialogTitle>Delete card?</DialogTitle>
             <DialogDescription>
-              This action cannot be undone. This will permanently delete the card
-              and all its data including comments, attachments, and activity history.
+              This action cannot be undone. This will permanently delete the card and all its data
+              including comments, attachments, and activity history.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setShowDeleteDialog(false)}
-            >
+            <Button variant="outline" onClick={() => setShowDeleteDialog(false)}>
               Cancel
             </Button>
             <Button variant="destructive" onClick={handleConfirmDelete}>

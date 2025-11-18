@@ -1,9 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { AxiosResponse } from "axios";
-import apiClient from "@/lib/axios";
-import { useToast } from "@/hooks/use-toast";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { AxiosResponse } from 'axios';
+import apiClient from '@/lib/axios';
+import { useToast } from '@/hooks/use-toast';
 
-import { List } from "@/types/types";
+import { List } from '@/types/types';
 
 // export interface ResponseList {
 //   id: string
@@ -60,7 +60,7 @@ export const useLists = (board_id: string) => {
   };
 
   const lists = useQuery<List[], FetchError>({
-    queryKey: ["lists", board_id],
+    queryKey: ['lists', board_id],
     queryFn: () => fetchLists(board_id),
   });
 
@@ -70,7 +70,7 @@ export const useLists = (board_id: string) => {
     },
     onSuccess: ({ data }) => {
       queryClient.invalidateQueries({
-        queryKey: ["lists"],
+        queryKey: ['lists'],
       });
       toast({
         description: `List ${data.title} successfully created`,
@@ -80,8 +80,8 @@ export const useLists = (board_id: string) => {
       console.log(response);
 
       toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
+        variant: 'destructive',
+        title: 'Uh oh! Something went wrong.',
         description: response.data.message,
       });
     },
@@ -93,7 +93,7 @@ export const useLists = (board_id: string) => {
     },
     onSuccess: ({ data }) => {
       queryClient.invalidateQueries({
-        queryKey: ["lists"],
+        queryKey: ['lists'],
       });
       toast({
         description: `List ${data.title} successfully created`,
@@ -103,18 +103,14 @@ export const useLists = (board_id: string) => {
       console.log(response);
 
       toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
+        variant: 'destructive',
+        title: 'Uh oh! Something went wrong.',
         description: response.data.message,
       });
     },
   });
 
-  const updateListTitle = useMutation<
-    AxiosResponse,
-    FetchError,
-    UpdateListTitle
-  >({
+  const updateListTitle = useMutation<AxiosResponse, FetchError, UpdateListTitle>({
     mutationFn: (formData) => {
       return apiClient.patch(`/lists/update`, formData);
     },
@@ -127,8 +123,8 @@ export const useLists = (board_id: string) => {
     },
     onError: ({ response }) => {
       toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
+        variant: 'destructive',
+        title: 'Uh oh! Something went wrong.',
         description: response.data.message,
       });
     },
@@ -138,14 +134,11 @@ export const useLists = (board_id: string) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const updateListsOrder = useMutation<AxiosResponse, FetchError, any>({
     mutationFn: ([formData, board_id]) => {
-      return apiClient.put(
-        `/lists/order/${board_id}`,
-        formData,
-      );
+      return apiClient.put(`/lists/order/${board_id}`, formData);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["lists"],
+        queryKey: ['lists'],
       });
       toast({
         description: `lists succesfully reordered`,
@@ -154,8 +147,8 @@ export const useLists = (board_id: string) => {
     },
     onError: ({ response }) => {
       toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
+        variant: 'destructive',
+        title: 'Uh oh! Something went wrong.',
         description: response.data.message,
       });
     },
@@ -167,7 +160,7 @@ export const useLists = (board_id: string) => {
     },
     onSuccess: ({ data }) => {
       queryClient.invalidateQueries({
-        queryKey: ["lists"],
+        queryKey: ['lists'],
       });
       toast({
         description: `List ${data.title} successfully deleted`,
@@ -175,8 +168,8 @@ export const useLists = (board_id: string) => {
     },
     onError: ({ message }) => {
       toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
+        variant: 'destructive',
+        title: 'Uh oh! Something went wrong.',
         description: message,
       });
     },

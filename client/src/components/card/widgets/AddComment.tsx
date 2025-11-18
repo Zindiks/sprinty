@@ -1,9 +1,9 @@
-import { useState, useRef } from "react";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useComments } from "@/hooks/useComments";
-import { useUser } from "@/contexts/UserContext";
+import { useState, useRef } from 'react';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useComments } from '@/hooks/useComments';
+import { useUser } from '@/contexts/UserContext';
 
 interface AddCommentProps {
   cardId: string;
@@ -16,27 +16,27 @@ export const AddComment = ({
   cardId,
   parentCommentId,
   onSuccess,
-  placeholder = "Write a comment...",
+  placeholder = 'Write a comment...',
 }: AddCommentProps) => {
   const { user: currentUser } = useUser();
   const { createComment } = useComments(cardId);
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const getInitials = (username?: string, email?: string) => {
     if (username) {
       return username
-        .split(" ")
+        .split(' ')
         .map((n) => n[0])
-        .join("")
+        .join('')
         .toUpperCase()
         .slice(0, 2);
     }
     if (email) {
       return email.slice(0, 2).toUpperCase();
     }
-    return "U";
+    return 'U';
   };
 
   const handleSubmit = () => {
@@ -50,47 +50,40 @@ export const AddComment = ({
         },
         {
           onSuccess: () => {
-            setContent("");
+            setContent('');
             setIsFocused(false);
             onSuccess?.();
           },
-        }
+        },
       );
     }
   };
 
   const handleCancel = () => {
-    setContent("");
+    setContent('');
     setIsFocused(false);
     onSuccess?.();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
       e.preventDefault();
       handleSubmit();
-    } else if (e.key === "Escape") {
+    } else if (e.key === 'Escape') {
       e.preventDefault();
       handleCancel();
     }
   };
 
   if (!currentUser) {
-    return (
-      <p className="text-sm text-muted-foreground italic">
-        Please log in to comment
-      </p>
-    );
+    return <p className="text-sm text-muted-foreground italic">Please log in to comment</p>;
   }
 
   return (
     <div className="flex gap-3">
       <Avatar className="w-8 h-8 shrink-0">
         {currentUser.avatar_url && (
-          <AvatarImage
-            src={currentUser.avatar_url}
-            alt={currentUser.login || currentUser.email}
-          />
+          <AvatarImage src={currentUser.avatar_url} alt={currentUser.login || currentUser.email} />
         )}
         <AvatarFallback className="text-xs">
           {getInitials(currentUser.login, currentUser.email)}
@@ -116,11 +109,7 @@ export const AddComment = ({
               onClick={handleSubmit}
               disabled={!content.trim() || createComment.isPending}
             >
-              {createComment.isPending
-                ? "Posting..."
-                : parentCommentId
-                ? "Reply"
-                : "Comment"}
+              {createComment.isPending ? 'Posting...' : parentCommentId ? 'Reply' : 'Comment'}
             </Button>
             <Button
               size="sm"
@@ -131,14 +120,8 @@ export const AddComment = ({
               Cancel
             </Button>
             <span className="text-xs text-muted-foreground ml-2">
-              <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px]">
-                Cmd
-              </kbd>{" "}
-              +{" "}
-              <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px]">
-                Enter
-              </kbd>{" "}
-              to post
+              <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px]">Cmd</kbd> +{' '}
+              <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px]">Enter</kbd> to post
             </span>
           </div>
         )}

@@ -1,7 +1,7 @@
-import { Template } from "@/types/types";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Template } from '@/types/types';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 
 interface TemplateCardProps {
   template: Template;
@@ -9,24 +9,20 @@ interface TemplateCardProps {
   selected?: boolean;
 }
 
-export function TemplateCard({
-  template,
-  onSelect,
-  selected = false,
-}: TemplateCardProps) {
+export function TemplateCard({ template, onSelect, selected = false }: TemplateCardProps) {
   const listCount = template.structure.lists.length;
   const listNames = template.structure.lists
     .slice(0, 3)
     .map((list) => list.title)
-    .join(", ");
+    .join(', ');
   const hasMore = listCount > 3;
 
   return (
     <Card
       className={`cursor-pointer transition-all hover:shadow-lg ${
         selected
-          ? "border-primary ring-2 ring-primary ring-offset-2"
-          : "border-gray-200 hover:border-primary"
+          ? 'border-primary ring-2 ring-primary ring-offset-2'
+          : 'border-gray-200 hover:border-primary'
       }`}
       onClick={() => onSelect(template)}
     >
@@ -49,14 +45,12 @@ export function TemplateCard({
       </CardHeader>
       <CardContent className="space-y-3">
         {template.description && (
-          <p className="text-sm text-muted-foreground line-clamp-2">
-            {template.description}
-          </p>
+          <p className="text-sm text-muted-foreground line-clamp-2">{template.description}</p>
         )}
 
         <div className="space-y-1">
           <p className="text-xs font-medium text-muted-foreground">
-            {listCount} {listCount === 1 ? "list" : "lists"}
+            {listCount} {listCount === 1 ? 'list' : 'lists'}
           </p>
           <p className="text-xs text-muted-foreground line-clamp-1">
             {listNames}

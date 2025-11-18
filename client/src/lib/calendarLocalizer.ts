@@ -39,13 +39,9 @@ export const luxonLocalizer = (): DateLocalizer => {
       },
     },
 
-
-
     format: (date: Date, format: string) => {
       return DateTime.fromJSDate(date).toFormat(format);
     },
-
-
 
     startOf: (date: Date, unit: any) => {
       return DateTime.fromJSDate(date).startOf(unit).toJSDate();
@@ -66,8 +62,10 @@ export const luxonLocalizer = (): DateLocalizer => {
       // Luxon accepts singular or plural, but let's be safe if we use the map.
       // Actually Luxon .plus({ [unit]: num }) works for many units.
       // But let's keep it simple and trust Luxon or map common ones.
-      const plural = unitMap[unit] || unit + 's'; 
-      return DateTime.fromJSDate(date).plus({ [plural]: num }).toJSDate();
+      const plural = unitMap[unit] || unit + 's';
+      return DateTime.fromJSDate(date)
+        .plus({ [plural]: num })
+        .toJSDate();
     },
 
     range: (start: Date, end: Date, unit: any = 'day') => {
@@ -84,11 +82,15 @@ export const luxonLocalizer = (): DateLocalizer => {
 
     ceil: (date: Date, unit: any) => {
       const dt = DateTime.fromJSDate(date);
-      return dt.startOf(unit).equals(dt) ? dt.toJSDate() : dt.endOf(unit).plus({ seconds: 1 }).toJSDate();
+      return dt.startOf(unit).equals(dt)
+        ? dt.toJSDate()
+        : dt.endOf(unit).plus({ seconds: 1 }).toJSDate();
     },
 
     diff: (start: Date, end: Date, unit: any = 'day') => {
-      return Math.floor(DateTime.fromJSDate(end).diff(DateTime.fromJSDate(start), unit).as(unit) || 0);
+      return Math.floor(
+        DateTime.fromJSDate(end).diff(DateTime.fromJSDate(start), unit).as(unit) || 0,
+      );
     },
 
     eq: (a: Date, b: Date) => {
@@ -139,11 +141,16 @@ export const luxonLocalizer = (): DateLocalizer => {
     },
 
     getSlotDate: (date: Date, minutesFromMidnight: number) => {
-      return DateTime.fromJSDate(date).startOf('day').plus({ minutes: minutesFromMidnight }).toJSDate();
+      return DateTime.fromJSDate(date)
+        .startOf('day')
+        .plus({ minutes: minutesFromMidnight })
+        .toJSDate();
     },
 
     getTotalMin: (start: Date, end: Date) => {
-      return Math.floor(DateTime.fromJSDate(end).diff(DateTime.fromJSDate(start), 'minutes').minutes);
+      return Math.floor(
+        DateTime.fromJSDate(end).diff(DateTime.fromJSDate(start), 'minutes').minutes,
+      );
     },
 
     getMinutesFromMidnight: (date: Date) => {
@@ -160,19 +167,21 @@ export const luxonLocalizer = (): DateLocalizer => {
     },
 
     sortEvents: (a: any, b: any) => {
-        const aStart = DateTime.fromJSDate(a.start);
-        const bStart = DateTime.fromJSDate(b.start);
-        return aStart < bStart;
+      const aStart = DateTime.fromJSDate(a.start);
+      const bStart = DateTime.fromJSDate(b.start);
+      return aStart < bStart;
     },
 
     merge: (date: Date, time: Date) => {
       const datePart = DateTime.fromJSDate(date);
       const timePart = DateTime.fromJSDate(time);
-      return datePart.set({
-        hour: timePart.hour,
-        minute: timePart.minute,
-        second: timePart.second,
-      }).toJSDate();
+      return datePart
+        .set({
+          hour: timePart.hour,
+          minute: timePart.minute,
+          second: timePart.second,
+        })
+        .toJSDate();
     },
   } as any;
 };

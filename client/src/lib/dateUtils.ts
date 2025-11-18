@@ -11,10 +11,7 @@ import { DateTime } from 'luxon';
  * @param format - Luxon format tokens (default: 'MMM dd, yyyy')
  * @returns Formatted date string
  */
-export const formatDueDate = (
-  date: string | Date,
-  format: string = 'MMM dd, yyyy'
-): string => {
+export const formatDueDate = (date: string | Date, format: string = 'MMM dd, yyyy'): string => {
   const dt = typeof date === 'string' ? DateTime.fromISO(date) : DateTime.fromJSDate(date);
   return dt.toFormat(format);
 };
@@ -76,7 +73,7 @@ export const isTomorrow = (date: string | Date): boolean => {
  * Get due date status for UI styling
  */
 export const getDueDateStatus = (
-  date: string | Date
+  date: string | Date,
 ): 'overdue' | 'today' | 'tomorrow' | 'this-week' | 'upcoming' => {
   if (isOverdue(date)) return 'overdue';
   if (isDueToday(date)) return 'today';
@@ -115,7 +112,7 @@ export const getRelativeTime = (date: string | Date): string => {
  * Get color variant for due date badge
  */
 export const getDueDateColor = (
-  date: string | Date
+  date: string | Date,
 ): 'destructive' | 'warning' | 'info' | 'success' => {
   const status = getDueDateStatus(date);
   switch (status) {

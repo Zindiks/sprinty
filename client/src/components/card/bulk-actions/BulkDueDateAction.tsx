@@ -1,14 +1,10 @@
-import { Button } from "@/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Input } from "@/components/ui/input";
-import { useSelectionStore } from "@/hooks/store/useSelectionStore";
-import { useBulkActions } from "@/hooks/useBulkActions";
-import { Calendar } from "lucide-react";
-import { useState } from "react";
+import { Button } from '@/components/ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Input } from '@/components/ui/input';
+import { useSelectionStore } from '@/hooks/store/useSelectionStore';
+import { useBulkActions } from '@/hooks/useBulkActions';
+import { Calendar } from 'lucide-react';
+import { useState } from 'react';
 
 /**
  * BulkDueDateAction component
@@ -17,7 +13,7 @@ import { useState } from "react";
  */
 export const BulkDueDateAction = () => {
   const [open, setOpen] = useState(false);
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState('');
   const { getSelectedCards } = useSelectionStore();
   const { bulkSetDueDate } = useBulkActions();
 
@@ -26,7 +22,7 @@ export const BulkDueDateAction = () => {
     if (selectedCards.length > 0 && date) {
       bulkSetDueDate(selectedCards, date);
       setOpen(false);
-      setDate("");
+      setDate('');
     }
   };
 
@@ -35,7 +31,7 @@ export const BulkDueDateAction = () => {
     if (selectedCards.length > 0) {
       bulkSetDueDate(selectedCards, null);
       setOpen(false);
-      setDate("");
+      setDate('');
     }
   };
 
@@ -57,26 +53,14 @@ export const BulkDueDateAction = () => {
             className="w-full"
           />
           <div className="flex gap-2">
-            <Button
-              onClick={handleSetDueDate}
-              disabled={!date}
-              className="flex-1"
-              size="sm"
-            >
+            <Button onClick={handleSetDueDate} disabled={!date} className="flex-1" size="sm">
               Set Date
             </Button>
-            <Button
-              onClick={handleClearDueDate}
-              variant="outline"
-              className="flex-1"
-              size="sm"
-            >
+            <Button onClick={handleClearDueDate} variant="outline" className="flex-1" size="sm">
               Clear
             </Button>
           </div>
-          <div className="text-xs text-muted-foreground">
-            Phase 4: Can add calendar picker
-          </div>
+          <div className="text-xs text-muted-foreground">Phase 4: Can add calendar picker</div>
         </div>
       </PopoverContent>
     </Popover>

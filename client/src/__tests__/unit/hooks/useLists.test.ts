@@ -211,10 +211,7 @@ describe('useLists hook', () => {
       ];
 
       await act(async () => {
-        result.current.updateListsOrder.mutate([
-          { lists: reorderedLists },
-          testBoardId,
-        ]);
+        result.current.updateListsOrder.mutate([{ lists: reorderedLists }, testBoardId]);
       });
 
       await waitFor(() => {
@@ -300,8 +297,6 @@ describe('useLists hook', () => {
       await waitFor(() => {
         expect(hookResult.current.lists.isLoading).toBe(false);
       });
-
-
 
       // Create a new list
       await act(async () => {

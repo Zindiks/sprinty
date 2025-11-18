@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
+import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
 
 /**
  * User data structure
@@ -37,7 +37,7 @@ interface UserProviderProps {
  */
 export const UserProvider: React.FC<UserProviderProps> = ({
   children,
-  apiBaseUrl = "http://localhost:4000",
+  apiBaseUrl = 'http://localhost:4000',
 }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -52,7 +52,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({
       setError(null);
 
       const response = await fetch(`${apiBaseUrl}/api/v1/oauth/user`, {
-        credentials: "include",
+        credentials: 'include',
       });
 
       if (response.ok) {
@@ -68,13 +68,13 @@ export const UserProvider: React.FC<UserProviderProps> = ({
         };
 
         setUser(userData);
-        console.log("User authenticated:", userData);
+        console.log('User authenticated:', userData);
       } else {
         setUser(null);
-        console.log("User not authenticated");
+        console.log('User not authenticated');
       }
     } catch (err) {
-      console.error("Error fetching user:", err);
+      console.error('Error fetching user:', err);
       setError(err as Error);
       setUser(null);
     } finally {
@@ -88,18 +88,18 @@ export const UserProvider: React.FC<UserProviderProps> = ({
   const logout = useCallback(async () => {
     try {
       await fetch(`${apiBaseUrl}/api/v1/oauth/logout`, {
-        method: "POST",
-        credentials: "include",
+        method: 'POST',
+        credentials: 'include',
       });
 
       setUser(null);
 
       // Clear cookies
-      document.cookie = "accessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      document.cookie = 'accessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
 
-      console.log("User logged out");
+      console.log('User logged out');
     } catch (err) {
-      console.error("Error logging out:", err);
+      console.error('Error logging out:', err);
       setError(err as Error);
     }
   }, [apiBaseUrl]);
@@ -117,7 +117,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({
   useEffect(() => {
     // Check for access token in URL params (OAuth callback)
     const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get("access_token");
+    const token = urlParams.get('access_token');
 
     if (token) {
       document.cookie = `accessToken=${token}; path=/; samesite=strict`;
@@ -146,7 +146,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({
 export const useUser = (): UserContextValue => {
   const context = useContext(UserContext);
   if (!context) {
-    throw new Error("useUser must be used within a UserProvider");
+    throw new Error('useUser must be used within a UserProvider');
   }
   return context;
 };

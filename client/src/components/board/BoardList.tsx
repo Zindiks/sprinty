@@ -1,20 +1,20 @@
-import { User2 } from "lucide-react";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useBoard } from "@/hooks/useBoards";
-import { Link, useNavigate } from "react-router-dom";
-import { useStore } from "@/hooks/store/useStore";
-import { useEffect } from "react";
+import { User2 } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useBoard } from '@/hooks/useBoards';
+import { Link, useNavigate } from 'react-router-dom';
+import { useStore } from '@/hooks/store/useStore';
+import { useEffect } from 'react';
 
 const BoardList = () => {
   const navigate = useNavigate();
   const { organization_id, setOrganizationId } = useStore();
 
   useEffect(() => {
-    const storedOrganizationId = localStorage.getItem("organization_id");
+    const storedOrganizationId = localStorage.getItem('organization_id');
     if (storedOrganizationId) {
       setOrganizationId(storedOrganizationId);
     } else {
-      navigate("/organizations");
+      navigate('/organizations');
     }
   }, [setOrganizationId, navigate]);
 
@@ -37,15 +37,11 @@ const BoardList = () => {
             key={board.id}
             // style={{ backgroundImage: `url(${board.image_thumb_url})` }}
             className={
-              "group relative aspect-video bg-no-repeat bg-center bg-cover bg-sky-700 rounded-sm h-full w-full p-2 overflow-hidden"
+              'group relative aspect-video bg-no-repeat bg-center bg-cover bg-sky-700 rounded-sm h-full w-full p-2 overflow-hidden'
             }
           >
-            <div
-              className={
-                "absolute inset-0 bg-black/30 group-hover:bg-black/40 transition p-2"
-              }
-            >
-              <p className={"relative text-white"}>{board.title}</p>
+            <div className={'absolute inset-0 bg-black/30 group-hover:bg-black/40 transition p-2'}>
+              <p className={'relative text-white'}>{board.title}</p>
             </div>
           </Link>
         ))}
@@ -58,15 +54,15 @@ export default BoardList;
 
 BoardList.Skeleton = function SkeletonBoardList() {
   return (
-    <div className={"grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"}>
-      <Skeleton className={"aspect-video h-full w-full p-2"} />
-      <Skeleton className={"aspect-video h-full w-full p-2"} />
-      <Skeleton className={"aspect-video h-full w-full p-2"} />
-      <Skeleton className={"aspect-video h-full w-full p-2"} />
-      <Skeleton className={"aspect-video h-full w-full p-2"} />
-      <Skeleton className={"aspect-video h-full w-full p-2"} />
-      <Skeleton className={"aspect-video h-full w-full p-2"} />
-      <Skeleton className={"aspect-video h-full w-full p-2"} />
+    <div className={'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4'}>
+      <Skeleton className={'aspect-video h-full w-full p-2'} />
+      <Skeleton className={'aspect-video h-full w-full p-2'} />
+      <Skeleton className={'aspect-video h-full w-full p-2'} />
+      <Skeleton className={'aspect-video h-full w-full p-2'} />
+      <Skeleton className={'aspect-video h-full w-full p-2'} />
+      <Skeleton className={'aspect-video h-full w-full p-2'} />
+      <Skeleton className={'aspect-video h-full w-full p-2'} />
+      <Skeleton className={'aspect-video h-full w-full p-2'} />
     </div>
   );
 };

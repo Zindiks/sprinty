@@ -342,119 +342,71 @@ export const handlers = [
 export const errorHandlers = {
   // Board errors
   boardsFetchError: http.get(`${API_URL}/boards/:organizationId/all`, () => {
-    return HttpResponse.json(
-      { error: 'Failed to fetch boards' },
-      { status: 500 }
-    );
+    return HttpResponse.json({ error: 'Failed to fetch boards' }, { status: 500 });
   }),
 
   boardCreateError: http.post(`${API_URL}/boards`, () => {
-    return HttpResponse.json(
-      { error: 'Failed to create board' },
-      { status: 400 }
-    );
+    return HttpResponse.json({ error: 'Failed to create board' }, { status: 400 });
   }),
 
   boardDeleteError: http.delete(`${API_URL}/boards/:boardId`, () => {
-    return HttpResponse.json(
-      { error: 'Failed to delete board' },
-      { status: 500 }
-    );
+    return HttpResponse.json({ error: 'Failed to delete board' }, { status: 500 });
   }),
 
   // List errors
   listsFetchError: http.get(`${API_URL}/lists/:boardId`, () => {
-    return HttpResponse.json(
-      { error: 'Failed to fetch lists' },
-      { status: 500 }
-    );
+    return HttpResponse.json({ error: 'Failed to fetch lists' }, { status: 500 });
   }),
 
   listCreateError: http.post(`${API_URL}/lists`, () => {
-    return HttpResponse.json(
-      { error: 'Failed to create list' },
-      { status: 400 }
-    );
+    return HttpResponse.json({ error: 'Failed to create list' }, { status: 400 });
   }),
 
   listCopyError: http.post(`${API_URL}/lists/copy`, () => {
-    return HttpResponse.json(
-      { error: 'Failed to copy list' },
-      { status: 500 }
-    );
+    return HttpResponse.json({ error: 'Failed to copy list' }, { status: 500 });
   }),
 
   listUpdateError: http.patch(`${API_URL}/lists/update`, () => {
-    return HttpResponse.json(
-      { error: 'Failed to update list' },
-      { status: 500 }
-    );
+    return HttpResponse.json({ error: 'Failed to update list' }, { status: 500 });
   }),
 
   listDeleteError: http.delete(`${API_URL}/lists/:listId/board/:boardId`, () => {
-    return HttpResponse.json(
-      { error: 'Failed to delete list' },
-      { status: 500 }
-    );
+    return HttpResponse.json({ error: 'Failed to delete list' }, { status: 500 });
   }),
 
   listReorderError: http.put(`${API_URL}/lists/order/:boardId`, () => {
-    return HttpResponse.json(
-      { error: 'Failed to reorder lists' },
-      { status: 500 }
-    );
+    return HttpResponse.json({ error: 'Failed to reorder lists' }, { status: 500 });
   }),
 
   // Card errors
   cardCreateError: http.post(`${API_URL}/cards`, () => {
-    return HttpResponse.json(
-      { error: 'Failed to create card' },
-      { status: 400 }
-    );
+    return HttpResponse.json({ error: 'Failed to create card' }, { status: 400 });
   }),
 
   cardUpdateError: http.put(`${API_URL}/cards/:cardId`, () => {
-    return HttpResponse.json(
-      { error: 'Failed to update card' },
-      { status: 500 }
-    );
+    return HttpResponse.json({ error: 'Failed to update card' }, { status: 500 });
   }),
 
   cardDetailsFetchError: http.get(`${API_URL}/cards/:cardId/details`, () => {
-    return HttpResponse.json(
-      { error: 'Failed to fetch card details' },
-      { status: 500 }
-    );
+    return HttpResponse.json({ error: 'Failed to fetch card details' }, { status: 500 });
   }),
 
   // Error handler for useCards endpoint
   cardDetailsUpdateError: http.patch(`${API_URL}/cards/details`, () => {
-    return HttpResponse.json(
-      { error: 'Failed to update card details' },
-      { status: 500 }
-    );
+    return HttpResponse.json({ error: 'Failed to update card details' }, { status: 500 });
   }),
 
   // Error handler for useCardDetails endpoint
   cardDetailsUpdateErrorWithId: http.patch(`${API_URL}/cards/:cardId/details`, () => {
-    return HttpResponse.json(
-      { error: 'Failed to update card details' },
-      { status: 500 }
-    );
+    return HttpResponse.json({ error: 'Failed to update card details' }, { status: 500 });
   }),
 
   cardDeleteError: http.delete(`${API_URL}/cards/:cardId/list/:listId`, () => {
-    return HttpResponse.json(
-      { error: 'Failed to delete card' },
-      { status: 500 }
-    );
+    return HttpResponse.json({ error: 'Failed to delete card' }, { status: 500 });
   }),
 
   cardReorderError: http.put(`${API_URL}/cards/order`, () => {
-    return HttpResponse.json(
-      { error: 'Failed to reorder cards' },
-      { status: 500 }
-    );
+    return HttpResponse.json({ error: 'Failed to reorder cards' }, { status: 500 });
   }),
 
   // Bulk operation errors
@@ -466,7 +418,7 @@ export const errorHandlers = {
         failedCount: 3,
         errors: ['Card 1 failed', 'Card 2 failed', 'Card 3 failed'],
       },
-      { status: 207 } // Multi-status
+      { status: 207 }, // Multi-status
     );
   }),
 };

@@ -1,11 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
-import apiClient from "@/lib/axios";
-import {
-  ProductivityTrend,
-  BoardOverview,
-  WeeklyMetrics,
-  MonthlyMetrics,
-} from "../types/types";
+import { useQuery } from '@tanstack/react-query';
+import apiClient from '@/lib/axios';
+import { ProductivityTrend, BoardOverview, WeeklyMetrics, MonthlyMetrics } from '../types/types';
 
 export interface PersonalStats {
   assignedCards: number;
@@ -19,7 +14,7 @@ export interface AssignedTask {
   title: string;
   description: string | null;
   status: string | null;
-  priority: "low" | "medium" | "high" | "critical";
+  priority: 'low' | 'medium' | 'high' | 'critical';
   due_date: string | null;
   list_title: string;
   board_id: string;
@@ -74,7 +69,7 @@ export interface SprintBurndown {
     name: string;
     startDate: string;
     endDate: string;
-    status: "planned" | "active" | "completed" | "cancelled";
+    status: 'planned' | 'active' | 'completed' | 'cancelled';
   };
   totalCards: number;
   burndownData: Array<{ date: string; remaining: number; completed: number }>;
@@ -86,7 +81,7 @@ export interface VelocityMetric {
   name: string;
   start_date: string;
   end_date: string;
-  status: "planned" | "active" | "completed" | "cancelled";
+  status: 'planned' | 'active' | 'completed' | 'cancelled';
   cards_completed: string;
 }
 
@@ -94,7 +89,7 @@ export interface DueDateCard {
   id: string;
   title: string;
   due_date: string | null;
-  priority: "low" | "medium" | "high" | "critical";
+  priority: 'low' | 'medium' | 'high' | 'critical';
   status: string | null;
   list_id: string;
   list_title: string;
@@ -125,14 +120,11 @@ export interface DueDateAnalytics {
 // Hook to fetch personal dashboard
 export const usePersonalDashboard = (organizationId: string | null) => {
   return useQuery<PersonalDashboard>({
-    queryKey: ["dashboard", "personal", organizationId],
+    queryKey: ['dashboard', 'personal', organizationId],
     queryFn: async () => {
-      const { data } = await apiClient.get(
-        `/analytics/dashboard/personal`,
-        {
-          params: { organizationId },
-        }
-      );
+      const { data } = await apiClient.get(`/analytics/dashboard/personal`, {
+        params: { organizationId },
+      });
       return data;
     },
     enabled: !!organizationId,
@@ -142,11 +134,9 @@ export const usePersonalDashboard = (organizationId: string | null) => {
 // Hook to fetch board analytics
 export const useBoardAnalytics = (boardId: string | null) => {
   return useQuery<BoardAnalytics>({
-    queryKey: ["analytics", "board", boardId],
+    queryKey: ['analytics', 'board', boardId],
     queryFn: async () => {
-      const { data } = await apiClient.get(
-        `/analytics/board/${boardId}`
-      );
+      const { data } = await apiClient.get(`/analytics/board/${boardId}`);
       return data;
     },
     enabled: !!boardId,
@@ -156,11 +146,9 @@ export const useBoardAnalytics = (boardId: string | null) => {
 // Hook to fetch sprint burndown
 export const useSprintBurndown = (sprintId: string | null) => {
   return useQuery<SprintBurndown>({
-    queryKey: ["analytics", "sprint", sprintId, "burndown"],
+    queryKey: ['analytics', 'sprint', sprintId, 'burndown'],
     queryFn: async () => {
-      const { data } = await apiClient.get(
-        `/analytics/sprint/${sprintId}/burndown`
-      );
+      const { data } = await apiClient.get(`/analytics/sprint/${sprintId}/burndown`);
       return data;
     },
     enabled: !!sprintId,
@@ -170,11 +158,9 @@ export const useSprintBurndown = (sprintId: string | null) => {
 // Hook to fetch board velocity
 export const useBoardVelocity = (boardId: string | null) => {
   return useQuery<VelocityMetric[]>({
-    queryKey: ["analytics", "board", boardId, "velocity"],
+    queryKey: ['analytics', 'board', boardId, 'velocity'],
     queryFn: async () => {
-      const { data } = await apiClient.get(
-        `/analytics/board/${boardId}/velocity`
-      );
+      const { data } = await apiClient.get(`/analytics/board/${boardId}/velocity`);
       return data;
     },
     enabled: !!boardId,
@@ -184,14 +170,11 @@ export const useBoardVelocity = (boardId: string | null) => {
 // Hook to fetch assigned tasks
 export const useAssignedTasks = (organizationId: string | null) => {
   return useQuery<AssignedTask[]>({
-    queryKey: ["analytics", "tasks", "assigned", organizationId],
+    queryKey: ['analytics', 'tasks', 'assigned', organizationId],
     queryFn: async () => {
-      const { data } = await apiClient.get(
-        `/analytics/tasks/assigned`,
-        {
-          params: { organizationId },
-        }
-      );
+      const { data } = await apiClient.get(`/analytics/tasks/assigned`, {
+        params: { organizationId },
+      });
       return data;
     },
     enabled: !!organizationId,
@@ -201,11 +184,9 @@ export const useAssignedTasks = (organizationId: string | null) => {
 // Hook to fetch due date analytics
 export const useDueDateAnalytics = (boardId: string | null) => {
   return useQuery<DueDateAnalytics>({
-    queryKey: ["analytics", "board", boardId, "due-dates"],
+    queryKey: ['analytics', 'board', boardId, 'due-dates'],
     queryFn: async () => {
-      const { data } = await apiClient.get(
-        `/analytics/board/${boardId}/due-dates`
-      );
+      const { data } = await apiClient.get(`/analytics/board/${boardId}/due-dates`);
       return data;
     },
     enabled: !!boardId,
@@ -215,18 +196,15 @@ export const useDueDateAnalytics = (boardId: string | null) => {
 // Hook to fetch productivity trends
 export const useProductivityTrends = (
   organizationId: string | null,
-  period: "weekly" | "monthly" = "weekly",
-  daysBack?: number
+  period: 'weekly' | 'monthly' = 'weekly',
+  daysBack?: number,
 ) => {
   return useQuery<ProductivityTrend>({
-    queryKey: ["analytics", "trends", "personal", organizationId, period, daysBack],
+    queryKey: ['analytics', 'trends', 'personal', organizationId, period, daysBack],
     queryFn: async () => {
-      const { data } = await apiClient.get(
-        `/analytics/trends/personal`,
-        {
-          params: { organizationId, period, daysBack },
-        }
-      );
+      const { data } = await apiClient.get(`/analytics/trends/personal`, {
+        params: { organizationId, period, daysBack },
+      });
       return data;
     },
     enabled: !!organizationId,
@@ -236,14 +214,11 @@ export const useProductivityTrends = (
 // Hook to fetch boards overview
 export const useBoardsOverview = (organizationId: string | null) => {
   return useQuery<BoardOverview[]>({
-    queryKey: ["analytics", "boards", "overview", organizationId],
+    queryKey: ['analytics', 'boards', 'overview', organizationId],
     queryFn: async () => {
-      const { data } = await apiClient.get(
-        `/analytics/boards/overview`,
-        {
-          params: { organizationId },
-        }
-      );
+      const { data } = await apiClient.get(`/analytics/boards/overview`, {
+        params: { organizationId },
+      });
       return data;
     },
     enabled: !!organizationId,
@@ -251,19 +226,13 @@ export const useBoardsOverview = (organizationId: string | null) => {
 };
 
 // Hook to fetch weekly metrics
-export const useWeeklyMetrics = (
-  organizationId: string | null,
-  weeksBack: number = 4
-) => {
+export const useWeeklyMetrics = (organizationId: string | null, weeksBack: number = 4) => {
   return useQuery<WeeklyMetrics[]>({
-    queryKey: ["analytics", "metrics", "weekly", organizationId, weeksBack],
+    queryKey: ['analytics', 'metrics', 'weekly', organizationId, weeksBack],
     queryFn: async () => {
-      const { data } = await apiClient.get(
-        `/analytics/metrics/weekly`,
-        {
-          params: { organizationId, weeksBack },
-        }
-      );
+      const { data } = await apiClient.get(`/analytics/metrics/weekly`, {
+        params: { organizationId, weeksBack },
+      });
       return data;
     },
     enabled: !!organizationId,
@@ -271,19 +240,13 @@ export const useWeeklyMetrics = (
 };
 
 // Hook to fetch monthly metrics
-export const useMonthlyMetrics = (
-  organizationId: string | null,
-  monthsBack: number = 6
-) => {
+export const useMonthlyMetrics = (organizationId: string | null, monthsBack: number = 6) => {
   return useQuery<MonthlyMetrics[]>({
-    queryKey: ["analytics", "metrics", "monthly", organizationId, monthsBack],
+    queryKey: ['analytics', 'metrics', 'monthly', organizationId, monthsBack],
     queryFn: async () => {
-      const { data } = await apiClient.get(
-        `/analytics/metrics/monthly`,
-        {
-          params: { organizationId, monthsBack },
-        }
-      );
+      const { data } = await apiClient.get(`/analytics/metrics/monthly`, {
+        params: { organizationId, monthsBack },
+      });
       return data;
     },
     enabled: !!organizationId,

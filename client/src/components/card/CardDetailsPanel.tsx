@@ -1,30 +1,23 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-} from "@/components/ui/dialog";
-import { Separator } from "@/components/ui/separator";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useCardDetails } from "@/hooks/useCardDetails";
-import { useStore } from "@/hooks/store/useStore";
-import { EditableTitle } from "./widgets/EditableTitle";
-import { EditableDescription } from "./widgets/EditableDescription";
-import { PrioritySelector } from "./widgets/PrioritySelector";
-import { StatusSelector } from "./widgets/StatusSelector";
-import { DueDatePicker } from "./widgets/DueDatePicker";
-import { CardActions } from "./widgets/CardActions";
-import { AssigneeSection } from "./sections/AssigneeSection";
-import { LabelSection } from "./sections/LabelSection";
-import { ChecklistSection } from "./sections/ChecklistSection";
-import { CommentSection } from "./sections/CommentSection";
-import { AttachmentSection } from "./sections/AttachmentSection";
-import { ActivitySection } from "./sections/ActivitySection";
-import {
-  KeyboardShortcutsDialog,
-  useKeyboardShortcuts,
-} from "./widgets/KeyboardShortcutsDialog";
+import { Dialog, DialogContent, DialogHeader } from '@/components/ui/dialog';
+import { Separator } from '@/components/ui/separator';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useCardDetails } from '@/hooks/useCardDetails';
+import { useStore } from '@/hooks/store/useStore';
+import { EditableTitle } from './widgets/EditableTitle';
+import { EditableDescription } from './widgets/EditableDescription';
+import { PrioritySelector } from './widgets/PrioritySelector';
+import { StatusSelector } from './widgets/StatusSelector';
+import { DueDatePicker } from './widgets/DueDatePicker';
+import { CardActions } from './widgets/CardActions';
+import { AssigneeSection } from './sections/AssigneeSection';
+import { LabelSection } from './sections/LabelSection';
+import { ChecklistSection } from './sections/ChecklistSection';
+import { CommentSection } from './sections/CommentSection';
+import { AttachmentSection } from './sections/AttachmentSection';
+import { ActivitySection } from './sections/ActivitySection';
+import { KeyboardShortcutsDialog, useKeyboardShortcuts } from './widgets/KeyboardShortcutsDialog';
 
 interface CardDetailsPanelProps {
   cardId: string | null;
@@ -32,11 +25,7 @@ interface CardDetailsPanelProps {
   onClose: () => void;
 }
 
-export const CardDetailsPanel = ({
-  cardId,
-  isOpen,
-  onClose,
-}: CardDetailsPanelProps) => {
+export const CardDetailsPanel = ({ cardId, isOpen, onClose }: CardDetailsPanelProps) => {
   const { cardDetails, isLoading, updateDetails, deleteCard } = useCardDetails(cardId || undefined);
   const { board_id } = useStore();
   const { showDialog, setShowDialog } = useKeyboardShortcuts();
@@ -54,12 +43,10 @@ export const CardDetailsPanel = ({
       // Ignore if typing in input/textarea
       const target = e.target as HTMLElement;
       const isEditing =
-        target.tagName === "INPUT" ||
-        target.tagName === "TEXTAREA" ||
-        target.isContentEditable;
+        target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable;
 
       // Always handle Escape
-      if (e.key === "Escape" && isOpen) {
+      if (e.key === 'Escape' && isOpen) {
         onClose();
         return;
       }
@@ -70,36 +57,36 @@ export const CardDetailsPanel = ({
       // Card-specific shortcuts
       if (isOpen && cardDetails) {
         switch (e.key.toLowerCase()) {
-          case "t":
+          case 't':
             e.preventDefault();
-            titleRef.current?.querySelector("button")?.click();
+            titleRef.current?.querySelector('button')?.click();
             break;
-          case "d":
+          case 'd':
             e.preventDefault();
-            descriptionRef.current?.querySelector("button")?.click();
+            descriptionRef.current?.querySelector('button')?.click();
             break;
-          case "c":
+          case 'c':
             e.preventDefault();
-            commentSectionRef.current?.querySelector("textarea")?.focus();
+            commentSectionRef.current?.querySelector('textarea')?.focus();
             break;
-          case "a":
+          case 'a':
             e.preventDefault();
-            assigneeSectionRef.current?.querySelector("button")?.click();
+            assigneeSectionRef.current?.querySelector('button')?.click();
             break;
-          case "l":
+          case 'l':
             e.preventDefault();
-            labelSectionRef.current?.querySelector("button")?.click();
+            labelSectionRef.current?.querySelector('button')?.click();
             break;
         }
       }
     };
 
     if (isOpen) {
-      document.addEventListener("keydown", handleKeyDown);
+      document.addEventListener('keydown', handleKeyDown);
     }
 
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener('keydown', handleKeyDown);
     };
   }, [isOpen, onClose, cardDetails]);
 
@@ -114,7 +101,7 @@ export const CardDetailsPanel = ({
     updateDetails.mutate({ id: cardId, list_id: cardDetails.list_id, description });
   };
 
-  const handleUpdatePriority = (priority: "low" | "medium" | "high" | "critical" | undefined) => {
+  const handleUpdatePriority = (priority: 'low' | 'medium' | 'high' | 'critical' | undefined) => {
     if (!cardId || !cardDetails) return;
     updateDetails.mutate({ id: cardId, list_id: cardDetails.list_id, priority });
   };
@@ -137,7 +124,7 @@ export const CardDetailsPanel = ({
         onSuccess: () => {
           onClose();
         },
-      }
+      },
     );
   };
 

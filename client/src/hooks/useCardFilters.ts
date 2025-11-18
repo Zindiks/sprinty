@@ -1,10 +1,10 @@
-import { useState, useMemo } from "react";
-import type { Card } from "@/types/types";
-import { isDueToday, isDueThisWeek, isOverdue } from "@/lib/dateUtils";
+import { useState, useMemo } from 'react';
+import type { Card } from '@/types/types';
+import { isDueToday, isDueThisWeek, isOverdue } from '@/lib/dateUtils';
 
-export type DueDateFilter = "all" | "today" | "week" | "overdue" | "none" | "upcoming";
-export type SortOption = "due_date" | "priority" | "created_at" | "title";
-export type SortDirection = "asc" | "desc";
+export type DueDateFilter = 'all' | 'today' | 'week' | 'overdue' | 'none' | 'upcoming';
+export type SortOption = 'due_date' | 'priority' | 'created_at' | 'title';
+export type SortDirection = 'asc' | 'desc';
 
 interface FilterState {
   dueDate: DueDateFilter;
@@ -21,29 +21,29 @@ const PRIORITY_ORDER: Record<string, number> = {
 
 export const useCardFilters = () => {
   const [filters, setFilters] = useState<FilterState>({
-    dueDate: "all",
-    sort: "created_at",
-    sortDirection: "desc",
+    dueDate: 'all',
+    sort: 'created_at',
+    sortDirection: 'desc',
   });
 
   // Filter cards by due date
   const filterByDueDate = (cards: Card[]): Card[] => {
-    if (filters.dueDate === "all") return cards;
+    if (filters.dueDate === 'all') return cards;
 
     return cards.filter((card) => {
-      if (!card.due_date && filters.dueDate === "none") return true;
+      if (!card.due_date && filters.dueDate === 'none') return true;
       if (!card.due_date) return false;
 
       switch (filters.dueDate) {
-        case "today":
+        case 'today':
           return isDueToday(card.due_date);
-        case "week":
+        case 'week':
           return isDueThisWeek(card.due_date);
-        case "overdue":
+        case 'overdue':
           return isOverdue(card.due_date);
-        case "upcoming":
+        case 'upcoming':
           return !isOverdue(card.due_date);
-        case "none":
+        case 'none':
           return false; // Already handled above
         default:
           return true;
@@ -57,24 +57,24 @@ export const useCardFilters = () => {
       let comparison = 0;
 
       switch (filters.sort) {
-        case "due_date":
+        case 'due_date':
           if (!a.due_date && !b.due_date) comparison = 0;
           else if (!a.due_date) comparison = 1;
           else if (!b.due_date) comparison = -1;
           else comparison = new Date(a.due_date).getTime() - new Date(b.due_date).getTime();
           break;
 
-        case "priority":
-          const aPriority = PRIORITY_ORDER[a.priority || "medium"];
-          const bPriority = PRIORITY_ORDER[b.priority || "medium"];
+        case 'priority':
+          const aPriority = PRIORITY_ORDER[a.priority || 'medium'];
+          const bPriority = PRIORITY_ORDER[b.priority || 'medium'];
           comparison = bPriority - aPriority; // Higher priority first
           break;
 
-        case "created_at":
+        case 'created_at':
           comparison = new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
           break;
 
-        case "title":
+        case 'title':
           comparison = a.title.localeCompare(b.title);
           break;
 
@@ -82,7 +82,7 @@ export const useCardFilters = () => {
           comparison = 0;
       }
 
-      return filters.sortDirection === "asc" ? comparison : -comparison;
+      return filters.sortDirection === 'asc' ? comparison : -comparison;
     });
 
     return sorted;
@@ -90,12 +90,13 @@ export const useCardFilters = () => {
 
   // Apply all filters and sorting
   const filterAndSortCards = useMemo(
-    () => (cards: Card[]): Card[] => {
-      const filtered = filterByDueDate(cards);
-      const sorted = sortCards(filtered);
-      return sorted;
-    },
-    [filters]
+    () =>
+      (cards: Card[]): Card[] => {
+        const filtered = filterByDueDate(cards);
+        const sorted = sortCards(filtered);
+        return sorted;
+      },
+    [filters],
   );
 
   // Get filter stats
@@ -124,16 +125,16 @@ export const useCardFilters = () => {
   const toggleSortDirection = () => {
     setFilters((prev) => ({
       ...prev,
-      sortDirection: prev.sortDirection === "asc" ? "desc" : "asc",
+      sortDirection: prev.sortDirection === 'asc' ? 'desc' : 'asc',
     }));
   };
 
   // Reset filters
   const resetFilters = () => {
     setFilters({
-      dueDate: "all",
-      sort: "created_at",
-      sortDirection: "desc",
+      dueDate: 'all',
+      sort: 'created_at',
+      sortDirection: 'desc',
     });
   };
 

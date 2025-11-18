@@ -165,17 +165,14 @@ export const mockCardWithDetails = (overrides?: Partial<CardWithDetails>): CardW
 /**
  * Helper functions to create multiple entities
  */
-export const mockUsers = (count: number): User[] =>
-  Array.from({ length: count }, () => mockUser());
+export const mockUsers = (count: number): User[] => Array.from({ length: count }, () => mockUser());
 
 export const mockBoards = (count: number): Board[] =>
   Array.from({ length: count }, () => mockBoard());
 
-export const mockLists = (count: number): List[] =>
-  Array.from({ length: count }, () => mockList());
+export const mockLists = (count: number): List[] => Array.from({ length: count }, () => mockList());
 
-export const mockCards = (count: number): Card[] =>
-  Array.from({ length: count }, () => mockCard());
+export const mockCards = (count: number): Card[] => Array.from({ length: count }, () => mockCard());
 
 export const mockLabels = (count: number): Label[] =>
   Array.from({ length: count }, () => mockLabel());

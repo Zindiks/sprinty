@@ -7,9 +7,9 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-} from "recharts";
-import { useSprintBurndown } from "../../../hooks/useAnalytics";
-import { TrendingDown } from "lucide-react";
+} from 'recharts';
+import { useSprintBurndown } from '../../../hooks/useAnalytics';
+import { TrendingDown } from 'lucide-react';
 
 interface BurndownChartProps {
   sprintId: string;
@@ -32,9 +32,7 @@ const BurndownChart = ({ sprintId }: BurndownChartProps) => {
   if (!burndown) {
     return (
       <div className="bg-white rounded-lg shadow p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
-          Sprint Burndown
-        </h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Sprint Burndown</h3>
         <div className="flex items-center justify-center h-64 text-gray-500">
           No burndown data available
         </div>
@@ -44,9 +42,7 @@ const BurndownChart = ({ sprintId }: BurndownChartProps) => {
 
   // Merge burndown data with ideal line
   const chartData = burndown.idealLine.map((idealPoint) => {
-    const actualPoint = burndown.burndownData.find(
-      (bd) => bd.date === idealPoint.date
-    );
+    const actualPoint = burndown.burndownData.find((bd) => bd.date === idealPoint.date);
     return {
       date: idealPoint.date,
       ideal: idealPoint.ideal,
@@ -68,12 +64,8 @@ const BurndownChart = ({ sprintId }: BurndownChartProps) => {
   const startDate = new Date(burndown.sprint.startDate);
   const endDate = new Date(burndown.sprint.endDate);
   const today = new Date();
-  const totalDays = Math.ceil(
-    (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
-  );
-  const daysElapsed = Math.ceil(
-    (today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
-  );
+  const totalDays = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+  const daysElapsed = Math.ceil((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
   const daysRemaining = Math.max(0, totalDays - daysElapsed);
 
   return (
@@ -83,9 +75,7 @@ const BurndownChart = ({ sprintId }: BurndownChartProps) => {
         <div>
           <div className="flex items-center gap-2">
             <TrendingDown className="w-5 h-5 text-red-600" />
-            <h3 className="text-lg font-semibold text-gray-900">
-              Sprint Burndown
-            </h3>
+            <h3 className="text-lg font-semibold text-gray-900">Sprint Burndown</h3>
           </div>
           <p className="text-sm text-gray-600 mt-1">{burndown.sprint.name}</p>
         </div>
@@ -93,11 +83,11 @@ const BurndownChart = ({ sprintId }: BurndownChartProps) => {
           <p className="text-xs text-gray-500">Sprint Status</p>
           <span
             className={`inline-block px-2 py-1 text-xs font-semibold rounded-full mt-1 ${
-              burndown.sprint.status === "active"
-                ? "bg-green-100 text-green-800"
-                : burndown.sprint.status === "completed"
-                ? "bg-blue-100 text-blue-800"
-                : "bg-gray-100 text-gray-800"
+              burndown.sprint.status === 'active'
+                ? 'bg-green-100 text-green-800'
+                : burndown.sprint.status === 'completed'
+                  ? 'bg-blue-100 text-blue-800'
+                  : 'bg-gray-100 text-gray-800'
             }`}
           >
             {burndown.sprint.status}
@@ -150,7 +140,7 @@ const BurndownChart = ({ sprintId }: BurndownChartProps) => {
               return `${date.getMonth() + 1}/${date.getDate()}`;
             }}
           />
-          <YAxis label={{ value: "Cards Remaining", angle: -90, position: "insideLeft" }} />
+          <YAxis label={{ value: 'Cards Remaining', angle: -90, position: 'insideLeft' }} />
           <Tooltip
             labelFormatter={(value) => {
               const date = new Date(value as string);

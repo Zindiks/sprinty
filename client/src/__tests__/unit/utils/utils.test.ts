@@ -65,7 +65,7 @@ describe('utils', () => {
         'base-class',
         { active: isActive, disabled: isDisabled },
         isActive && 'text-blue-500',
-        'p-4'
+        'p-4',
       );
       expect(result).toBe('base-class active text-blue-500 p-4');
     });

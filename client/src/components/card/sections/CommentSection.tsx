@@ -1,7 +1,7 @@
-import { MessageSquare } from "lucide-react";
-import { useComments } from "@/hooks/useComments";
-import { CommentItem } from "../widgets/CommentItem";
-import { AddComment } from "../widgets/AddComment";
+import { MessageSquare } from 'lucide-react';
+import { useComments } from '@/hooks/useComments';
+import { CommentItem } from '../widgets/CommentItem';
+import { AddComment } from '../widgets/AddComment';
 
 interface CommentSectionProps {
   cardId: string;
@@ -20,9 +20,7 @@ export const CommentSection = ({ cardId }: CommentSectionProps) => {
           <MessageSquare className="w-4 h-4" />
           Comments
           {comments && comments.length > 0 && (
-            <span className="text-xs text-muted-foreground">
-              ({comments.length})
-            </span>
+            <span className="text-xs text-muted-foreground">({comments.length})</span>
           )}
         </h3>
       </div>

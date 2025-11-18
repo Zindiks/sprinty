@@ -1,10 +1,10 @@
-import { useState, useRef, useEffect } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Draggable } from "@hello-pangea/dnd";
-import { GripVertical, Pencil, Trash2 } from "lucide-react";
-import type { ChecklistItem as ChecklistItemType } from "@/types/types";
-import { cn } from "@/lib/utils";
+import { useState, useRef, useEffect } from 'react';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Draggable } from '@hello-pangea/dnd';
+import { GripVertical, Pencil, Trash2 } from 'lucide-react';
+import type { ChecklistItem as ChecklistItemType } from '@/types/types';
+import { cn } from '@/lib/utils';
 
 interface ChecklistItemProps {
   item: ChecklistItemType;
@@ -54,10 +54,10 @@ export const ChecklistItem = ({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       e.preventDefault();
       handleSave();
-    } else if (e.key === "Escape") {
+    } else if (e.key === 'Escape') {
       e.preventDefault();
       handleCancel();
     }
@@ -70,9 +70,9 @@ export const ChecklistItem = ({
           ref={provided.innerRef}
           {...provided.draggableProps}
           className={cn(
-            "group flex items-center gap-2 p-2 rounded-lg border transition-colors",
-            snapshot.isDragging && "shadow-lg bg-accent",
-            !snapshot.isDragging && "hover:bg-accent/50"
+            'group flex items-center gap-2 p-2 rounded-lg border transition-colors',
+            snapshot.isDragging && 'shadow-lg bg-accent',
+            !snapshot.isDragging && 'hover:bg-accent/50',
           )}
         >
           {/* Drag Handle */}
@@ -106,8 +106,8 @@ export const ChecklistItem = ({
           ) : (
             <span
               className={cn(
-                "flex-1 text-sm cursor-pointer",
-                item.completed && "line-through text-muted-foreground"
+                'flex-1 text-sm cursor-pointer',
+                item.completed && 'line-through text-muted-foreground',
               )}
               onClick={() => !isPending && setIsEditing(true)}
             >
@@ -142,9 +142,9 @@ export const ChecklistItem = ({
           {/* Completion Info */}
           {item.completed && item.completed_at && !isEditing && (
             <span className="text-xs text-muted-foreground hidden sm:block">
-              {new Date(item.completed_at).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
+              {new Date(item.completed_at).toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
               })}
             </span>
           )}

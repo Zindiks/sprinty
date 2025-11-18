@@ -1,6 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
-import apiClient from "@/lib/axios";
-import { SearchParams, SearchResponse } from "@/types/types";
+import { useQuery } from '@tanstack/react-query';
+import apiClient from '@/lib/axios';
+import { SearchParams, SearchResponse } from '@/types/types';
 
 export interface FetchError {
   message: string;
@@ -30,18 +30,16 @@ export const useSearch = () => {
         }),
       });
 
-      const response = await apiClient.get(
-        `/search?${queryParams.toString()}`
-      );
+      const response = await apiClient.get(`/search?${queryParams.toString()}`);
       return response.data;
     } catch (err) {
-      throw new Error("Error searching: " + err);
+      throw new Error('Error searching: ' + err);
     }
   };
 
   const search = (params: SearchParams, enabled: boolean = true) => {
     return useQuery<SearchResponse, FetchError>({
-      queryKey: ["search", params],
+      queryKey: ['search', params],
       queryFn: () => fetchSearch(params),
       enabled: enabled && params.query.length >= 1,
       staleTime: 30000, // Cache results for 30 seconds

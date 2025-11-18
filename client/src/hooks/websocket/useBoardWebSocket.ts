@@ -1,6 +1,6 @@
-import { useEffect, useRef } from "react";
-import { useWebSocket } from "../../contexts/WebSocketContext";
-import { useQueryClient } from "@tanstack/react-query";
+import { useEffect, useRef } from 'react';
+import { useWebSocket } from '../../contexts/WebSocketContext';
+import { useQueryClient } from '@tanstack/react-query';
 
 /**
  * Custom hook for board-specific WebSocket integration
@@ -61,10 +61,10 @@ export function useBoardWebSocket(boardId: string | undefined) {
     if (!boardId) return;
 
     const unsubscribe = onCardCreated((event) => {
-      console.log("[WebSocket] Card created:", event.data);
+      console.log('[WebSocket] Card created:', event.data);
 
       // Invalidate lists query to refetch with new card
-      queryClient.invalidateQueries({ queryKey: ["lists", boardId] });
+      queryClient.invalidateQueries({ queryKey: ['lists', boardId] });
 
       // Optionally, you can update the cache directly for optimistic UI
       // This is more complex and requires knowing the cache structure
@@ -80,10 +80,10 @@ export function useBoardWebSocket(boardId: string | undefined) {
     if (!boardId) return;
 
     const unsubscribe = onCardUpdated((event) => {
-      console.log("[WebSocket] Card updated:", event.data);
+      console.log('[WebSocket] Card updated:', event.data);
 
       // Invalidate lists query to refetch with updated card
-      queryClient.invalidateQueries({ queryKey: ["lists", boardId] });
+      queryClient.invalidateQueries({ queryKey: ['lists', boardId] });
     });
 
     return unsubscribe;
@@ -96,10 +96,10 @@ export function useBoardWebSocket(boardId: string | undefined) {
     if (!boardId) return;
 
     const unsubscribe = onCardMoved((event) => {
-      console.log("[WebSocket] Card moved:", event.data);
+      console.log('[WebSocket] Card moved:', event.data);
 
       // Invalidate lists query to refetch with reordered cards
-      queryClient.invalidateQueries({ queryKey: ["lists", boardId] });
+      queryClient.invalidateQueries({ queryKey: ['lists', boardId] });
     });
 
     return unsubscribe;
@@ -112,10 +112,10 @@ export function useBoardWebSocket(boardId: string | undefined) {
     if (!boardId) return;
 
     const unsubscribe = onCardDeleted((event) => {
-      console.log("[WebSocket] Card deleted:", event.data);
+      console.log('[WebSocket] Card deleted:', event.data);
 
       // Invalidate lists query to refetch without deleted card
-      queryClient.invalidateQueries({ queryKey: ["lists", boardId] });
+      queryClient.invalidateQueries({ queryKey: ['lists', boardId] });
     });
 
     return unsubscribe;
@@ -128,10 +128,10 @@ export function useBoardWebSocket(boardId: string | undefined) {
     if (!boardId) return;
 
     const unsubscribe = onListCreated((event) => {
-      console.log("[WebSocket] List created:", event.data);
+      console.log('[WebSocket] List created:', event.data);
 
       // Invalidate lists query to refetch with new list
-      queryClient.invalidateQueries({ queryKey: ["lists", boardId] });
+      queryClient.invalidateQueries({ queryKey: ['lists', boardId] });
     });
 
     return unsubscribe;
@@ -144,10 +144,10 @@ export function useBoardWebSocket(boardId: string | undefined) {
     if (!boardId) return;
 
     const unsubscribe = onListUpdated((event) => {
-      console.log("[WebSocket] List updated:", event.data);
+      console.log('[WebSocket] List updated:', event.data);
 
       // Invalidate lists query to refetch with updated list
-      queryClient.invalidateQueries({ queryKey: ["lists", boardId] });
+      queryClient.invalidateQueries({ queryKey: ['lists', boardId] });
     });
 
     return unsubscribe;
@@ -160,10 +160,10 @@ export function useBoardWebSocket(boardId: string | undefined) {
     if (!boardId) return;
 
     const unsubscribe = onListDeleted((event) => {
-      console.log("[WebSocket] List deleted:", event.data);
+      console.log('[WebSocket] List deleted:', event.data);
 
       // Invalidate lists query to refetch without deleted list
-      queryClient.invalidateQueries({ queryKey: ["lists", boardId] });
+      queryClient.invalidateQueries({ queryKey: ['lists', boardId] });
     });
 
     return unsubscribe;
@@ -176,10 +176,10 @@ export function useBoardWebSocket(boardId: string | undefined) {
     if (!boardId) return;
 
     const unsubscribe = onBoardUpdated((event) => {
-      console.log("[WebSocket] Board updated:", event.data);
+      console.log('[WebSocket] Board updated:', event.data);
 
       // Invalidate board query to refetch updated board data
-      queryClient.invalidateQueries({ queryKey: ["board", boardId] });
+      queryClient.invalidateQueries({ queryKey: ['board', boardId] });
     });
 
     return unsubscribe;

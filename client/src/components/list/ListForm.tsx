@@ -1,16 +1,16 @@
-import ListWrapper from "@/components/list/ListWrapper";
-import { PlusIcon } from "lucide-react";
-import { ElementRef, useRef, useState } from "react";
-import { useEventListener, useOnClickOutside } from "usehooks-ts";
+import ListWrapper from '@/components/list/ListWrapper';
+import { PlusIcon } from 'lucide-react';
+import { ElementRef, useRef, useState } from 'react';
+import { useEventListener, useOnClickOutside } from 'usehooks-ts';
 
-import { useParams } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import { useParams } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
 
-import { useLists } from "@/hooks/useLists";
+import { useLists } from '@/hooks/useLists';
 
 const ListForm = () => {
-  const formRef = useRef<ElementRef<"form">>(null);
-  const inputRef = useRef<ElementRef<"input">>(null);
+  const formRef = useRef<ElementRef<'form'>>(null);
+  const inputRef = useRef<ElementRef<'input'>>(null);
 
   const { board_id } = useParams();
 
@@ -28,12 +28,12 @@ const ListForm = () => {
   };
 
   const onKeyDown = (e: KeyboardEvent) => {
-    if (e.key === "Escape") {
+    if (e.key === 'Escape') {
       disableEditing();
     }
   };
 
-  useEventListener("keydown", onKeyDown);
+  useEventListener('keydown', onKeyDown);
   useOnClickOutside(formRef as React.RefObject<HTMLElement>, disableEditing);
 
   const { createList } = useLists(board_id as string);
@@ -41,8 +41,8 @@ const ListForm = () => {
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(formRef.current!);
-    const title = formData.get("title") as string;
-    const board_id = formData.get("board_id") as string;
+    const title = formData.get('title') as string;
+    const board_id = formData.get('board_id') as string;
 
     createList.mutate(
       { title, board_id },
@@ -51,7 +51,7 @@ const ListForm = () => {
           console.log(data);
         },
         onError: () => {
-          console.log("Something Wrong");
+          console.log('Something Wrong');
         },
       },
     );
@@ -62,22 +62,22 @@ const ListForm = () => {
       <ListWrapper>
         <form
           ref={formRef}
-          className={"w-full p-3 rounded-md bg-white space-y-4 shadow-md"}
+          className={'w-full p-3 rounded-md bg-white space-y-4 shadow-md'}
           onSubmit={onSubmit}
         >
           <input
             ref={inputRef}
-            id={"title"}
-            name={"title"}
+            id={'title'}
+            name={'title'}
             className={
-              "text-sm px-2 py-1 h-7 font-medium border-transparent hover:border-input focus:border-input transition "
+              'text-sm px-2 py-1 h-7 font-medium border-transparent hover:border-input focus:border-input transition '
             }
-            placeholder={"Enter list title..."}
+            placeholder={'Enter list title...'}
           />
 
-          <input hidden defaultValue={board_id} name={"board_id"} />
+          <input hidden defaultValue={board_id} name={'board_id'} />
 
-          <div className={"flex items-center gap-x-1"}>
+          <div className={'flex items-center gap-x-1'}>
             <Button type="submit">Add list</Button>
           </div>
         </form>
@@ -90,10 +90,10 @@ const ListForm = () => {
       <button
         onClick={enableEditing}
         className={
-          "w-full rounded-md bg-white/80 hover:bg-white/50 transition p-3 flex items-center font-medium text-sm"
+          'w-full rounded-md bg-white/80 hover:bg-white/50 transition p-3 flex items-center font-medium text-sm'
         }
       >
-        <PlusIcon className={"h-4 w-4 mr-2"} /> Add a List
+        <PlusIcon className={'h-4 w-4 mr-2'} /> Add a List
       </button>
     </ListWrapper>
   );

@@ -1,17 +1,17 @@
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
+import { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { useProfile, Profile } from "@/hooks/useProfile";
-import { Pencil } from "lucide-react";
+} from '@/components/ui/dialog';
+import { useProfile, Profile } from '@/hooks/useProfile';
+import { Pencil } from 'lucide-react';
 
 interface EditProfileModalProps {
   user_id: string;
@@ -20,22 +20,22 @@ interface EditProfileModalProps {
 
 export function EditProfileModal({ user_id, currentProfile }: EditProfileModalProps) {
   const [open, setOpen] = useState(false);
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [description, setDescription] = useState("");
-  const [dateOfBirth, setDateOfBirth] = useState("");
-  const [avatarUrl, setAvatarUrl] = useState("");
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [description, setDescription] = useState('');
+  const [dateOfBirth, setDateOfBirth] = useState('');
+  const [avatarUrl, setAvatarUrl] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const { updateProfile } = useProfile(user_id);
 
   useEffect(() => {
     if (currentProfile) {
-      setUsername(currentProfile.username || "");
-      setEmail(currentProfile.email || "");
-      setDescription(currentProfile.description || "");
-      setDateOfBirth(currentProfile.date_of_birth || "");
-      setAvatarUrl(currentProfile.avatar_url || "");
+      setUsername(currentProfile.username || '');
+      setEmail(currentProfile.email || '');
+      setDescription(currentProfile.description || '');
+      setDateOfBirth(currentProfile.date_of_birth || '');
+      setAvatarUrl(currentProfile.avatar_url || '');
     }
   }, [currentProfile, open]);
 
@@ -53,7 +53,7 @@ export function EditProfileModal({ user_id, currentProfile }: EditProfileModalPr
       });
       setOpen(false);
     } catch (error) {
-      console.error("Failed to update profile:", error);
+      console.error('Failed to update profile:', error);
     } finally {
       setIsLoading(false);
     }
@@ -132,7 +132,7 @@ export function EditProfileModal({ user_id, currentProfile }: EditProfileModalPr
               Cancel
             </Button>
             <Button type="submit" className="flex-1" disabled={isLoading}>
-              {isLoading ? "Saving..." : "Save Changes"}
+              {isLoading ? 'Saving...' : 'Save Changes'}
             </Button>
           </div>
         </form>

@@ -1,13 +1,9 @@
-import { Button } from "@/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { useSelectionStore } from "@/hooks/store/useSelectionStore";
-import { useBulkActions } from "@/hooks/useBulkActions";
-import { Users } from "lucide-react";
-import { useState } from "react";
+import { Button } from '@/components/ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { useSelectionStore } from '@/hooks/store/useSelectionStore';
+import { useBulkActions } from '@/hooks/useBulkActions';
+import { Users } from 'lucide-react';
+import { useState } from 'react';
 
 /**
  * BulkAssignAction component
@@ -21,9 +17,9 @@ export const BulkAssignAction = () => {
 
   // TODO Phase 4: Fetch organization members
   const mockUsers = [
-    { id: "1", name: "John Doe" },
-    { id: "2", name: "Jane Smith" },
-    { id: "3", name: "Bob Johnson" },
+    { id: '1', name: 'John Doe' },
+    { id: '2', name: 'Jane Smith' },
+    { id: '3', name: 'Bob Johnson' },
   ];
 
   const handleAssign = (userId: string) => {

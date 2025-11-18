@@ -124,7 +124,7 @@ export function suppressConsoleWarning() {
 export function createMockFile(
   name: string = 'test.txt',
   size: number = 1024,
-  type: string = 'text/plain'
+  type: string = 'text/plain',
 ): File {
   const blob = new Blob(['a'.repeat(size)], { type });
   return new File([blob], name, { type });
@@ -158,7 +158,7 @@ export function expectDatesEqual(date1: Date | string, date2: Date | string) {
 export function isDateInRange(
   date: Date | string,
   start: Date | string,
-  end: Date | string
+  end: Date | string,
 ): boolean {
   const dt = DateTime.fromJSDate(new Date(date));
   const startDt = DateTime.fromJSDate(new Date(start));

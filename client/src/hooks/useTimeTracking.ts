@@ -1,5 +1,5 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import apiClient from "@/lib/axios";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import apiClient from '@/lib/axios';
 
 export interface TimeLog {
   id: string;
@@ -39,17 +39,14 @@ export const useCreateTimeLog = () => {
 
   return useMutation({
     mutationFn: async (input: CreateTimeLogInput) => {
-      const { data } = await apiClient.post(
-        `/time-tracking`,
-        input
-      );
+      const { data } = await apiClient.post(`/time-tracking`, input);
       return data;
     },
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ["time-logs", "card", variables.cardId] });
-      queryClient.invalidateQueries({ queryKey: ["time-logs", "user"] });
-      queryClient.invalidateQueries({ queryKey: ["time-total", variables.cardId] });
-      queryClient.invalidateQueries({ queryKey: ["analytics"] });
+      queryClient.invalidateQueries({ queryKey: ['time-logs', 'card', variables.cardId] });
+      queryClient.invalidateQueries({ queryKey: ['time-logs', 'user'] });
+      queryClient.invalidateQueries({ queryKey: ['time-total', variables.cardId] });
+      queryClient.invalidateQueries({ queryKey: ['analytics'] });
     },
   });
 };
@@ -57,11 +54,9 @@ export const useCreateTimeLog = () => {
 // Hook to get card time logs
 export const useCardTimeLogs = (cardId: string | null) => {
   return useQuery<TimeLog[]>({
-    queryKey: ["time-logs", "card", cardId],
+    queryKey: ['time-logs', 'card', cardId],
     queryFn: async () => {
-      const { data } = await apiClient.get(
-        `/time-tracking/card/${cardId}`
-      );
+      const { data } = await apiClient.get(`/time-tracking/card/${cardId}`);
       return data;
     },
     enabled: !!cardId,
@@ -71,11 +66,9 @@ export const useCardTimeLogs = (cardId: string | null) => {
 // Hook to get card time total
 export const useCardTimeTotal = (cardId: string | null) => {
   return useQuery<CardTimeTotal>({
-    queryKey: ["time-total", cardId],
+    queryKey: ['time-total', cardId],
     queryFn: async () => {
-      const { data } = await apiClient.get(
-        `/time-tracking/card/${cardId}/total`
-      );
+      const { data } = await apiClient.get(`/time-tracking/card/${cardId}/total`);
       return data;
     },
     enabled: !!cardId,
@@ -85,7 +78,7 @@ export const useCardTimeTotal = (cardId: string | null) => {
 // Hook to get user time logs
 export const useUserTimeLogs = (organizationId?: string) => {
   return useQuery<TimeLog[]>({
-    queryKey: ["time-logs", "user", organizationId],
+    queryKey: ['time-logs', 'user', organizationId],
     queryFn: async () => {
       const { data } = await apiClient.get(`/time-tracking/user`, {
         params: organizationId ? { organizationId } : {},
@@ -101,16 +94,13 @@ export const useUpdateTimeLog = () => {
 
   return useMutation({
     mutationFn: async ({ id, ...input }: UpdateTimeLogInput & { id: string }) => {
-      const { data } = await apiClient.patch(
-        `/time-tracking/${id}`,
-        input
-      );
+      const { data } = await apiClient.patch(`/time-tracking/${id}`, input);
       return data;
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["time-logs"] });
-      queryClient.invalidateQueries({ queryKey: ["time-total", data.card_id] });
-      queryClient.invalidateQueries({ queryKey: ["analytics"] });
+      queryClient.invalidateQueries({ queryKey: ['time-logs'] });
+      queryClient.invalidateQueries({ queryKey: ['time-total', data.card_id] });
+      queryClient.invalidateQueries({ queryKey: ['analytics'] });
     },
   });
 };
@@ -124,9 +114,9 @@ export const useDeleteTimeLog = () => {
       await apiClient.delete(`/time-tracking/${id}`);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["time-logs"] });
-      queryClient.invalidateQueries({ queryKey: ["time-total"] });
-      queryClient.invalidateQueries({ queryKey: ["analytics"] });
+      queryClient.invalidateQueries({ queryKey: ['time-logs'] });
+      queryClient.invalidateQueries({ queryKey: ['time-total'] });
+      queryClient.invalidateQueries({ queryKey: ['analytics'] });
     },
   });
 };

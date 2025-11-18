@@ -1,6 +1,6 @@
-import { Navigate, Outlet } from 'react-router-dom'
-import { useUser } from '@/contexts/UserContext'
-import { LoadingScreen } from './LoadingScreen'
+import { Navigate, Outlet } from 'react-router-dom';
+import { useUser } from '@/contexts/UserContext';
+import { LoadingScreen } from './LoadingScreen';
 
 /**
  * ProtectedRoute - Authentication Guard Component
@@ -10,18 +10,18 @@ import { LoadingScreen } from './LoadingScreen'
  * Shows loading screen while checking authentication status.
  */
 export const ProtectedRoute = () => {
-  const { user, loading } = useUser()
+  const { user, loading } = useUser();
 
   // Show loading screen while checking authentication
   if (loading) {
-    return <LoadingScreen />
+    return <LoadingScreen />;
   }
 
   // Redirect to home if not authenticated
   if (!user) {
-    return <Navigate to="/" replace />
+    return <Navigate to="/" replace />;
   }
 
   // User is authenticated, render child routes
-  return <Outlet />
-}
+  return <Outlet />;
+};

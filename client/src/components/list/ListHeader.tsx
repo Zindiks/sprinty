@@ -1,10 +1,10 @@
-import { ElementRef, useRef, useState } from "react";
-import { List } from "@/types/types";
-import { useEventListener } from "usehooks-ts";
-import { useLists } from "@/hooks/useLists";
-import { useQueryClient } from "@tanstack/react-query";
-import ListOptions from "@/components/list/ListOptions";
-import { SelectionModeButton } from "@/components/card/SelectionModeButton";
+import { ElementRef, useRef, useState } from 'react';
+import { List } from '@/types/types';
+import { useEventListener } from 'usehooks-ts';
+import { useLists } from '@/hooks/useLists';
+import { useQueryClient } from '@tanstack/react-query';
+import ListOptions from '@/components/list/ListOptions';
+import { SelectionModeButton } from '@/components/card/SelectionModeButton';
 
 interface ListHeaderProps {
   data: List;
@@ -18,8 +18,8 @@ const ListHeader = ({ data }: ListHeaderProps) => {
 
   const [isEditing, setIsEditing] = useState(false);
 
-  const formRef = useRef<ElementRef<"form">>(null);
-  const inputRef = useRef<ElementRef<"input">>(null);
+  const formRef = useRef<ElementRef<'form'>>(null);
+  const inputRef = useRef<ElementRef<'input'>>(null);
 
   const { updateListTitle } = useLists(data.board_id);
 
@@ -36,19 +36,19 @@ const ListHeader = ({ data }: ListHeaderProps) => {
   };
 
   const onKeyDown = (e: KeyboardEvent) => {
-    if (e.key === "Escape") {
+    if (e.key === 'Escape') {
       disableEditing();
     }
   };
 
-  useEventListener("keydown", onKeyDown);
+  useEventListener('keydown', onKeyDown);
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(formRef.current!);
-    const id = formData.get("id") as string;
-    const title = formData.get("title") as string;
-    const board_id = formData.get("board_id") as string;
+    const id = formData.get('id') as string;
+    const title = formData.get('title') as string;
+    const board_id = formData.get('board_id') as string;
 
     if (title === data.title) {
       disableEditing();
@@ -59,12 +59,12 @@ const ListHeader = ({ data }: ListHeaderProps) => {
       { id, title, board_id },
       {
         onSuccess: ({ data }) => {
-          queryClient.invalidateQueries({ queryKey: ["list"] });
+          queryClient.invalidateQueries({ queryKey: ['list'] });
           setTitle(data.title);
           disableEditing();
         },
         onError: () => {
-          console.log("Something Wrong");
+          console.log('Something Wrong');
         },
       },
     );
@@ -79,12 +79,7 @@ const ListHeader = ({ data }: ListHeaderProps) => {
       {isEditing ? (
         <form ref={formRef} className="flex-1 px-[2px]" onSubmit={onSubmit}>
           <input hidden id="id" name="id" defaultValue={data.id} />
-          <input
-            hidden
-            id="board_id"
-            name="board_id"
-            defaultValue={data.board_id}
-          />
+          <input hidden id="board_id" name="board_id" defaultValue={data.board_id} />
 
           <input
             ref={inputRef}

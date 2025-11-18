@@ -60,7 +60,7 @@ export const useSelectionStore = create<SelectionStore>((set, get) => ({
 
     set((state) => {
       const newSelected = new Set(state.selectedCards);
-      rangeIds.forEach(id => newSelected.add(id));
+      rangeIds.forEach((id) => newSelected.add(id));
       return { selectedCards: newSelected, lastSelectedCardId: endId };
     });
   },

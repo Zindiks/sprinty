@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/utils";
-import { KeyboardEventHandler, forwardRef } from "react";
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { cn } from '@/lib/utils';
+import { KeyboardEventHandler, forwardRef } from 'react';
 // import {useFormStatus} from "react-dom"
 
 interface FormTextareaProps {
@@ -42,10 +42,7 @@ export const FormTextarea = forwardRef<HTMLTextAreaElement, FormTextareaProps>(
       <div className="space-y-2 w-full">
         <div className="space-y-1 w-full">
           {label ? (
-            <Label
-              htmlFor={id}
-              className="text-xs font-semibold text-neutral-700"
-            >
+            <Label htmlFor={id} className="text-xs font-semibold text-neutral-700">
               {label}
             </Label>
           ) : null}
@@ -61,7 +58,7 @@ export const FormTextarea = forwardRef<HTMLTextAreaElement, FormTextareaProps>(
             id={id}
             disabled={pending || disabled}
             className={cn(
-              "resize-none focus-visible:ring-0 focus-visible:ring-offset-0 ring-0 focus:ring-0 outline-none shadow-sm",
+              'resize-none focus-visible:ring-0 focus-visible:ring-offset-0 ring-0 focus:ring-0 outline-none shadow-sm',
               className,
             )}
             aria-describedby={`${id}-error`}
@@ -73,4 +70,4 @@ export const FormTextarea = forwardRef<HTMLTextAreaElement, FormTextareaProps>(
   },
 );
 
-FormTextarea.displayName = "FormTextarea";
+FormTextarea.displayName = 'FormTextarea';

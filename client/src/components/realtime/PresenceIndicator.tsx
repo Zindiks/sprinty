@@ -1,12 +1,7 @@
-import { PresenceUser } from "@/types/websocket.types";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Users } from "lucide-react";
+import { PresenceUser } from '@/types/websocket.types';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Users } from 'lucide-react';
 
 interface PresenceIndicatorProps {
   users: PresenceUser[];
@@ -27,7 +22,7 @@ export function PresenceIndicator({ users, maxVisible = 5 }: PresenceIndicatorPr
       <div className="flex items-center gap-2">
         <Users className="h-4 w-4 text-gray-500" />
         <span className="text-sm font-medium text-gray-700">
-          {users.length} {users.length === 1 ? "user" : "users"} viewing
+          {users.length} {users.length === 1 ? 'user' : 'users'} viewing
         </span>
       </div>
 
@@ -50,9 +45,7 @@ export function PresenceIndicator({ users, maxVisible = 5 }: PresenceIndicatorPr
               <TooltipContent side="bottom">
                 <div className="text-xs">
                   <p className="font-semibold">{user.email}</p>
-                  <p className="text-gray-400">
-                    Joined {getTimeAgo(user.joinedAt)}
-                  </p>
+                  <p className="text-gray-400">Joined {getTimeAgo(user.joinedAt)}</p>
                 </div>
               </TooltipContent>
             </Tooltip>
@@ -91,7 +84,7 @@ export function PresenceIndicator({ users, maxVisible = 5 }: PresenceIndicatorPr
  * Get initials from email
  */
 function getInitials(email: string): string {
-  const name = email.split("@")[0];
+  const name = email.split('@')[0];
   const parts = name.split(/[._-]/);
 
   if (parts.length >= 2) {
@@ -107,7 +100,7 @@ function getInitials(email: string): string {
 function getTimeAgo(timestamp: number): string {
   const seconds = Math.floor((Date.now() - timestamp) / 1000);
 
-  if (seconds < 60) return "just now";
+  if (seconds < 60) return 'just now';
   if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
   if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
 

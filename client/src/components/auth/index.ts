@@ -5,6 +5,6 @@
  * and user experience during authentication flows.
  */
 
-export { ProtectedRoute } from './ProtectedRoute'
-export { OrganizationGuard } from './OrganizationGuard'
-export { LoadingScreen } from './LoadingScreen'
+export { ProtectedRoute } from './ProtectedRoute';
+export { OrganizationGuard } from './OrganizationGuard';
+export { LoadingScreen } from './LoadingScreen';

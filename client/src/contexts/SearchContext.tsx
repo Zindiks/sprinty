@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, ReactNode } from 'react';
 
 interface SearchContextType {
   searchOpen: boolean;
@@ -16,9 +16,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
   const closeSearch = () => setSearchOpen(false);
 
   return (
-    <SearchContext.Provider
-      value={{ searchOpen, setSearchOpen, openSearch, closeSearch }}
-    >
+    <SearchContext.Provider value={{ searchOpen, setSearchOpen, openSearch, closeSearch }}>
       {children}
     </SearchContext.Provider>
   );
@@ -27,7 +25,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
 export function useSearchDialog() {
   const context = useContext(SearchContext);
   if (context === undefined) {
-    throw new Error("useSearchDialog must be used within a SearchProvider");
+    throw new Error('useSearchDialog must be used within a SearchProvider');
   }
   return context;
 }

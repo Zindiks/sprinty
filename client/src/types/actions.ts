@@ -1,9 +1,9 @@
-import { LucideIcon } from "lucide-react";
+import { LucideIcon } from 'lucide-react';
 
 /**
  * Action groups for organizing commands
  */
-export type ActionGroup = "create" | "navigate" | "assign" | "search" | "settings";
+export type ActionGroup = 'create' | 'navigate' | 'assign' | 'search' | 'settings';
 
 /**
  * Action interface for command palette

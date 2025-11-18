@@ -1,16 +1,12 @@
-import { Button } from "@/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { useSelectionStore } from "@/hooks/store/useSelectionStore";
-import { useBulkActions } from "@/hooks/useBulkActions";
-import { useLists } from "@/hooks/useLists";
-import { useStore } from "@/hooks/store/useStore";
-import { List } from "@/types/types";
-import { MoveRight } from "lucide-react";
-import { useState } from "react";
+import { Button } from '@/components/ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { useSelectionStore } from '@/hooks/store/useSelectionStore';
+import { useBulkActions } from '@/hooks/useBulkActions';
+import { useLists } from '@/hooks/useLists';
+import { useStore } from '@/hooks/store/useStore';
+import { List } from '@/types/types';
+import { MoveRight } from 'lucide-react';
+import { useState } from 'react';
 
 export const BulkMoveAction = () => {
   const [open, setOpen] = useState(false);

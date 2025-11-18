@@ -1,19 +1,19 @@
-import { useState } from "react";
-import { DragDropContext, Droppable, DropResult } from "@hello-pangea/dnd";
-import { Plus, Save, LayoutTemplate } from "lucide-react";
-import WidgetWrapper from "./WidgetWrapper";
-import WidgetGallery from "./WidgetGallery";
-import { WidgetConfig, WidgetType } from "../../../types/types";
-import { useStore } from "../../../hooks/store/useStore";
+import { useState } from 'react';
+import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
+import { Plus, Save, LayoutTemplate } from 'lucide-react';
+import WidgetWrapper from './WidgetWrapper';
+import WidgetGallery from './WidgetGallery';
+import { WidgetConfig, WidgetType } from '../../../types/types';
+import { useStore } from '../../../hooks/store/useStore';
 
 // Import widget components
-import PersonalStatsCards from "../PersonalStatsCards";
-import ProductivityTrendChart from "../widgets/ProductivityTrendChart";
-import BoardsOverviewWidget from "../widgets/BoardsOverviewWidget";
-import WeeklyCompletionWidget from "../widgets/WeeklyCompletionWidget";
-import MonthlyCompletionWidget from "../widgets/MonthlyCompletionWidget";
-import VelocityChart from "../widgets/VelocityChart";
-import BurndownChart from "../widgets/BurndownChart";
+import PersonalStatsCards from '../PersonalStatsCards';
+import ProductivityTrendChart from '../widgets/ProductivityTrendChart';
+import BoardsOverviewWidget from '../widgets/BoardsOverviewWidget';
+import WeeklyCompletionWidget from '../widgets/WeeklyCompletionWidget';
+import MonthlyCompletionWidget from '../widgets/MonthlyCompletionWidget';
+import VelocityChart from '../widgets/VelocityChart';
+import BurndownChart from '../widgets/BurndownChart';
 
 interface DashboardGridProps {
   widgets: WidgetConfig[];
@@ -45,7 +45,7 @@ const DashboardGrid = ({
     const newWidget: WidgetConfig = {
       id: `widget-${Date.now()}`,
       type,
-      title: "New Widget",
+      title: 'New Widget',
       enabled: true,
       position: { x: 0, y: widgets.length },
       size,
@@ -58,48 +58,35 @@ const DashboardGrid = ({
     onWidgetsChange(widgets.filter((w) => w.id !== widgetId));
   };
 
-  const handleResizeWidget = (
-    widgetId: string,
-    size: "small" | "medium" | "large"
-  ) => {
+  const handleResizeWidget = (widgetId: string, size: 'small' | 'medium' | 'large') => {
     const sizeMap = {
       small: { width: 1, height: 1 },
       medium: { width: 2, height: 1 },
       large: { width: 3, height: 2 },
     };
 
-    onWidgetsChange(
-      widgets.map((w) =>
-        w.id === widgetId ? { ...w, size: sizeMap[size] } : w
-      )
-    );
+    onWidgetsChange(widgets.map((w) => (w.id === widgetId ? { ...w, size: sizeMap[size] } : w)));
   };
 
   const renderWidget = (widget: WidgetConfig) => {
     switch (widget.type) {
-      case "PERSONAL_STATS":
+      case 'PERSONAL_STATS':
         return <PersonalStatsCards />;
-      case "PRODUCTIVITY_TREND":
-        return organization_id ? (
-          <ProductivityTrendChart organizationId={organization_id} />
-        ) : null;
-      case "BOARDS_OVERVIEW":
-        return organization_id ? (
-          <BoardsOverviewWidget organizationId={organization_id} />
-        ) : null;
-      case "WEEKLY_COMPLETION":
-        return organization_id ? (
-          <WeeklyCompletionWidget organizationId={organization_id} />
-        ) : null;
-      case "MONTHLY_COMPLETION":
+      case 'PRODUCTIVITY_TREND':
+        return organization_id ? <ProductivityTrendChart organizationId={organization_id} /> : null;
+      case 'BOARDS_OVERVIEW':
+        return organization_id ? <BoardsOverviewWidget organizationId={organization_id} /> : null;
+      case 'WEEKLY_COMPLETION':
+        return organization_id ? <WeeklyCompletionWidget organizationId={organization_id} /> : null;
+      case 'MONTHLY_COMPLETION':
         return organization_id ? (
           <MonthlyCompletionWidget organizationId={organization_id} />
         ) : null;
-      case "VELOCITY_CHART":
+      case 'VELOCITY_CHART':
         return <VelocityChart boardId="" />;
-      case "BURNDOWN_CHART":
+      case 'BURNDOWN_CHART':
         return <BurndownChart sprintId="" />;
-      case "ASSIGNED_TASKS":
+      case 'ASSIGNED_TASKS':
         return (
           <div className="p-4 text-center text-gray-500">
             <p>Assigned Tasks Widget</p>
@@ -107,19 +94,15 @@ const DashboardGrid = ({
           </div>
         );
       default:
-        return (
-          <div className="p-4 text-center text-gray-500">
-            Unknown widget type
-          </div>
-        );
+        return <div className="p-4 text-center text-gray-500">Unknown widget type</div>;
     }
   };
 
-  const getCurrentSize = (widget: WidgetConfig): "small" | "medium" | "large" => {
+  const getCurrentSize = (widget: WidgetConfig): 'small' | 'medium' | 'large' => {
     const { width, height } = widget.size;
-    if (width === 1 && height === 1) return "small";
-    if (width === 3 && height === 2) return "large";
-    return "medium";
+    if (width === 1 && height === 1) return 'small';
+    if (width === 3 && height === 2) return 'large';
+    return 'medium';
   };
 
   return (
@@ -158,15 +141,13 @@ const DashboardGrid = ({
               ref={provided.innerRef}
               {...provided.droppableProps}
               className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 min-h-[200px] ${
-                snapshot.isDraggingOver ? "bg-blue-50 rounded-lg" : ""
+                snapshot.isDraggingOver ? 'bg-blue-50 rounded-lg' : ''
               } transition-colors`}
             >
               {widgets.length === 0 ? (
                 <div className="col-span-3 flex flex-col items-center justify-center py-16 text-gray-500">
                   <LayoutTemplate className="w-16 h-16 mb-4 text-gray-300" />
-                  <h3 className="text-xl font-semibold mb-2">
-                    Your dashboard is empty
-                  </h3>
+                  <h3 className="text-xl font-semibold mb-2">Your dashboard is empty</h3>
                   <p className="text-sm mb-6">
                     Click "Add Widget" to start customizing your dashboard
                   </p>
@@ -185,11 +166,7 @@ const DashboardGrid = ({
                     id={widget.id}
                     index={index}
                     onRemove={isEditing ? () => handleRemoveWidget(widget.id) : undefined}
-                    onResize={
-                      isEditing
-                        ? (size) => handleResizeWidget(widget.id, size)
-                        : undefined
-                    }
+                    onResize={isEditing ? (size) => handleResizeWidget(widget.id, size) : undefined}
                     currentSize={getCurrentSize(widget)}
                     isDraggingEnabled={isEditing}
                   >

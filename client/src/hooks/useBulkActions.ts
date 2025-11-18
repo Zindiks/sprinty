@@ -1,7 +1,7 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useToast } from "@/hooks/use-toast";
-import { useSelectionStore } from "./store/useSelectionStore";
-import apiClient from "@/lib/axios";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useToast } from '@/hooks/use-toast';
+import { useSelectionStore } from './store/useSelectionStore';
+import apiClient from '@/lib/axios';
 
 /**
  * Hook for bulk card operations
@@ -13,13 +13,7 @@ export const useBulkActions = () => {
   const { clearSelection } = useSelectionStore();
 
   const bulkMoveCardsMutation = useMutation({
-    mutationFn: async ({
-      cardIds,
-      targetListId,
-    }: {
-      cardIds: string[];
-      targetListId: string;
-    }) => {
+    mutationFn: async ({ cardIds, targetListId }: { cardIds: string[]; targetListId: string }) => {
       const response = await apiClient.post(`/cards/bulk/move`, {
         card_ids: cardIds,
         target_list_id: targetListId,
@@ -27,28 +21,22 @@ export const useBulkActions = () => {
       return response.data;
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["lists"] });
+      queryClient.invalidateQueries({ queryKey: ['lists'] });
       toast({
-        description: data.message || "Cards moved successfully",
+        description: data.message || 'Cards moved successfully',
       });
       clearSelection();
     },
     onError: () => {
       toast({
-        variant: "destructive",
-        description: "Failed to move cards",
+        variant: 'destructive',
+        description: 'Failed to move cards',
       });
     },
   });
 
   const bulkAssignUsersMutation = useMutation({
-    mutationFn: async ({
-      cardIds,
-      userIds,
-    }: {
-      cardIds: string[];
-      userIds: string[];
-    }) => {
+    mutationFn: async ({ cardIds, userIds }: { cardIds: string[]; userIds: string[] }) => {
       const response = await apiClient.post(`/cards/bulk/assign`, {
         card_ids: cardIds,
         user_ids: userIds,
@@ -56,28 +44,22 @@ export const useBulkActions = () => {
       return response.data;
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["lists"] });
+      queryClient.invalidateQueries({ queryKey: ['lists'] });
       toast({
-        description: data.message || "Users assigned successfully",
+        description: data.message || 'Users assigned successfully',
       });
       clearSelection();
     },
     onError: () => {
       toast({
-        variant: "destructive",
-        description: "Failed to assign users",
+        variant: 'destructive',
+        description: 'Failed to assign users',
       });
     },
   });
 
   const bulkAddLabelsMutation = useMutation({
-    mutationFn: async ({
-      cardIds,
-      labelIds,
-    }: {
-      cardIds: string[];
-      labelIds: string[];
-    }) => {
+    mutationFn: async ({ cardIds, labelIds }: { cardIds: string[]; labelIds: string[] }) => {
       const response = await apiClient.post(`/cards/bulk/labels`, {
         card_ids: cardIds,
         label_ids: labelIds,
@@ -85,28 +67,22 @@ export const useBulkActions = () => {
       return response.data;
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["lists"] });
+      queryClient.invalidateQueries({ queryKey: ['lists'] });
       toast({
-        description: data.message || "Labels added successfully",
+        description: data.message || 'Labels added successfully',
       });
       clearSelection();
     },
     onError: () => {
       toast({
-        variant: "destructive",
-        description: "Failed to add labels",
+        variant: 'destructive',
+        description: 'Failed to add labels',
       });
     },
   });
 
   const bulkSetDueDateMutation = useMutation({
-    mutationFn: async ({
-      cardIds,
-      dueDate,
-    }: {
-      cardIds: string[];
-      dueDate: string | null;
-    }) => {
+    mutationFn: async ({ cardIds, dueDate }: { cardIds: string[]; dueDate: string | null }) => {
       const response = await apiClient.post(`/cards/bulk/due-date`, {
         card_ids: cardIds,
         due_date: dueDate,
@@ -114,16 +90,16 @@ export const useBulkActions = () => {
       return response.data;
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["lists"] });
+      queryClient.invalidateQueries({ queryKey: ['lists'] });
       toast({
-        description: data.message || "Due date set successfully",
+        description: data.message || 'Due date set successfully',
       });
       clearSelection();
     },
     onError: () => {
       toast({
-        variant: "destructive",
-        description: "Failed to set due date",
+        variant: 'destructive',
+        description: 'Failed to set due date',
       });
     },
   });
@@ -136,16 +112,16 @@ export const useBulkActions = () => {
       return response.data;
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["lists"] });
+      queryClient.invalidateQueries({ queryKey: ['lists'] });
       toast({
-        description: data.message || "Cards archived successfully",
+        description: data.message || 'Cards archived successfully',
       });
       clearSelection();
     },
     onError: () => {
       toast({
-        variant: "destructive",
-        description: "Failed to archive cards",
+        variant: 'destructive',
+        description: 'Failed to archive cards',
       });
     },
   });
@@ -160,16 +136,16 @@ export const useBulkActions = () => {
       return response.data;
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["lists"] });
+      queryClient.invalidateQueries({ queryKey: ['lists'] });
       toast({
-        description: data.message || "Cards deleted successfully",
+        description: data.message || 'Cards deleted successfully',
       });
       clearSelection();
     },
     onError: () => {
       toast({
-        variant: "destructive",
-        description: "Failed to delete cards",
+        variant: 'destructive',
+        description: 'Failed to delete cards',
       });
     },
   });
@@ -183,10 +159,8 @@ export const useBulkActions = () => {
       bulkAddLabelsMutation.mutate({ cardIds, labelIds }),
     bulkSetDueDate: (cardIds: string[], dueDate: string | null) =>
       bulkSetDueDateMutation.mutate({ cardIds, dueDate }),
-    bulkArchiveCards: (cardIds: string[]) =>
-      bulkArchiveCardsMutation.mutate({ cardIds }),
-    bulkDeleteCards: (cardIds: string[]) =>
-      bulkDeleteCardsMutation.mutate({ cardIds }),
+    bulkArchiveCards: (cardIds: string[]) => bulkArchiveCardsMutation.mutate({ cardIds }),
+    bulkDeleteCards: (cardIds: string[]) => bulkDeleteCardsMutation.mutate({ cardIds }),
     isLoading:
       bulkMoveCardsMutation.isPending ||
       bulkAssignUsersMutation.isPending ||

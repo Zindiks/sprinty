@@ -1,8 +1,8 @@
-import { useDueDateAnalytics } from "@/hooks/useAnalytics";
-import { Clock, Calendar, AlertTriangle } from "lucide-react";
-import { formatDueDateDisplay } from "@/lib/dateUtils";
-import { useNavigate } from "react-router-dom";
-import { Badge } from "@/components/ui/badge";
+import { useDueDateAnalytics } from '@/hooks/useAnalytics';
+import { Clock, Calendar, AlertTriangle } from 'lucide-react';
+import { formatDueDateDisplay } from '@/lib/dateUtils';
+import { useNavigate } from 'react-router-dom';
+import { Badge } from '@/components/ui/badge';
 
 interface UpcomingDueDatesWidgetProps {
   boardId: string | null;
@@ -34,16 +34,16 @@ export const UpcomingDueDatesWidget = ({ boardId }: UpcomingDueDatesWidgetProps)
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case "critical":
-        return "bg-red-100 text-red-800";
-      case "high":
-        return "bg-orange-100 text-orange-800";
-      case "medium":
-        return "bg-blue-100 text-blue-800";
-      case "low":
-        return "bg-green-100 text-green-800";
+      case 'critical':
+        return 'bg-red-100 text-red-800';
+      case 'high':
+        return 'bg-orange-100 text-orange-800';
+      case 'medium':
+        return 'bg-blue-100 text-blue-800';
+      case 'low':
+        return 'bg-green-100 text-green-800';
       default:
-        return "bg-gray-100 text-gray-800";
+        return 'bg-gray-100 text-gray-800';
     }
   };
 
@@ -103,7 +103,10 @@ export const UpcomingDueDatesWidget = ({ boardId }: UpcomingDueDatesWidgetProps)
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       <h4 className="text-sm font-medium text-gray-900 truncate">{card.title}</h4>
-                      <Badge variant="outline" className={`text-xs ${getPriorityColor(card.priority)}`}>
+                      <Badge
+                        variant="outline"
+                        className={`text-xs ${getPriorityColor(card.priority)}`}
+                      >
                         {card.priority}
                       </Badge>
                     </div>
@@ -130,19 +133,21 @@ export const UpcomingDueDatesWidget = ({ boardId }: UpcomingDueDatesWidgetProps)
               <Calendar className="w-4 h-4 text-gray-500" />
               <span className="text-sm text-gray-700">Cards without due dates</span>
             </div>
-            <span className="text-lg font-semibold text-gray-900">{analytics.summary.noDueDate}</span>
+            <span className="text-lg font-semibold text-gray-900">
+              {analytics.summary.noDueDate}
+            </span>
           </div>
         </div>
       )}
 
       {/* Empty State */}
       {analytics.summary.dueToday === 0 &&
-       analytics.summary.dueThisWeek === 0 &&
-       analytics.summary.upcoming === 0 && (
-        <div className="text-center py-8 text-gray-500">
-          <p>No upcoming due dates</p>
-        </div>
-      )}
+        analytics.summary.dueThisWeek === 0 &&
+        analytics.summary.upcoming === 0 && (
+          <div className="text-center py-8 text-gray-500">
+            <p>No upcoming due dates</p>
+          </div>
+        )}
     </div>
   );
 };

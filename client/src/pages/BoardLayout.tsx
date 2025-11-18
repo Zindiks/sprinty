@@ -1,8 +1,8 @@
-import BoardNavBar from "@/components/board/BoardNavBar";
-import { StaticSidebar } from "@/components/SidebarStatic";
-import { useBoard } from "@/hooks/useBoards";
-import { Outlet, useLocation, Navigate, useParams } from "react-router-dom";
-import { useStore } from "@/hooks/store/useStore";
+import BoardNavBar from '@/components/board/BoardNavBar';
+import { StaticSidebar } from '@/components/SidebarStatic';
+import { useBoard } from '@/hooks/useBoards';
+import { Outlet, useLocation, Navigate, useParams } from 'react-router-dom';
+import { useStore } from '@/hooks/store/useStore';
 
 export default function BoardLayout() {
   const location = useLocation();
@@ -10,7 +10,7 @@ export default function BoardLayout() {
   const { organization_id } = useStore();
   const { GetBoard } = useBoard(organization_id);
 
-  if (location.pathname === "/board") {
+  if (location.pathname === '/board') {
     return <Navigate to="/boards" replace />;
   }
 
@@ -28,7 +28,7 @@ export default function BoardLayout() {
       </div>
 
       {/* Main Content */}
-      <div className="flex flex-col" style={{ width: "calc(100% - 64px)" }}>
+      <div className="flex flex-col" style={{ width: 'calc(100% - 64px)' }}>
         {/* Board Navbar */}
         {data && (
           <div className="w-full">

@@ -1,7 +1,7 @@
-import { useState, useRef, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useState, useRef, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   Dialog,
   DialogContent,
@@ -9,12 +9,12 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Pencil, Trash2, Reply, CornerDownRight } from "lucide-react";
-import type { Comment } from "@/types/types";
-import { useUser } from "@/contexts/UserContext";
-import { AddComment } from "./AddComment";
-import { cn } from "@/lib/utils";
+} from '@/components/ui/dialog';
+import { Pencil, Trash2, Reply, CornerDownRight } from 'lucide-react';
+import type { Comment } from '@/types/types';
+import { useUser } from '@/contexts/UserContext';
+import { AddComment } from './AddComment';
+import { cn } from '@/lib/utils';
 
 interface CommentItemProps {
   comment: Comment;
@@ -49,7 +49,7 @@ export const CommentItem = ({
       textareaRef.current.focus();
       textareaRef.current.setSelectionRange(
         textareaRef.current.value.length,
-        textareaRef.current.value.length
+        textareaRef.current.value.length,
       );
     }
   }, [isEditing]);
@@ -72,10 +72,10 @@ export const CommentItem = ({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
       e.preventDefault();
       handleSave();
-    } else if (e.key === "Escape") {
+    } else if (e.key === 'Escape') {
       e.preventDefault();
       handleCancel();
     }
@@ -93,16 +93,16 @@ export const CommentItem = ({
   const getInitials = (username?: string, email?: string) => {
     if (username) {
       return username
-        .split(" ")
+        .split(' ')
         .map((n) => n[0])
-        .join("")
+        .join('')
         .toUpperCase()
         .slice(0, 2);
     }
     if (email) {
       return email.slice(0, 2).toUpperCase();
     }
-    return "U";
+    return 'U';
   };
 
   const formatDate = (dateString: string) => {
@@ -113,20 +113,20 @@ export const CommentItem = ({
     const hours = Math.floor(diff / 3600000);
     const days = Math.floor(diff / 86400000);
 
-    if (minutes < 1) return "just now";
+    if (minutes < 1) return 'just now';
     if (minutes < 60) return `${minutes}m ago`;
     if (hours < 24) return `${hours}h ago`;
     if (days < 7) return `${days}d ago`;
-    return date.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: date.getFullYear() !== now.getFullYear() ? "numeric" : undefined,
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: date.getFullYear() !== now.getFullYear() ? 'numeric' : undefined,
     });
   };
 
   return (
     <>
-      <div className={cn("space-y-3", depth > 0 && "ml-8 pl-4 border-l-2")}>
+      <div className={cn('space-y-3', depth > 0 && 'ml-8 pl-4 border-l-2')}>
         <div className="flex gap-3">
           <Avatar className="w-8 h-8 shrink-0">
             {comment.user.avatar_url && (
@@ -143,16 +143,12 @@ export const CommentItem = ({
           <div className="flex-1 space-y-2 min-w-0">
             {/* Header */}
             <div className="flex items-center gap-2 text-sm flex-wrap">
-              <span className="font-medium">
-                {comment.user.username || comment.user.email}
-              </span>
+              <span className="font-medium">{comment.user.username || comment.user.email}</span>
               <span className="text-muted-foreground text-xs">
                 {formatDate(comment.created_at)}
               </span>
               {comment.is_edited && (
-                <span className="text-muted-foreground text-xs italic">
-                  (edited)
-                </span>
+                <span className="text-muted-foreground text-xs italic">(edited)</span>
               )}
             </div>
 
@@ -171,23 +167,12 @@ export const CommentItem = ({
                   <Button size="sm" onClick={handleSave} disabled={isPending}>
                     Save
                   </Button>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    onClick={handleCancel}
-                    disabled={isPending}
-                  >
+                  <Button size="sm" variant="ghost" onClick={handleCancel} disabled={isPending}>
                     Cancel
                   </Button>
                   <span className="text-xs text-muted-foreground ml-2">
-                    <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px]">
-                      Cmd
-                    </kbd>{" "}
-                    +{" "}
-                    <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px]">
-                      Enter
-                    </kbd>{" "}
-                    to save
+                    <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px]">Cmd</kbd> +{' '}
+                    <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px]">Enter</kbd> to save
                   </span>
                 </div>
               </div>
@@ -242,8 +227,8 @@ export const CommentItem = ({
                       onClick={() => setShowReplies(!showReplies)}
                     >
                       <CornerDownRight className="w-3 h-3 mr-1" />
-                      {showReplies ? "Hide" : "Show"} {comment.replies!.length}{" "}
-                      {comment.replies!.length === 1 ? "reply" : "replies"}
+                      {showReplies ? 'Hide' : 'Show'} {comment.replies!.length}{' '}
+                      {comment.replies!.length === 1 ? 'reply' : 'replies'}
                     </Button>
                   )}
                 </div>
@@ -272,8 +257,8 @@ export const CommentItem = ({
                 key={reply.id}
                 comment={reply}
                 cardId={cardId}
-                onUpdate={(content) =>
-                  onUpdate(content) // This will need to be passed from parent
+                onUpdate={
+                  (content) => onUpdate(content) // This will need to be passed from parent
                 }
                 onDelete={onDelete} // This will need to be passed from parent
                 isPending={isPending}
@@ -290,22 +275,17 @@ export const CommentItem = ({
           <DialogHeader>
             <DialogTitle>Delete comment?</DialogTitle>
             <DialogDescription>
-              This action cannot be undone. The comment will be permanently
-              deleted.
+              This action cannot be undone. The comment will be permanently deleted.
               {hasReplies && (
                 <span className="block mt-2 text-destructive">
-                  Warning: This comment has {comment.replies!.length}{" "}
-                  {comment.replies!.length === 1 ? "reply" : "replies"} that
-                  will also be deleted.
+                  Warning: This comment has {comment.replies!.length}{' '}
+                  {comment.replies!.length === 1 ? 'reply' : 'replies'} that will also be deleted.
                 </span>
               )}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setShowDeleteDialog(false)}
-            >
+            <Button variant="outline" onClick={() => setShowDeleteDialog(false)}>
               Cancel
             </Button>
             <Button variant="destructive" onClick={handleConfirmDelete}>

@@ -1,17 +1,17 @@
-import { useState } from "react";
-import { Bell, X, Clock } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { useState } from 'react';
+import { Bell, X, Clock } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { useReminders, type CreateReminder } from "@/hooks/useReminders";
-import { formatDueDateDisplay } from "@/lib/dateUtils";
-import { DateTime } from "luxon";
+} from '@/components/ui/select';
+import { useReminders, type CreateReminder } from '@/hooks/useReminders';
+import { formatDueDateDisplay } from '@/lib/dateUtils';
+import { DateTime } from 'luxon';
 
 interface ReminderSectionProps {
   cardId: string;
@@ -19,13 +19,9 @@ interface ReminderSectionProps {
   dueDate?: string;
 }
 
-export const ReminderSection = ({
-  cardId,
-  userId,
-  dueDate,
-}: ReminderSectionProps) => {
+export const ReminderSection = ({ cardId, userId, dueDate }: ReminderSectionProps) => {
   const { reminders, isLoading, createReminder, deleteReminder } = useReminders(cardId);
-  const [selectedType, setSelectedType] = useState<"24h" | "1h" | "custom">("24h");
+  const [selectedType, setSelectedType] = useState<'24h' | '1h' | 'custom'>('24h');
 
   const handleCreateReminder = () => {
     if (!dueDate) {
@@ -35,13 +31,13 @@ export const ReminderSection = ({
     const due = DateTime.fromISO(dueDate);
     let reminderTime: string;
 
-    if (selectedType === "24h") {
-      reminderTime = due.minus({ hours: 24 }).toISO() || "";
-    } else if (selectedType === "1h") {
-      reminderTime = due.minus({ hours: 1 }).toISO() || "";
+    if (selectedType === '24h') {
+      reminderTime = due.minus({ hours: 24 }).toISO() || '';
+    } else if (selectedType === '1h') {
+      reminderTime = due.minus({ hours: 1 }).toISO() || '';
     } else {
       // For custom, default to 2 hours before
-      reminderTime = due.minus({ hours: 2 }).toISO() || "";
+      reminderTime = due.minus({ hours: 2 }).toISO() || '';
     }
 
     const reminderData: CreateReminder = {
@@ -60,23 +56,19 @@ export const ReminderSection = ({
 
   const getReminderLabel = (type: string) => {
     switch (type) {
-      case "24h":
-        return "24 hours before";
-      case "1h":
-        return "1 hour before";
-      case "custom":
-        return "Custom time";
+      case '24h':
+        return '24 hours before';
+      case '1h':
+        return '1 hour before';
+      case 'custom':
+        return 'Custom time';
       default:
         return type;
     }
   };
 
   if (!dueDate) {
-    return (
-      <div className="text-sm text-muted-foreground">
-        Set a due date to add reminders
-      </div>
-    );
+    return <div className="text-sm text-muted-foreground">Set a due date to add reminders</div>;
   }
 
   return (
@@ -84,7 +76,7 @@ export const ReminderSection = ({
       <div className="flex items-center gap-2">
         <Select
           value={selectedType}
-          onValueChange={(value: "24h" | "1h" | "custom") => setSelectedType(value)}
+          onValueChange={(value: '24h' | '1h' | 'custom') => setSelectedType(value)}
         >
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select reminder time" />
@@ -95,19 +87,13 @@ export const ReminderSection = ({
             <SelectItem value="custom">Custom time</SelectItem>
           </SelectContent>
         </Select>
-        <Button
-          size="sm"
-          onClick={handleCreateReminder}
-          disabled={createReminder.isPending}
-        >
+        <Button size="sm" onClick={handleCreateReminder} disabled={createReminder.isPending}>
           <Bell className="h-4 w-4 mr-1" />
           Add Reminder
         </Button>
       </div>
 
-      {isLoading && (
-        <div className="text-sm text-muted-foreground">Loading reminders...</div>
-      )}
+      {isLoading && <div className="text-sm text-muted-foreground">Loading reminders...</div>}
 
       {!isLoading && reminders.length > 0 && (
         <div className="space-y-2">
@@ -145,9 +131,7 @@ export const ReminderSection = ({
       )}
 
       {!isLoading && reminders.length === 0 && (
-        <div className="text-sm text-muted-foreground">
-          No reminders set for this card
-        </div>
+        <div className="text-sm text-muted-foreground">No reminders set for this card</div>
       )}
     </div>
   );

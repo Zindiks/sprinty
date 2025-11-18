@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from "react";
-import { io, Socket } from "socket.io-client";
+import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react';
+import { io, Socket } from 'socket.io-client';
 import {
   WebSocketEvent,
   ConnectionStatus,
@@ -15,7 +15,7 @@ import {
   ListDeletedPayload,
   BoardUpdatedPayload,
   WebSocketEventPayload,
-} from "../types/websocket.types";
+} from '../types/websocket.types';
 
 /**
  * WebSocket Context Value
@@ -28,16 +28,32 @@ interface WebSocketContextValue {
   leaveBoard: (boardId: string) => Promise<void>;
 
   // Event listeners
-  onCardCreated: (callback: (data: WebSocketEventPayload<CardCreatedPayload>) => void) => () => void;
-  onCardUpdated: (callback: (data: WebSocketEventPayload<CardUpdatedPayload>) => void) => () => void;
+  onCardCreated: (
+    callback: (data: WebSocketEventPayload<CardCreatedPayload>) => void,
+  ) => () => void;
+  onCardUpdated: (
+    callback: (data: WebSocketEventPayload<CardUpdatedPayload>) => void,
+  ) => () => void;
   onCardMoved: (callback: (data: WebSocketEventPayload<CardMovedPayload>) => void) => () => void;
-  onCardDeleted: (callback: (data: WebSocketEventPayload<CardDeletedPayload>) => void) => () => void;
-  onListCreated: (callback: (data: WebSocketEventPayload<ListCreatedPayload>) => void) => () => void;
-  onListUpdated: (callback: (data: WebSocketEventPayload<ListUpdatedPayload>) => void) => () => void;
+  onCardDeleted: (
+    callback: (data: WebSocketEventPayload<CardDeletedPayload>) => void,
+  ) => () => void;
+  onListCreated: (
+    callback: (data: WebSocketEventPayload<ListCreatedPayload>) => void,
+  ) => () => void;
+  onListUpdated: (
+    callback: (data: WebSocketEventPayload<ListUpdatedPayload>) => void,
+  ) => () => void;
   onListMoved: (callback: (data: WebSocketEventPayload<ListMovedPayload>) => void) => () => void;
-  onListDeleted: (callback: (data: WebSocketEventPayload<ListDeletedPayload>) => void) => () => void;
-  onBoardUpdated: (callback: (data: WebSocketEventPayload<BoardUpdatedPayload>) => void) => () => void;
-  onPresenceUpdate: (callback: (data: WebSocketEventPayload<BoardPresencePayload>) => void) => () => void;
+  onListDeleted: (
+    callback: (data: WebSocketEventPayload<ListDeletedPayload>) => void,
+  ) => () => void;
+  onBoardUpdated: (
+    callback: (data: WebSocketEventPayload<BoardUpdatedPayload>) => void,
+  ) => () => void;
+  onPresenceUpdate: (
+    callback: (data: WebSocketEventPayload<BoardPresencePayload>) => void,
+  ) => () => void;
 }
 
 const WebSocketContext = createContext<WebSocketContextValue | undefined>(undefined);
@@ -57,12 +73,14 @@ interface WebSocketProviderProps {
  */
 export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
   children,
-  serverUrl = "http://localhost:3000",
+  serverUrl = 'http://localhost:3000',
   userId,
   userEmail,
 }) => {
   const [socket, setSocket] = useState<Socket | null>(null);
-  const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>(ConnectionStatus.DISCONNECTED);
+  const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>(
+    ConnectionStatus.DISCONNECTED,
+  );
   const [presenceUsers, setPresenceUsers] = useState<PresenceUser[]>([]);
   const currentBoardId = useRef<string | null>(null);
 
@@ -71,7 +89,7 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
    */
   useEffect(() => {
     if (!userId || !userEmail) {
-      console.warn("WebSocket: No user credentials provided, skipping connection");
+      console.warn('WebSocket: No user credentials provided, skipping connection');
       return;
     }
 
@@ -85,7 +103,7 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
       auth: {
         token: authToken,
       },
-      transports: ["websocket", "polling"],
+      transports: ['websocket', 'polling'],
       reconnection: true,
       reconnectionAttempts: 5,
       reconnectionDelay: 1000,
@@ -94,38 +112,41 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
     });
 
     // Connection event handlers
-    newSocket.on("connect", () => {
-      console.log("WebSocket connected:", newSocket.id);
+    newSocket.on('connect', () => {
+      console.log('WebSocket connected:', newSocket.id);
       setConnectionStatus(ConnectionStatus.CONNECTED);
     });
 
-    newSocket.on("disconnect", (reason) => {
-      console.log("WebSocket disconnected:", reason);
+    newSocket.on('disconnect', (reason) => {
+      console.log('WebSocket disconnected:', reason);
       setConnectionStatus(ConnectionStatus.DISCONNECTED);
       setPresenceUsers([]);
     });
 
-    newSocket.on("connect_error", (error) => {
-      console.error("WebSocket connection error:", error);
+    newSocket.on('connect_error', (error) => {
+      console.error('WebSocket connection error:', error);
       setConnectionStatus(ConnectionStatus.ERROR);
     });
 
-    newSocket.on("error", (error: { message: string; code: string }) => {
-      console.error("WebSocket error:", error);
+    newSocket.on('error', (error: { message: string; code: string }) => {
+      console.error('WebSocket error:', error);
       setConnectionStatus(ConnectionStatus.ERROR);
     });
 
     // Presence updates
-    newSocket.on(WebSocketEvent.BOARD_PRESENCE, (payload: WebSocketEventPayload<BoardPresencePayload>) => {
-      console.log("Presence update:", payload.data);
-      setPresenceUsers(payload.data.users);
-    });
+    newSocket.on(
+      WebSocketEvent.BOARD_PRESENCE,
+      (payload: WebSocketEventPayload<BoardPresencePayload>) => {
+        console.log('Presence update:', payload.data);
+        setPresenceUsers(payload.data.users);
+      },
+    );
 
     setSocket(newSocket);
 
     // Cleanup on unmount
     return () => {
-      console.log("WebSocket: Cleaning up connection");
+      console.log('WebSocket: Cleaning up connection');
       if (currentBoardId.current) {
         newSocket.emit(WebSocketEvent.BOARD_LEAVE, { boardId: currentBoardId.current });
       }
@@ -139,7 +160,7 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
   const joinBoard = useCallback(
     async (boardId: string) => {
       if (!socket || connectionStatus !== ConnectionStatus.CONNECTED) {
-        console.warn("WebSocket: Cannot join board, not connected");
+        console.warn('WebSocket: Cannot join board, not connected');
         return;
       }
 
@@ -147,7 +168,12 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
         socket.emit(
           WebSocketEvent.BOARD_JOIN,
           { boardId },
-          (response: { success: boolean; message?: string; error?: string; presence?: PresenceUser[] }) => {
+          (response: {
+            success: boolean;
+            message?: string;
+            error?: string;
+            presence?: PresenceUser[];
+          }) => {
             if (response.success) {
               console.log(`Joined board: ${boardId}`);
               currentBoardId.current = boardId;
@@ -157,13 +183,13 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
               resolve();
             } else {
               console.error(`Failed to join board: ${response.error}`);
-              reject(new Error(response.error || "Failed to join board"));
+              reject(new Error(response.error || 'Failed to join board'));
             }
-          }
+          },
         );
       });
     },
-    [socket, connectionStatus]
+    [socket, connectionStatus],
   );
 
   /**
@@ -176,21 +202,17 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
       }
 
       return new Promise<void>((resolve) => {
-        socket.emit(
-          WebSocketEvent.BOARD_LEAVE,
-          { boardId },
-          (response: { success: boolean }) => {
-            if (response.success) {
-              console.log(`Left board: ${boardId}`);
-              currentBoardId.current = null;
-              setPresenceUsers([]);
-            }
-            resolve();
+        socket.emit(WebSocketEvent.BOARD_LEAVE, { boardId }, (response: { success: boolean }) => {
+          if (response.success) {
+            console.log(`Left board: ${boardId}`);
+            currentBoardId.current = null;
+            setPresenceUsers([]);
           }
-        );
+          resolve();
+        });
       });
     },
-    [socket]
+    [socket],
   );
 
   /**
@@ -213,7 +235,7 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
         socket.off(event, handler);
       };
     },
-    [socket]
+    [socket],
   );
 
   /**
@@ -222,61 +244,61 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
   const onCardCreated = useCallback(
     (callback: (data: WebSocketEventPayload<CardCreatedPayload>) => void) =>
       createEventListener(WebSocketEvent.CARD_CREATED, callback),
-    [createEventListener]
+    [createEventListener],
   );
 
   const onCardUpdated = useCallback(
     (callback: (data: WebSocketEventPayload<CardUpdatedPayload>) => void) =>
       createEventListener(WebSocketEvent.CARD_UPDATED, callback),
-    [createEventListener]
+    [createEventListener],
   );
 
   const onCardMoved = useCallback(
     (callback: (data: WebSocketEventPayload<CardMovedPayload>) => void) =>
       createEventListener(WebSocketEvent.CARD_MOVED, callback),
-    [createEventListener]
+    [createEventListener],
   );
 
   const onCardDeleted = useCallback(
     (callback: (data: WebSocketEventPayload<CardDeletedPayload>) => void) =>
       createEventListener(WebSocketEvent.CARD_DELETED, callback),
-    [createEventListener]
+    [createEventListener],
   );
 
   const onListCreated = useCallback(
     (callback: (data: WebSocketEventPayload<ListCreatedPayload>) => void) =>
       createEventListener(WebSocketEvent.LIST_CREATED, callback),
-    [createEventListener]
+    [createEventListener],
   );
 
   const onListUpdated = useCallback(
     (callback: (data: WebSocketEventPayload<ListUpdatedPayload>) => void) =>
       createEventListener(WebSocketEvent.LIST_UPDATED, callback),
-    [createEventListener]
+    [createEventListener],
   );
 
   const onListMoved = useCallback(
     (callback: (data: WebSocketEventPayload<ListMovedPayload>) => void) =>
       createEventListener(WebSocketEvent.LIST_MOVED, callback),
-    [createEventListener]
+    [createEventListener],
   );
 
   const onListDeleted = useCallback(
     (callback: (data: WebSocketEventPayload<ListDeletedPayload>) => void) =>
       createEventListener(WebSocketEvent.LIST_DELETED, callback),
-    [createEventListener]
+    [createEventListener],
   );
 
   const onBoardUpdated = useCallback(
     (callback: (data: WebSocketEventPayload<BoardUpdatedPayload>) => void) =>
       createEventListener(WebSocketEvent.BOARD_UPDATED, callback),
-    [createEventListener]
+    [createEventListener],
   );
 
   const onPresenceUpdate = useCallback(
     (callback: (data: WebSocketEventPayload<BoardPresencePayload>) => void) =>
       createEventListener(WebSocketEvent.BOARD_PRESENCE, callback),
-    [createEventListener]
+    [createEventListener],
   );
 
   const value: WebSocketContextValue = {
@@ -306,7 +328,7 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
 export const useWebSocket = (): WebSocketContextValue => {
   const context = useContext(WebSocketContext);
   if (!context) {
-    throw new Error("useWebSocket must be used within a WebSocketProvider");
+    throw new Error('useWebSocket must be used within a WebSocketProvider');
   }
   return context;
 };

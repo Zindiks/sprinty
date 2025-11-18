@@ -1,12 +1,7 @@
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useEffect, useState } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useEffect, useState } from 'react';
 
 export function UserAvatar() {
   const [user, setUser] = useState<{
@@ -15,11 +10,11 @@ export function UserAvatar() {
   } | null>(null);
 
   useEffect(() => {
-    console.log("fetching user data"); // Log message to the console
+    console.log('fetching user data'); // Log message to the console
     const fetchUser = async () => {
-      console.log("fetching user data2"); // Log message to the console
-      const response = await fetch("http://localhost:4000/api/v1/oauth/user", {
-        credentials: "include",
+      console.log('fetching user data2'); // Log message to the console
+      const response = await fetch('http://localhost:4000/api/v1/oauth/user', {
+        credentials: 'include',
       });
       if (response.ok) {
         const data = await response.json();

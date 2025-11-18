@@ -1,10 +1,10 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { CheckSquare } from "lucide-react";
-import { useChecklists } from "@/hooks/useChecklists";
-import { ChecklistItem } from "../widgets/ChecklistItem";
-import { AddChecklistItem } from "../widgets/AddChecklistItem";
-import { DragDropContext, Droppable, DropResult } from "@hello-pangea/dnd";
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { CheckSquare } from 'lucide-react';
+import { useChecklists } from '@/hooks/useChecklists';
+import { ChecklistItem } from '../widgets/ChecklistItem';
+import { AddChecklistItem } from '../widgets/AddChecklistItem';
+import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
 import {
   Dialog,
   DialogContent,
@@ -12,7 +12,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 
 interface ChecklistSectionProps {
   cardId: string;
@@ -117,19 +117,13 @@ export const ChecklistSection = ({ cardId }: ChecklistSectionProps) => {
               <DragDropContext onDragEnd={handleDragEnd}>
                 <Droppable droppableId={`checklist-${cardId}`}>
                   {(provided) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.droppableProps}
-                      className="space-y-2"
-                    >
+                    <div ref={provided.innerRef} {...provided.droppableProps} className="space-y-2">
                       {checklistItems.map((item, index) => (
                         <ChecklistItem
                           key={item.id}
                           item={item}
                           index={index}
-                          onToggle={() =>
-                            toggleItem.mutate({ id: item.id, card_id: cardId })
-                          }
+                          onToggle={() => toggleItem.mutate({ id: item.id, card_id: cardId })}
                           onUpdate={(title) =>
                             updateItem.mutate({
                               id: item.id,
@@ -139,9 +133,7 @@ export const ChecklistSection = ({ cardId }: ChecklistSectionProps) => {
                           }
                           onDelete={() => handleDeleteClick(item.id)}
                           isPending={
-                            toggleItem.isPending ||
-                            updateItem.isPending ||
-                            deleteItem.isPending
+                            toggleItem.isPending || updateItem.isPending || deleteItem.isPending
                           }
                         />
                       ))}
@@ -151,9 +143,7 @@ export const ChecklistSection = ({ cardId }: ChecklistSectionProps) => {
                 </Droppable>
               </DragDropContext>
             ) : (
-              <p className="text-sm text-muted-foreground italic">
-                No checklist items yet
-              </p>
+              <p className="text-sm text-muted-foreground italic">No checklist items yet</p>
             )}
 
             {/* Add New Item */}
@@ -172,10 +162,7 @@ export const ChecklistSection = ({ cardId }: ChecklistSectionProps) => {
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setShowDeleteDialog(false)}
-            >
+            <Button variant="outline" onClick={() => setShowDeleteDialog(false)}>
               Cancel
             </Button>
             <Button variant="destructive" onClick={handleConfirmDelete}>

@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Dialog,
   DialogContent,
@@ -9,10 +9,10 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Check } from "lucide-react";
-import { useLabels } from "@/hooks/useLabels";
-import { cn } from "@/lib/utils";
+} from '@/components/ui/dialog';
+import { Check } from 'lucide-react';
+import { useLabels } from '@/hooks/useLabels';
+import { cn } from '@/lib/utils';
 
 interface LabelCreatorProps {
   boardId: string;
@@ -21,35 +21,31 @@ interface LabelCreatorProps {
 }
 
 const PRESET_COLORS = [
-  { name: "Red", value: "#ef4444" },
-  { name: "Orange", value: "#f97316" },
-  { name: "Amber", value: "#f59e0b" },
-  { name: "Yellow", value: "#eab308" },
-  { name: "Lime", value: "#84cc16" },
-  { name: "Green", value: "#22c55e" },
-  { name: "Emerald", value: "#10b981" },
-  { name: "Teal", value: "#14b8a6" },
-  { name: "Cyan", value: "#06b6d4" },
-  { name: "Sky", value: "#0ea5e9" },
-  { name: "Blue", value: "#3b82f6" },
-  { name: "Indigo", value: "#6366f1" },
-  { name: "Violet", value: "#8b5cf6" },
-  { name: "Purple", value: "#a855f7" },
-  { name: "Fuchsia", value: "#d946ef" },
-  { name: "Pink", value: "#ec4899" },
-  { name: "Rose", value: "#f43f5e" },
-  { name: "Slate", value: "#64748b" },
+  { name: 'Red', value: '#ef4444' },
+  { name: 'Orange', value: '#f97316' },
+  { name: 'Amber', value: '#f59e0b' },
+  { name: 'Yellow', value: '#eab308' },
+  { name: 'Lime', value: '#84cc16' },
+  { name: 'Green', value: '#22c55e' },
+  { name: 'Emerald', value: '#10b981' },
+  { name: 'Teal', value: '#14b8a6' },
+  { name: 'Cyan', value: '#06b6d4' },
+  { name: 'Sky', value: '#0ea5e9' },
+  { name: 'Blue', value: '#3b82f6' },
+  { name: 'Indigo', value: '#6366f1' },
+  { name: 'Violet', value: '#8b5cf6' },
+  { name: 'Purple', value: '#a855f7' },
+  { name: 'Fuchsia', value: '#d946ef' },
+  { name: 'Pink', value: '#ec4899' },
+  { name: 'Rose', value: '#f43f5e' },
+  { name: 'Slate', value: '#64748b' },
 ];
 
-export const LabelCreator = ({
-  boardId,
-  open,
-  onClose,
-}: LabelCreatorProps) => {
+export const LabelCreator = ({ boardId, open, onClose }: LabelCreatorProps) => {
   const { createLabel } = useLabels(boardId);
-  const [labelName, setLabelName] = useState("");
+  const [labelName, setLabelName] = useState('');
   const [selectedColor, setSelectedColor] = useState(PRESET_COLORS[0].value);
-  const [customColor, setCustomColor] = useState("");
+  const [customColor, setCustomColor] = useState('');
 
   const handleCreate = () => {
     const color = customColor || selectedColor;
@@ -62,20 +58,20 @@ export const LabelCreator = ({
         },
         {
           onSuccess: () => {
-            setLabelName("");
+            setLabelName('');
             setSelectedColor(PRESET_COLORS[0].value);
-            setCustomColor("");
+            setCustomColor('');
             onClose();
           },
-        }
+        },
       );
     }
   };
 
   const handleClose = () => {
-    setLabelName("");
+    setLabelName('');
     setSelectedColor(PRESET_COLORS[0].value);
-    setCustomColor("");
+    setCustomColor('');
     onClose();
   };
 
@@ -86,9 +82,7 @@ export const LabelCreator = ({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Create Label</DialogTitle>
-          <DialogDescription>
-            Create a new label for your board
-          </DialogDescription>
+          <DialogDescription>Create a new label for your board</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">
@@ -112,7 +106,7 @@ export const LabelCreator = ({
                 className="inline-block px-3 py-1 rounded text-white font-medium text-sm"
                 style={{ backgroundColor: displayColor }}
               >
-                {labelName || "Label Preview"}
+                {labelName || 'Label Preview'}
               </div>
             </div>
           </div>
@@ -126,13 +120,13 @@ export const LabelCreator = ({
                   key={color.value}
                   onClick={() => {
                     setSelectedColor(color.value);
-                    setCustomColor("");
+                    setCustomColor('');
                   }}
                   className={cn(
-                    "w-full aspect-square rounded-md transition-all hover:scale-110",
+                    'w-full aspect-square rounded-md transition-all hover:scale-110',
                     selectedColor === color.value &&
                       !customColor &&
-                      "ring-2 ring-primary ring-offset-2"
+                      'ring-2 ring-primary ring-offset-2',
                   )}
                   style={{ backgroundColor: color.value }}
                   title={color.name}
@@ -164,9 +158,7 @@ export const LabelCreator = ({
                 }}
               />
             </div>
-            <p className="text-xs text-muted-foreground">
-              Enter a hex color code (e.g., #FF5733)
-            </p>
+            <p className="text-xs text-muted-foreground">Enter a hex color code (e.g., #FF5733)</p>
           </div>
         </div>
 
@@ -174,11 +166,8 @@ export const LabelCreator = ({
           <Button variant="outline" onClick={handleClose}>
             Cancel
           </Button>
-          <Button
-            onClick={handleCreate}
-            disabled={!labelName.trim() || createLabel.isPending}
-          >
-            {createLabel.isPending ? "Creating..." : "Create Label"}
+          <Button onClick={handleCreate} disabled={!labelName.trim() || createLabel.isPending}>
+            {createLabel.isPending ? 'Creating...' : 'Create Label'}
           </Button>
         </DialogFooter>
       </DialogContent>

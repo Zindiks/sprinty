@@ -93,10 +93,7 @@ describe('useCards hook', () => {
       ];
 
       await act(async () => {
-        result.current.updateCardsOrder.mutate([
-          { cards: reorderedCards },
-          'list-123',
-        ]);
+        result.current.updateCardsOrder.mutate([{ cards: reorderedCards }, 'list-123']);
       });
 
       await waitFor(() => {
@@ -234,7 +231,7 @@ describe('useCards hook', () => {
       });
 
       expect(result.current.updateCardDetails.data?.data.description).toBe(
-        'New detailed description'
+        'New detailed description',
       );
     });
 

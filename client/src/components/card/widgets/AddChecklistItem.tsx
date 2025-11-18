@@ -1,8 +1,8 @@
-import { useState, useRef, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Plus } from "lucide-react";
-import { useChecklists } from "@/hooks/useChecklists";
+import { useState, useRef, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Plus } from 'lucide-react';
+import { useChecklists } from '@/hooks/useChecklists';
 
 interface AddChecklistItemProps {
   cardId: string;
@@ -11,7 +11,7 @@ interface AddChecklistItemProps {
 export const AddChecklistItem = ({ cardId }: AddChecklistItemProps) => {
   const { createItem, checklistItems } = useChecklists(cardId);
   const [isAdding, setIsAdding] = useState(false);
-  const [itemTitle, setItemTitle] = useState("");
+  const [itemTitle, setItemTitle] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -31,25 +31,25 @@ export const AddChecklistItem = ({ cardId }: AddChecklistItemProps) => {
         },
         {
           onSuccess: () => {
-            setItemTitle("");
+            setItemTitle('');
             // Keep the input open for adding more items
             inputRef.current?.focus();
           },
-        }
+        },
       );
     }
   };
 
   const handleCancel = () => {
-    setItemTitle("");
+    setItemTitle('');
     setIsAdding(false);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       e.preventDefault();
       handleAdd();
-    } else if (e.key === "Escape") {
+    } else if (e.key === 'Escape') {
       e.preventDefault();
       handleCancel();
     }
@@ -81,19 +81,15 @@ export const AddChecklistItem = ({ cardId }: AddChecklistItemProps) => {
         className="text-sm"
       />
       <div className="flex items-center gap-2">
-        <Button
-          size="sm"
-          onClick={handleAdd}
-          disabled={!itemTitle.trim() || createItem.isPending}
-        >
-          {createItem.isPending ? "Adding..." : "Add"}
+        <Button size="sm" onClick={handleAdd} disabled={!itemTitle.trim() || createItem.isPending}>
+          {createItem.isPending ? 'Adding...' : 'Add'}
         </Button>
         <Button size="sm" variant="ghost" onClick={handleCancel}>
           Cancel
         </Button>
       </div>
       <p className="text-xs text-muted-foreground">
-        Press <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px]">Enter</kbd> to add,{" "}
+        Press <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px]">Enter</kbd> to add,{' '}
         <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px]">Esc</kbd> to cancel
       </p>
     </div>

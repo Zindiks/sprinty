@@ -1,66 +1,70 @@
-import { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
+import { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { useToast } from "@/hooks/use-toast";
-import { useStore } from "@/hooks/store/useStore";
+} from '@/components/ui/dialog';
+import { useToast } from '@/hooks/use-toast';
+import { useStore } from '@/hooks/store/useStore';
 
 export function CreateOrganizationModal() {
   const [open, setOpen] = useState(false);
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
-  const setOrganizationId = useStore(state => state.setOrganizationId);
+  const setOrganizationId = useStore((state) => state.setOrganizationId);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      const response = await axios.post("http://localhost:4000/api/v1/organizations/", {
-        name,
-        description,
-      }, {
-        withCredentials: true,
-      });
+      const response = await axios.post(
+        'http://localhost:4000/api/v1/organizations/',
+        {
+          name,
+          description,
+        },
+        {
+          withCredentials: true,
+        },
+      );
 
       const newOrganization = response.data;
 
       toast({
-        title: "Success",
-        description: "Organization created successfully",
+        title: 'Success',
+        description: 'Organization created successfully',
       });
 
       // Auto-select the newly created organization
       if (newOrganization && newOrganization.id) {
-        localStorage.setItem("organization_id", newOrganization.id);
+        localStorage.setItem('organization_id', newOrganization.id);
         setOrganizationId(newOrganization.id);
       }
 
       // Close modal and reset form
       setOpen(false);
-      setName("");
-      setDescription("");
+      setName('');
+      setDescription('');
 
       // Navigate to boards page
       navigate('/boards');
     } catch (error) {
       toast({
-        title: "Error",
+        title: 'Error',
         description: `Failed to create organization: ${error}`,
-        variant: "destructive",
+        variant: 'destructive',
       });
     } finally {
       setIsLoading(false);
@@ -98,7 +102,7 @@ export function CreateOrganizationModal() {
             />
           </div>
           <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? "Creating..." : "Create Organization"}
+            {isLoading ? 'Creating...' : 'Create Organization'}
           </Button>
         </form>
       </DialogContent>

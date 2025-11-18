@@ -1,11 +1,11 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
-export type StatusFilter = "all" | "in_progress" | "completed" | "blocked" | "todo";
-export type PriorityFilter = "all" | "critical" | "high" | "medium" | "low";
-export type DueDateFilter = "all" | "overdue" | "due_today" | "due_this_week" | "no_due_date";
-export type SortBy = "due_date" | "priority" | "created_date" | "title" | "board";
-export type SortOrder = "asc" | "desc";
+export type StatusFilter = 'all' | 'in_progress' | 'completed' | 'blocked' | 'todo';
+export type PriorityFilter = 'all' | 'critical' | 'high' | 'medium' | 'low';
+export type DueDateFilter = 'all' | 'overdue' | 'due_today' | 'due_this_week' | 'no_due_date';
+export type SortBy = 'due_date' | 'priority' | 'created_date' | 'title' | 'board';
+export type SortOrder = 'asc' | 'desc';
 
 export interface DashboardFilters {
   status: StatusFilter;
@@ -35,13 +35,13 @@ interface DashboardStore {
 }
 
 const defaultFilters: DashboardFilters = {
-  status: "all",
-  priority: "all",
-  dueDate: "all",
+  status: 'all',
+  priority: 'all',
+  dueDate: 'all',
   selectedBoards: [],
-  searchQuery: "",
-  sortBy: "due_date",
-  sortOrder: "asc",
+  searchQuery: '',
+  sortBy: 'due_date',
+  sortOrder: 'asc',
   showOnlyAssignedToMe: false,
 };
 
@@ -99,7 +99,7 @@ export const useDashboardStore = create<DashboardStore>()(
         set((state) => ({
           filters: {
             ...state.filters,
-            sortOrder: state.filters.sortOrder === "asc" ? "desc" : "asc",
+            sortOrder: state.filters.sortOrder === 'asc' ? 'desc' : 'asc',
           },
         })),
 
@@ -117,19 +117,19 @@ export const useDashboardStore = create<DashboardStore>()(
         const filters = get().filters;
         let count = 0;
 
-        if (filters.status !== "all") count++;
-        if (filters.priority !== "all") count++;
-        if (filters.dueDate !== "all") count++;
+        if (filters.status !== 'all') count++;
+        if (filters.priority !== 'all') count++;
+        if (filters.dueDate !== 'all') count++;
         if (filters.selectedBoards.length > 0) count++;
-        if (filters.searchQuery.trim() !== "") count++;
+        if (filters.searchQuery.trim() !== '') count++;
         if (filters.showOnlyAssignedToMe) count++;
 
         return count;
       },
     }),
     {
-      name: "dashboard-filters-storage",
+      name: 'dashboard-filters-storage',
       partialize: (state) => ({ filters: state.filters }),
-    }
-  )
+    },
+  ),
 );

@@ -1,8 +1,8 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { AxiosResponse } from "axios";
-import apiClient from "@/lib/axios";
-import { useToast } from "@/hooks/use-toast";
-import type { CardWithDetails } from "@/types/types";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { AxiosResponse } from 'axios';
+import apiClient from '@/lib/axios';
+import { useToast } from '@/hooks/use-toast';
+import type { CardWithDetails } from '@/types/types';
 
 export interface UpdateCardDetailsParams {
   id: string;
@@ -11,7 +11,7 @@ export interface UpdateCardDetailsParams {
   description?: string;
   status?: string;
   due_date?: string;
-  priority?: "low" | "medium" | "high" | "critical";
+  priority?: 'low' | 'medium' | 'high' | 'critical';
 }
 
 export interface DeleteCardParams {
@@ -33,10 +33,15 @@ export const useCardDetails = (cardId?: string) => {
   const { toast } = useToast();
 
   // Fetch card details with all relations
-  const { data: cardDetails, isLoading, error, refetch } = useQuery<CardWithDetails, FetchError>({
-    queryKey: ["card-details", cardId],
+  const {
+    data: cardDetails,
+    isLoading,
+    error,
+    refetch,
+  } = useQuery<CardWithDetails, FetchError>({
+    queryKey: ['card-details', cardId],
     queryFn: async () => {
-      if (!cardId) throw new Error("Card ID is required");
+      if (!cardId) throw new Error('Card ID is required');
       const response = await apiClient.get(`/cards/${cardId}/details`);
       return response.data;
     },
@@ -45,23 +50,25 @@ export const useCardDetails = (cardId?: string) => {
   });
 
   // Update card details (title, description, priority, status, due_date)
-  const updateDetails = useMutation<AxiosResponse, FetchError, UpdateCardDetailsParams, { previousCard?: CardWithDetails }>({
+  const updateDetails = useMutation<
+    AxiosResponse,
+    FetchError,
+    UpdateCardDetailsParams,
+    { previousCard?: CardWithDetails }
+  >({
     mutationFn: ({ id, ...updates }) => {
-      return apiClient.patch(
-        `/cards/${id}/details`,
-        updates
-      );
+      return apiClient.patch(`/cards/${id}/details`, updates);
     },
     onMutate: async (updates) => {
       // Cancel outgoing refetches
-      await queryClient.cancelQueries({ queryKey: ["card-details", updates.id] });
+      await queryClient.cancelQueries({ queryKey: ['card-details', updates.id] });
 
       // Snapshot previous value
-      const previousCard = queryClient.getQueryData<CardWithDetails>(["card-details", updates.id]);
+      const previousCard = queryClient.getQueryData<CardWithDetails>(['card-details', updates.id]);
 
       // Optimistically update
       if (previousCard) {
-        queryClient.setQueryData<CardWithDetails>(["card-details", updates.id], {
+        queryClient.setQueryData<CardWithDetails>(['card-details', updates.id], {
           ...previousCard,
           ...updates,
         });
@@ -70,22 +77,22 @@ export const useCardDetails = (cardId?: string) => {
       return { previousCard };
     },
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ["card-details", variables.id] });
-      queryClient.invalidateQueries({ queryKey: ["lists"] });
+      queryClient.invalidateQueries({ queryKey: ['card-details', variables.id] });
+      queryClient.invalidateQueries({ queryKey: ['lists'] });
       toast({
-        description: "Card updated successfully",
+        description: 'Card updated successfully',
         duration: 2000,
       });
     },
     onError: (error, variables, context) => {
       // Rollback on error
       if (context?.previousCard) {
-        queryClient.setQueryData(["card-details", variables.id], context.previousCard);
+        queryClient.setQueryData(['card-details', variables.id], context.previousCard);
       }
       toast({
-        variant: "destructive",
-        title: "Failed to update card",
-        description: error.response?.data?.message || "Something went wrong",
+        variant: 'destructive',
+        title: 'Failed to update card',
+        description: error.response?.data?.message || 'Something went wrong',
       });
     },
   });
@@ -96,18 +103,18 @@ export const useCardDetails = (cardId?: string) => {
       return apiClient.delete(`/cards/${id}/list/${list_id}`);
     },
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ["lists"] });
-      queryClient.removeQueries({ queryKey: ["card-details", variables.id] });
+      queryClient.invalidateQueries({ queryKey: ['lists'] });
+      queryClient.removeQueries({ queryKey: ['card-details', variables.id] });
       toast({
-        description: "Card deleted successfully",
+        description: 'Card deleted successfully',
         duration: 2000,
       });
     },
     onError: (error) => {
       toast({
-        variant: "destructive",
-        title: "Failed to delete card",
-        description: error.response?.data?.message || "Something went wrong",
+        variant: 'destructive',
+        title: 'Failed to delete card',
+        description: error.response?.data?.message || 'Something went wrong',
       });
     },
   });

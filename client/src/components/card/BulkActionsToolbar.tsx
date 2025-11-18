@@ -1,13 +1,13 @@
-import { useSelectionStore } from "@/hooks/store/useSelectionStore";
-import { Separator } from "@/components/ui/separator";
-import { BulkMoveAction } from "./bulk-actions/BulkMoveAction";
-import { BulkAssignAction } from "./bulk-actions/BulkAssignAction";
-import { BulkLabelAction } from "./bulk-actions/BulkLabelAction";
-import { BulkDueDateAction } from "./bulk-actions/BulkDueDateAction";
-import { BulkArchiveAction } from "./bulk-actions/BulkArchiveAction";
-import { BulkDeleteAction } from "./bulk-actions/BulkDeleteAction";
-import { useBulkActions } from "@/hooks/useBulkActions";
-import { Loader2 } from "lucide-react";
+import { useSelectionStore } from '@/hooks/store/useSelectionStore';
+import { Separator } from '@/components/ui/separator';
+import { BulkMoveAction } from './bulk-actions/BulkMoveAction';
+import { BulkAssignAction } from './bulk-actions/BulkAssignAction';
+import { BulkLabelAction } from './bulk-actions/BulkLabelAction';
+import { BulkDueDateAction } from './bulk-actions/BulkDueDateAction';
+import { BulkArchiveAction } from './bulk-actions/BulkArchiveAction';
+import { BulkDeleteAction } from './bulk-actions/BulkDeleteAction';
+import { useBulkActions } from '@/hooks/useBulkActions';
+import { Loader2 } from 'lucide-react';
 
 /**
  * BulkActionsToolbar

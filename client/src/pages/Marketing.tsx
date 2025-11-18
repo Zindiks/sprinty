@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Button } from "../components/ui/button";
+import { useState, useEffect } from 'react';
+import { Button } from '../components/ui/button';
 
 const Marketing = () => {
   const [user, setUser] = useState<{
@@ -9,8 +9,8 @@ const Marketing = () => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const response = await fetch("http://localhost:4000/api/v1/oauth/user", {
-        credentials: "include",
+      const response = await fetch('http://localhost:4000/api/v1/oauth/user', {
+        credentials: 'include',
       });
       if (response.ok) {
         const data = await response.json();
@@ -22,25 +22,24 @@ const Marketing = () => {
   }, []);
 
   const handleLogin = async () => {
-    window.location.href = "http://localhost:4000/api/v1/oauth/github";
+    window.location.href = 'http://localhost:4000/api/v1/oauth/github';
   };
 
   const handleLogout = async () => {
-    await fetch("http://localhost:4000/api/v1/oauth/logout", {
-      method: "POST",
-      credentials: "include",
+    await fetch('http://localhost:4000/api/v1/oauth/logout', {
+      method: 'POST',
+      credentials: 'include',
     });
     setUser(null);
-    document.cookie =
-      "accessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    document.cookie = 'accessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
   };
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get("access_token");
+    const token = urlParams.get('access_token');
     if (token) {
       document.cookie = `accessToken=${token}; path=/; samesite=strict`;
-      window.location.search = "";
+      window.location.search = '';
     }
   }, []);
 
@@ -60,9 +59,7 @@ const Marketing = () => {
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
     </>
   );
 };

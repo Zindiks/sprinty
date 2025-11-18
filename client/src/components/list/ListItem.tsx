@@ -1,12 +1,12 @@
-import { ElementRef, useRef, useState, useMemo } from "react";
-import { List, Card } from "@/types/types";
-import ListHeader from "@/components/list/ListHeader";
-import CardForm from "@/components/card/CardForm";
-import { cn } from "@/lib/utils";
-import CardItem from "@/components/card/CardItem";
-import { useSelectionKeyboard } from "@/hooks/useSelectionKeyboard";
+import { ElementRef, useRef, useState, useMemo } from 'react';
+import { List, Card } from '@/types/types';
+import ListHeader from '@/components/list/ListHeader';
+import CardForm from '@/components/card/CardForm';
+import { cn } from '@/lib/utils';
+import CardItem from '@/components/card/CardItem';
+import { useSelectionKeyboard } from '@/hooks/useSelectionKeyboard';
 
-import { Draggable, Droppable } from "@hello-pangea/dnd";
+import { Draggable, Droppable } from '@hello-pangea/dnd';
 
 interface ListItemProps {
   index: number;
@@ -19,7 +19,7 @@ const ListItem = ({ data, index, filterAndSortCards }: ListItemProps) => {
 
   console.log(data);
 
-  const textareaRef = useRef<ElementRef<"textarea">>(null);
+  const textareaRef = useRef<ElementRef<'textarea'>>(null);
 
   // Enable keyboard shortcuts for this list
   useSelectionKeyboard({
@@ -52,10 +52,7 @@ const ListItem = ({ data, index, filterAndSortCards }: ListItemProps) => {
           ref={provided.innerRef}
           className="shrink-0 h-full w-[272px] select-none"
         >
-          <div
-            {...provided.dragHandleProps}
-            className="w-full rounded-md bg-[#f1f2f4] shadow-md"
-          >
+          <div {...provided.dragHandleProps} className="w-full rounded-md bg-[#f1f2f4] shadow-md">
             <ListHeader onAddCard={enableEditing} data={data} />
 
             <Droppable droppableId={data.id} type="card">
@@ -64,8 +61,8 @@ const ListItem = ({ data, index, filterAndSortCards }: ListItemProps) => {
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                   className={cn(
-                    "mx-1 px-1 py-0.5 flex flex-col gap-y-2",
-                    filteredCards.length > 0 ? "mt-2" : "mt-0",
+                    'mx-1 px-1 py-0.5 flex flex-col gap-y-2',
+                    filteredCards.length > 0 ? 'mt-2' : 'mt-0',
                   )}
                 >
                   {filteredCards.map((card, index) => {

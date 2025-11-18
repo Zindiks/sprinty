@@ -1,8 +1,8 @@
-import { useState, useRef } from "react";
-import { Button } from "@/components/ui/button";
-import { Upload, X } from "lucide-react";
-import { useAttachments } from "@/hooks/useAttachments";
-import { cn } from "@/lib/utils";
+import { useState, useRef } from 'react';
+import { Button } from '@/components/ui/button';
+import { Upload, X } from 'lucide-react';
+import { useAttachments } from '@/hooks/useAttachments';
+import { cn } from '@/lib/utils';
 
 interface AddAttachmentProps {
   cardId: string;
@@ -70,10 +70,10 @@ export const AddAttachment = ({ cardId }: AddAttachmentProps) => {
           onSuccess: () => {
             setSelectedFile(null);
             if (fileInputRef.current) {
-              fileInputRef.current.value = "";
+              fileInputRef.current.value = '';
             }
           },
-        }
+        },
       );
     }
   };
@@ -81,7 +81,7 @@ export const AddAttachment = ({ cardId }: AddAttachmentProps) => {
   const handleCancel = () => {
     setSelectedFile(null);
     if (fileInputRef.current) {
-      fileInputRef.current.value = "";
+      fileInputRef.current.value = '';
     }
   };
 
@@ -99,25 +99,23 @@ export const AddAttachment = ({ cardId }: AddAttachmentProps) => {
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         className={cn(
-          "border-2 border-dashed rounded-lg p-6 text-center transition-colors cursor-pointer",
+          'border-2 border-dashed rounded-lg p-6 text-center transition-colors cursor-pointer',
           isDragging
-            ? "border-primary bg-primary/10"
-            : "border-muted-foreground/25 hover:border-primary/50"
+            ? 'border-primary bg-primary/10'
+            : 'border-muted-foreground/25 hover:border-primary/50',
         )}
         onClick={() => fileInputRef.current?.click()}
       >
         <Upload
           className={cn(
-            "w-8 h-8 mx-auto mb-2 transition-colors",
-            isDragging ? "text-primary" : "text-muted-foreground"
+            'w-8 h-8 mx-auto mb-2 transition-colors',
+            isDragging ? 'text-primary' : 'text-muted-foreground',
           )}
         />
         <p className="text-sm font-medium mb-1">
-          {isDragging ? "Drop file here" : "Drag and drop or click to upload"}
+          {isDragging ? 'Drop file here' : 'Drag and drop or click to upload'}
         </p>
-        <p className="text-xs text-muted-foreground">
-          Maximum file size: 10MB
-        </p>
+        <p className="text-xs text-muted-foreground">Maximum file size: 10MB</p>
       </div>
 
       {/* Hidden File Input */}
@@ -134,17 +132,11 @@ export const AddAttachment = ({ cardId }: AddAttachmentProps) => {
         <div className="flex items-center gap-3 p-3 rounded-lg border bg-muted/50">
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium truncate">{selectedFile.name}</p>
-            <p className="text-xs text-muted-foreground">
-              {formatFileSize(selectedFile.size)}
-            </p>
+            <p className="text-xs text-muted-foreground">{formatFileSize(selectedFile.size)}</p>
           </div>
           <div className="flex items-center gap-2">
-            <Button
-              size="sm"
-              onClick={handleUpload}
-              disabled={uploadAttachment.isPending}
-            >
-              {uploadAttachment.isPending ? "Uploading..." : "Upload"}
+            <Button size="sm" onClick={handleUpload} disabled={uploadAttachment.isPending}>
+              {uploadAttachment.isPending ? 'Uploading...' : 'Upload'}
             </Button>
             <Button
               size="sm"
@@ -164,9 +156,7 @@ export const AddAttachment = ({ cardId }: AddAttachmentProps) => {
           <div className="w-full bg-secondary rounded-full h-2">
             <div className="bg-primary h-2 rounded-full animate-pulse w-3/4" />
           </div>
-          <p className="text-xs text-muted-foreground text-center">
-            Uploading file...
-          </p>
+          <p className="text-xs text-muted-foreground text-center">Uploading file...</p>
         </div>
       )}
     </div>

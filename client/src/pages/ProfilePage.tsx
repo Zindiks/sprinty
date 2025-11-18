@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
-import { useProfile } from "@/hooks/useProfile";
-import { EditProfileModal } from "@/components/profile/EditProfileModal";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Calendar, Mail, User } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { useProfile } from '@/hooks/useProfile';
+import { EditProfileModal } from '@/components/profile/EditProfileModal';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Calendar, Mail, User } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const ProfilePage = () => {
   const navigate = useNavigate();
-  const [userId, setUserId] = useState<string>("");
+  const [userId, setUserId] = useState<string>('');
   const [userData, setUserData] = useState<{
     id: string;
     login: string;
@@ -20,8 +20,8 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/v1/oauth/user", {
-          credentials: "include",
+        const response = await fetch('http://localhost:4000/api/v1/oauth/user', {
+          credentials: 'include',
         });
         if (response.ok) {
           const data = await response.json();
@@ -29,11 +29,11 @@ const ProfilePage = () => {
           setUserId(data.id);
         } else {
           // User not authenticated, redirect to login
-          navigate("/");
+          navigate('/');
         }
       } catch (error) {
-        console.error("Error fetching user:", error);
-        navigate("/");
+        console.error('Error fetching user:', error);
+        navigate('/');
       }
     };
     fetchUser();
@@ -87,15 +87,15 @@ const ProfilePage = () => {
                 alt={profile?.username || userData?.login}
               />
               <AvatarFallback>
-                {(profile?.username || userData?.login || "U").charAt(0).toUpperCase()}
+                {(profile?.username || userData?.login || 'U').charAt(0).toUpperCase()}
               </AvatarFallback>
             </Avatar>
             <div>
               <CardTitle className="text-2xl">
-                {profile?.username || userData?.login || "No username"}
+                {profile?.username || userData?.login || 'No username'}
               </CardTitle>
               <p className="text-sm text-muted-foreground">
-                Member since {profile ? new Date(profile.created_at).toLocaleDateString() : "N/A"}
+                Member since {profile ? new Date(profile.created_at).toLocaleDateString() : 'N/A'}
               </p>
             </div>
           </div>
@@ -116,7 +116,7 @@ const ProfilePage = () => {
                   <Mail className="h-5 w-5 text-muted-foreground mt-0.5" />
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">Email</p>
-                    <p className="text-base">{profile.email || "Not provided"}</p>
+                    <p className="text-base">{profile.email || 'Not provided'}</p>
                   </div>
                 </div>
 
@@ -124,7 +124,7 @@ const ProfilePage = () => {
                   <User className="h-5 w-5 text-muted-foreground mt-0.5" />
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">Bio</p>
-                    <p className="text-base">{profile.description || "No bio provided"}</p>
+                    <p className="text-base">{profile.description || 'No bio provided'}</p>
                   </div>
                 </div>
 
@@ -149,9 +149,7 @@ const ProfilePage = () => {
                   </div>
                   <div>
                     <p className="text-muted-foreground">Last Updated</p>
-                    <p className="text-xs">
-                      {new Date(profile.updated_at).toLocaleString()}
-                    </p>
+                    <p className="text-xs">{new Date(profile.updated_at).toLocaleString()}</p>
                   </div>
                 </div>
               </div>

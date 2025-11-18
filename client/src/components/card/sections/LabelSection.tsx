@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Tag, X, Plus } from "lucide-react";
-import { useLabels } from "@/hooks/useLabels";
-import { LabelManager } from "../widgets/LabelManager";
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Tag, X, Plus } from 'lucide-react';
+import { useLabels } from '@/hooks/useLabels';
+import { LabelManager } from '../widgets/LabelManager';
 
 interface LabelSectionProps {
   cardId: string;
@@ -25,9 +25,7 @@ export const LabelSection = ({ cardId, boardId }: LabelSectionProps) => {
           <Tag className="w-4 h-4" />
           Labels
           {cardLabels && cardLabels.length > 0 && (
-            <span className="text-xs text-muted-foreground">
-              ({cardLabels.length})
-            </span>
+            <span className="text-xs text-muted-foreground">({cardLabels.length})</span>
           )}
         </h3>
         <Button
@@ -67,9 +65,7 @@ export const LabelSection = ({ cardId, boardId }: LabelSectionProps) => {
           ))}
         </div>
       ) : (
-        <p className="text-sm text-muted-foreground italic">
-          No labels yet
-        </p>
+        <p className="text-sm text-muted-foreground italic">No labels yet</p>
       )}
 
       <LabelManager

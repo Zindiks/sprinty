@@ -1,9 +1,9 @@
-import { useEffect } from "react";
-import { useWebSocket } from "@/contexts/WebSocketContext";
-import { useToast } from "@/hooks/use-toast";
-import { Bell } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { useEffect } from 'react';
+import { useWebSocket } from '@/contexts/WebSocketContext';
+import { useToast } from '@/hooks/use-toast';
+import { Bell } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 
 interface ReminderEvent {
   type: string;
@@ -28,17 +28,13 @@ export const ReminderListener = () => {
     if (!socket) return;
 
     const handleReminder = (event: ReminderEvent) => {
-      console.log("Received reminder event:", event);
+      console.log('Received reminder event:', event);
 
       const { card_title, due_date, reminder_type, board_id } = event.data;
 
       // Format the reminder type for display
       const reminderLabel =
-        reminder_type === "24h"
-          ? "24 hours"
-          : reminder_type === "1h"
-          ? "1 hour"
-          : "soon";
+        reminder_type === '24h' ? '24 hours' : reminder_type === '1h' ? '1 hour' : 'soon';
 
       // Show toast notification
       toast({
@@ -70,29 +66,29 @@ export const ReminderListener = () => {
       });
 
       // Request browser notification permission if not already granted
-      if ("Notification" in window && Notification.permission === "granted") {
+      if ('Notification' in window && Notification.permission === 'granted') {
         try {
           new Notification(`Reminder: ${card_title}`, {
             body: `This card is due in ${reminderLabel}!`,
-            icon: "/favicon.ico",
+            icon: '/favicon.ico',
             tag: `reminder-${event.data.reminder_id}`,
           });
         } catch (error) {
-          console.error("Failed to show browser notification:", error);
+          console.error('Failed to show browser notification:', error);
         }
       }
     };
 
     // Listen for reminder events
-    socket.on("reminder", handleReminder);
+    socket.on('reminder', handleReminder);
 
     // Request notification permission on mount
-    if ("Notification" in window && Notification.permission === "default") {
+    if ('Notification' in window && Notification.permission === 'default') {
       Notification.requestPermission();
     }
 
     return () => {
-      socket.off("reminder", handleReminder);
+      socket.off('reminder', handleReminder);
     };
   }, [socket, toast, navigate]);
 

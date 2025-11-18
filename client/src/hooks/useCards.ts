@@ -1,7 +1,7 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { AxiosResponse } from "axios";
-import apiClient from "@/lib/axios";
-import { useToast } from "@/hooks/use-toast";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosResponse } from 'axios';
+import apiClient from '@/lib/axios';
+import { useToast } from '@/hooks/use-toast';
 
 export interface ResponseCard {
   id: string;
@@ -41,7 +41,7 @@ export interface UpdateCardDetails {
   description?: string | null;
   status?: string;
   due_date?: string | null;
-  priority?: "low" | "medium" | "high" | "critical";
+  priority?: 'low' | 'medium' | 'high' | 'critical';
 }
 
 export interface FetchError {
@@ -80,15 +80,15 @@ export const useCards = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["lists"],
+        queryKey: ['lists'],
       });
     },
     onError: ({ response }) => {
       console.log(response);
 
       toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
+        variant: 'destructive',
+        title: 'Uh oh! Something went wrong.',
         description: response.data.message,
       });
     },
@@ -103,7 +103,7 @@ export const useCards = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["lists"],
+        queryKey: ['lists'],
       });
       toast({
         description: `Cards successfully reordered`,
@@ -112,27 +112,23 @@ export const useCards = () => {
     },
     onError: ({ response }) => {
       toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
+        variant: 'destructive',
+        title: 'Uh oh! Something went wrong.',
         description: response.data.message,
       });
     },
   });
 
-  const updateCardDetails = useMutation<
-    AxiosResponse,
-    FetchError,
-    UpdateCardDetails
-  >({
+  const updateCardDetails = useMutation<AxiosResponse, FetchError, UpdateCardDetails>({
     mutationFn: (formData) => {
       return apiClient.patch(`/cards/details`, formData);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["lists"],
+        queryKey: ['lists'],
       });
       queryClient.invalidateQueries({
-        queryKey: ["card-details"],
+        queryKey: ['card-details'],
       });
       toast({
         description: `Card updated successfully`,
@@ -141,8 +137,8 @@ export const useCards = () => {
     },
     onError: ({ response }) => {
       toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
+        variant: 'destructive',
+        title: 'Uh oh! Something went wrong.',
         description: response.data.message,
       });
     },

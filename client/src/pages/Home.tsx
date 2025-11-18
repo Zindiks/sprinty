@@ -1,7 +1,7 @@
-import BoardList from "@/components/board/BoardList";
-import { CreateBoardModal } from "@/components/board/CreateBoardModal";
-import { CreateOrganizationModal } from "@/components/organization/CreateOrganizationModal";
-import { OrganizationCombobox } from "@/components/organization/OrganizationCombobox";
+import BoardList from '@/components/board/BoardList';
+import { CreateBoardModal } from '@/components/board/CreateBoardModal';
+import { CreateOrganizationModal } from '@/components/organization/CreateOrganizationModal';
+import { OrganizationCombobox } from '@/components/organization/OrganizationCombobox';
 
 const Home = () => {
   return (

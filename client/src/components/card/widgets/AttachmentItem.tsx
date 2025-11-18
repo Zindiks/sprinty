@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -7,7 +7,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 import {
   FileText,
   FileImage,
@@ -17,9 +17,9 @@ import {
   Download,
   Trash2,
   ExternalLink,
-} from "lucide-react";
-import type { Attachment } from "@/types/types";
-import { useUser } from "@/contexts/UserContext";
+} from 'lucide-react';
+import type { Attachment } from '@/types/types';
+import { useUser } from '@/contexts/UserContext';
 
 interface AttachmentItemProps {
   attachment: Attachment;
@@ -41,11 +41,10 @@ export const AttachmentItem = ({
   const isOwner = currentUser?.id === attachment.uploaded_by;
 
   const getFileIcon = (mimeType: string) => {
-    if (mimeType.startsWith("image/")) return FileImage;
-    if (mimeType.startsWith("video/")) return FileVideo;
-    if (mimeType.startsWith("audio/")) return FileAudio;
-    if (mimeType.includes("pdf") || mimeType.includes("document"))
-      return FileText;
+    if (mimeType.startsWith('image/')) return FileImage;
+    if (mimeType.startsWith('video/')) return FileVideo;
+    if (mimeType.startsWith('audio/')) return FileAudio;
+    if (mimeType.includes('pdf') || mimeType.includes('document')) return FileText;
     return File;
   };
 
@@ -57,14 +56,14 @@ export const AttachmentItem = ({
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
     });
   };
 
-  const isImage = attachment.mime_type.startsWith("image/");
+  const isImage = attachment.mime_type.startsWith('image/');
   const FileIcon = getFileIcon(attachment.mime_type);
 
   const API_HOST = import.meta.env.VITE_API_HOST;
@@ -83,11 +82,7 @@ export const AttachmentItem = ({
             onClick={() => setShowImagePreview(true)}
             className="relative w-12 h-12 shrink-0 rounded overflow-hidden bg-muted cursor-pointer"
           >
-            <img
-              src={imageUrl}
-              alt={attachment.filename}
-              className="w-full h-full object-cover"
-            />
+            <img src={imageUrl} alt={attachment.filename} className="w-full h-full object-cover" />
           </button>
         ) : (
           <div className="w-12 h-12 shrink-0 rounded bg-muted flex items-center justify-center">
@@ -101,9 +96,7 @@ export const AttachmentItem = ({
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <span>{formatFileSize(attachment.file_size)}</span>
             <span>•</span>
-            <span>
-              {attachment.user?.username || attachment.user?.email || "Unknown"}
-            </span>
+            <span>{attachment.user?.username || attachment.user?.email || 'Unknown'}</span>
             <span>•</span>
             <span>{formatDate(attachment.uploaded_at)}</span>
           </div>
@@ -154,11 +147,7 @@ export const AttachmentItem = ({
               <DialogTitle>{attachment.filename}</DialogTitle>
             </DialogHeader>
             <div className="max-h-[70vh] overflow-auto">
-              <img
-                src={imageUrl}
-                alt={attachment.filename}
-                className="w-full h-auto"
-              />
+              <img src={imageUrl} alt={attachment.filename} className="w-full h-auto" />
             </div>
           </DialogContent>
         </Dialog>
@@ -170,15 +159,12 @@ export const AttachmentItem = ({
           <DialogHeader>
             <DialogTitle>Delete attachment?</DialogTitle>
             <DialogDescription>
-              This action cannot be undone. The file "{attachment.filename}"
-              will be permanently deleted.
+              This action cannot be undone. The file "{attachment.filename}" will be permanently
+              deleted.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setShowDeleteDialog(false)}
-            >
+            <Button variant="outline" onClick={() => setShowDeleteDialog(false)}>
               Cancel
             </Button>
             <Button

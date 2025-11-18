@@ -1,8 +1,8 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { AxiosResponse } from "axios";
-import apiClient from "@/lib/axios";
-import { useToast } from "@/hooks/use-toast";
-import type { Attachment } from "@/types/types";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { AxiosResponse } from 'axios';
+import apiClient from '@/lib/axios';
+import { useToast } from '@/hooks/use-toast';
+import type { Attachment } from '@/types/types';
 
 export interface UploadAttachmentParams {
   card_id: string;
@@ -35,9 +35,9 @@ export const useAttachments = (cardId?: string) => {
 
   // Fetch attachments for a card
   const { data: attachments, isLoading } = useQuery<Attachment[], FetchError>({
-    queryKey: ["attachments", cardId],
+    queryKey: ['attachments', cardId],
     queryFn: async () => {
-      if (!cardId) throw new Error("Card ID is required");
+      if (!cardId) throw new Error('Card ID is required');
       const response = await apiClient.get(`/attachments/card/${cardId}`);
       return response.data;
     },
@@ -48,125 +48,134 @@ export const useAttachments = (cardId?: string) => {
   const uploadAttachment = useMutation<AxiosResponse, FetchError, UploadAttachmentParams>({
     mutationFn: ({ card_id, file }) => {
       const formData = new FormData();
-      formData.append("file", file);
+      formData.append('file', file);
 
-      return apiClient.post(
-        `/attachments/card/${card_id}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      return apiClient.post(`/attachments/card/${card_id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
     },
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ["attachments", variables.card_id] });
-      queryClient.invalidateQueries({ queryKey: ["card-details", variables.card_id] });
+      queryClient.invalidateQueries({ queryKey: ['attachments', variables.card_id] });
+      queryClient.invalidateQueries({ queryKey: ['card-details', variables.card_id] });
       toast({
-        description: "File uploaded successfully",
+        description: 'File uploaded successfully',
         duration: 2000,
       });
     },
     onError: (error) => {
-      const errorMessage = error.response?.data?.message || "Failed to upload file";
+      const errorMessage = error.response?.data?.message || 'Failed to upload file';
       toast({
-        variant: "destructive",
-        title: "Upload failed",
-        description: errorMessage.includes("File size exceeds")
-          ? "File size must be less than 10MB"
+        variant: 'destructive',
+        title: 'Upload failed',
+        description: errorMessage.includes('File size exceeds')
+          ? 'File size must be less than 10MB'
           : errorMessage,
       });
     },
   });
 
   // Delete attachment
-  const deleteAttachment = useMutation<AxiosResponse, FetchError, DeleteAttachmentParams, { previousAttachments?: Attachment[] }>({
+  const deleteAttachment = useMutation<
+    AxiosResponse,
+    FetchError,
+    DeleteAttachmentParams,
+    { previousAttachments?: Attachment[] }
+  >({
     mutationFn: ({ id, card_id }) => {
       return apiClient.delete(`/attachments/${id}/card/${card_id}`);
     },
     onMutate: async (params) => {
       // Cancel outgoing refetches
-      await queryClient.cancelQueries({ queryKey: ["attachments", params.card_id] });
+      await queryClient.cancelQueries({ queryKey: ['attachments', params.card_id] });
 
       // Snapshot previous value
-      const previousAttachments = queryClient.getQueryData<Attachment[]>(["attachments", params.card_id]);
+      const previousAttachments = queryClient.getQueryData<Attachment[]>([
+        'attachments',
+        params.card_id,
+      ]);
 
       // Optimistically update
       if (previousAttachments) {
         queryClient.setQueryData<Attachment[]>(
-          ["attachments", params.card_id],
-          previousAttachments.filter((a) => a.id !== params.id)
+          ['attachments', params.card_id],
+          previousAttachments.filter((a) => a.id !== params.id),
         );
       }
 
       return { previousAttachments };
     },
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ["attachments", variables.card_id] });
-      queryClient.invalidateQueries({ queryKey: ["card-details", variables.card_id] });
+      queryClient.invalidateQueries({ queryKey: ['attachments', variables.card_id] });
+      queryClient.invalidateQueries({ queryKey: ['card-details', variables.card_id] });
       toast({
-        description: "Attachment deleted",
+        description: 'Attachment deleted',
         duration: 2000,
       });
     },
     onError: (error, variables, context) => {
       // Rollback on error
       if (context?.previousAttachments) {
-        queryClient.setQueryData(["attachments", variables.card_id], context.previousAttachments);
+        queryClient.setQueryData(['attachments', variables.card_id], context.previousAttachments);
       }
       toast({
-        variant: "destructive",
-        title: "Failed to delete attachment",
-        description: error.response?.data?.message || "Something went wrong",
+        variant: 'destructive',
+        title: 'Failed to delete attachment',
+        description: error.response?.data?.message || 'Something went wrong',
       });
     },
   });
 
   // Update attachment (rename)
-  const updateAttachment = useMutation<AxiosResponse, FetchError, UpdateAttachmentParams, { previousAttachments?: Attachment[] }>({
+  const updateAttachment = useMutation<
+    AxiosResponse,
+    FetchError,
+    UpdateAttachmentParams,
+    { previousAttachments?: Attachment[] }
+  >({
     mutationFn: ({ id, card_id, filename }) => {
-      return apiClient.patch(
-        `/attachments/`,
-        { id, card_id, filename }
-      );
+      return apiClient.patch(`/attachments/`, { id, card_id, filename });
     },
     onMutate: async (params) => {
       // Cancel outgoing refetches
-      await queryClient.cancelQueries({ queryKey: ["attachments", params.card_id] });
+      await queryClient.cancelQueries({ queryKey: ['attachments', params.card_id] });
 
       // Snapshot previous value
-      const previousAttachments = queryClient.getQueryData<Attachment[]>(["attachments", params.card_id]);
+      const previousAttachments = queryClient.getQueryData<Attachment[]>([
+        'attachments',
+        params.card_id,
+      ]);
 
       // Optimistically update
       if (previousAttachments) {
         queryClient.setQueryData<Attachment[]>(
-          ["attachments", params.card_id],
+          ['attachments', params.card_id],
           previousAttachments.map((a) =>
-            a.id === params.id ? { ...a, filename: params.filename } : a
-          )
+            a.id === params.id ? { ...a, filename: params.filename } : a,
+          ),
         );
       }
 
       return { previousAttachments };
     },
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ["attachments", variables.card_id] });
-      queryClient.invalidateQueries({ queryKey: ["card-details", variables.card_id] });
+      queryClient.invalidateQueries({ queryKey: ['attachments', variables.card_id] });
+      queryClient.invalidateQueries({ queryKey: ['card-details', variables.card_id] });
       toast({
-        description: "Attachment renamed",
+        description: 'Attachment renamed',
         duration: 2000,
       });
     },
     onError: (error, variables, context) => {
       // Rollback on error
       if (context?.previousAttachments) {
-        queryClient.setQueryData(["attachments", variables.card_id], context.previousAttachments);
+        queryClient.setQueryData(['attachments', variables.card_id], context.previousAttachments);
       }
       toast({
-        variant: "destructive",
-        title: "Failed to rename attachment",
-        description: error.response?.data?.message || "Something went wrong",
+        variant: 'destructive',
+        title: 'Failed to rename attachment',
+        description: error.response?.data?.message || 'Something went wrong',
       });
     },
   });
@@ -178,10 +187,10 @@ export const useAttachments = (cardId?: string) => {
     const downloadUrl = `/attachments/${attachmentId}/card/${cardId}/download`;
 
     // Create a temporary link and trigger download
-    const link = document.createElement("a");
+    const link = document.createElement('a');
     link.href = downloadUrl;
     link.download = filename;
-    link.style.display = "none";
+    link.style.display = 'none';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

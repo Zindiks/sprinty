@@ -1,4 +1,3 @@
-
 import type {
   CardWithDetails,
   ChecklistItem,
@@ -8,20 +7,20 @@ import type {
   Assignee,
   Activity,
   ActivityActionType,
-} from "@/types/types";
+} from '@/types/types';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { DatePicker } from "@/components/ui/date-picker";
-import { ReminderSection } from "@/components/card/ReminderSection";
-import { useCards } from "@/hooks/useCards";
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
+import { DatePicker } from '@/components/ui/date-picker';
+import { ReminderSection } from '@/components/card/ReminderSection';
+import { useCards } from '@/hooks/useCards';
 import {
   Calendar,
   Flag,
@@ -32,7 +31,7 @@ import {
   Clock,
   Activity as ActivityIcon,
   Bell,
-} from "lucide-react";
+} from 'lucide-react';
 
 interface CardDetailsModalProps {
   card: CardWithDetails | null;
@@ -40,11 +39,7 @@ interface CardDetailsModalProps {
   onClose: () => void;
 }
 
-export const CardDetailsModal = ({
-  card,
-  isOpen,
-  onClose,
-}: CardDetailsModalProps) => {
+export const CardDetailsModal = ({ card, isOpen, onClose }: CardDetailsModalProps) => {
   const { updateCardDetails } = useCards();
 
   if (!card) return null;
@@ -59,34 +54,34 @@ export const CardDetailsModal = ({
 
   const getPriorityColor = (priority?: string) => {
     switch (priority) {
-      case "critical":
-        return "destructive";
-      case "high":
-        return "destructive";
-      case "medium":
-        return "default";
-      case "low":
-        return "secondary";
+      case 'critical':
+        return 'destructive';
+      case 'high':
+        return 'destructive';
+      case 'medium':
+        return 'default';
+      case 'low':
+        return 'secondary';
       default:
-        return "outline";
+        return 'outline';
     }
   };
 
   const formatDate = (dateString?: string) => {
-    if (!dateString) return "No due date";
-    return new Date(dateString).toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
+    if (!dateString) return 'No due date';
+    return new Date(dateString).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
     });
   };
 
   const formatFileSize = (bytes: number) => {
-    if (bytes === 0) return "0 Bytes";
+    if (bytes === 0) return '0 Bytes';
     const k = 1024;
-    const sizes = ["Bytes", "KB", "MB", "GB"];
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + " " + sizes[i];
+    return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
   };
 
   return (
@@ -101,9 +96,7 @@ export const CardDetailsModal = ({
                 {card.priority}
               </Badge>
             )}
-            {card.status && (
-              <Badge variant="outline">{card.status}</Badge>
-            )}
+            {card.status && <Badge variant="outline">{card.status}</Badge>}
           </div>
         </DialogHeader>
 
@@ -112,9 +105,7 @@ export const CardDetailsModal = ({
           {card.description && (
             <div>
               <h3 className="text-sm font-semibold mb-2">Description</h3>
-              <DialogDescription className="text-base">
-                {card.description}
-              </DialogDescription>
+              <DialogDescription className="text-base">{card.description}</DialogDescription>
             </div>
           )}
 
@@ -139,7 +130,7 @@ export const CardDetailsModal = ({
             </h3>
             <ReminderSection
               cardId={card.id}
-              userId={(window as any).user?.id || ""}
+              userId={(window as any).user?.id || ''}
               dueDate={card.due_date}
             />
           </div>
@@ -196,8 +187,7 @@ export const CardDetailsModal = ({
             <div>
               <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
                 <CheckSquare className="w-4 h-4" />
-                Checklist ({card.checklist_progress.completed}/
-                {card.checklist_progress.total})
+                Checklist ({card.checklist_progress.completed}/{card.checklist_progress.total})
               </h3>
 
               {/* Progress Bar */}
@@ -223,19 +213,8 @@ export const CardDetailsModal = ({
                     key={item.id}
                     className="flex items-center gap-2 p-2 rounded hover:bg-accent"
                   >
-                    <input
-                      type="checkbox"
-                      checked={item.completed}
-                      readOnly
-                      className="h-4 w-4"
-                    />
-                    <span
-                      className={
-                        item.completed
-                          ? "line-through text-muted-foreground"
-                          : ""
-                      }
-                    >
+                    <input type="checkbox" checked={item.completed} readOnly className="h-4 w-4" />
+                    <span className={item.completed ? 'line-through text-muted-foreground' : ''}>
                       {item.title}
                     </span>
                   </div>
@@ -262,11 +241,9 @@ export const CardDetailsModal = ({
                     <div className="flex items-center gap-3">
                       <Paperclip className="w-4 h-4 text-muted-foreground" />
                       <div>
-                        <p className="text-sm font-medium">
-                          {attachment.original_filename}
-                        </p>
+                        <p className="text-sm font-medium">{attachment.original_filename}</p>
                         <p className="text-xs text-muted-foreground">
-                          {formatFileSize(attachment.file_size)} •{" "}
+                          {formatFileSize(attachment.file_size)} •{' '}
                           {attachment.user.username || attachment.user.email}
                         </p>
                       </div>
@@ -302,14 +279,10 @@ export const CardDetailsModal = ({
                             {formatDate(comment.created_at)}
                           </span>
                           {comment.is_edited && (
-                            <span className="text-xs text-muted-foreground italic">
-                              (edited)
-                            </span>
+                            <span className="text-xs text-muted-foreground italic">(edited)</span>
                           )}
                         </div>
-                        <p className="text-sm text-muted-foreground">
-                          {comment.content}
-                        </p>
+                        <p className="text-sm text-muted-foreground">{comment.content}</p>
                       </div>
                     </div>
 
@@ -327,9 +300,7 @@ export const CardDetailsModal = ({
                                   {formatDate(reply.created_at)}
                                 </span>
                               </div>
-                              <p className="text-sm text-muted-foreground">
-                                {reply.content}
-                              </p>
+                              <p className="text-sm text-muted-foreground">{reply.content}</p>
                             </div>
                           </div>
                         ))}
@@ -352,10 +323,7 @@ export const CardDetailsModal = ({
                 </h3>
                 <div className="space-y-3">
                   {card.activities.map((activity: Activity) => (
-                    <div
-                      key={activity.id}
-                      className="flex items-start gap-3 text-sm"
-                    >
+                    <div key={activity.id} className="flex items-start gap-3 text-sm">
                       <div className="w-2 h-2 rounded-full bg-primary mt-2" />
                       <div className="flex-1">
                         <div className="flex items-center gap-2 flex-wrap">
@@ -389,50 +357,50 @@ export const CardDetailsModal = ({
 
 const formatActivityAction = (actionType: ActivityActionType): string => {
   const actionMap: Record<ActivityActionType, string> = {
-    created: "created this card",
-    updated: "updated this card",
-    moved: "moved this card",
-    archived: "archived this card",
-    assignee_added: "added an assignee",
-    assignee_removed: "removed an assignee",
-    label_added: "added a label",
-    label_removed: "removed a label",
-    comment_added: "added a comment",
-    attachment_added: "added an attachment",
-    checklist_item_added: "added a checklist item",
-    checklist_item_completed: "completed a checklist item",
-    due_date_set: "set the due date",
-    due_date_changed: "changed the due date",
-    due_date_removed: "removed the due date",
-    priority_changed: "changed the priority",
-    description_changed: "updated the description",
-    title_changed: "changed the title",
+    created: 'created this card',
+    updated: 'updated this card',
+    moved: 'moved this card',
+    archived: 'archived this card',
+    assignee_added: 'added an assignee',
+    assignee_removed: 'removed an assignee',
+    label_added: 'added a label',
+    label_removed: 'removed a label',
+    comment_added: 'added a comment',
+    attachment_added: 'added an attachment',
+    checklist_item_added: 'added a checklist item',
+    checklist_item_completed: 'completed a checklist item',
+    due_date_set: 'set the due date',
+    due_date_changed: 'changed the due date',
+    due_date_removed: 'removed the due date',
+    priority_changed: 'changed the priority',
+    description_changed: 'updated the description',
+    title_changed: 'changed the title',
   };
   return actionMap[actionType] || actionType;
 };
 
 const formatActivityMetadata = (actionType: ActivityActionType, metadata: any): string => {
-  if (!metadata) return "";
+  if (!metadata) return '';
 
   try {
     switch (actionType) {
-      case "priority_changed":
-        return metadata.new_value ? `to ${metadata.new_value}` : "";
-      case "label_added":
-      case "label_removed":
-        return metadata.label_name ? `"${metadata.label_name}"` : "";
-      case "assignee_added":
-      case "assignee_removed":
-        return metadata.assignee_name ? `${metadata.assignee_name}` : "";
-      case "due_date_set":
-      case "due_date_changed":
-        return metadata.new_value ? `to ${new Date(metadata.new_value).toLocaleDateString()}` : "";
-      case "title_changed":
-        return metadata.new_value ? `to "${metadata.new_value}"` : "";
+      case 'priority_changed':
+        return metadata.new_value ? `to ${metadata.new_value}` : '';
+      case 'label_added':
+      case 'label_removed':
+        return metadata.label_name ? `"${metadata.label_name}"` : '';
+      case 'assignee_added':
+      case 'assignee_removed':
+        return metadata.assignee_name ? `${metadata.assignee_name}` : '';
+      case 'due_date_set':
+      case 'due_date_changed':
+        return metadata.new_value ? `to ${new Date(metadata.new_value).toLocaleDateString()}` : '';
+      case 'title_changed':
+        return metadata.new_value ? `to "${metadata.new_value}"` : '';
       default:
-        return "";
+        return '';
     }
   } catch {
-    return "";
+    return '';
   }
 };

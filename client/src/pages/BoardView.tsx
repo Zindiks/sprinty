@@ -1,35 +1,35 @@
-import ListContainer from "@/components/list/ListContainer";
-import { useStore } from "@/hooks/store/useStore";
-import { useBoard } from "@/hooks/useBoards";
-import { useLists } from "@/hooks/useLists";
-import { useParams, useNavigate } from "react-router-dom";
-import { useBoardWebSocket } from "@/hooks/websocket/useBoardWebSocket";
-import { PresenceIndicator } from "@/components/realtime/PresenceIndicator";
-import { ConnectionStatusBanner } from "@/components/realtime/ConnectionStatusBanner";
-import { RealtimeActivityFeed } from "@/components/realtime/RealtimeActivityFeed";
-import { ReminderListener } from "@/components/realtime/ReminderListener";
-import { FilterBar } from "@/components/board/FilterBar";
-import { useCardFilters } from "@/hooks/useCardFilters";
-import { useMemo } from "react";
-import { Button } from "@/components/ui/button";
-import { Calendar, AlertCircle } from "lucide-react";
-import { useDueDateAnalytics } from "@/hooks/useAnalytics";
-import { Badge } from "@/components/ui/badge";
-import { KeyboardShortcutsHelp } from "@/components/board/KeyboardShortcutsHelp";
+import ListContainer from '@/components/list/ListContainer';
+import { useStore } from '@/hooks/store/useStore';
+import { useBoard } from '@/hooks/useBoards';
+import { useLists } from '@/hooks/useLists';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useBoardWebSocket } from '@/hooks/websocket/useBoardWebSocket';
+import { PresenceIndicator } from '@/components/realtime/PresenceIndicator';
+import { ConnectionStatusBanner } from '@/components/realtime/ConnectionStatusBanner';
+import { RealtimeActivityFeed } from '@/components/realtime/RealtimeActivityFeed';
+import { ReminderListener } from '@/components/realtime/ReminderListener';
+import { FilterBar } from '@/components/board/FilterBar';
+import { useCardFilters } from '@/hooks/useCardFilters';
+import { useMemo } from 'react';
+import { Button } from '@/components/ui/button';
+import { Calendar, AlertCircle } from 'lucide-react';
+import { useDueDateAnalytics } from '@/hooks/useAnalytics';
+import { Badge } from '@/components/ui/badge';
+import { KeyboardShortcutsHelp } from '@/components/board/KeyboardShortcutsHelp';
 
 const BoardView = () => {
   const { board_id } = useParams();
   const navigate = useNavigate();
   const { organization_id } = useStore();
   const { GetBoard } = useBoard(organization_id);
-  const { lists } = useLists(board_id || "");
-  const { data } = GetBoard(board_id || "");
+  const { lists } = useLists(board_id || '');
+  const { data } = GetBoard(board_id || '');
 
   // Initialize real-time WebSocket connection for this board
-  const { presenceUsers, connectionStatus } = useBoardWebSocket(board_id || "");
+  const { presenceUsers, connectionStatus } = useBoardWebSocket(board_id || '');
 
   // Fetch due date analytics for overdue badge
-  const { data: dueDateAnalytics } = useDueDateAnalytics(board_id || "");
+  const { data: dueDateAnalytics } = useDueDateAnalytics(board_id || '');
 
   // Card filtering and sorting
   const {
@@ -46,10 +46,7 @@ const BoardView = () => {
     return (lists.data || []).flatMap((list) => list.cards || []);
   }, [lists.data]);
 
-  const stats = useMemo(
-    () => getFilterStats(allCards),
-    [allCards, getFilterStats]
-  );
+  const stats = useMemo(() => getFilterStats(allCards), [allCards, getFilterStats]);
 
   if (!board_id) {
     return <h1>error</h1>;

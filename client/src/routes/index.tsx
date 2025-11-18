@@ -1,14 +1,14 @@
-import { Route, Routes } from "react-router-dom";
-import User from "../pages/User";
-import Marketing from "@/pages/Marketing";
-import Boards from "@/pages/Boards";
-import BoardView from "../pages/BoardView";
-import CalendarView from "../pages/CalendarView";
-import BoardLayout from "@/pages/BoardLayout";
-import Organizations from "@/pages/Organization";
-import Dashboard from "@/pages/Dashboard";
-import ProfilePage from "@/pages/ProfilePage";
-import { ProtectedRoute, OrganizationGuard } from "@/components/auth";
+import { Route, Routes } from 'react-router-dom';
+import User from '../pages/User';
+import Marketing from '@/pages/Marketing';
+import Boards from '@/pages/Boards';
+import BoardView from '../pages/BoardView';
+import CalendarView from '../pages/CalendarView';
+import BoardLayout from '@/pages/BoardLayout';
+import Organizations from '@/pages/Organization';
+import Dashboard from '@/pages/Dashboard';
+import ProfilePage from '@/pages/ProfilePage';
+import { ProtectedRoute, OrganizationGuard } from '@/components/auth';
 
 /**
  * AppRoutes - Application Routing Configuration
@@ -30,7 +30,6 @@ const AppRoutes = () => (
     {/* Public Routes */}
     <Route path="/" element={<Marketing />} />
     <Route path="/user" element={<User />} /> {/* Legacy - consider removing */}
-
     {/* Protected Routes - Require Authentication */}
     <Route element={<ProtectedRoute />}>
       <Route path="/profile" element={<ProfilePage />} />

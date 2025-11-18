@@ -298,8 +298,6 @@ describe('useBoard hook', () => {
         expect(queryResult.current.isLoading).toBe(false);
       });
 
-
-
       // Create a new board
       await act(async () => {
         hookResult.current.createBoard.mutate({

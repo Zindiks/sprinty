@@ -1,18 +1,18 @@
-import { Board } from "@/types/types";
+import { Board } from '@/types/types';
 
 interface BoardTitleFormProps {
   data: Board;
 }
 
-import { Button } from "@/components/ui/button";
-import { ElementRef, useRef, useState } from "react";
-import { useBoard } from "@/hooks/useBoards";
+import { Button } from '@/components/ui/button';
+import { ElementRef, useRef, useState } from 'react';
+import { useBoard } from '@/hooks/useBoards';
 
 const BoardTitleForm = ({ data }: BoardTitleFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
 
-  const formRef = useRef<ElementRef<"form">>(null);
-  const inputRef = useRef<ElementRef<"input">>(null);
+  const formRef = useRef<ElementRef<'form'>>(null);
+  const inputRef = useRef<ElementRef<'input'>>(null);
 
   const { updateBoardTitle } = useBoard(data.organization_id);
 
@@ -32,7 +32,7 @@ const BoardTitleForm = ({ data }: BoardTitleFormProps) => {
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(formRef.current!);
-    const title = formData.get("title") as string;
+    const title = formData.get('title') as string;
 
     const id = data.id;
 
@@ -41,7 +41,7 @@ const BoardTitleForm = ({ data }: BoardTitleFormProps) => {
       return;
     }
 
-    console.log("BEFORE");
+    console.log('BEFORE');
 
     console.log(title);
 
@@ -61,21 +61,17 @@ const BoardTitleForm = ({ data }: BoardTitleFormProps) => {
 
   if (isEditing) {
     return (
-      <form
-        className={"flex items-center gap-x-2"}
-        ref={formRef}
-        onSubmit={onSubmit}
-      >
+      <form className={'flex items-center gap-x-2'} ref={formRef} onSubmit={onSubmit}>
         {/*<FormInput ref={inputRef}  id={"title"} onBlur={()=>{}} defaultValue={data.title} className={"text-lg font-bold px-[7px] py-1 h-7 bg-transparent focus-visible:outline-none focus-visible:ring-transparent border-none"}/>*/}
 
         <input
           ref={inputRef}
-          id={"title"}
-          name={"title"}
+          id={'title'}
+          name={'title'}
           onBlur={onBlur}
           defaultValue={data.title}
           className={
-            "text-lg font-bold py-2 px-2 h-7 bg-transparent focus-visible:outline-none focus-visible:ring-transparent border-none rounded-sm"
+            'text-lg font-bold py-2 px-2 h-7 bg-transparent focus-visible:outline-none focus-visible:ring-transparent border-none rounded-sm'
           }
         />
       </form>
@@ -85,8 +81,8 @@ const BoardTitleForm = ({ data }: BoardTitleFormProps) => {
   return (
     <Button
       onClick={enableEditing}
-      className={"font-bold text-lg h-auto w-auto p-1 px-2"}
-      variant={"transparent"}
+      className={'font-bold text-lg h-auto w-auto p-1 px-2'}
+      variant={'transparent'}
     >
       {data.title}
     </Button>

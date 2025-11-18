@@ -1,7 +1,7 @@
-import { Button } from "@/components/ui/button";
-import { useSelectionStore } from "@/hooks/store/useSelectionStore";
-import { useBulkActions } from "@/hooks/useBulkActions";
-import { Archive } from "lucide-react";
+import { Button } from '@/components/ui/button';
+import { useSelectionStore } from '@/hooks/store/useSelectionStore';
+import { useBulkActions } from '@/hooks/useBulkActions';
+import { Archive } from 'lucide-react';
 
 export const BulkArchiveAction = () => {
   const { getSelectedCards } = useSelectionStore();

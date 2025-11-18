@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { TemplateGalleryModal } from "@/components/templates/TemplateGalleryModal";
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { TemplateGalleryModal } from '@/components/templates/TemplateGalleryModal';
 
 export function CreateBoardModal() {
   const [open, setOpen] = useState(false);

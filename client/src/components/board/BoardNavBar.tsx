@@ -1,13 +1,13 @@
-import { TrashIcon, Search, BookTemplate } from "lucide-react";
-import { useBoard } from "@/hooks/useBoards";
-import { useNavigate } from "react-router-dom";
-import { Board } from "@/types/types";
-import BoardTitleForm from "./BoardTitleForm";
-import { Button } from "@/components/ui/button";
-import { useSearchDialog } from "@/contexts/SearchContext";
-import { GlobalSearchDialog } from "@/components/search/GlobalSearchDialog";
-import { SaveAsTemplateDialog } from "@/components/templates/SaveAsTemplateDialog";
-import { useState } from "react";
+import { TrashIcon, Search, BookTemplate } from 'lucide-react';
+import { useBoard } from '@/hooks/useBoards';
+import { useNavigate } from 'react-router-dom';
+import { Board } from '@/types/types';
+import BoardTitleForm from './BoardTitleForm';
+import { Button } from '@/components/ui/button';
+import { useSearchDialog } from '@/contexts/SearchContext';
+import { GlobalSearchDialog } from '@/components/search/GlobalSearchDialog';
+import { SaveAsTemplateDialog } from '@/components/templates/SaveAsTemplateDialog';
+import { useState } from 'react';
 
 interface BoardNavBarProps {
   data: Board;
@@ -29,7 +29,7 @@ const BoardNavBar = ({ data }: BoardNavBarProps) => {
   const handleDelete = (board_id: string) => {
     deleteBoard.mutate(board_id, {
       onSuccess: () => {
-        navigate("/boards");
+        navigate('/boards');
       },
     });
   };
@@ -38,7 +38,7 @@ const BoardNavBar = ({ data }: BoardNavBarProps) => {
     <div className="h-12 flex bg-black/50 items-center px-6 gap-x-4 text-white">
       <BoardTitleForm data={data} />
 
-      <div className={"ml-auto flex items-center gap-x-2"}>
+      <div className={'ml-auto flex items-center gap-x-2'}>
         <Button
           variant="ghost"
           size="sm"

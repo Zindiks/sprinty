@@ -52,10 +52,7 @@ interface CustomRenderOptions extends Omit<RenderOptions, 'wrapper'> {
  * @example
  * renderWithProviders(<MyComponent />)
  */
-export function renderWithProviders(
-  ui: ReactElement,
-  options?: CustomRenderOptions
-) {
+export function renderWithProviders(ui: ReactElement, options?: CustomRenderOptions) {
   const { queryClient, ...renderOptions } = options || {};
   const Wrapper = createWrapper({ queryClient });
 

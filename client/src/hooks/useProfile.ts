@@ -1,7 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { AxiosResponse } from "axios";
-import apiClient from "@/lib/axios";
-import { useToast } from "@/hooks/use-toast";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { AxiosResponse } from 'axios';
+import apiClient from '@/lib/axios';
+import { useToast } from '@/hooks/use-toast';
 
 export interface Profile {
   id: string;
@@ -44,35 +44,32 @@ export const useProfile = (user_id: string) => {
       if (err.response?.status === 404) {
         return null;
       }
-      throw new Error("Error fetching profile: " + err);
+      throw new Error('Error fetching profile: ' + err);
     }
   };
 
   const GetProfile = useQuery<Profile | null, FetchError>({
-    queryKey: ["profile", user_id],
+    queryKey: ['profile', user_id],
     queryFn: () => fetchProfile(user_id),
     enabled: !!user_id,
   });
 
   const updateProfile = useMutation<AxiosResponse, FetchError, UpdateProfile>({
     mutationFn: (formData) => {
-      return apiClient.put(
-        `/profiles/user/${user_id}`,
-        formData
-      );
+      return apiClient.put(`/profiles/user/${user_id}`, formData);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["profile", user_id] });
+      queryClient.invalidateQueries({ queryKey: ['profile', user_id] });
       toast({
-        title: "Success",
-        description: "Profile updated successfully",
+        title: 'Success',
+        description: 'Profile updated successfully',
       });
     },
     onError: (error) => {
       toast({
-        title: "Error",
-        description: error.response?.data?.message || "Failed to update profile",
-        variant: "destructive",
+        title: 'Error',
+        description: error.response?.data?.message || 'Failed to update profile',
+        variant: 'destructive',
       });
     },
   });
@@ -82,17 +79,17 @@ export const useProfile = (user_id: string) => {
       return apiClient.delete(`/profiles/user/${user_id}`);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["profile", user_id] });
+      queryClient.invalidateQueries({ queryKey: ['profile', user_id] });
       toast({
-        title: "Success",
-        description: "Profile deleted successfully",
+        title: 'Success',
+        description: 'Profile deleted successfully',
       });
     },
     onError: (error) => {
       toast({
-        title: "Error",
-        description: error.response?.data?.message || "Failed to delete profile",
-        variant: "destructive",
+        title: 'Error',
+        description: error.response?.data?.message || 'Failed to delete profile',
+        variant: 'destructive',
       });
     },
   });

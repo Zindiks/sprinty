@@ -1,7 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { AxiosResponse } from "axios";
-import apiClient from "@/lib/axios";
-import { useToast } from "@/hooks/use-toast";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { AxiosResponse } from 'axios';
+import apiClient from '@/lib/axios';
+import { useToast } from '@/hooks/use-toast';
 import {
   Template,
   TemplatesCollection,
@@ -9,7 +9,7 @@ import {
   CreateTemplateFromBoardRequest,
   UpdateTemplateRequest,
   Board,
-} from "@/types/types";
+} from '@/types/types';
 
 export interface FetchError {
   message: string;
@@ -25,15 +25,13 @@ export const useTemplates = (organization_id?: string) => {
   const { toast } = useToast();
 
   // Fetch all templates (system + custom for organization)
-  const fetchTemplates = async (
-    organization_id?: string,
-  ): Promise<TemplatesCollection> => {
+  const fetchTemplates = async (organization_id?: string): Promise<TemplatesCollection> => {
     try {
       const params = organization_id ? { organization_id } : {};
       const response = await apiClient.get(`/templates`, { params });
       return response.data;
     } catch (err) {
-      throw new Error("Error fetching templates: " + err);
+      throw new Error('Error fetching templates: ' + err);
     }
   };
 
@@ -50,7 +48,7 @@ export const useTemplates = (organization_id?: string) => {
   // Query: Get all templates
   const GetTemplates = () => {
     return useQuery<TemplatesCollection, FetchError>({
-      queryKey: ["templates", organization_id],
+      queryKey: ['templates', organization_id],
       queryFn: () => fetchTemplates(organization_id),
     });
   };
@@ -58,7 +56,7 @@ export const useTemplates = (organization_id?: string) => {
   // Query: Get single template
   const GetTemplate = (template_id: string) => {
     return useQuery<Template, FetchError>({
-      queryKey: ["template", template_id],
+      queryKey: ['template', template_id],
       queryFn: () => fetchTemplate(template_id),
       enabled: !!template_id,
     });
@@ -71,29 +69,26 @@ export const useTemplates = (organization_id?: string) => {
     CreateBoardFromTemplateRequest
   >({
     mutationFn: (formData) => {
-      return apiClient.post(
-        `/templates/create-board`,
-        formData
-      );
+      return apiClient.post(`/templates/create-board`, formData);
     },
 
     onSuccess: (response) => {
       // Invalidate boards query to show the new board
       queryClient.invalidateQueries({
-        queryKey: ["boards", response.data.organization_id],
+        queryKey: ['boards', response.data.organization_id],
       });
 
       toast({
-        title: "Success",
+        title: 'Success',
         description: `Board "${response.data.title}" created from template`,
       });
     },
 
     onError: (error) => {
       toast({
-        title: "Error",
+        title: 'Error',
         description: `Failed to create board from template: ${error.response?.data?.message || error.message}`,
-        variant: "destructive",
+        variant: 'destructive',
       });
     },
   });
@@ -105,29 +100,26 @@ export const useTemplates = (organization_id?: string) => {
     CreateTemplateFromBoardRequest
   >({
     mutationFn: (formData) => {
-      return apiClient.post(
-        `/templates/from-board`,
-        formData
-      );
+      return apiClient.post(`/templates/from-board`, formData);
     },
 
     onSuccess: (response) => {
       // Invalidate templates query to show the new template
       queryClient.invalidateQueries({
-        queryKey: ["templates", organization_id],
+        queryKey: ['templates', organization_id],
       });
 
       toast({
-        title: "Success",
+        title: 'Success',
         description: `Template "${response.data.name}" created successfully`,
       });
     },
 
     onError: (error) => {
       toast({
-        title: "Error",
+        title: 'Error',
         description: `Failed to save board as template: ${error.response?.data?.message || error.message}`,
-        variant: "destructive",
+        variant: 'destructive',
       });
     },
   });
@@ -139,32 +131,29 @@ export const useTemplates = (organization_id?: string) => {
     { id: string; data: UpdateTemplateRequest }
   >({
     mutationFn: ({ id, data }) => {
-      return apiClient.put(
-        `/templates/${id}?organization_id=${organization_id}`,
-        data
-      );
+      return apiClient.put(`/templates/${id}?organization_id=${organization_id}`, data);
     },
 
     onSuccess: (response) => {
       // Invalidate templates queries
       queryClient.invalidateQueries({
-        queryKey: ["templates"],
+        queryKey: ['templates'],
       });
       queryClient.invalidateQueries({
-        queryKey: ["template", response.data.id],
+        queryKey: ['template', response.data.id],
       });
 
       toast({
-        title: "Success",
+        title: 'Success',
         description: `Template "${response.data.name}" updated successfully`,
       });
     },
 
     onError: (error) => {
       toast({
-        title: "Error",
+        title: 'Error',
         description: `Failed to update template: ${error.response?.data?.message || error.message}`,
-        variant: "destructive",
+        variant: 'destructive',
       });
     },
   });
@@ -176,28 +165,26 @@ export const useTemplates = (organization_id?: string) => {
     string // template_id
   >({
     mutationFn: (template_id) => {
-      return apiClient.delete(
-        `/templates/${template_id}?organization_id=${organization_id}`
-      );
+      return apiClient.delete(`/templates/${template_id}?organization_id=${organization_id}`);
     },
 
     onSuccess: () => {
       // Invalidate templates query
       queryClient.invalidateQueries({
-        queryKey: ["templates", organization_id],
+        queryKey: ['templates', organization_id],
       });
 
       toast({
-        title: "Success",
-        description: "Template deleted successfully",
+        title: 'Success',
+        description: 'Template deleted successfully',
       });
     },
 
     onError: (error) => {
       toast({
-        title: "Error",
+        title: 'Error',
         description: `Failed to delete template: ${error.response?.data?.message || error.message}`,
-        variant: "destructive",
+        variant: 'destructive',
       });
     },
   });

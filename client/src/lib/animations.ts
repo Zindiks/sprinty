@@ -25,14 +25,14 @@ export const scaleIn = {
 };
 
 export const spring = {
-  type: "spring" as const,
+  type: 'spring' as const,
   stiffness: 300,
   damping: 30,
 };
 
 export const smoothTransition = {
   duration: 0.2,
-  ease: "easeInOut" as const,
+  ease: 'easeInOut' as const,
 };
 
 // Stagger animation for lists
@@ -51,19 +51,19 @@ export const staggerItem = {
 
 // Focus ring styles for accessibility
 export const focusRing =
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2";
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2';
 
 // Transition classes
 export const transitions = {
-  default: "transition-all duration-200 ease-in-out",
-  fast: "transition-all duration-100 ease-in-out",
-  slow: "transition-all duration-300 ease-in-out",
-  colors: "transition-colors duration-200 ease-in-out",
-  transform: "transition-transform duration-200 ease-in-out",
-  opacity: "transition-opacity duration-200 ease-in-out",
+  default: 'transition-all duration-200 ease-in-out',
+  fast: 'transition-all duration-100 ease-in-out',
+  slow: 'transition-all duration-300 ease-in-out',
+  colors: 'transition-colors duration-200 ease-in-out',
+  transform: 'transition-transform duration-200 ease-in-out',
+  opacity: 'transition-opacity duration-200 ease-in-out',
 };
 
 // Hover effects
-export const hoverScale = "hover:scale-105 active:scale-95";
-export const hoverLift = "hover:-translate-y-0.5 hover:shadow-md";
-export const hoverGlow = "hover:shadow-lg hover:shadow-primary/20";
+export const hoverScale = 'hover:scale-105 active:scale-95';
+export const hoverLift = 'hover:-translate-y-0.5 hover:shadow-md';
+export const hoverGlow = 'hover:shadow-lg hover:shadow-primary/20';

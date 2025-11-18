@@ -7,11 +7,11 @@ interface Organization {
   updated_at: string;
 }
 
-import { useEffect, useState } from "react";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { useEffect, useState } from 'react';
+import { Check, ChevronsUpDown } from 'lucide-react';
 
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 import {
   Command,
   CommandEmpty,
@@ -19,19 +19,15 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import axios from "axios";
+} from '@/components/ui/command';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import axios from 'axios';
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
-import { useStore } from "@/hooks/store/useStore";
+import { useStore } from '@/hooks/store/useStore';
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 
 export function OrganizationCombobox() {
   const { setOrganizationId, organization_id } = useStore();
@@ -39,8 +35,8 @@ export function OrganizationCombobox() {
   const [open, setOpen] = useState(false);
 
   const [id, setId] = useState(() => {
-    const storedId = localStorage.getItem("organization_id");
-    return storedId ? storedId : organization_id ? organization_id : "";
+    const storedId = localStorage.getItem('organization_id');
+    return storedId ? storedId : organization_id ? organization_id : '';
   });
 
   const [loading, setLoading] = useState(false);
@@ -51,7 +47,7 @@ export function OrganizationCombobox() {
 
   useEffect(() => {
     if (!id) {
-      navigate("/organizations");
+      navigate('/organizations');
     }
   }, [id, navigate]);
 
@@ -65,7 +61,7 @@ export function OrganizationCombobox() {
         setOrganizations(response.data);
         setLoading(false);
       } catch (err) {
-        console.error("Failed to fetch organizations:", err);
+        console.error('Failed to fetch organizations:', err);
         setLoading(false);
       }
     };
@@ -75,9 +71,9 @@ export function OrganizationCombobox() {
 
   useEffect(() => {
     if (id) {
-      localStorage.setItem("organization_id", id);
+      localStorage.setItem('organization_id', id);
     } else {
-      localStorage.removeItem("organization_id");
+      localStorage.removeItem('organization_id');
     }
   }, [id]);
 
@@ -94,7 +90,7 @@ export function OrganizationCombobox() {
         >
           {id
             ? organizations.find((organization) => organization.id === id)?.name
-            : "Select framework..."}
+            : 'Select framework...'}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -109,18 +105,15 @@ export function OrganizationCombobox() {
                   key={organization.id}
                   value={organization.id}
                   onSelect={(currentId) => {
-                    setId(currentId === id ? "" : currentId);
+                    setId(currentId === id ? '' : currentId);
                     setOrganizationId(currentId);
                     setOpen(false);
-                    navigate("/boards");
+                    navigate('/boards');
                   }}
                 >
                   {organization.name}
                   <Check
-                    className={cn(
-                      "ml-auto",
-                      id === organization.id ? "opacity-100" : "opacity-0",
-                    )}
+                    className={cn('ml-auto', id === organization.id ? 'opacity-100' : 'opacity-0')}
                   />
                 </CommandItem>
               ))}

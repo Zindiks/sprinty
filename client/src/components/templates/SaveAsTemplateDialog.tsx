@@ -1,18 +1,18 @@
-import { useState } from "react";
+import { useState } from 'react';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogDescription,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { useTemplates } from "@/hooks/useTemplates";
-import { useStore } from "@/hooks/store/useStore";
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { useTemplates } from '@/hooks/useTemplates';
+import { useStore } from '@/hooks/store/useStore';
 
 interface SaveAsTemplateDialogProps {
   open: boolean;
@@ -20,19 +20,15 @@ interface SaveAsTemplateDialogProps {
   boardId: string;
 }
 
-const EMOJI_OPTIONS = ["📋", "🏃", "✅", "🐛", "📝", "🚀", "⭐", "🎯", "💡", "🔥"];
+const EMOJI_OPTIONS = ['📋', '🏃', '✅', '🐛', '📝', '🚀', '⭐', '🎯', '💡', '🔥'];
 
-export function SaveAsTemplateDialog({
-  open,
-  onOpenChange,
-  boardId,
-}: SaveAsTemplateDialogProps) {
+export function SaveAsTemplateDialog({ open, onOpenChange, boardId }: SaveAsTemplateDialogProps) {
   const { organization_id } = useStore();
   const { createTemplateFromBoard } = useTemplates(organization_id);
 
-  const [templateName, setTemplateName] = useState("");
-  const [description, setDescription] = useState("");
-  const [selectedIcon, setSelectedIcon] = useState("📋");
+  const [templateName, setTemplateName] = useState('');
+  const [description, setDescription] = useState('');
+  const [selectedIcon, setSelectedIcon] = useState('📋');
   const [includeCards, setIncludeCards] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -43,7 +39,7 @@ export function SaveAsTemplateDialog({
         board_id: boardId,
         template_name: templateName,
         description: description || undefined,
-        category: "custom",
+        category: 'custom',
         icon: selectedIcon,
         include_cards_as_examples: includeCards,
       });
@@ -53,14 +49,14 @@ export function SaveAsTemplateDialog({
       onOpenChange(false);
     } catch (error) {
       // Error is handled by the mutation hook with toast
-      console.error("Failed to save board as template:", error);
+      console.error('Failed to save board as template:', error);
     }
   };
 
   const resetForm = () => {
-    setTemplateName("");
-    setDescription("");
-    setSelectedIcon("📋");
+    setTemplateName('');
+    setDescription('');
+    setSelectedIcon('📋');
     setIncludeCards(false);
   };
 
@@ -75,8 +71,8 @@ export function SaveAsTemplateDialog({
         <DialogHeader>
           <DialogTitle>Save as Template</DialogTitle>
           <DialogDescription>
-            Create a reusable template from this board that you can use to
-            quickly set up new boards.
+            Create a reusable template from this board that you can use to quickly set up new
+            boards.
           </DialogDescription>
         </DialogHeader>
 
@@ -92,9 +88,7 @@ export function SaveAsTemplateDialog({
               required
               maxLength={50}
             />
-            <p className="text-xs text-muted-foreground">
-              {templateName.length}/50 characters
-            </p>
+            <p className="text-xs text-muted-foreground">{templateName.length}/50 characters</p>
           </div>
 
           {/* Description */}
@@ -108,9 +102,7 @@ export function SaveAsTemplateDialog({
               rows={3}
               maxLength={200}
             />
-            <p className="text-xs text-muted-foreground">
-              {description.length}/200 characters
-            </p>
+            <p className="text-xs text-muted-foreground">{description.length}/200 characters</p>
           </div>
 
           {/* Icon Selector */}
@@ -124,8 +116,8 @@ export function SaveAsTemplateDialog({
                   onClick={() => setSelectedIcon(emoji)}
                   className={`text-2xl w-12 h-12 rounded-md border-2 transition-all hover:scale-110 ${
                     selectedIcon === emoji
-                      ? "border-primary bg-primary/10 scale-110"
-                      : "border-gray-200 hover:border-primary/50"
+                      ? 'border-primary bg-primary/10 scale-110'
+                      : 'border-gray-200 hover:border-primary/50'
                   }`}
                   aria-label={`Select ${emoji} icon`}
                 >
@@ -143,16 +135,12 @@ export function SaveAsTemplateDialog({
               onCheckedChange={(checked) => setIncludeCards(checked as boolean)}
             />
             <div className="space-y-1">
-              <Label
-                htmlFor="include-cards"
-                className="text-sm font-medium cursor-pointer"
-              >
+              <Label htmlFor="include-cards" className="text-sm font-medium cursor-pointer">
                 Include cards as example cards
               </Label>
               <p className="text-xs text-muted-foreground">
-                Existing cards will be saved as example cards in the template.
-                When creating a board from this template, users can choose
-                whether to include these examples.
+                Existing cards will be saved as example cards in the template. When creating a board
+                from this template, users can choose whether to include these examples.
               </p>
             </div>
           </div>
@@ -171,13 +159,9 @@ export function SaveAsTemplateDialog({
             <Button
               type="submit"
               className="flex-1"
-              disabled={
-                !templateName.trim() || createTemplateFromBoard.isPending
-              }
+              disabled={!templateName.trim() || createTemplateFromBoard.isPending}
             >
-              {createTemplateFromBoard.isPending
-                ? "Saving..."
-                : "Save Template"}
+              {createTemplateFromBoard.isPending ? 'Saving...' : 'Save Template'}
             </Button>
           </div>
         </form>

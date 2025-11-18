@@ -1,7 +1,7 @@
-import { useState, useRef, useEffect } from "react";
-import { Input } from "@/components/ui/input";
-import { Pencil } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { useState, useRef, useEffect } from 'react';
+import { Input } from '@/components/ui/input';
+import { Pencil } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface EditableTitleProps {
   value: string;
@@ -52,10 +52,10 @@ export const EditableTitle = ({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       e.preventDefault();
       handleSave();
-    } else if (e.key === "Escape") {
+    } else if (e.key === 'Escape') {
       e.preventDefault();
       handleCancel();
     }
@@ -69,7 +69,7 @@ export const EditableTitle = ({
         onChange={(e) => setEditValue(e.target.value)}
         onBlur={handleSave}
         onKeyDown={handleKeyDown}
-        className={cn("text-2xl font-bold h-auto py-2", className)}
+        className={cn('text-2xl font-bold h-auto py-2', className)}
         disabled={disabled}
       />
     );
@@ -79,9 +79,9 @@ export const EditableTitle = ({
     <div
       onClick={handleStartEdit}
       className={cn(
-        "group relative cursor-pointer rounded px-2 py-2 -mx-2 hover:bg-accent transition-colors",
-        disabled && "cursor-not-allowed opacity-50",
-        className
+        'group relative cursor-pointer rounded px-2 py-2 -mx-2 hover:bg-accent transition-colors',
+        disabled && 'cursor-not-allowed opacity-50',
+        className,
       )}
     >
       <h2 className="text-2xl font-bold pr-8">{value}</h2>

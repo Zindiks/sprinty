@@ -1,6 +1,6 @@
-import { Clock, CheckCircle, AlertCircle } from "lucide-react";
-import { usePersonalDashboard } from "../../hooks/useAnalytics";
-import { useStore } from "../../hooks/store/useStore";
+import { Clock, CheckCircle, AlertCircle } from 'lucide-react';
+import { usePersonalDashboard } from '../../hooks/useAnalytics';
+import { useStore } from '../../hooks/store/useStore';
 
 const PersonalStatsCards = () => {
   const { organization_id } = useStore();
@@ -89,4 +89,3 @@ const PersonalStatsCards = () => {
 };
 
 export default PersonalStatsCards;
-

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 function User() {
   const [user, setUser] = useState<{
@@ -7,11 +7,11 @@ function User() {
   } | null>(null);
 
   useEffect(() => {
-    console.log("fetching user data"); // Log message to the console
+    console.log('fetching user data'); // Log message to the console
     const fetchUser = async () => {
-      console.log("fetching user data2"); // Log message to the console
-      const response = await fetch("http://localhost:4000/api/v1/oauth/user", {
-        credentials: "include",
+      console.log('fetching user data2'); // Log message to the console
+      const response = await fetch('http://localhost:4000/api/v1/oauth/user', {
+        credentials: 'include',
       });
       if (response.ok) {
         const data = await response.json();

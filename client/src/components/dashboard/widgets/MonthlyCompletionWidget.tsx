@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 import {
   AreaChart,
   Area,
@@ -10,9 +10,9 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-} from "recharts";
-import { useMonthlyMetrics } from "../../../hooks/useAnalytics";
-import { Calendar, TrendingUp } from "lucide-react";
+} from 'recharts';
+import { useMonthlyMetrics } from '../../../hooks/useAnalytics';
+import { Calendar, TrendingUp } from 'lucide-react';
 
 interface MonthlyCompletionWidgetProps {
   organizationId: string;
@@ -20,7 +20,7 @@ interface MonthlyCompletionWidgetProps {
 
 const MonthlyCompletionWidget = ({ organizationId }: MonthlyCompletionWidgetProps) => {
   const [monthsBack, setMonthsBack] = useState(6);
-  const [viewMode, setViewMode] = useState<"overview" | "breakdown">("overview");
+  const [viewMode, setViewMode] = useState<'overview' | 'breakdown'>('overview');
   const { data: metrics, isLoading } = useMonthlyMetrics(organizationId, monthsBack);
 
   if (isLoading) {
@@ -37,9 +37,7 @@ const MonthlyCompletionWidget = ({ organizationId }: MonthlyCompletionWidgetProp
   if (!metrics || metrics.length === 0) {
     return (
       <div className="bg-white rounded-lg shadow p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
-          Monthly Trends
-        </h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Monthly Trends</h3>
         <div className="flex items-center justify-center h-64 text-gray-500">
           No monthly metrics available
         </div>
@@ -54,13 +52,13 @@ const MonthlyCompletionWidget = ({ organizationId }: MonthlyCompletionWidgetProp
       completed: acc.completed + month.cardsCompleted,
       timeSpent: acc.timeSpent + month.timeSpentHours,
     }),
-    { created: 0, completed: 0, timeSpent: 0 }
+    { created: 0, completed: 0, timeSpent: 0 },
   );
 
   // Format data for overview chart
   const overviewData = metrics.map((month) => ({
     month: month.month,
-    monthName: month.monthName.split(" ")[0],
+    monthName: month.monthName.split(' ')[0],
     created: month.cardsCreated,
     completed: month.cardsCompleted,
     timeSpent: month.timeSpentHours,
@@ -75,30 +73,28 @@ const MonthlyCompletionWidget = ({ organizationId }: MonthlyCompletionWidgetProp
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
           <Calendar className="w-5 h-5 text-purple-600" />
-          <h3 className="text-lg font-semibold text-gray-900">
-            Monthly Trends
-          </h3>
+          <h3 className="text-lg font-semibold text-gray-900">Monthly Trends</h3>
         </div>
 
         <div className="flex gap-2">
           {/* View Mode Toggle */}
           <div className="flex border border-gray-300 rounded-md overflow-hidden">
             <button
-              onClick={() => setViewMode("overview")}
+              onClick={() => setViewMode('overview')}
               className={`px-3 py-1.5 text-sm ${
-                viewMode === "overview"
-                  ? "bg-blue-600 text-white"
-                  : "bg-white text-gray-700 hover:bg-gray-50"
+                viewMode === 'overview'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-white text-gray-700 hover:bg-gray-50'
               }`}
             >
               Overview
             </button>
             <button
-              onClick={() => setViewMode("breakdown")}
+              onClick={() => setViewMode('breakdown')}
               className={`px-3 py-1.5 text-sm border-l ${
-                viewMode === "breakdown"
-                  ? "bg-blue-600 text-white"
-                  : "bg-white text-gray-700 hover:bg-gray-50"
+                viewMode === 'breakdown'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-white text-gray-700 hover:bg-gray-50'
               }`}
             >
               Breakdown
@@ -130,23 +126,19 @@ const MonthlyCompletionWidget = ({ organizationId }: MonthlyCompletionWidgetProp
         </div>
         <div className="text-center p-3 bg-purple-50 rounded-lg">
           <p className="text-xs text-gray-600">Hours Logged</p>
-          <p className="text-xl font-bold text-purple-600">
-            {totals.timeSpent.toFixed(1)}h
-          </p>
+          <p className="text-xl font-bold text-purple-600">{totals.timeSpent.toFixed(1)}h</p>
         </div>
         <div className="text-center p-3 bg-orange-50 rounded-lg">
           <p className="text-xs text-gray-600">Avg Completion</p>
           <p className="text-xl font-bold text-orange-600">
-            {metrics.length > 0
-              ? (totals.completed / metrics.length).toFixed(0)
-              : 0}
+            {metrics.length > 0 ? (totals.completed / metrics.length).toFixed(0) : 0}
             /mo
           </p>
         </div>
       </div>
 
       {/* Chart */}
-      {viewMode === "overview" ? (
+      {viewMode === 'overview' ? (
         <ResponsiveContainer width="100%" height={300}>
           <AreaChart data={overviewData}>
             <CartesianGrid strokeDasharray="3 3" />
@@ -182,7 +174,7 @@ const MonthlyCompletionWidget = ({ organizationId }: MonthlyCompletionWidgetProp
           <ResponsiveContainer width="100%" height={250}>
             <LineChart data={latestMonth.weeklyBreakdown}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="weekNumber" label={{ value: "Week", position: "insideBottom" }} />
+              <XAxis dataKey="weekNumber" label={{ value: 'Week', position: 'insideBottom' }} />
               <YAxis />
               <Tooltip />
               <Legend />
@@ -221,17 +213,11 @@ const MonthlyCompletionWidget = ({ organizationId }: MonthlyCompletionWidgetProp
                 className="flex items-center justify-between p-2 bg-gray-50 rounded hover:bg-gray-100 transition"
               >
                 <div className="flex items-center gap-2 flex-1">
-                  <span className="text-xs font-semibold text-gray-500 w-6">
-                    #{index + 1}
-                  </span>
-                  <span className="text-sm text-gray-900 truncate">
-                    {board.boardTitle}
-                  </span>
+                  <span className="text-xs font-semibold text-gray-500 w-6">#{index + 1}</span>
+                  <span className="text-sm text-gray-900 truncate">{board.boardTitle}</span>
                 </div>
                 <div className="flex items-center gap-4 text-sm">
-                  <span className="text-green-600 font-semibold">
-                    {board.cardsCompleted} cards
-                  </span>
+                  <span className="text-green-600 font-semibold">{board.cardsCompleted} cards</span>
                   <span className="text-purple-600 font-semibold">
                     {board.timeSpentHours.toFixed(1)}h
                   </span>

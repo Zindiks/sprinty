@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,10 +9,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { useSelectionStore } from "@/hooks/store/useSelectionStore";
-import { useBulkActions } from "@/hooks/useBulkActions";
-import { Trash2 } from "lucide-react";
+} from '@/components/ui/alert-dialog';
+import { useSelectionStore } from '@/hooks/store/useSelectionStore';
+import { useBulkActions } from '@/hooks/useBulkActions';
+import { Trash2 } from 'lucide-react';
 
 export const BulkDeleteAction = () => {
   const { getSelectedCards, getSelectedCount } = useSelectionStore();
@@ -41,10 +41,12 @@ export const BulkDeleteAction = () => {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete {count} card{count > 1 ? 's' : ''}?</AlertDialogTitle>
+          <AlertDialogTitle>
+            Delete {count} card{count > 1 ? 's' : ''}?
+          </AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete the
-            selected card{count > 1 ? 's' : ''} and remove {count > 1 ? 'them' : 'it'} from the board.
+            This action cannot be undone. This will permanently delete the selected card
+            {count > 1 ? 's' : ''} and remove {count > 1 ? 'them' : 'it'} from the board.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

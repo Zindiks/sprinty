@@ -1,6 +1,6 @@
-import { ConnectionStatus } from "@/types/websocket.types";
-import { AlertCircle, Wifi, WifiOff, Loader2 } from "lucide-react";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { ConnectionStatus } from '@/types/websocket.types';
+import { AlertCircle, Wifi, WifiOff, Loader2 } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 interface ConnectionStatusBannerProps {
   status: ConnectionStatus;
@@ -25,9 +25,7 @@ export function ConnectionStatusBanner({ status, onRetry }: ConnectionStatusBann
             <AlertDescription className={`${config.textColor} font-medium`}>
               {config.title}
             </AlertDescription>
-            <p className={`text-sm ${config.textColor} opacity-80 mt-0.5`}>
-              {config.description}
-            </p>
+            <p className={`text-sm ${config.textColor} opacity-80 mt-0.5`}>{config.description}</p>
           </div>
         </div>
 
@@ -58,41 +56,41 @@ function getStatusConfig(status: ConnectionStatus) {
     case ConnectionStatus.CONNECTING:
       return {
         icon: <Loader2 className="h-5 w-5 text-blue-600 animate-spin" />,
-        title: "Connecting to real-time updates...",
-        description: "Establishing connection to the server",
-        borderColor: "border-blue-500",
-        bgColor: "bg-blue-50",
-        textColor: "text-blue-800",
+        title: 'Connecting to real-time updates...',
+        description: 'Establishing connection to the server',
+        borderColor: 'border-blue-500',
+        bgColor: 'bg-blue-50',
+        textColor: 'text-blue-800',
       };
 
     case ConnectionStatus.DISCONNECTED:
       return {
         icon: <WifiOff className="h-5 w-5 text-yellow-600" />,
-        title: "Disconnected from real-time updates",
+        title: 'Disconnected from real-time updates',
         description: "You won't see changes made by others until reconnected",
-        borderColor: "border-yellow-500",
-        bgColor: "bg-yellow-50",
-        textColor: "text-yellow-800",
+        borderColor: 'border-yellow-500',
+        bgColor: 'bg-yellow-50',
+        textColor: 'text-yellow-800',
       };
 
     case ConnectionStatus.ERROR:
       return {
         icon: <AlertCircle className="h-5 w-5 text-red-600" />,
-        title: "Connection error",
-        description: "Unable to connect to real-time server. Click retry or refresh the page.",
-        borderColor: "border-red-500",
-        bgColor: "bg-red-50",
-        textColor: "text-red-800",
+        title: 'Connection error',
+        description: 'Unable to connect to real-time server. Click retry or refresh the page.',
+        borderColor: 'border-red-500',
+        bgColor: 'bg-red-50',
+        textColor: 'text-red-800',
       };
 
     default:
       return {
         icon: <Wifi className="h-5 w-5 text-gray-600" />,
-        title: "Unknown status",
-        description: "",
-        borderColor: "border-gray-500",
-        bgColor: "bg-gray-50",
-        textColor: "text-gray-800",
+        title: 'Unknown status',
+        description: '',
+        borderColor: 'border-gray-500',
+        bgColor: 'bg-gray-50',
+        textColor: 'text-gray-800',
       };
   }
 }

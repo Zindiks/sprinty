@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { History } from "lucide-react";
-import { useActivities } from "@/hooks/useActivities";
-import type { ActivityFilters as Filters } from "@/hooks/useActivities";
-import { ActivityItem } from "../widgets/ActivityItem";
-import { ActivityFilters } from "../widgets/ActivityFilters";
+import { useState } from 'react';
+import { History } from 'lucide-react';
+import { useActivities } from '@/hooks/useActivities';
+import type { ActivityFilters as Filters } from '@/hooks/useActivities';
+import { ActivityItem } from '../widgets/ActivityItem';
+import { ActivityFilters } from '../widgets/ActivityFilters';
 
 interface ActivitySectionProps {
   cardId: string;
@@ -24,15 +24,10 @@ export const ActivitySection = ({ cardId }: ActivitySectionProps) => {
           <History className="w-4 h-4" />
           Activity
           {activities && activities.length > 0 && (
-            <span className="text-xs text-muted-foreground">
-              ({activities.length})
-            </span>
+            <span className="text-xs text-muted-foreground">({activities.length})</span>
           )}
         </h3>
-        <ActivityFilters
-          onFiltersChange={handleFiltersChange}
-          activeFilters={filters}
-        />
+        <ActivityFilters onFiltersChange={handleFiltersChange} activeFilters={filters} />
       </div>
 
       {/* Activity Timeline */}
@@ -63,7 +58,7 @@ export const ActivitySection = ({ cardId }: ActivitySectionProps) => {
       ) : (
         <p className="text-sm text-muted-foreground italic text-center py-8">
           No activity to display
-          {Object.keys(filters).length > 0 && " with current filters"}.
+          {Object.keys(filters).length > 0 && ' with current filters'}.
         </p>
       )}
     </div>

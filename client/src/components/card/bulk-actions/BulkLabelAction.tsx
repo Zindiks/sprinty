@@ -1,14 +1,10 @@
-import { Button } from "@/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Badge } from "@/components/ui/badge";
-import { useSelectionStore } from "@/hooks/store/useSelectionStore";
-import { useBulkActions } from "@/hooks/useBulkActions";
-import { Tag } from "lucide-react";
-import { useState } from "react";
+import { Button } from '@/components/ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Badge } from '@/components/ui/badge';
+import { useSelectionStore } from '@/hooks/store/useSelectionStore';
+import { useBulkActions } from '@/hooks/useBulkActions';
+import { Tag } from 'lucide-react';
+import { useState } from 'react';
 
 /**
  * BulkLabelAction component
@@ -22,9 +18,9 @@ export const BulkLabelAction = () => {
 
   // TODO Phase 4: Fetch board labels
   const mockLabels = [
-    { id: "1", name: "Bug", color: "red" },
-    { id: "2", name: "Feature", color: "blue" },
-    { id: "3", name: "Enhancement", color: "green" },
+    { id: '1', name: 'Bug', color: 'red' },
+    { id: '2', name: 'Feature', color: 'blue' },
+    { id: '3', name: 'Enhancement', color: 'green' },
   ];
 
   const handleAddLabel = (labelId: string) => {
@@ -54,11 +50,7 @@ export const BulkLabelAction = () => {
                 className="w-full justify-start h-8 px-2 text-sm"
                 onClick={() => handleAddLabel(label.id)}
               >
-                <Badge
-                  variant="outline"
-                  className="mr-2"
-                  style={{ borderColor: label.color }}
-                >
+                <Badge variant="outline" className="mr-2" style={{ borderColor: label.color }}>
                   {label.name}
                 </Badge>
               </Button>

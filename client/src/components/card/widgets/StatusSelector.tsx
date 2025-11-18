@@ -1,14 +1,10 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Circle, CheckCircle2, AlertCircle, XCircle, Check } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Circle, CheckCircle2, AlertCircle, XCircle, Check } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
-type Status = "todo" | "in_progress" | "done" | "blocked";
+type Status = 'todo' | 'in_progress' | 'done' | 'blocked';
 
 interface StatusSelectorProps {
   value?: string;
@@ -23,36 +19,32 @@ const statuses: {
   color: string;
 }[] = [
   {
-    value: "todo",
-    label: "To Do",
+    value: 'todo',
+    label: 'To Do',
     icon: <Circle className="w-4 h-4" />,
-    color: "text-muted-foreground",
+    color: 'text-muted-foreground',
   },
   {
-    value: "in_progress",
-    label: "In Progress",
+    value: 'in_progress',
+    label: 'In Progress',
     icon: <AlertCircle className="w-4 h-4" />,
-    color: "text-blue-500",
+    color: 'text-blue-500',
   },
   {
-    value: "done",
-    label: "Done",
+    value: 'done',
+    label: 'Done',
     icon: <CheckCircle2 className="w-4 h-4" />,
-    color: "text-green-500",
+    color: 'text-green-500',
   },
   {
-    value: "blocked",
-    label: "Blocked",
+    value: 'blocked',
+    label: 'Blocked',
     icon: <XCircle className="w-4 h-4" />,
-    color: "text-red-500",
+    color: 'text-red-500',
   },
 ];
 
-export const StatusSelector = ({
-  value,
-  onChange,
-  disabled = false,
-}: StatusSelectorProps) => {
+export const StatusSelector = ({ value, onChange, disabled = false }: StatusSelectorProps) => {
   const [open, setOpen] = useState(false);
 
   const selectedStatus = statuses.find((s) => s.value === value);
@@ -65,12 +57,7 @@ export const StatusSelector = ({
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          size="sm"
-          disabled={disabled}
-          className="h-8 gap-2"
-        >
+        <Button variant="outline" size="sm" disabled={disabled} className="h-8 gap-2">
           {selectedStatus ? (
             <>
               <span className={selectedStatus.color}>{selectedStatus.icon}</span>
@@ -91,17 +78,15 @@ export const StatusSelector = ({
               key={status.value}
               onClick={() => handleSelect(status.value)}
               className={cn(
-                "flex w-full items-center justify-between rounded-sm px-3 py-2 text-sm hover:bg-accent",
-                value === status.value && "bg-accent"
+                'flex w-full items-center justify-between rounded-sm px-3 py-2 text-sm hover:bg-accent',
+                value === status.value && 'bg-accent',
               )}
             >
               <div className="flex items-center gap-2">
                 <span className={status.color}>{status.icon}</span>
                 <span>{status.label}</span>
               </div>
-              {value === status.value && (
-                <Check className="w-4 h-4 text-primary" />
-              )}
+              {value === status.value && <Check className="w-4 h-4 text-primary" />}
             </button>
           ))}
         </div>

@@ -1,8 +1,8 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { AxiosResponse } from "axios";
-import apiClient from "@/lib/axios";
-import { useToast } from "@/hooks/use-toast";
-import { Board } from "@/types/types";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { AxiosResponse } from 'axios';
+import apiClient from '@/lib/axios';
+import { useToast } from '@/hooks/use-toast';
+import { Board } from '@/types/types';
 
 export interface CreateBoard {
   title: string;
@@ -31,12 +31,10 @@ export const useBoard = (organization_id: string) => {
 
   const fetchBoards = async (organization_id: string) => {
     try {
-      const response = await apiClient.get(
-        `/boards/${organization_id}/all`,
-      );
+      const response = await apiClient.get(`/boards/${organization_id}/all`);
       return response.data;
     } catch (err) {
-      throw new Error("Error fetching boards: " + err);
+      throw new Error('Error fetching boards: ' + err);
     }
   };
 
@@ -51,14 +49,14 @@ export const useBoard = (organization_id: string) => {
 
   const GetBoard = (board_id: string) => {
     return useQuery<Board, FetchError>({
-      queryKey: ["board", board_id],
+      queryKey: ['board', board_id],
       queryFn: () => fetchBoard(board_id),
     });
   };
 
   const GetBoards = () => {
     return useQuery<Board[], FetchError>({
-      queryKey: ["boards", organization_id],
+      queryKey: ['boards', organization_id],
       queryFn: () => fetchBoards(organization_id),
     });
   };
@@ -72,15 +70,15 @@ export const useBoard = (organization_id: string) => {
 
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["boards", organization_id],
+        queryKey: ['boards', organization_id],
       });
     },
 
     onError: (error) => {
       toast({
-        title: "Error",
+        title: 'Error',
         description: `Failed to create board: ${error}`,
-        variant: "destructive",
+        variant: 'destructive',
       });
     },
   });
@@ -92,38 +90,31 @@ export const useBoard = (organization_id: string) => {
 
     onSuccess: ({ data }) => {
       queryClient.invalidateQueries({
-        queryKey: ["boards", organization_id],
+        queryKey: ['boards', organization_id],
       });
 
       toast({
-        title: "Success",
+        title: 'Success',
         description: `Board ${data.title} deleted successfully`,
       });
     },
 
     onError: (error) => {
       toast({
-        title: "Error",
+        title: 'Error',
         description: `Failed to delete board: ${error}`,
-        variant: "destructive",
+        variant: 'destructive',
       });
     },
   });
 
-  const updateBoardTitle = useMutation<
-    AxiosResponse,
-    FetchError,
-    UpdateBoardTitle
-  >({
+  const updateBoardTitle = useMutation<AxiosResponse, FetchError, UpdateBoardTitle>({
     mutationFn: (formData) => {
-      return apiClient.put(
-        `/boards/${formData.id}`,
-        formData,
-      );
+      return apiClient.put(`/boards/${formData.id}`, formData);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["board"],
+        queryKey: ['board'],
       });
 
       toast({
@@ -134,8 +125,8 @@ export const useBoard = (organization_id: string) => {
 
     onError: ({ response }) => {
       toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
+        variant: 'destructive',
+        title: 'Uh oh! Something went wrong.',
         description: response.data.message,
       });
     },

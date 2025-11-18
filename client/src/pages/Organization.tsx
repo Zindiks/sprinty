@@ -1,5 +1,5 @@
-import { CreateOrganizationModal } from "@/components/organization/CreateOrganizationModal";
-import { OrganizationCombobox } from "@/components/organization/OrganizationCombobox";
+import { CreateOrganizationModal } from '@/components/organization/CreateOrganizationModal';
+import { OrganizationCombobox } from '@/components/organization/OrganizationCombobox';
 
 const Organizations = () => {
   return (

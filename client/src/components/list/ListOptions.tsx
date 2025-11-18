@@ -1,14 +1,10 @@
-import { MoreHorizontal, X } from "lucide-react";
-import { List } from "@/types/types";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
-import { PopoverClose } from "@radix-ui/react-popover";
-import { useLists } from "@/hooks/useLists";
-import { ElementRef, useRef } from "react";
+import { MoreHorizontal, X } from 'lucide-react';
+import { List } from '@/types/types';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Button } from '@/components/ui/button';
+import { PopoverClose } from '@radix-ui/react-popover';
+import { useLists } from '@/hooks/useLists';
+import { ElementRef, useRef } from 'react';
 
 interface ListOptionsProps {
   data: List;
@@ -19,14 +15,14 @@ interface ListOptionsProps {
 // I will change it later
 
 const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
-  const closeRef = useRef<ElementRef<"button">>(null);
+  const closeRef = useRef<ElementRef<'button'>>(null);
   const { deleteList, copyList } = useLists(data.board_id);
 
   const deleteHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const id = formData.get("id") as string;
-    const board_id = formData.get("board_id") as string;
+    const id = formData.get('id') as string;
+    const board_id = formData.get('board_id') as string;
 
     deleteList.mutate(
       { id, board_id },
@@ -41,8 +37,8 @@ const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
   const copyHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const id = formData.get("id") as string;
-    const board_id = formData.get("board_id") as string;
+    const id = formData.get('id') as string;
+    const board_id = formData.get('board_id') as string;
 
     copyList.mutate(
       { id, board_id },
@@ -57,16 +53,14 @@ const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button className="h-auto w-auto p-1" variant={"ghost"}>
+        <Button className="h-auto w-auto p-1" variant={'ghost'}>
           <MoreHorizontal className="h-4 w-4" />
         </Button>
       </PopoverTrigger>
 
       <PopoverContent className="px-0 pt-3 pb-3 " side="bottom" align="start">
         <div className="flex justify-between p-2 text-neutral-600 ">
-          <div className="text-sm font-medium text-center w-full">
-            List Actions
-          </div>
+          <div className="text-sm font-medium text-center w-full">List Actions</div>
 
           <PopoverClose ref={closeRef}>
             <X className="w-4 h-4" />
@@ -77,24 +71,19 @@ const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
           <Button
             onClick={onAddCard}
             className="rounded-none w-full h-auto p-2 px-5 justify-start font-normal text-sm"
-            variant={"ghost"}
+            variant={'ghost'}
           >
             Add card
           </Button>
 
           <form onSubmit={copyHandler}>
             <input hidden name="id" id="id" defaultValue={data.id} />
-            <input
-              hidden
-              name="board_id"
-              id="board_id"
-              defaultValue={data.board_id}
-            />
+            <input hidden name="board_id" id="board_id" defaultValue={data.board_id} />
 
             <Button
               type="submit"
               className="rounded-none w-full h-auto p-2 px-5 justify-start font-normal text-sm"
-              variant={"ghost"}
+              variant={'ghost'}
             >
               Copy list
             </Button>
@@ -102,17 +91,12 @@ const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
 
           <form onSubmit={deleteHandler}>
             <input hidden name="id" id="id" defaultValue={data.id} />
-            <input
-              hidden
-              name="board_id"
-              id="board_id"
-              defaultValue={data.board_id}
-            />
+            <input hidden name="board_id" id="board_id" defaultValue={data.board_id} />
 
             <Button
               type="submit"
               className="rounded-none w-full h-auto p-2 px-5 justify-start font-normal text-sm"
-              variant={"ghost"}
+              variant={'ghost'}
             >
               Delete list
             </Button>

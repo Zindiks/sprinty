@@ -1,6 +1,6 @@
-import { useEffect } from "react";
-import { useSearchDialog } from "@/contexts/SearchContext";
-import { CommandPalette } from "./CommandPalette";
+import { useEffect } from 'react';
+import { useSearchDialog } from '@/contexts/SearchContext';
+import { CommandPalette } from './CommandPalette';
 
 /**
  * GlobalSearch Component
@@ -19,22 +19,22 @@ export function GlobalSearch() {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       // Cmd+K or Ctrl+K
-      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
         openSearch();
         return;
       }
 
       // "/" key - only if not in an input field
-      if (e.key === "/" && !isInputElement(e.target)) {
+      if (e.key === '/' && !isInputElement(e.target)) {
         e.preventDefault();
         openSearch();
         return;
       }
     };
 
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, [openSearch]);
 
   return <CommandPalette open={searchOpen} onOpenChange={setSearchOpen} />;
@@ -52,10 +52,5 @@ function isInputElement(target: EventTarget | null): boolean {
   const tagName = target.tagName.toLowerCase();
   const isContentEditable = target.isContentEditable;
 
-  return (
-    tagName === "input" ||
-    tagName === "textarea" ||
-    tagName === "select" ||
-    isContentEditable
-  );
+  return tagName === 'input' || tagName === 'textarea' || tagName === 'select' || isContentEditable;
 }

@@ -1,5 +1,5 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import apiClient from "@/lib/axios";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import apiClient from '@/lib/axios';
 
 export interface Sprint {
   id: string;
@@ -8,7 +8,7 @@ export interface Sprint {
   goal: string | null;
   start_date: string;
   end_date: string;
-  status: "planned" | "active" | "completed" | "cancelled";
+  status: 'planned' | 'active' | 'completed' | 'cancelled';
   created_at: string;
   updated_at: string;
   totalCards?: number;
@@ -21,7 +21,7 @@ export interface CreateSprintInput {
   goal?: string;
   startDate: string;
   endDate: string;
-  status?: "planned" | "active" | "completed" | "cancelled";
+  status?: 'planned' | 'active' | 'completed' | 'cancelled';
 }
 
 export interface UpdateSprintInput {
@@ -29,7 +29,7 @@ export interface UpdateSprintInput {
   goal?: string;
   startDate?: string;
   endDate?: string;
-  status?: "planned" | "active" | "completed" | "cancelled";
+  status?: 'planned' | 'active' | 'completed' | 'cancelled';
 }
 
 // Hook to create a sprint
@@ -42,7 +42,7 @@ export const useCreateSprint = () => {
       return data;
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["sprints", "board", data.board_id] });
+      queryClient.invalidateQueries({ queryKey: ['sprints', 'board', data.board_id] });
     },
   });
 };
@@ -50,11 +50,9 @@ export const useCreateSprint = () => {
 // Hook to get board sprints
 export const useBoardSprints = (boardId: string | null) => {
   return useQuery<Sprint[]>({
-    queryKey: ["sprints", "board", boardId],
+    queryKey: ['sprints', 'board', boardId],
     queryFn: async () => {
-      const { data } = await apiClient.get(
-        `/sprints/board/${boardId}`
-      );
+      const { data } = await apiClient.get(`/sprints/board/${boardId}`);
       return data;
     },
     enabled: !!boardId,
@@ -64,11 +62,9 @@ export const useBoardSprints = (boardId: string | null) => {
 // Hook to get active sprint
 export const useActiveSprint = (boardId: string | null) => {
   return useQuery<Sprint>({
-    queryKey: ["sprints", "board", boardId, "active"],
+    queryKey: ['sprints', 'board', boardId, 'active'],
     queryFn: async () => {
-      const { data } = await apiClient.get(
-        `/sprints/board/${boardId}/active`
-      );
+      const { data } = await apiClient.get(`/sprints/board/${boardId}/active`);
       return data;
     },
     enabled: !!boardId,
@@ -79,7 +75,7 @@ export const useActiveSprint = (boardId: string | null) => {
 // Hook to get a sprint with stats
 export const useSprint = (sprintId: string | null) => {
   return useQuery<Sprint>({
-    queryKey: ["sprints", sprintId],
+    queryKey: ['sprints', sprintId],
     queryFn: async () => {
       const { data } = await apiClient.get(`/sprints/${sprintId}`);
       return data;
@@ -94,15 +90,12 @@ export const useUpdateSprint = () => {
 
   return useMutation({
     mutationFn: async ({ id, ...input }: UpdateSprintInput & { id: string }) => {
-      const { data } = await apiClient.patch(
-        `/sprints/${id}`,
-        input
-      );
+      const { data } = await apiClient.patch(`/sprints/${id}`, input);
       return data;
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["sprints", data.id] });
-      queryClient.invalidateQueries({ queryKey: ["sprints", "board", data.board_id] });
+      queryClient.invalidateQueries({ queryKey: ['sprints', data.id] });
+      queryClient.invalidateQueries({ queryKey: ['sprints', 'board', data.board_id] });
     },
   });
 };
@@ -113,15 +106,12 @@ export const useStartSprint = () => {
 
   return useMutation({
     mutationFn: async (sprintId: string) => {
-      const { data } = await apiClient.post(
-        `/sprints/${sprintId}/start`,
-        {}
-      );
+      const { data } = await apiClient.post(`/sprints/${sprintId}/start`, {});
       return data;
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["sprints", data.id] });
-      queryClient.invalidateQueries({ queryKey: ["sprints", "board", data.board_id] });
+      queryClient.invalidateQueries({ queryKey: ['sprints', data.id] });
+      queryClient.invalidateQueries({ queryKey: ['sprints', 'board', data.board_id] });
     },
   });
 };
@@ -132,15 +122,12 @@ export const useCompleteSprint = () => {
 
   return useMutation({
     mutationFn: async (sprintId: string) => {
-      const { data } = await apiClient.post(
-        `/sprints/${sprintId}/complete`,
-        {}
-      );
+      const { data } = await apiClient.post(`/sprints/${sprintId}/complete`, {});
       return data;
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["sprints", data.id] });
-      queryClient.invalidateQueries({ queryKey: ["sprints", "board", data.board_id] });
+      queryClient.invalidateQueries({ queryKey: ['sprints', data.id] });
+      queryClient.invalidateQueries({ queryKey: ['sprints', 'board', data.board_id] });
     },
   });
 };
@@ -155,8 +142,8 @@ export const useDeleteSprint = () => {
       return { id, boardId };
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["sprints", data.id] });
-      queryClient.invalidateQueries({ queryKey: ["sprints", "board", data.boardId] });
+      queryClient.invalidateQueries({ queryKey: ['sprints', data.id] });
+      queryClient.invalidateQueries({ queryKey: ['sprints', 'board', data.boardId] });
     },
   });
 };

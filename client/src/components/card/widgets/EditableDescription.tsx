@@ -1,8 +1,8 @@
-import { useState, useRef, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Pencil } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { useState, useRef, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { Pencil } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface EditableDescriptionProps {
   value?: string;
@@ -16,7 +16,7 @@ export const EditableDescription = ({
   disabled = false,
 }: EditableDescriptionProps) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [editValue, setEditValue] = useState(value || "");
+  const [editValue, setEditValue] = useState(value || '');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -25,13 +25,13 @@ export const EditableDescription = ({
       // Move cursor to end
       textareaRef.current.setSelectionRange(
         textareaRef.current.value.length,
-        textareaRef.current.value.length
+        textareaRef.current.value.length,
       );
     }
   }, [isEditing]);
 
   useEffect(() => {
-    setEditValue(value || "");
+    setEditValue(value || '');
   }, [value]);
 
   const handleStartEdit = () => {
@@ -48,18 +48,18 @@ export const EditableDescription = ({
   };
 
   const handleCancel = () => {
-    setEditValue(value || "");
+    setEditValue(value || '');
     setIsEditing(false);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     // Cmd/Ctrl + Enter to save
-    if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
       e.preventDefault();
       handleSave();
     }
     // Escape to cancel
-    else if (e.key === "Escape") {
+    else if (e.key === 'Escape') {
       e.preventDefault();
       handleCancel();
     }
@@ -79,8 +79,8 @@ export const EditableDescription = ({
         />
         <div className="flex items-center justify-between">
           <div className="text-xs text-muted-foreground">
-            Press <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px]">Cmd</kbd> +{" "}
-            <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px]">Enter</kbd> to save,{" "}
+            Press <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px]">Cmd</kbd> +{' '}
+            <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px]">Enter</kbd> to save,{' '}
             <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px]">Esc</kbd> to cancel
           </div>
           <div className="flex items-center gap-2">
@@ -100,15 +100,13 @@ export const EditableDescription = ({
     <div
       onClick={handleStartEdit}
       className={cn(
-        "group relative rounded p-3 -mx-3 hover:bg-accent transition-colors cursor-pointer min-h-[60px]",
-        disabled && "cursor-not-allowed opacity-50",
-        !value && "border border-dashed"
+        'group relative rounded p-3 -mx-3 hover:bg-accent transition-colors cursor-pointer min-h-[60px]',
+        disabled && 'cursor-not-allowed opacity-50',
+        !value && 'border border-dashed',
       )}
     >
       {value ? (
-        <div className="text-sm text-muted-foreground whitespace-pre-wrap pr-8">
-          {value}
-        </div>
+        <div className="text-sm text-muted-foreground whitespace-pre-wrap pr-8">{value}</div>
       ) : (
         <div className="text-sm text-muted-foreground italic">
           Add a more detailed description...

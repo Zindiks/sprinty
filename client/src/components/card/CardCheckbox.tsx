@@ -1,5 +1,5 @@
-import { Checkbox } from "@/components/ui/checkbox";
-import { cn } from "@/lib/utils";
+import { Checkbox } from '@/components/ui/checkbox';
+import { cn } from '@/lib/utils';
 
 interface CardCheckboxProps {
   cardId: string;
@@ -19,8 +19,8 @@ export const CardCheckbox = ({
   return (
     <div
       className={cn(
-        "absolute top-2 left-2 z-10 transition-opacity duration-150",
-        visible ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+        'absolute top-2 left-2 z-10 transition-opacity duration-150',
+        visible ? 'opacity-100' : 'opacity-0 group-hover:opacity-100',
       )}
     >
       <Checkbox

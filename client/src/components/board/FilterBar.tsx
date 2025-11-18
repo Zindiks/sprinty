@@ -1,14 +1,14 @@
-import { Filter, ArrowUpDown, Calendar, X } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { Filter, ArrowUpDown, Calendar, X } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import type { DueDateFilter, SortOption } from "@/hooks/useCardFilters";
+} from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
+import type { DueDateFilter, SortOption } from '@/hooks/useCardFilters';
 
 interface FilterBarProps {
   dueDateFilter: DueDateFilter;
@@ -34,7 +34,7 @@ export const FilterBar = ({
   onReset,
   stats,
 }: FilterBarProps) => {
-  const hasActiveFilters = dueDateFilter !== "all" || sortOption !== "created_at";
+  const hasActiveFilters = dueDateFilter !== 'all' || sortOption !== 'created_at';
 
   return (
     <div className="flex items-center gap-3 flex-wrap">
@@ -46,24 +46,12 @@ export const FilterBar = ({
             <SelectValue placeholder="Filter by due date" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">
-              All Cards {stats && `(${stats.all})`}
-            </SelectItem>
-            <SelectItem value="overdue">
-              Overdue {stats && `(${stats.overdue})`}
-            </SelectItem>
-            <SelectItem value="today">
-              Due Today {stats && `(${stats.today})`}
-            </SelectItem>
-            <SelectItem value="week">
-              Due This Week {stats && `(${stats.week})`}
-            </SelectItem>
-            <SelectItem value="upcoming">
-              Upcoming {stats && `(${stats.upcoming})`}
-            </SelectItem>
-            <SelectItem value="none">
-              No Due Date {stats && `(${stats.none})`}
-            </SelectItem>
+            <SelectItem value="all">All Cards {stats && `(${stats.all})`}</SelectItem>
+            <SelectItem value="overdue">Overdue {stats && `(${stats.overdue})`}</SelectItem>
+            <SelectItem value="today">Due Today {stats && `(${stats.today})`}</SelectItem>
+            <SelectItem value="week">Due This Week {stats && `(${stats.week})`}</SelectItem>
+            <SelectItem value="upcoming">Upcoming {stats && `(${stats.upcoming})`}</SelectItem>
+            <SelectItem value="none">No Due Date {stats && `(${stats.none})`}</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -85,7 +73,7 @@ export const FilterBar = ({
       </div>
 
       {/* Active Filter Badge */}
-      {dueDateFilter !== "all" && (
+      {dueDateFilter !== 'all' && (
         <Badge variant="secondary" className="gap-1">
           <Calendar className="h-3 w-3" />
           {getDueDateFilterLabel(dueDateFilter)}
@@ -94,12 +82,7 @@ export const FilterBar = ({
 
       {/* Reset Button */}
       {hasActiveFilters && (
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={onReset}
-          className="h-8 px-2 text-xs"
-        >
+        <Button variant="ghost" size="sm" onClick={onReset} className="h-8 px-2 text-xs">
           <X className="h-3 w-3 mr-1" />
           Reset
         </Button>
@@ -110,12 +93,12 @@ export const FilterBar = ({
 
 function getDueDateFilterLabel(filter: DueDateFilter): string {
   const labels: Record<DueDateFilter, string> = {
-    all: "All",
-    today: "Today",
-    week: "This Week",
-    overdue: "Overdue",
-    none: "No Due Date",
-    upcoming: "Upcoming",
+    all: 'All',
+    today: 'Today',
+    week: 'This Week',
+    overdue: 'Overdue',
+    none: 'No Due Date',
+    upcoming: 'Upcoming',
   };
   return labels[filter];
 }

@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
-import { Plus, Home, Mail, User, UserCircle, Search } from "lucide-react";
+import { Link } from 'react-router-dom';
+import { Plus, Home, Mail, User, UserCircle, Search } from 'lucide-react';
 
-import { SidebarItem } from "./SidebarItem";
-import { OrganizationCombobox } from "./organization/OrganizationCombobox";
-import { UserAvatar } from "./user/UserAvatar";
-import { useSearchDialog } from "@/contexts/SearchContext";
+import { SidebarItem } from './SidebarItem';
+import { OrganizationCombobox } from './organization/OrganizationCombobox';
+import { UserAvatar } from './user/UserAvatar';
+import { useSearchDialog } from '@/contexts/SearchContext';
 
 export const StaticSidebar = () => {
   const { openSearch } = useSearchDialog();

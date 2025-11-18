@@ -272,7 +272,10 @@ describe('useCardFilters hook', () => {
       const sorted = result.current.filterAndSortCards(mockCards);
 
       // Log to debug
-      console.log('Sorted priorities:', sorted.map(c => c.priority));
+      console.log(
+        'Sorted priorities:',
+        sorted.map((c) => c.priority),
+      );
       console.log('Sort direction:', result.current.filters.sortDirection);
       console.log('Sort option:', result.current.filters.sort);
 

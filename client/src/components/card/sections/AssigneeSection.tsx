@@ -1,10 +1,10 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Users, X, Plus } from "lucide-react";
-import { useAssignees } from "@/hooks/useAssignees";
-import { AssigneeSelector } from "../widgets/AssigneeSelector";
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Users, X, Plus } from 'lucide-react';
+import { useAssignees } from '@/hooks/useAssignees';
+import { AssigneeSelector } from '../widgets/AssigneeSelector';
 
 interface AssigneeSectionProps {
   cardId: string;
@@ -17,16 +17,16 @@ export const AssigneeSection = ({ cardId }: AssigneeSectionProps) => {
   const getInitials = (username?: string, email?: string) => {
     if (username) {
       return username
-        .split(" ")
+        .split(' ')
         .map((n) => n[0])
-        .join("")
+        .join('')
         .toUpperCase()
         .slice(0, 2);
     }
     if (email) {
       return email.slice(0, 2).toUpperCase();
     }
-    return "U";
+    return 'U';
   };
 
   const handleRemoveAssignee = (userId: string) => {
@@ -40,9 +40,7 @@ export const AssigneeSection = ({ cardId }: AssigneeSectionProps) => {
           <Users className="w-4 h-4" />
           Assignees
           {assignees && assignees.length > 0 && (
-            <span className="text-xs text-muted-foreground">
-              ({assignees.length})
-            </span>
+            <span className="text-xs text-muted-foreground">({assignees.length})</span>
           )}
         </h3>
         <Button
@@ -96,9 +94,7 @@ export const AssigneeSection = ({ cardId }: AssigneeSectionProps) => {
           ))}
         </div>
       ) : (
-        <p className="text-sm text-muted-foreground italic">
-          No assignees yet
-        </p>
+        <p className="text-sm text-muted-foreground italic">No assignees yet</p>
       )}
 
       <AssigneeSelector

@@ -1,19 +1,15 @@
-import { Keyboard } from "lucide-react";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
+import { Keyboard } from 'lucide-react';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Button } from '@/components/ui/button';
 
 export const KeyboardShortcutsHelp = () => {
   const shortcuts = [
-    { keys: ["D", "T"], description: "Set due date to today 5PM" },
-    { keys: ["D", "N"], description: "Set due date to tomorrow 5PM" },
-    { keys: ["D", "W"], description: "Set due date to end of week" },
-    { keys: ["D", "M"], description: "Set due date to end of month" },
-    { keys: ["D", "3"], description: "Set due date to 3 days from now" },
-    { keys: ["D", "X"], description: "Clear due date" },
+    { keys: ['D', 'T'], description: 'Set due date to today 5PM' },
+    { keys: ['D', 'N'], description: 'Set due date to tomorrow 5PM' },
+    { keys: ['D', 'W'], description: 'Set due date to end of week' },
+    { keys: ['D', 'M'], description: 'Set due date to end of month' },
+    { keys: ['D', '3'], description: 'Set due date to 3 days from now' },
+    { keys: ['D', 'X'], description: 'Clear due date' },
   ];
 
   return (
@@ -47,9 +43,7 @@ export const KeyboardShortcutsHelp = () => {
                     </div>
                   ))}
                 </div>
-                <span className="text-xs text-muted-foreground ml-3">
-                  {shortcut.description}
-                </span>
+                <span className="text-xs text-muted-foreground ml-3">{shortcut.description}</span>
               </div>
             ))}
           </div>

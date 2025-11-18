@@ -5,28 +5,28 @@
 
 export enum WebSocketEvent {
   // Connection events
-  CONNECTION = "connection",
-  DISCONNECT = "disconnect",
-  ERROR = "error",
+  CONNECTION = 'connection',
+  DISCONNECT = 'disconnect',
+  ERROR = 'error',
 
   // Board events
-  BOARD_JOIN = "board:join",
-  BOARD_LEAVE = "board:leave",
-  BOARD_UPDATED = "board:updated",
-  BOARD_DELETED = "board:deleted",
-  BOARD_PRESENCE = "board:presence",
+  BOARD_JOIN = 'board:join',
+  BOARD_LEAVE = 'board:leave',
+  BOARD_UPDATED = 'board:updated',
+  BOARD_DELETED = 'board:deleted',
+  BOARD_PRESENCE = 'board:presence',
 
   // List events
-  LIST_CREATED = "list:created",
-  LIST_UPDATED = "list:updated",
-  LIST_MOVED = "list:moved",
-  LIST_DELETED = "list:deleted",
+  LIST_CREATED = 'list:created',
+  LIST_UPDATED = 'list:updated',
+  LIST_MOVED = 'list:moved',
+  LIST_DELETED = 'list:deleted',
 
   // Card events
-  CARD_CREATED = "card:created",
-  CARD_UPDATED = "card:updated",
-  CARD_MOVED = "card:moved",
-  CARD_DELETED = "card:deleted",
+  CARD_CREATED = 'card:created',
+  CARD_UPDATED = 'card:updated',
+  CARD_MOVED = 'card:moved',
+  CARD_DELETED = 'card:deleted',
 }
 
 /**
@@ -137,8 +137,8 @@ export interface BoardDeletedPayload {
  * Connection status
  */
 export enum ConnectionStatus {
-  CONNECTED = "connected",
-  DISCONNECTED = "disconnected",
-  CONNECTING = "connecting",
-  ERROR = "error",
+  CONNECTED = 'connected',
+  DISCONNECTED = 'disconnected',
+  CONNECTING = 'connecting',
+  ERROR = 'error',
 }

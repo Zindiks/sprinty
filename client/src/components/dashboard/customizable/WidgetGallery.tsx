@@ -1,6 +1,5 @@
-
-import { Plus, X, BarChart3, Calendar, Target, TrendingUp, Users } from "lucide-react";
-import { WidgetType } from "../../../types/types";
+import { Plus, X, BarChart3, Calendar, Target, TrendingUp, Users } from 'lucide-react';
+import { WidgetType } from '../../../types/types';
 
 interface WidgetOption {
   type: WidgetType;
@@ -18,58 +17,58 @@ interface WidgetGalleryProps {
 
 const widgetOptions: WidgetOption[] = [
   {
-    type: "PERSONAL_STATS",
-    label: "Personal Stats",
-    description: "Your assigned cards, completed tasks, and deadlines",
+    type: 'PERSONAL_STATS',
+    label: 'Personal Stats',
+    description: 'Your assigned cards, completed tasks, and deadlines',
     icon: Users,
     defaultSize: { width: 2, height: 1 },
   },
   {
-    type: "ASSIGNED_TASKS",
-    label: "Assigned Tasks",
-    description: "List of all tasks assigned to you",
+    type: 'ASSIGNED_TASKS',
+    label: 'Assigned Tasks',
+    description: 'List of all tasks assigned to you',
     icon: Target,
     defaultSize: { width: 3, height: 2 },
   },
   {
-    type: "PRODUCTIVITY_TREND",
-    label: "Productivity Trends",
-    description: "Track cards created vs completed over time",
+    type: 'PRODUCTIVITY_TREND',
+    label: 'Productivity Trends',
+    description: 'Track cards created vs completed over time',
     icon: TrendingUp,
     defaultSize: { width: 2, height: 1 },
   },
   {
-    type: "BOARDS_OVERVIEW",
-    label: "Boards Overview",
-    description: "Summary of all your active boards",
+    type: 'BOARDS_OVERVIEW',
+    label: 'Boards Overview',
+    description: 'Summary of all your active boards',
     icon: Target,
     defaultSize: { width: 3, height: 2 },
   },
   {
-    type: "WEEKLY_COMPLETION",
-    label: "Weekly Completion",
-    description: "Weekly task completion metrics",
+    type: 'WEEKLY_COMPLETION',
+    label: 'Weekly Completion',
+    description: 'Weekly task completion metrics',
     icon: BarChart3,
     defaultSize: { width: 2, height: 1 },
   },
   {
-    type: "MONTHLY_COMPLETION",
-    label: "Monthly Completion",
-    description: "Monthly task completion trends",
+    type: 'MONTHLY_COMPLETION',
+    label: 'Monthly Completion',
+    description: 'Monthly task completion trends',
     icon: BarChart3,
     defaultSize: { width: 2, height: 1 },
   },
   {
-    type: "VELOCITY_CHART",
-    label: "Sprint Velocity",
-    description: "Track sprint completion velocity",
+    type: 'VELOCITY_CHART',
+    label: 'Sprint Velocity',
+    description: 'Track sprint completion velocity',
     icon: TrendingUp,
     defaultSize: { width: 2, height: 1 },
   },
   {
-    type: "BURNDOWN_CHART",
-    label: "Sprint Burndown",
-    description: "Current sprint burndown chart",
+    type: 'BURNDOWN_CHART',
+    label: 'Sprint Burndown',
+    description: 'Current sprint burndown chart',
     icon: Calendar,
     defaultSize: { width: 2, height: 1 },
   },
@@ -85,14 +84,9 @@ const WidgetGallery = ({ onAddWidget, isOpen, onClose }: WidgetGalleryProps) => 
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
           <div>
             <h2 className="text-2xl font-bold text-gray-900">Add Widget</h2>
-            <p className="text-sm text-gray-600 mt-1">
-              Choose a widget to add to your dashboard
-            </p>
+            <p className="text-sm text-gray-600 mt-1">Choose a widget to add to your dashboard</p>
           </div>
-          <button
-            onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-full transition"
-          >
+          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition">
             <X className="w-6 h-6 text-gray-600" />
           </button>
         </div>

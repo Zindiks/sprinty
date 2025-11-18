@@ -95,24 +95,24 @@ export interface Attachment {
 }
 
 export type ActivityActionType =
-  | "created"
-  | "updated"
-  | "moved"
-  | "archived"
-  | "assignee_added"
-  | "assignee_removed"
-  | "label_added"
-  | "label_removed"
-  | "comment_added"
-  | "attachment_added"
-  | "checklist_item_added"
-  | "checklist_item_completed"
-  | "due_date_set"
-  | "due_date_changed"
-  | "due_date_removed"
-  | "priority_changed"
-  | "description_changed"
-  | "title_changed";
+  | 'created'
+  | 'updated'
+  | 'moved'
+  | 'archived'
+  | 'assignee_added'
+  | 'assignee_removed'
+  | 'label_added'
+  | 'label_removed'
+  | 'comment_added'
+  | 'attachment_added'
+  | 'checklist_item_added'
+  | 'checklist_item_completed'
+  | 'due_date_set'
+  | 'due_date_changed'
+  | 'due_date_removed'
+  | 'priority_changed'
+  | 'description_changed'
+  | 'title_changed';
 
 export interface Activity {
   id: string;
@@ -132,7 +132,7 @@ export interface Card {
   description?: string;
   status: string;
   due_date?: string;
-  priority?: "low" | "medium" | "high" | "critical";
+  priority?: 'low' | 'medium' | 'high' | 'critical';
   created_at: string;
   updated_at: string;
 }
@@ -174,7 +174,7 @@ export interface BoardResult {
   organization_id: string;
   created_at: string;
   updated_at: string;
-  result_type: "board";
+  result_type: 'board';
 }
 
 export interface ListResult {
@@ -185,7 +185,7 @@ export interface ListResult {
   order: number;
   created_at: string;
   updated_at: string;
-  result_type: "list";
+  result_type: 'list';
 }
 
 export interface CardResult {
@@ -200,7 +200,7 @@ export interface CardResult {
   order: number;
   created_at: string;
   updated_at: string;
-  result_type: "card";
+  result_type: 'card';
 }
 
 export interface CommentResult {
@@ -216,7 +216,7 @@ export interface CommentResult {
   user_email: string;
   created_at: string;
   updated_at: string;
-  result_type: "comment";
+  result_type: 'comment';
 }
 
 export interface SearchResponse {
@@ -234,7 +234,7 @@ export interface SearchParams {
   query: string;
   organization_id: string;
   board_id?: string;
-  type?: "board" | "list" | "card" | "comment" | "all";
+  type?: 'board' | 'list' | 'card' | 'comment' | 'all';
   limit?: number;
   // Phase 2 filters
   assignee_id?: string;
@@ -253,13 +253,13 @@ export interface ProductivityTrendDataPoint {
 }
 
 export interface ProductivityTrend {
-  period: "weekly" | "monthly";
+  period: 'weekly' | 'monthly';
   data: ProductivityTrendDataPoint[];
   summary: {
     totalCreated: number;
     totalCompleted: number;
     averagePerPeriod: number;
-    trend: "increasing" | "decreasing" | "stable";
+    trend: 'increasing' | 'decreasing' | 'stable';
   };
 }
 
@@ -311,20 +311,20 @@ export interface MonthlyMetrics {
 }
 
 export type WidgetType =
-  | "PERSONAL_STATS"
-  | "ASSIGNED_TASKS"
-  | "PRODUCTIVITY_TREND"
-  | "BOARD_ANALYTICS"
-  | "TIME_TRACKING"
-  | "RECENT_ACTIVITY"
-  | "BOARDS_OVERVIEW"
-  | "SPRINT_BURNDOWN"
-  | "VELOCITY_CHART"
-  | "WEEKLY_METRICS"
-  | "MONTHLY_METRICS"
-  | "WEEKLY_COMPLETION"
-  | "MONTHLY_COMPLETION"
-  | "BURNDOWN_CHART";
+  | 'PERSONAL_STATS'
+  | 'ASSIGNED_TASKS'
+  | 'PRODUCTIVITY_TREND'
+  | 'BOARD_ANALYTICS'
+  | 'TIME_TRACKING'
+  | 'RECENT_ACTIVITY'
+  | 'BOARDS_OVERVIEW'
+  | 'SPRINT_BURNDOWN'
+  | 'VELOCITY_CHART'
+  | 'WEEKLY_METRICS'
+  | 'MONTHLY_METRICS'
+  | 'WEEKLY_COMPLETION'
+  | 'MONTHLY_COMPLETION'
+  | 'BURNDOWN_CHART';
 
 export interface WidgetConfig {
   id: string;

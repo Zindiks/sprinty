@@ -1,11 +1,6 @@
-import { useEffect, useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Keyboard } from "lucide-react";
+import { useEffect, useState } from 'react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Keyboard } from 'lucide-react';
 
 interface ShortcutGroup {
   title: string;
@@ -17,37 +12,37 @@ interface ShortcutGroup {
 
 const SHORTCUT_GROUPS: ShortcutGroup[] = [
   {
-    title: "General",
+    title: 'General',
     shortcuts: [
-      { keys: ["?"], description: "Show keyboard shortcuts" },
-      { keys: ["Esc"], description: "Close panel/dialog" },
+      { keys: ['?'], description: 'Show keyboard shortcuts' },
+      { keys: ['Esc'], description: 'Close panel/dialog' },
     ],
   },
   {
-    title: "Card Actions",
+    title: 'Card Actions',
     shortcuts: [
-      { keys: ["T"], description: "Edit title" },
-      { keys: ["D"], description: "Edit description" },
-      { keys: ["A"], description: "Add assignee" },
-      { keys: ["L"], description: "Add label" },
-      { keys: ["C"], description: "Add comment" },
-      { keys: ["Del"], description: "Delete card (with confirmation)" },
+      { keys: ['T'], description: 'Edit title' },
+      { keys: ['D'], description: 'Edit description' },
+      { keys: ['A'], description: 'Add assignee' },
+      { keys: ['L'], description: 'Add label' },
+      { keys: ['C'], description: 'Add comment' },
+      { keys: ['Del'], description: 'Delete card (with confirmation)' },
     ],
   },
   {
-    title: "Editing",
+    title: 'Editing',
     shortcuts: [
-      { keys: ["Enter"], description: "Save changes (inline edit)" },
-      { keys: ["Cmd", "Enter"], description: "Save comment/reply" },
-      { keys: ["Esc"], description: "Cancel editing" },
+      { keys: ['Enter'], description: 'Save changes (inline edit)' },
+      { keys: ['Cmd', 'Enter'], description: 'Save comment/reply' },
+      { keys: ['Esc'], description: 'Cancel editing' },
     ],
   },
   {
-    title: "Navigation",
+    title: 'Navigation',
     shortcuts: [
-      { keys: ["↑", "↓"], description: "Navigate items (in lists)" },
-      { keys: ["Tab"], description: "Move to next field" },
-      { keys: ["Shift", "Tab"], description: "Move to previous field" },
+      { keys: ['↑', '↓'], description: 'Navigate items (in lists)' },
+      { keys: ['Tab'], description: 'Move to next field' },
+      { keys: ['Shift', 'Tab'], description: 'Move to previous field' },
     ],
   },
 ];
@@ -57,10 +52,7 @@ interface KeyboardShortcutsDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
-export const KeyboardShortcutsDialog = ({
-  open,
-  onOpenChange,
-}: KeyboardShortcutsDialogProps) => {
+export const KeyboardShortcutsDialog = ({ open, onOpenChange }: KeyboardShortcutsDialogProps) => {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
@@ -74,9 +66,7 @@ export const KeyboardShortcutsDialog = ({
         <div className="space-y-6">
           {SHORTCUT_GROUPS.map((group) => (
             <div key={group.title} className="space-y-3">
-              <h3 className="text-sm font-semibold text-muted-foreground">
-                {group.title}
-              </h3>
+              <h3 className="text-sm font-semibold text-muted-foreground">{group.title}</h3>
               <div className="space-y-2">
                 {group.shortcuts.map((shortcut, index) => (
                   <div
@@ -91,9 +81,7 @@ export const KeyboardShortcutsDialog = ({
                             {key}
                           </kbd>
                           {keyIndex < shortcut.keys.length - 1 && (
-                            <span className="text-muted-foreground text-xs">
-                              +
-                            </span>
+                            <span className="text-muted-foreground text-xs">+</span>
                           )}
                         </span>
                       ))}
@@ -107,8 +95,8 @@ export const KeyboardShortcutsDialog = ({
 
         <div className="mt-4 p-4 bg-muted/50 rounded-lg">
           <p className="text-xs text-muted-foreground">
-            Press <kbd className="px-1.5 py-0.5 bg-background rounded text-xs">?</kbd>{" "}
-            anytime to view these shortcuts
+            Press <kbd className="px-1.5 py-0.5 bg-background rounded text-xs">?</kbd> anytime to
+            view these shortcuts
           </p>
         </div>
       </DialogContent>
@@ -123,12 +111,12 @@ export const useKeyboardShortcuts = () => {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       // Show shortcuts dialog with ?
-      if (e.key === "?" && !e.metaKey && !e.ctrlKey && !e.altKey) {
+      if (e.key === '?' && !e.metaKey && !e.ctrlKey && !e.altKey) {
         // Only trigger if not in an input/textarea
         const target = e.target as HTMLElement;
         if (
-          target.tagName !== "INPUT" &&
-          target.tagName !== "TEXTAREA" &&
+          target.tagName !== 'INPUT' &&
+          target.tagName !== 'TEXTAREA' &&
           !target.isContentEditable
         ) {
           e.preventDefault();
@@ -137,8 +125,8 @@ export const useKeyboardShortcuts = () => {
       }
     };
 
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   return { showDialog, setShowDialog };

@@ -1,8 +1,8 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { AxiosResponse } from "axios";
-import apiClient from "@/lib/axios";
-import { useToast } from "@/hooks/use-toast";
-import type { Comment } from "@/types/types";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { AxiosResponse } from 'axios';
+import apiClient from '@/lib/axios';
+import { useToast } from '@/hooks/use-toast';
+import type { Comment } from '@/types/types';
 
 export interface CreateCommentParams {
   card_id: string;
@@ -36,9 +36,9 @@ export const useComments = (cardId?: string) => {
 
   // Fetch comments with threading
   const { data: comments, isLoading } = useQuery<Comment[], FetchError>({
-    queryKey: ["comments", cardId],
+    queryKey: ['comments', cardId],
     queryFn: async () => {
-      if (!cardId) throw new Error("Card ID is required");
+      if (!cardId) throw new Error('Card ID is required');
       const response = await apiClient.get(`/comments/card/${cardId}/threaded`);
       return response.data;
     },
@@ -48,42 +48,41 @@ export const useComments = (cardId?: string) => {
   // Create comment or reply
   const createComment = useMutation<AxiosResponse, FetchError, CreateCommentParams>({
     mutationFn: (params) => {
-      return apiClient.post(
-        `/comments/`,
-        params
-      );
+      return apiClient.post(`/comments/`, params);
     },
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ["comments", variables.card_id] });
-      queryClient.invalidateQueries({ queryKey: ["card-details", variables.card_id] });
+      queryClient.invalidateQueries({ queryKey: ['comments', variables.card_id] });
+      queryClient.invalidateQueries({ queryKey: ['card-details', variables.card_id] });
       toast({
-        description: variables.parent_comment_id ? "Reply added" : "Comment added",
+        description: variables.parent_comment_id ? 'Reply added' : 'Comment added',
         duration: 2000,
       });
     },
     onError: (error) => {
       toast({
-        variant: "destructive",
-        title: "Failed to add comment",
-        description: error.response?.data?.message || "Something went wrong",
+        variant: 'destructive',
+        title: 'Failed to add comment',
+        description: error.response?.data?.message || 'Something went wrong',
       });
     },
   });
 
   // Update comment
-  const updateComment = useMutation<AxiosResponse, FetchError, UpdateCommentParams, { previousComments?: Comment[] }>({
+  const updateComment = useMutation<
+    AxiosResponse,
+    FetchError,
+    UpdateCommentParams,
+    { previousComments?: Comment[] }
+  >({
     mutationFn: ({ id, card_id, content }) => {
-      return apiClient.patch(
-        `/comments/`,
-        { id, card_id, content }
-      );
+      return apiClient.patch(`/comments/`, { id, card_id, content });
     },
     onMutate: async (params) => {
       // Cancel outgoing refetches
-      await queryClient.cancelQueries({ queryKey: ["comments", params.card_id] });
+      await queryClient.cancelQueries({ queryKey: ['comments', params.card_id] });
 
       // Snapshot previous value
-      const previousComments = queryClient.getQueryData<Comment[]>(["comments", params.card_id]);
+      const previousComments = queryClient.getQueryData<Comment[]>(['comments', params.card_id]);
 
       // Optimistically update
       if (previousComments) {
@@ -100,45 +99,50 @@ export const useComments = (cardId?: string) => {
         };
 
         queryClient.setQueryData<Comment[]>(
-          ["comments", params.card_id],
-          updateCommentInTree(previousComments)
+          ['comments', params.card_id],
+          updateCommentInTree(previousComments),
         );
       }
 
       return { previousComments };
     },
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ["comments", variables.card_id] });
-      queryClient.invalidateQueries({ queryKey: ["card-details", variables.card_id] });
+      queryClient.invalidateQueries({ queryKey: ['comments', variables.card_id] });
+      queryClient.invalidateQueries({ queryKey: ['card-details', variables.card_id] });
       toast({
-        description: "Comment updated",
+        description: 'Comment updated',
         duration: 2000,
       });
     },
     onError: (error, variables, context) => {
       // Rollback on error
       if (context?.previousComments) {
-        queryClient.setQueryData(["comments", variables.card_id], context.previousComments);
+        queryClient.setQueryData(['comments', variables.card_id], context.previousComments);
       }
       toast({
-        variant: "destructive",
-        title: "Failed to update comment",
-        description: error.response?.data?.message || "Something went wrong",
+        variant: 'destructive',
+        title: 'Failed to update comment',
+        description: error.response?.data?.message || 'Something went wrong',
       });
     },
   });
 
   // Delete comment
-  const deleteComment = useMutation<AxiosResponse, FetchError, DeleteCommentParams, { previousComments?: Comment[] }>({
+  const deleteComment = useMutation<
+    AxiosResponse,
+    FetchError,
+    DeleteCommentParams,
+    { previousComments?: Comment[] }
+  >({
     mutationFn: ({ id, card_id }) => {
       return apiClient.delete(`/comments/${id}/card/${card_id}`);
     },
     onMutate: async (params) => {
       // Cancel outgoing refetches
-      await queryClient.cancelQueries({ queryKey: ["comments", params.card_id] });
+      await queryClient.cancelQueries({ queryKey: ['comments', params.card_id] });
 
       // Snapshot previous value
-      const previousComments = queryClient.getQueryData<Comment[]>(["comments", params.card_id]);
+      const previousComments = queryClient.getQueryData<Comment[]>(['comments', params.card_id]);
 
       // Optimistically update
       if (previousComments) {
@@ -154,30 +158,30 @@ export const useComments = (cardId?: string) => {
         };
 
         queryClient.setQueryData<Comment[]>(
-          ["comments", params.card_id],
-          deleteCommentFromTree(previousComments)
+          ['comments', params.card_id],
+          deleteCommentFromTree(previousComments),
         );
       }
 
       return { previousComments };
     },
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ["comments", variables.card_id] });
-      queryClient.invalidateQueries({ queryKey: ["card-details", variables.card_id] });
+      queryClient.invalidateQueries({ queryKey: ['comments', variables.card_id] });
+      queryClient.invalidateQueries({ queryKey: ['card-details', variables.card_id] });
       toast({
-        description: "Comment deleted",
+        description: 'Comment deleted',
         duration: 2000,
       });
     },
     onError: (error, variables, context) => {
       // Rollback on error
       if (context?.previousComments) {
-        queryClient.setQueryData(["comments", variables.card_id], context.previousComments);
+        queryClient.setQueryData(['comments', variables.card_id], context.previousComments);
       }
       toast({
-        variant: "destructive",
-        title: "Failed to delete comment",
-        description: error.response?.data?.message || "Something went wrong",
+        variant: 'destructive',
+        title: 'Failed to delete comment',
+        description: error.response?.data?.message || 'Something went wrong',
       });
     },
   });

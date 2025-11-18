@@ -1,15 +1,8 @@
-import { useState } from "react";
-import { useDashboardStore } from "../../hooks/store/useDashboardStore";
-import { useBoardsOverview } from "../../hooks/useAnalytics";
-import { useStore } from "../../hooks/store/useStore";
-import {
-  Search,
-  SlidersHorizontal,
-  X,
-  ChevronDown,
-  ChevronUp,
-  ArrowUpDown,
-} from "lucide-react";
+import { useState } from 'react';
+import { useDashboardStore } from '../../hooks/store/useDashboardStore';
+import { useBoardsOverview } from '../../hooks/useAnalytics';
+import { useStore } from '../../hooks/store/useStore';
+import { Search, SlidersHorizontal, X, ChevronDown, ChevronUp, ArrowUpDown } from 'lucide-react';
 
 const DashboardFilters = () => {
   const { organization_id } = useStore();
@@ -47,11 +40,7 @@ const DashboardFilters = () => {
                 {activeFilterCount}
               </span>
             )}
-            {isExpanded ? (
-              <ChevronUp className="w-4 h-4" />
-            ) : (
-              <ChevronDown className="w-4 h-4" />
-            )}
+            {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
           </button>
         </div>
 
@@ -83,9 +72,7 @@ const DashboardFilters = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 pt-4 border-t">
           {/* Status Filter */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Status
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
             <select
               value={filters.status}
               onChange={(e) => setStatusFilter(e.target.value as any)}
@@ -101,9 +88,7 @@ const DashboardFilters = () => {
 
           {/* Priority Filter */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Priority
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Priority</label>
             <select
               value={filters.priority}
               onChange={(e) => setPriorityFilter(e.target.value as any)}
@@ -119,9 +104,7 @@ const DashboardFilters = () => {
 
           {/* Due Date Filter */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Due Date
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Due Date</label>
             <select
               value={filters.dueDate}
               onChange={(e) => setDueDateFilter(e.target.value as any)}
@@ -137,9 +120,7 @@ const DashboardFilters = () => {
 
           {/* Sort By */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Sort By
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Sort By</label>
             <div className="flex gap-2">
               <select
                 value={filters.sortBy}
@@ -155,7 +136,7 @@ const DashboardFilters = () => {
               <button
                 onClick={toggleSortOrder}
                 className="px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition"
-                title={`Sort ${filters.sortOrder === "asc" ? "Ascending" : "Descending"}`}
+                title={`Sort ${filters.sortOrder === 'asc' ? 'Ascending' : 'Descending'}`}
               >
                 <ArrowUpDown className="w-4 h-4" />
               </button>
@@ -175,8 +156,8 @@ const DashboardFilters = () => {
                     onClick={() => toggleBoard(board.id)}
                     className={`px-3 py-1.5 rounded-full text-sm font-medium transition ${
                       filters.selectedBoards.includes(board.id)
-                        ? "bg-blue-600 text-white"
-                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                     }`}
                   >
                     {board.title}
