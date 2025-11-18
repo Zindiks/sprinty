@@ -1,13 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
+import apiClient from "@/lib/axios";
 import { useToast } from "@/hooks/use-toast";
 import type { Label } from "@/types/types";
-
-const API_HOST = import.meta.env.VITE_API_HOST;
-const API_PORT = import.meta.env.VITE_API_PORT;
-const API_VERSION = import.meta.env.VITE_API_VERSION;
-
-const API_URL = `${API_HOST}:${API_PORT}${API_VERSION}`;
 
 export interface CreateLabelParams {
   board_id: string;
@@ -55,7 +50,7 @@ export const useLabels = (boardId?: string, cardId?: string) => {
     queryKey: ["labels", "board", boardId],
     queryFn: async () => {
       if (!boardId) throw new Error("Board ID is required");
-      const response = await axios.get(`${API_URL}/labels/board/${boardId}`);
+      const response = await apiClient.get(`/labels/board/${boardId}`);
       return response.data;
     },
     enabled: !!boardId,
@@ -66,7 +61,7 @@ export const useLabels = (boardId?: string, cardId?: string) => {
     queryKey: ["labels", "card", cardId],
     queryFn: async () => {
       if (!cardId) throw new Error("Card ID is required");
-      const response = await axios.get(`${API_URL}/labels/card/${cardId}`);
+      const response = await apiClient.get(`/labels/card/${cardId}`);
       return response.data;
     },
     enabled: !!cardId,
@@ -75,14 +70,9 @@ export const useLabels = (boardId?: string, cardId?: string) => {
   // Create new label
   const createLabel = useMutation<AxiosResponse, FetchError, CreateLabelParams>({
     mutationFn: (params) => {
-      return axios.post(
-        `${API_URL}/labels/`,
-        JSON.stringify(params),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+      return apiClient.post(
+        `/labels/`,
+        params
       );
     },
     onSuccess: (_, variables) => {
@@ -104,14 +94,9 @@ export const useLabels = (boardId?: string, cardId?: string) => {
   // Update label
   const updateLabel = useMutation<AxiosResponse, FetchError, UpdateLabelParams>({
     mutationFn: ({ id, board_id, ...updates }) => {
-      return axios.patch(
-        `${API_URL}/labels/`,
-        JSON.stringify({ id, board_id, ...updates }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+      return apiClient.patch(
+        `/labels/`,
+        { id, board_id, ...updates }
       );
     },
     onSuccess: (_, variables) => {
@@ -136,7 +121,7 @@ export const useLabels = (boardId?: string, cardId?: string) => {
   // Delete label
   const deleteLabel = useMutation<AxiosResponse, FetchError, DeleteLabelParams>({
     mutationFn: ({ id, board_id }) => {
-      return axios.delete(`${API_URL}/labels/${id}/board/${board_id}`);
+      return apiClient.delete(`/labels/${id}/board/${board_id}`);
     },
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ["labels", "board", variables.board_id] });
@@ -161,14 +146,9 @@ export const useLabels = (boardId?: string, cardId?: string) => {
   // Add label to card
   const addLabelToCard = useMutation<AxiosResponse, FetchError, AddLabelToCardParams>({
     mutationFn: (params) => {
-      return axios.post(
-        `${API_URL}/labels/card`,
-        JSON.stringify(params),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+      return apiClient.post(
+        `/labels/card`,
+        params
       );
     },
     onMutate: async (params) => {
@@ -205,7 +185,7 @@ export const useLabels = (boardId?: string, cardId?: string) => {
   // Remove label from card
   const removeLabelFromCard = useMutation<AxiosResponse, FetchError, RemoveLabelFromCardParams>({
     mutationFn: ({ card_id, label_id }) => {
-      return axios.delete(`${API_URL}/labels/card/${card_id}/label/${label_id}`);
+      return apiClient.delete(`/labels/card/${card_id}/label/${label_id}`);
     },
     onMutate: async (params) => {
       // Cancel outgoing refetches

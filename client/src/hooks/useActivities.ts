@@ -1,12 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import apiClient from "@/lib/axios";
 import type { Activity, ActivityActionType } from "@/types/types";
-
-const API_HOST = import.meta.env.VITE_API_HOST;
-const API_PORT = import.meta.env.VITE_API_PORT;
-const API_VERSION = import.meta.env.VITE_API_VERSION;
-
-const API_URL = `${API_HOST}:${API_PORT}${API_VERSION}`;
 
 export interface ActivityFilters {
   action_type?: ActivityActionType;
@@ -39,9 +33,9 @@ export const useActivities = (cardId?: string, filters?: ActivityFilters) => {
       if (filters?.offset) params.append("offset", filters.offset.toString());
 
       const queryString = params.toString();
-      const url = `${API_URL}/activities/card/${cardId}${queryString ? `?${queryString}` : ""}`;
+      const url = `/activities/card/${cardId}${queryString ? `?${queryString}` : ""}`;
 
-      const response = await axios.get(url);
+      const response = await apiClient.get(url);
       return response.data;
     },
     enabled: !!cardId,

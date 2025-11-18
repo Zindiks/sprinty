@@ -1,8 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import apiClient from "@/lib/axios";
 import { WidgetConfig } from "../types/types";
-
-const API_BASE_URL = "http://localhost:8080/api/v1";
 
 export interface DashboardLayout {
   id: string;
@@ -33,9 +31,7 @@ export const useDashboardLayouts = () => {
   return useQuery<DashboardLayout[]>({
     queryKey: ["dashboardLayouts"],
     queryFn: async () => {
-      const response = await axios.get(`${API_BASE_URL}/dashboard-layouts`, {
-        withCredentials: true,
-      });
+      const response = await apiClient.get(`/dashboard-layouts`);
       return response.data;
     },
   });
@@ -48,11 +44,8 @@ export const useDefaultLayout = () => {
   return useQuery<DashboardLayout>({
     queryKey: ["dashboardLayouts", "default"],
     queryFn: async () => {
-      const response = await axios.get(
-        `${API_BASE_URL}/dashboard-layouts/default`,
-        {
-          withCredentials: true,
-        }
+      const response = await apiClient.get(
+        `/dashboard-layouts/default`
       );
       return response.data;
     },
@@ -68,11 +61,8 @@ export const useDashboardLayout = (layoutId: string | null) => {
     queryKey: ["dashboardLayouts", layoutId],
     queryFn: async () => {
       if (!layoutId) throw new Error("Layout ID is required");
-      const response = await axios.get(
-        `${API_BASE_URL}/dashboard-layouts/${layoutId}`,
-        {
-          withCredentials: true,
-        }
+      const response = await apiClient.get(
+        `/dashboard-layouts/${layoutId}`
       );
       return response.data;
     },
@@ -88,12 +78,9 @@ export const useCreateLayout = () => {
 
   return useMutation({
     mutationFn: async (input: CreateLayoutInput) => {
-      const response = await axios.post(
-        `${API_BASE_URL}/dashboard-layouts`,
-        input,
-        {
-          withCredentials: true,
-        }
+      const response = await apiClient.post(
+        `/dashboard-layouts`,
+        input
       );
       return response.data;
     },
@@ -118,12 +105,9 @@ export const useUpdateLayout = () => {
       layoutId: string;
       input: UpdateLayoutInput;
     }) => {
-      const response = await axios.patch(
-        `${API_BASE_URL}/dashboard-layouts/${layoutId}`,
-        input,
-        {
-          withCredentials: true,
-        }
+      const response = await apiClient.patch(
+        `/dashboard-layouts/${layoutId}`,
+        input
       );
       return response.data;
     },
@@ -145,11 +129,8 @@ export const useDeleteLayout = () => {
 
   return useMutation({
     mutationFn: async (layoutId: string) => {
-      const response = await axios.delete(
-        `${API_BASE_URL}/dashboard-layouts/${layoutId}`,
-        {
-          withCredentials: true,
-        }
+      const response = await apiClient.delete(
+        `/dashboard-layouts/${layoutId}`
       );
       return response.data;
     },

@@ -1,13 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
+import apiClient from "@/lib/axios";
 import { useToast } from "@/hooks/use-toast";
 import type { Attachment } from "@/types/types";
-
-const API_HOST = import.meta.env.VITE_API_HOST;
-const API_PORT = import.meta.env.VITE_API_PORT;
-const API_VERSION = import.meta.env.VITE_API_VERSION;
-
-const API_URL = `${API_HOST}:${API_PORT}${API_VERSION}`;
 
 export interface UploadAttachmentParams {
   card_id: string;
@@ -43,7 +38,7 @@ export const useAttachments = (cardId?: string) => {
     queryKey: ["attachments", cardId],
     queryFn: async () => {
       if (!cardId) throw new Error("Card ID is required");
-      const response = await axios.get(`${API_URL}/attachments/card/${cardId}`);
+      const response = await apiClient.get(`/attachments/card/${cardId}`);
       return response.data;
     },
     enabled: !!cardId,
@@ -55,8 +50,8 @@ export const useAttachments = (cardId?: string) => {
       const formData = new FormData();
       formData.append("file", file);
 
-      return axios.post(
-        `${API_URL}/attachments/card/${card_id}`,
+      return apiClient.post(
+        `/attachments/card/${card_id}`,
         formData,
         {
           headers: {
@@ -88,7 +83,7 @@ export const useAttachments = (cardId?: string) => {
   // Delete attachment
   const deleteAttachment = useMutation<AxiosResponse, FetchError, DeleteAttachmentParams>({
     mutationFn: ({ id, card_id }) => {
-      return axios.delete(`${API_URL}/attachments/${id}/card/${card_id}`);
+      return apiClient.delete(`/attachments/${id}/card/${card_id}`);
     },
     onMutate: async (params) => {
       // Cancel outgoing refetches
@@ -131,14 +126,9 @@ export const useAttachments = (cardId?: string) => {
   // Update attachment (rename)
   const updateAttachment = useMutation<AxiosResponse, FetchError, UpdateAttachmentParams>({
     mutationFn: ({ id, card_id, filename }) => {
-      return axios.patch(
-        `${API_URL}/attachments/`,
-        JSON.stringify({ id, card_id, filename }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+      return apiClient.patch(
+        `/attachments/`,
+        { id, card_id, filename }
       );
     },
     onMutate: async (params) => {
@@ -185,7 +175,7 @@ export const useAttachments = (cardId?: string) => {
   const downloadAttachment = (attachmentId: string, filename: string) => {
     if (!cardId) return;
 
-    const downloadUrl = `${API_URL}/attachments/${attachmentId}/card/${cardId}/download`;
+    const downloadUrl = `/attachments/${attachmentId}/card/${cardId}/download`;
 
     // Create a temporary link and trigger download
     const link = document.createElement("a");

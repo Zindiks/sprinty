@@ -1,13 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
+import apiClient from "@/lib/axios";
 import { useToast } from "@/hooks/use-toast";
 import type { Assignee } from "@/types/types";
-
-const API_HOST = import.meta.env.VITE_API_HOST;
-const API_PORT = import.meta.env.VITE_API_PORT;
-const API_VERSION = import.meta.env.VITE_API_VERSION;
-
-const API_URL = `${API_HOST}:${API_PORT}${API_VERSION}`;
 
 export interface AddAssigneeParams {
   card_id: string;
@@ -37,7 +32,7 @@ export const useAssignees = (cardId?: string) => {
     queryKey: ["assignees", cardId],
     queryFn: async () => {
       if (!cardId) throw new Error("Card ID is required");
-      const response = await axios.get(`${API_URL}/assignees/card/${cardId}`);
+      const response = await apiClient.get(`/assignees/card/${cardId}`);
       return response.data;
     },
     enabled: !!cardId,
@@ -46,14 +41,9 @@ export const useAssignees = (cardId?: string) => {
   // Add assignee to card
   const addAssignee = useMutation<AxiosResponse, FetchError, AddAssigneeParams>({
     mutationFn: (params) => {
-      return axios.post(
-        `${API_URL}/assignees/`,
-        JSON.stringify(params),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+      return apiClient.post(
+        `/assignees/`,
+        params
       );
     },
     onMutate: async (params) => {
@@ -90,7 +80,7 @@ export const useAssignees = (cardId?: string) => {
   // Remove assignee from card
   const removeAssignee = useMutation<AxiosResponse, FetchError, RemoveAssigneeParams>({
     mutationFn: ({ card_id, user_id }) => {
-      return axios.delete(`${API_URL}/assignees/${card_id}/user/${user_id}`);
+      return apiClient.delete(`/assignees/${card_id}/user/${user_id}`);
     },
     onMutate: async (params) => {
       // Cancel outgoing refetches

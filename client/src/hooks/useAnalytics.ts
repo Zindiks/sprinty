@@ -1,17 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import apiClient from "@/lib/axios";
 import {
   ProductivityTrend,
   BoardOverview,
   WeeklyMetrics,
   MonthlyMetrics,
 } from "../types/types";
-
-const API_HOST = import.meta.env.VITE_API_HOST;
-const API_PORT = import.meta.env.VITE_API_PORT;
-const API_VERSION = import.meta.env.VITE_API_VERSION;
-
-const API_URL = `${API_HOST}:${API_PORT}${API_VERSION}`;
 
 export interface PersonalStats {
   assignedCards: number;
@@ -133,11 +127,10 @@ export const usePersonalDashboard = (organizationId: string | null) => {
   return useQuery<PersonalDashboard>({
     queryKey: ["dashboard", "personal", organizationId],
     queryFn: async () => {
-      const { data } = await axios.get(
-        `${API_URL}/api/v1/analytics/dashboard/personal`,
+      const { data } = await apiClient.get(
+        `/analytics/dashboard/personal`,
         {
           params: { organizationId },
-          withCredentials: true,
         }
       );
       return data;
@@ -151,9 +144,8 @@ export const useBoardAnalytics = (boardId: string | null) => {
   return useQuery<BoardAnalytics>({
     queryKey: ["analytics", "board", boardId],
     queryFn: async () => {
-      const { data } = await axios.get(
-        `${API_URL}/api/v1/analytics/board/${boardId}`,
-        { withCredentials: true }
+      const { data } = await apiClient.get(
+        `/analytics/board/${boardId}`
       );
       return data;
     },
@@ -166,9 +158,8 @@ export const useSprintBurndown = (sprintId: string | null) => {
   return useQuery<SprintBurndown>({
     queryKey: ["analytics", "sprint", sprintId, "burndown"],
     queryFn: async () => {
-      const { data } = await axios.get(
-        `${API_URL}/api/v1/analytics/sprint/${sprintId}/burndown`,
-        { withCredentials: true }
+      const { data } = await apiClient.get(
+        `/analytics/sprint/${sprintId}/burndown`
       );
       return data;
     },
@@ -181,9 +172,8 @@ export const useBoardVelocity = (boardId: string | null) => {
   return useQuery<VelocityMetric[]>({
     queryKey: ["analytics", "board", boardId, "velocity"],
     queryFn: async () => {
-      const { data } = await axios.get(
-        `${API_URL}/api/v1/analytics/board/${boardId}/velocity`,
-        { withCredentials: true }
+      const { data } = await apiClient.get(
+        `/analytics/board/${boardId}/velocity`
       );
       return data;
     },
@@ -196,11 +186,10 @@ export const useAssignedTasks = (organizationId: string | null) => {
   return useQuery<AssignedTask[]>({
     queryKey: ["analytics", "tasks", "assigned", organizationId],
     queryFn: async () => {
-      const { data } = await axios.get(
-        `${API_URL}/api/v1/analytics/tasks/assigned`,
+      const { data } = await apiClient.get(
+        `/analytics/tasks/assigned`,
         {
           params: { organizationId },
-          withCredentials: true,
         }
       );
       return data;
@@ -214,9 +203,8 @@ export const useDueDateAnalytics = (boardId: string | null) => {
   return useQuery<DueDateAnalytics>({
     queryKey: ["analytics", "board", boardId, "due-dates"],
     queryFn: async () => {
-      const { data } = await axios.get(
-        `${API_URL}/api/v1/analytics/board/${boardId}/due-dates`,
-        { withCredentials: true }
+      const { data } = await apiClient.get(
+        `/analytics/board/${boardId}/due-dates`
       );
       return data;
     },
@@ -233,11 +221,10 @@ export const useProductivityTrends = (
   return useQuery<ProductivityTrend>({
     queryKey: ["analytics", "trends", "personal", organizationId, period, daysBack],
     queryFn: async () => {
-      const { data } = await axios.get(
-        `${API_URL}/api/v1/analytics/trends/personal`,
+      const { data } = await apiClient.get(
+        `/analytics/trends/personal`,
         {
           params: { organizationId, period, daysBack },
-          withCredentials: true,
         }
       );
       return data;
@@ -251,11 +238,10 @@ export const useBoardsOverview = (organizationId: string | null) => {
   return useQuery<BoardOverview[]>({
     queryKey: ["analytics", "boards", "overview", organizationId],
     queryFn: async () => {
-      const { data } = await axios.get(
-        `${API_URL}/api/v1/analytics/boards/overview`,
+      const { data } = await apiClient.get(
+        `/analytics/boards/overview`,
         {
           params: { organizationId },
-          withCredentials: true,
         }
       );
       return data;
@@ -272,11 +258,10 @@ export const useWeeklyMetrics = (
   return useQuery<WeeklyMetrics[]>({
     queryKey: ["analytics", "metrics", "weekly", organizationId, weeksBack],
     queryFn: async () => {
-      const { data } = await axios.get(
-        `${API_URL}/api/v1/analytics/metrics/weekly`,
+      const { data } = await apiClient.get(
+        `/analytics/metrics/weekly`,
         {
           params: { organizationId, weeksBack },
-          withCredentials: true,
         }
       );
       return data;
@@ -293,11 +278,10 @@ export const useMonthlyMetrics = (
   return useQuery<MonthlyMetrics[]>({
     queryKey: ["analytics", "metrics", "monthly", organizationId, monthsBack],
     queryFn: async () => {
-      const { data } = await axios.get(
-        `${API_URL}/api/v1/analytics/metrics/monthly`,
+      const { data } = await apiClient.get(
+        `/analytics/metrics/monthly`,
         {
           params: { organizationId, monthsBack },
-          withCredentials: true,
         }
       );
       return data;

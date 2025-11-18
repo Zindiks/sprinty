@@ -1,13 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
+import apiClient from "@/lib/axios";
 import { useToast } from "@/hooks/use-toast";
 import { Board } from "@/types/types";
-
-const API_HOST = import.meta.env.VITE_API_HOST;
-const API_PORT = import.meta.env.VITE_API_PORT;
-const API_VERSION = import.meta.env.VITE_API_VERSION;
-
-const API_URL = `${API_HOST}:${API_PORT}${API_VERSION}`;
 
 export interface CreateBoard {
   title: string;
@@ -36,8 +31,8 @@ export const useBoard = (organization_id: string) => {
 
   const fetchBoards = async (organization_id: string) => {
     try {
-      const response = await axios.get(
-        `${API_URL}/boards/${organization_id}/all`,
+      const response = await apiClient.get(
+        `/boards/${organization_id}/all`,
       );
       return response.data;
     } catch (err) {
@@ -47,7 +42,7 @@ export const useBoard = (organization_id: string) => {
 
   const fetchBoard = async (board_id: string) => {
     try {
-      const response = await axios.get(`${API_URL}/boards/${board_id}`);
+      const response = await apiClient.get(`/boards/${board_id}`);
       return response.data;
     } catch (error) {
       throw new Error(`Error fetching boards: ${error}`);
@@ -72,11 +67,7 @@ export const useBoard = (organization_id: string) => {
     mutationFn: (formData) => {
       formData.organization_id = organization_id;
 
-      return axios.post(`${API_URL}/boards`, JSON.stringify(formData), {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      return apiClient.post(`/boards`, formData);
     },
 
     onSuccess: () => {
@@ -96,7 +87,7 @@ export const useBoard = (organization_id: string) => {
 
   const deleteBoard = useMutation<AxiosResponse, FetchError, string>({
     mutationFn: (board_id) => {
-      return axios.delete(`${API_URL}/boards/${board_id}`);
+      return apiClient.delete(`/boards/${board_id}`);
     },
 
     onSuccess: ({ data }) => {
@@ -125,14 +116,9 @@ export const useBoard = (organization_id: string) => {
     UpdateBoardTitle
   >({
     mutationFn: (formData) => {
-      return axios.put(
-        `${API_URL}/boards/${formData.id}`,
-        JSON.stringify(formData),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
+      return apiClient.put(
+        `/boards/${formData.id}`,
+        formData,
       );
     },
     onSuccess: () => {

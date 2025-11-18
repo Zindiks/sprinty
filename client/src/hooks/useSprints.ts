@@ -1,7 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
-
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+import apiClient from "@/lib/axios";
 
 export interface Sprint {
   id: string;
@@ -40,9 +38,7 @@ export const useCreateSprint = () => {
 
   return useMutation({
     mutationFn: async (input: CreateSprintInput) => {
-      const { data } = await axios.post(`${API_URL}/api/v1/sprints`, input, {
-        withCredentials: true,
-      });
+      const { data } = await apiClient.post(`/sprints`, input);
       return data;
     },
     onSuccess: (data) => {
@@ -56,9 +52,8 @@ export const useBoardSprints = (boardId: string | null) => {
   return useQuery<Sprint[]>({
     queryKey: ["sprints", "board", boardId],
     queryFn: async () => {
-      const { data } = await axios.get(
-        `${API_URL}/api/v1/sprints/board/${boardId}`,
-        { withCredentials: true }
+      const { data } = await apiClient.get(
+        `/sprints/board/${boardId}`
       );
       return data;
     },
@@ -71,9 +66,8 @@ export const useActiveSprint = (boardId: string | null) => {
   return useQuery<Sprint>({
     queryKey: ["sprints", "board", boardId, "active"],
     queryFn: async () => {
-      const { data } = await axios.get(
-        `${API_URL}/api/v1/sprints/board/${boardId}/active`,
-        { withCredentials: true }
+      const { data } = await apiClient.get(
+        `/sprints/board/${boardId}/active`
       );
       return data;
     },
@@ -87,9 +81,7 @@ export const useSprint = (sprintId: string | null) => {
   return useQuery<Sprint>({
     queryKey: ["sprints", sprintId],
     queryFn: async () => {
-      const { data } = await axios.get(`${API_URL}/api/v1/sprints/${sprintId}`, {
-        withCredentials: true,
-      });
+      const { data } = await apiClient.get(`/sprints/${sprintId}`);
       return data;
     },
     enabled: !!sprintId,
@@ -102,10 +94,9 @@ export const useUpdateSprint = () => {
 
   return useMutation({
     mutationFn: async ({ id, ...input }: UpdateSprintInput & { id: string }) => {
-      const { data } = await axios.patch(
-        `${API_URL}/api/v1/sprints/${id}`,
-        input,
-        { withCredentials: true }
+      const { data } = await apiClient.patch(
+        `/sprints/${id}`,
+        input
       );
       return data;
     },
@@ -122,10 +113,9 @@ export const useStartSprint = () => {
 
   return useMutation({
     mutationFn: async (sprintId: string) => {
-      const { data } = await axios.post(
-        `${API_URL}/api/v1/sprints/${sprintId}/start`,
-        {},
-        { withCredentials: true }
+      const { data } = await apiClient.post(
+        `/sprints/${sprintId}/start`,
+        {}
       );
       return data;
     },
@@ -142,10 +132,9 @@ export const useCompleteSprint = () => {
 
   return useMutation({
     mutationFn: async (sprintId: string) => {
-      const { data } = await axios.post(
-        `${API_URL}/api/v1/sprints/${sprintId}/complete`,
-        {},
-        { withCredentials: true }
+      const { data } = await apiClient.post(
+        `/sprints/${sprintId}/complete`,
+        {}
       );
       return data;
     },
@@ -162,9 +151,7 @@ export const useDeleteSprint = () => {
 
   return useMutation({
     mutationFn: async ({ id, boardId }: { id: string; boardId: string }) => {
-      await axios.delete(`${API_URL}/api/v1/sprints/${id}`, {
-        withCredentials: true,
-      });
+      await apiClient.delete(`/sprints/${id}`);
       return { id, boardId };
     },
     onSuccess: (data) => {

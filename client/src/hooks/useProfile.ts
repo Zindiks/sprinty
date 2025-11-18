@@ -1,12 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
+import apiClient from "@/lib/axios";
 import { useToast } from "@/hooks/use-toast";
-
-const API_HOST = import.meta.env.VITE_API_HOST;
-const API_PORT = import.meta.env.VITE_API_PORT;
-const API_VERSION = import.meta.env.VITE_API_VERSION;
-
-const API_URL = `${API_HOST}:${API_PORT}${API_VERSION}`;
 
 export interface Profile {
   id: string;
@@ -43,7 +38,7 @@ export const useProfile = (user_id: string) => {
 
   const fetchProfile = async (user_id: string) => {
     try {
-      const response = await axios.get(`${API_URL}/profiles/user/${user_id}`);
+      const response = await apiClient.get(`/profiles/user/${user_id}`);
       return response.data;
     } catch (err: any) {
       if (err.response?.status === 404) {
@@ -61,14 +56,9 @@ export const useProfile = (user_id: string) => {
 
   const updateProfile = useMutation<AxiosResponse, FetchError, UpdateProfile>({
     mutationFn: (formData) => {
-      return axios.put(
-        `${API_URL}/profiles/user/${user_id}`,
-        JSON.stringify(formData),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
+      return apiClient.put(
+        `/profiles/user/${user_id}`,
+        formData
       );
     },
     onSuccess: () => {
@@ -89,7 +79,7 @@ export const useProfile = (user_id: string) => {
 
   const deleteProfile = useMutation<AxiosResponse, FetchError, void>({
     mutationFn: () => {
-      return axios.delete(`${API_URL}/profiles/user/${user_id}`);
+      return apiClient.delete(`/profiles/user/${user_id}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["profile", user_id] });

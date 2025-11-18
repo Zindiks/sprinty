@@ -1,13 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
+import apiClient from "@/lib/axios";
 import { useToast } from "@/hooks/use-toast";
 import type { ChecklistItem, ChecklistProgress } from "@/types/types";
-
-const API_HOST = import.meta.env.VITE_API_HOST;
-const API_PORT = import.meta.env.VITE_API_PORT;
-const API_VERSION = import.meta.env.VITE_API_VERSION;
-
-const API_URL = `${API_HOST}:${API_PORT}${API_VERSION}`;
 
 export interface ChecklistWithProgress {
   items: ChecklistItem[];
@@ -59,7 +54,7 @@ export const useChecklists = (cardId?: string) => {
     queryKey: ["checklists", cardId],
     queryFn: async () => {
       if (!cardId) throw new Error("Card ID is required");
-      const response = await axios.get(`${API_URL}/checklists/card/${cardId}/with-progress`);
+      const response = await apiClient.get(`/checklists/card/${cardId}/with-progress`);
       return response.data;
     },
     enabled: !!cardId,
@@ -68,14 +63,9 @@ export const useChecklists = (cardId?: string) => {
   // Create checklist item
   const createItem = useMutation<AxiosResponse, FetchError, CreateChecklistItemParams>({
     mutationFn: (params) => {
-      return axios.post(
-        `${API_URL}/checklists/`,
-        JSON.stringify(params),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+      return apiClient.post(
+        `/checklists/`,
+        params
       );
     },
     onSuccess: (_, variables) => {
@@ -99,14 +89,9 @@ export const useChecklists = (cardId?: string) => {
   // Update checklist item
   const updateItem = useMutation<AxiosResponse, FetchError, UpdateChecklistItemParams>({
     mutationFn: ({ id, card_id, ...updates }) => {
-      return axios.patch(
-        `${API_URL}/checklists/`,
-        JSON.stringify({ id, card_id, ...updates }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+      return apiClient.patch(
+        `/checklists/`,
+        { id, card_id, ...updates }
       );
     },
     onSuccess: (_, variables) => {
@@ -129,7 +114,7 @@ export const useChecklists = (cardId?: string) => {
   // Toggle checklist item completion
   const toggleItem = useMutation<AxiosResponse, FetchError, ToggleChecklistItemParams>({
     mutationFn: ({ id, card_id }) => {
-      return axios.patch(`${API_URL}/checklists/${id}/card/${card_id}/toggle`);
+      return apiClient.patch(`/checklists/${id}/card/${card_id}/toggle`);
     },
     onMutate: async (params) => {
       // Cancel outgoing refetches
@@ -179,7 +164,7 @@ export const useChecklists = (cardId?: string) => {
   // Delete checklist item
   const deleteItem = useMutation<AxiosResponse, FetchError, DeleteChecklistItemParams>({
     mutationFn: ({ id, card_id }) => {
-      return axios.delete(`${API_URL}/checklists/${id}/card/${card_id}`);
+      return apiClient.delete(`/checklists/${id}/card/${card_id}`);
     },
     onMutate: async (params) => {
       // Cancel outgoing refetches
@@ -231,14 +216,9 @@ export const useChecklists = (cardId?: string) => {
   // Reorder checklist items
   const reorderItems = useMutation<AxiosResponse, FetchError, ReorderChecklistParams>({
     mutationFn: ({ card_id, items }) => {
-      return axios.put(
-        `${API_URL}/checklists/card/${card_id}/reorder`,
-        JSON.stringify({ items }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+      return apiClient.put(
+        `/checklists/card/${card_id}/reorder`,
+        { items }
       );
     },
     onMutate: async (params) => {
