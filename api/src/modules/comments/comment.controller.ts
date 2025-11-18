@@ -20,8 +20,8 @@ export class CommentController {
     reply: FastifyReply,
   ) {
     const body = request.body;
-    // TODO: Get user_id from auth context
-    const user_id = "00000000-0000-0000-0000-000000000000"; // Placeholder
+    // requireAuth middleware ensures request.user exists
+    const user_id = request.user!.id;
 
     try {
       const comment = await this.commentService.createComment(body, user_id);
@@ -38,8 +38,8 @@ export class CommentController {
     reply: FastifyReply,
   ) {
     const body = request.body;
-    // TODO: Get user_id from auth context
-    const user_id = "00000000-0000-0000-0000-000000000000"; // Placeholder
+    // requireAuth middleware ensures request.user exists
+    const user_id = request.user!.id;
 
     try {
       const comment = await this.commentService.updateComment(body, user_id);
@@ -61,8 +61,8 @@ export class CommentController {
     reply: FastifyReply,
   ) {
     const params = request.params;
-    // TODO: Get user_id from auth context
-    const user_id = "00000000-0000-0000-0000-000000000000"; // Placeholder
+    // requireAuth middleware ensures request.user exists
+    const user_id = request.user!.id;
 
     try {
       const deleted = await this.commentService.deleteComment(params, user_id);

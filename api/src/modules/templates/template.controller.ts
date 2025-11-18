@@ -138,11 +138,8 @@ export class TemplateController {
     reply: FastifyReply,
   ) {
     const body = request.body;
-    const userId = request.user?.id;
-
-    if (!userId) {
-      return reply.status(401).send({ error: "Unauthorized" });
-    }
+    // requireAuth middleware ensures request.user exists
+    const userId = request.user!.id;
 
     try {
       const template = await this.templateService.createTemplateFromBoard(

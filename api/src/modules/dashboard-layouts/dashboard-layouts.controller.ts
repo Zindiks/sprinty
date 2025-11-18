@@ -15,12 +15,8 @@ export class DashboardLayoutsController {
    */
   async getUserLayouts(request: FastifyRequest, reply: FastifyReply) {
     try {
-      // @ts-ignore - user is added by auth middleware
-      const userId = request.user?.id;
-
-      if (!userId) {
-        return reply.code(401).send({ error: "Unauthorized" });
-      }
+      // requireAuth middleware ensures request.user exists
+      const userId = request.user!.id;
 
       const layouts = await this.service.getUserLayouts(userId);
       return reply.code(200).send(layouts);
@@ -36,12 +32,8 @@ export class DashboardLayoutsController {
    */
   async getDefaultLayout(request: FastifyRequest, reply: FastifyReply) {
     try {
-      // @ts-ignore - user is added by auth middleware
-      const userId = request.user?.id;
-
-      if (!userId) {
-        return reply.code(401).send({ error: "Unauthorized" });
-      }
+      // requireAuth middleware ensures request.user exists
+      const userId = request.user!.id;
 
       const layout = await this.service.getDefaultLayout(userId);
 
@@ -68,12 +60,8 @@ export class DashboardLayoutsController {
   ) {
     try {
       const { layoutId } = request.params;
-      // @ts-ignore - user is added by auth middleware
-      const userId = request.user?.id;
-
-      if (!userId) {
-        return reply.code(401).send({ error: "Unauthorized" });
-      }
+      // requireAuth middleware ensures request.user exists
+      const userId = request.user!.id;
 
       const layout = await this.service.getLayoutById(layoutId, userId);
 
@@ -99,12 +87,8 @@ export class DashboardLayoutsController {
     reply: FastifyReply
   ) {
     try {
-      // @ts-ignore - user is added by auth middleware
-      const userId = request.user?.id;
-
-      if (!userId) {
-        return reply.code(401).send({ error: "Unauthorized" });
-      }
+      // requireAuth middleware ensures request.user exists
+      const userId = request.user!.id;
 
       const layout = await this.service.createLayout({
         user_id: userId,
@@ -131,12 +115,8 @@ export class DashboardLayoutsController {
   ) {
     try {
       const { layoutId } = request.params;
-      // @ts-ignore - user is added by auth middleware
-      const userId = request.user?.id;
-
-      if (!userId) {
-        return reply.code(401).send({ error: "Unauthorized" });
-      }
+      // requireAuth middleware ensures request.user exists
+      const userId = request.user!.id;
 
       // Check if layout exists and belongs to user
       const exists = await this.service.layoutExists(layoutId, userId);
@@ -169,12 +149,8 @@ export class DashboardLayoutsController {
   ) {
     try {
       const { layoutId } = request.params;
-      // @ts-ignore - user is added by auth middleware
-      const userId = request.user?.id;
-
-      if (!userId) {
-        return reply.code(401).send({ error: "Unauthorized" });
-      }
+      // requireAuth middleware ensures request.user exists
+      const userId = request.user!.id;
 
       const deleted = await this.service.deleteLayout(layoutId, userId);
 

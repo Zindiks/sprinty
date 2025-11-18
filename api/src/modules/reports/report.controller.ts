@@ -117,12 +117,8 @@ export class ReportController {
     reply: FastifyReply
   ) {
     try {
-      // @ts-ignore - user is added by auth middleware
-      const userId = request.user?.id;
-
-      if (!userId) {
-        return reply.code(401).send({ error: "Unauthorized" });
-      }
+      // requireAuth middleware ensures request.user exists
+      const userId = request.user!.id;
 
       const { organizationId, startDate, endDate } = request.query;
       const csv = await this.service.generateUserActivityReport(

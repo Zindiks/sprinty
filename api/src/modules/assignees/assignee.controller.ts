@@ -16,8 +16,8 @@ export class AssigneeController {
     reply: FastifyReply,
   ) {
     const body = request.body;
-    // TODO: Get assigned_by from authenticated user
-    const assigned_by_id = undefined; // Will be set from auth context
+    // requireAuth middleware ensures request.user exists
+    const assigned_by_id = request.user!.id;
 
     try {
       const assignee = await this.assigneeService.addAssignee(

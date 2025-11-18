@@ -51,8 +51,8 @@ export class AttachmentController {
     try {
       const { card_id } = request.params;
 
-      // TODO: Replace with actual user_id from auth context
-      const user_id = "550e8400-e29b-41d4-a716-446655440000";
+      // requireAuth middleware ensures request.user exists
+      const user_id = request.user!.id;
 
       const data = await request.file();
 
