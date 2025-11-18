@@ -1,6 +1,7 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useUser } from "@/contexts/UserContext";
+import { useStore } from "@/hooks/store/useStore";
 import { Button } from "@/components/ui/button";
 import { LoadingScreen } from "@/components/auth/LoadingScreen";
 
@@ -10,20 +11,39 @@ import { LoadingScreen } from "@/components/auth/LoadingScreen";
  * Public page shown to non-authenticated users.
  * Features:
  * - GitHub OAuth signin
- * - Auto-redirect authenticated users to /boards
+ * - Auto-redirect authenticated users with smart routing
+ * - Remember intended destination
+ * - Error handling
  */
 const Marketing = () => {
-  const { user, loading } = useUser();
+  const { user, loading, error } = useUser();
   const navigate = useNavigate();
+  const location = useLocation();
+  const organization_id = useStore((state) => state.organization_id);
 
   /**
-   * Redirect authenticated users to boards page
+   * Smart redirect for authenticated users
+   * - If user tried to access a protected route, redirect there
+   * - Otherwise, check if organization is selected:
+   *   - If org selected → /boards
+   *   - If no org → /organizations
    */
   useEffect(() => {
     if (!loading && user) {
-      navigate("/boards", { replace: true });
+      // Check if user was trying to access a specific route
+      const intendedDestination = location.state?.from;
+
+      if (intendedDestination && intendedDestination !== '/signin') {
+        // Redirect to the originally intended destination
+        navigate(intendedDestination, { replace: true });
+      } else {
+        // Smart redirect based on organization selection
+        const storedOrgId = organization_id || localStorage.getItem('organization_id');
+        const destination = storedOrgId ? '/boards' : '/organizations';
+        navigate(destination, { replace: true });
+      }
     }
-  }, [user, loading, navigate]);
+  }, [user, loading, navigate, location, organization_id]);
 
   /**
    * Initiate GitHub OAuth flow
@@ -84,6 +104,14 @@ const Marketing = () => {
             </div>
           </div>
         </div>
+
+        {/* Error Message */}
+        {error && (
+          <div className="bg-red-500/10 border border-red-500 text-red-400 p-4 rounded-lg text-center">
+            <p className="font-medium">Authentication failed</p>
+            <p className="text-sm mt-1">Please try again or contact support if the issue persists.</p>
+          </div>
+        )}
 
         {/* GitHub OAuth Sign In */}
         <div className="space-y-4">
