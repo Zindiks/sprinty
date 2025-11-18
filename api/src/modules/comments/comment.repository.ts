@@ -56,10 +56,7 @@ export class CommentRepository {
     return comment;
   }
 
-  async deleteComment(
-    input: DeleteComment,
-    user_id: string,
-  ): Promise<boolean> {
+  async deleteComment(input: DeleteComment, user_id: string): Promise<boolean> {
     const { id, card_id } = input;
 
     const deleted = await this.knex(table)
@@ -78,9 +75,7 @@ export class CommentRepository {
     return comment;
   }
 
-  async getCommentsByCardId(
-    card_id: string,
-  ): Promise<CommentResponseArray> {
+  async getCommentsByCardId(card_id: string): Promise<CommentResponseArray> {
     const comments = await this.knex(table)
       .where({ card_id })
       .orderBy("created_at", "asc")

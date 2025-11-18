@@ -28,7 +28,7 @@ export default async function dashboardLayoutsRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.getUserLayouts.bind(controller)
+    controller.getUserLayouts.bind(controller),
   );
 
   // Get default layout
@@ -43,7 +43,7 @@ export default async function dashboardLayoutsRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.getDefaultLayout.bind(controller)
+    controller.getDefaultLayout.bind(controller),
   );
 
   // Get layout by ID
@@ -59,7 +59,7 @@ export default async function dashboardLayoutsRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.getLayoutById.bind(controller)
+    controller.getLayoutById.bind(controller),
   );
 
   // Create new layout
@@ -75,7 +75,7 @@ export default async function dashboardLayoutsRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.createLayout.bind(controller)
+    controller.createLayout.bind(controller),
   );
 
   // Update layout
@@ -92,7 +92,7 @@ export default async function dashboardLayoutsRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.updateLayout.bind(controller)
+    controller.updateLayout.bind(controller),
   );
 
   // Delete layout
@@ -108,6 +108,6 @@ export default async function dashboardLayoutsRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.deleteLayout.bind(controller)
+    controller.deleteLayout.bind(controller),
   );
 }

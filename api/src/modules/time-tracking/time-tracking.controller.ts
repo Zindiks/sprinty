@@ -20,7 +20,7 @@ export class TimeTrackingController {
     request: FastifyRequest<{
       Body: CreateTimeLog;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       // @ts-ignore - user is added by auth middleware
@@ -53,7 +53,7 @@ export class TimeTrackingController {
     request: FastifyRequest<{
       Params: TimeLogParams;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const { id } = request.params;
@@ -78,7 +78,7 @@ export class TimeTrackingController {
     request: FastifyRequest<{
       Params: CardTimeLogsParams;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const { cardId } = request.params;
@@ -98,7 +98,7 @@ export class TimeTrackingController {
     request: FastifyRequest<{
       Params: CardTimeLogsParams;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const { cardId } = request.params;
@@ -118,7 +118,7 @@ export class TimeTrackingController {
     request: FastifyRequest<{
       Querystring: UserTimeLogsQuery;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       // @ts-ignore - user is added by auth middleware
@@ -131,7 +131,7 @@ export class TimeTrackingController {
       const { organizationId } = request.query;
       const timeLogs = await this.service.getUserTimeLogs(
         userId,
-        organizationId
+        organizationId,
       );
       return reply.code(200).send(timeLogs);
     } catch (error) {
@@ -148,7 +148,7 @@ export class TimeTrackingController {
     request: FastifyRequest<{
       Querystring: TimeRangeQuery;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       // @ts-ignore - user is added by auth middleware
@@ -163,7 +163,7 @@ export class TimeTrackingController {
         userId,
         new Date(startDate),
         new Date(endDate),
-        organizationId
+        organizationId,
       );
       return reply.code(200).send(timeLogs);
     } catch (error) {
@@ -181,7 +181,7 @@ export class TimeTrackingController {
       Params: TimeLogParams;
       Body: UpdateTimeLog;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const { id } = request.params;
@@ -209,7 +209,7 @@ export class TimeTrackingController {
     request: FastifyRequest<{
       Params: TimeLogParams;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const { id } = request.params;

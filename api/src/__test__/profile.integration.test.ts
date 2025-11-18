@@ -7,7 +7,10 @@
 import { ProfileRepository } from "../modules/profiles/profile.repository";
 import { ProfileService } from "../modules/profiles/profile.service";
 import { ProfileController } from "../modules/profiles/profile.controller";
-import type { CreateProfile, UpdateProfile } from "../modules/profiles/profile.schema";
+import type {
+  CreateProfile,
+  UpdateProfile,
+} from "../modules/profiles/profile.schema";
 
 // Mark these tests as skipped until test database is fully configured
 describe.skip("Profile Integration Tests", () => {
@@ -142,7 +145,7 @@ describe.skip("Profile Integration Tests", () => {
       };
 
       await expect(profileService.create(input)).rejects.toThrow(
-        "Username already exists"
+        "Username already exists",
       );
     });
 
@@ -157,7 +160,7 @@ describe.skip("Profile Integration Tests", () => {
       };
 
       await expect(profileService.create(input)).rejects.toThrow(
-        "Email already exists"
+        "Email already exists",
       );
     });
 
@@ -172,8 +175,12 @@ describe.skip("Profile Integration Tests", () => {
       const createdProfile = await profileRepository.create(input);
       const after = new Date();
 
-      expect(new Date(createdProfile.created_at).getTime()).toBeGreaterThanOrEqual(before.getTime());
-      expect(new Date(createdProfile.created_at).getTime()).toBeLessThanOrEqual(after.getTime());
+      expect(
+        new Date(createdProfile.created_at).getTime(),
+      ).toBeGreaterThanOrEqual(before.getTime());
+      expect(new Date(createdProfile.created_at).getTime()).toBeLessThanOrEqual(
+        after.getTime(),
+      );
       expect(createdProfile.created_at).toBe(createdProfile.updated_at);
     });
   });
@@ -212,7 +219,7 @@ describe.skip("Profile Integration Tests", () => {
       const originalProfile = await profileRepository.getByUserId(userId);
 
       // Wait a moment to ensure timestamp difference
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 100));
 
       const updates: UpdateProfile = {
         description: "New description",
@@ -221,8 +228,9 @@ describe.skip("Profile Integration Tests", () => {
       const updatedProfile = await profileRepository.update(userId, updates);
 
       expect(updatedProfile.updated_at).not.toBe(originalProfile?.updated_at);
-      expect(new Date(updatedProfile.updated_at).getTime())
-        .toBeGreaterThan(new Date(originalProfile!.updated_at).getTime());
+      expect(new Date(updatedProfile.updated_at).getTime()).toBeGreaterThan(
+        new Date(originalProfile!.updated_at).getTime(),
+      );
     });
 
     it("should return 404 when user does not exist", async () => {
@@ -246,7 +254,7 @@ describe.skip("Profile Integration Tests", () => {
       };
 
       await expect(profileService.update(userId, updates)).rejects.toThrow(
-        "Username already exists"
+        "Username already exists",
       );
     });
 

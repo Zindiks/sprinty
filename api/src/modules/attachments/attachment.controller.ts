@@ -63,9 +63,7 @@ export class AttachmentController {
 
       // Validate file size
       if (data.file.bytesRead > this.maxFileSize) {
-        return reply
-          .code(400)
-          .send({ error: "File size exceeds 10MB limit" });
+        return reply.code(400).send({ error: "File size exceeds 10MB limit" });
       }
 
       // Validate MIME type
@@ -246,8 +244,8 @@ export class AttachmentController {
         await fs.unlink(attachment.storage_path);
       } catch (error) {
         request.log.error(
+          { err: error },
           `Failed to delete file: ${attachment.storage_path}`,
-          error,
         );
         // Continue even if file deletion fails
       }
@@ -268,8 +266,7 @@ export class AttachmentController {
     try {
       const { card_id } = request.params;
 
-      const count =
-        await this.attachmentService.getAttachmentCount(card_id);
+      const count = await this.attachmentService.getAttachmentCount(card_id);
 
       return reply.send(count);
     } catch (error) {
@@ -293,9 +290,7 @@ export class AttachmentController {
       return reply.send(attachments);
     } catch (error) {
       request.log.error(error);
-      return reply
-        .code(500)
-        .send({ error: "Failed to get user attachments" });
+      return reply.code(500).send({ error: "Failed to get user attachments" });
     }
   }
 }

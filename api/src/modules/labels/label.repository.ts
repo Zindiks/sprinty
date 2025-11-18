@@ -88,9 +88,7 @@ export class LabelRepository {
     id: string,
     board_id: string,
   ): Promise<LabelResponse | undefined> {
-    const label = await this.knex(labelsTable)
-      .where({ id, board_id })
-      .first();
+    const label = await this.knex(labelsTable).where({ id, board_id }).first();
 
     return label;
   }

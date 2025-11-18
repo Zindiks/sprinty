@@ -14,10 +14,10 @@ export const CreateSprintSchema = Type.Object(
         Type.Literal("active"),
         Type.Literal("completed"),
         Type.Literal("cancelled"),
-      ])
+      ]),
     ),
   },
-  { $id: "CreateSprintSchema" }
+  { $id: "CreateSprintSchema" },
 );
 
 export const UpdateSprintSchema = Type.Object(
@@ -32,38 +32,38 @@ export const UpdateSprintSchema = Type.Object(
         Type.Literal("active"),
         Type.Literal("completed"),
         Type.Literal("cancelled"),
-      ])
+      ]),
     ),
   },
-  { $id: "UpdateSprintSchema" }
+  { $id: "UpdateSprintSchema" },
 );
 
 export const AddCardsToSprintSchema = Type.Object(
   {
     cardIds: Type.Array(Type.String({ format: "uuid" })),
   },
-  { $id: "AddCardsToSprintSchema" }
+  { $id: "AddCardsToSprintSchema" },
 );
 
 export const RemoveCardsFromSprintSchema = Type.Object(
   {
     cardIds: Type.Array(Type.String({ format: "uuid" })),
   },
-  { $id: "RemoveCardsFromSprintSchema" }
+  { $id: "RemoveCardsFromSprintSchema" },
 );
 
 export const SprintParamsSchema = Type.Object(
   {
     id: Type.String({ format: "uuid" }),
   },
-  { $id: "SprintParamsSchema" }
+  { $id: "SprintParamsSchema" },
 );
 
 export const BoardSprintsParamsSchema = Type.Object(
   {
     boardId: Type.String({ format: "uuid" }),
   },
-  { $id: "BoardSprintsParamsSchema" }
+  { $id: "BoardSprintsParamsSchema" },
 );
 
 // Response schemas
@@ -84,7 +84,7 @@ export const SprintSchema = Type.Object(
     created_at: Type.String(),
     updated_at: Type.String(),
   },
-  { $id: "SprintSchema" }
+  { $id: "SprintSchema" },
 );
 
 export const SprintWithStatsSchema = Type.Object(
@@ -106,7 +106,7 @@ export const SprintWithStatsSchema = Type.Object(
     totalCards: Type.Number(),
     completedCards: Type.Number(),
   },
-  { $id: "SprintWithStatsSchema" }
+  { $id: "SprintWithStatsSchema" },
 );
 
 export const SprintCardSchema = Type.Object(
@@ -129,7 +129,7 @@ export const SprintCardSchema = Type.Object(
     updated_at: Type.String(),
     list_title: Type.String(),
   },
-  { $id: "SprintCardSchema" }
+  { $id: "SprintCardSchema" },
 );
 
 // Type exports

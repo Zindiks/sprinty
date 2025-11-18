@@ -13,7 +13,7 @@ export class ApiError extends Error {
     statusCode: number,
     errorCode: string,
     isOperational = true,
-    details?: any
+    details?: any,
   ) {
     super(message);
 

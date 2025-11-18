@@ -129,7 +129,9 @@ export default async function commentRoutes(fastify: FastifyInstance) {
         description: "Get all comments for a card with user details",
       },
     },
-    commentController.getCommentsWithUserDetailsController.bind(commentController),
+    commentController.getCommentsWithUserDetailsController.bind(
+      commentController,
+    ),
   );
 
   // Get comments with threaded replies

@@ -76,9 +76,7 @@ export class ChecklistRepository {
     const { id, card_id } = input;
 
     // Get current state
-    const currentItem = await this.knex(table)
-      .where({ id, card_id })
-      .first();
+    const currentItem = await this.knex(table).where({ id, card_id }).first();
 
     if (!currentItem) {
       return undefined;
@@ -140,7 +138,9 @@ export class ChecklistRepository {
       .where({ card_id })
       .select(
         this.knex.raw("COUNT(*)::int as total"),
-        this.knex.raw("COUNT(*) FILTER (WHERE completed = true)::int as completed"),
+        this.knex.raw(
+          "COUNT(*) FILTER (WHERE completed = true)::int as completed",
+        ),
       )
       .first();
 

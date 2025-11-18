@@ -16,7 +16,7 @@ export const ReminderSchema = Type.Object(
     sent: Type.Boolean(),
     created_at: Type.String({ format: "date-time" }),
   },
-  { $id: "ReminderSchema" }
+  { $id: "ReminderSchema" },
 );
 
 export const CreateReminderSchema = Type.Object(
@@ -26,21 +26,21 @@ export const CreateReminderSchema = Type.Object(
     reminder_time: Type.String({ format: "date-time" }),
     reminder_type: ReminderTypeEnum,
   },
-  { $id: "CreateReminderSchema" }
+  { $id: "CreateReminderSchema" },
 );
 
 export const GetCardRemindersSchema = Type.Object(
   {
     card_id: Type.String({ format: "uuid" }),
   },
-  { $id: "GetCardRemindersSchema" }
+  { $id: "GetCardRemindersSchema" },
 );
 
 export const DeleteReminderSchema = Type.Object(
   {
     id: Type.String({ format: "uuid" }),
   },
-  { $id: "DeleteReminderSchema" }
+  { $id: "DeleteReminderSchema" },
 );
 
 export type Reminder = Static<typeof ReminderSchema>;

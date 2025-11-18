@@ -42,7 +42,9 @@ export function authenticationMiddleware(
 
     next();
   } catch (error) {
-    const authError = new Error("Invalid authentication token") as ExtendedError;
+    const authError = new Error(
+      "Invalid authentication token",
+    ) as ExtendedError;
     authError.data = { code: "INVALID_TOKEN" };
     return next(authError);
   }
@@ -83,9 +85,7 @@ export function createBoardAuthorizationMiddleware(
 /**
  * Rate limiting middleware to prevent spam
  */
-export function rateLimitMiddleware(
-  maxEventsPerMinute: number = 60,
-) {
+export function rateLimitMiddleware(maxEventsPerMinute: number = 60) {
   const eventCounts = new Map<string, { count: number; resetAt: number }>();
 
   return (socket: AuthenticatedSocket, next: (err?: ExtendedError) => void) => {
@@ -115,10 +115,7 @@ export function rateLimitMiddleware(
 /**
  * Error handler for WebSocket errors
  */
-export function errorHandler(
-  socket: AuthenticatedSocket,
-  error: Error,
-) {
+export function errorHandler(socket: AuthenticatedSocket, error: Error) {
   console.error(`WebSocket error for socket ${socket.id}:`, error);
 
   socket.emit("error", {

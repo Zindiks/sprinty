@@ -26,7 +26,8 @@ describe("AssigneeService", () => {
   let assigneeRepository: jest.Mocked<AssigneeRepository>;
 
   beforeEach(() => {
-    assigneeRepository = new MockedAssigneeRepository() as unknown as jest.Mocked<AssigneeRepository>;
+    assigneeRepository =
+      new MockedAssigneeRepository() as unknown as jest.Mocked<AssigneeRepository>;
     assigneeService = new AssigneeService();
     // @ts-ignore - inject mocked repository
     assigneeService["assigneeRepository"] = assigneeRepository;
@@ -271,8 +272,7 @@ describe("AssigneeService", () => {
         expectedAssignees,
       );
 
-      const result =
-        await assigneeService.getAssigneesWithUserDetails(card_id);
+      const result = await assigneeService.getAssigneesWithUserDetails(card_id);
 
       expect(
         assigneeRepository.getAssigneesWithUserDetails,
@@ -288,8 +288,7 @@ describe("AssigneeService", () => {
 
       assigneeRepository.getAssigneesWithUserDetails.mockResolvedValue([]);
 
-      const result =
-        await assigneeService.getAssigneesWithUserDetails(card_id);
+      const result = await assigneeService.getAssigneesWithUserDetails(card_id);
 
       expect(result).toEqual([]);
     });
@@ -314,8 +313,7 @@ describe("AssigneeService", () => {
         expectedAssignees,
       );
 
-      const result =
-        await assigneeService.getAssigneesWithUserDetails(card_id);
+      const result = await assigneeService.getAssigneesWithUserDetails(card_id);
 
       expect(result[0].user.email).toBe("john@example.com");
       expect(result[0].user.username).toBeUndefined();

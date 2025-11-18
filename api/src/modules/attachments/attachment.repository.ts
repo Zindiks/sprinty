@@ -19,9 +19,7 @@ export class AttachmentRepository {
     this.knex = knexInstance;
   }
 
-  async createAttachment(
-    input: CreateAttachment,
-  ): Promise<AttachmentResponse> {
+  async createAttachment(input: CreateAttachment): Promise<AttachmentResponse> {
     const {
       card_id,
       filename,
@@ -51,9 +49,7 @@ export class AttachmentRepository {
     id: string,
     card_id: string,
   ): Promise<AttachmentResponse | undefined> {
-    const attachment = await this.knex(table)
-      .where({ id, card_id })
-      .first("*");
+    const attachment = await this.knex(table).where({ id, card_id }).first("*");
 
     return attachment;
   }
@@ -134,9 +130,7 @@ export class AttachmentRepository {
     return deleted > 0;
   }
 
-  async getAttachmentCount(
-    card_id: string,
-  ): Promise<AttachmentCountResponse> {
+  async getAttachmentCount(card_id: string): Promise<AttachmentCountResponse> {
     const result = await this.knex(table)
       .where({ card_id })
       .count("id as count")

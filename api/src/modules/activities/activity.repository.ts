@@ -97,7 +97,9 @@ export class ActivityRepository {
       );
 
     if (params?.action_type) {
-      query = query.where({ "card_activities.action_type": params.action_type });
+      query = query.where({
+        "card_activities.action_type": params.action_type,
+      });
     }
 
     if (params?.user_id) {
@@ -142,7 +144,9 @@ export class ActivityRepository {
     }
 
     if (params?.action_type) {
-      query = query.where({ "card_activities.action_type": params.action_type });
+      query = query.where({
+        "card_activities.action_type": params.action_type,
+      });
     }
 
     const activities = await query
@@ -185,7 +189,9 @@ export class ActivityRepository {
     }
 
     if (params.action_type) {
-      query = query.where({ "card_activities.action_type": params.action_type });
+      query = query.where({
+        "card_activities.action_type": params.action_type,
+      });
     }
 
     const activities = await query
@@ -199,9 +205,7 @@ export class ActivityRepository {
     }));
   }
 
-  async getActivityStats(
-    card_id: string,
-  ): Promise<ActivityStatsResponse> {
+  async getActivityStats(card_id: string): Promise<ActivityStatsResponse> {
     // Get total count
     const totalResult = await this.knex(table)
       .where({ card_id })

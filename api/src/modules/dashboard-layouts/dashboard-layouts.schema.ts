@@ -24,7 +24,7 @@ export const WidgetConfigSchema = Type.Object(
     }),
     config: Type.Optional(Type.Any()),
   },
-  { $id: "WidgetConfigSchema" }
+  { $id: "WidgetConfigSchema" },
 );
 
 // Dashboard layout schema
@@ -38,7 +38,7 @@ export const DashboardLayoutSchema = Type.Object(
     created_at: Type.String(),
     updated_at: Type.String(),
   },
-  { $id: "DashboardLayoutSchema" }
+  { $id: "DashboardLayoutSchema" },
 );
 
 // Request schemas
@@ -48,7 +48,7 @@ export const CreateLayoutBodySchema = Type.Object(
     widgets: Type.Array(WidgetConfigSchema),
     is_default: Type.Optional(Type.Boolean()),
   },
-  { $id: "CreateLayoutBodySchema" }
+  { $id: "CreateLayoutBodySchema" },
 );
 
 export const UpdateLayoutBodySchema = Type.Object(
@@ -57,14 +57,14 @@ export const UpdateLayoutBodySchema = Type.Object(
     widgets: Type.Optional(Type.Array(WidgetConfigSchema)),
     is_default: Type.Optional(Type.Boolean()),
   },
-  { $id: "UpdateLayoutBodySchema" }
+  { $id: "UpdateLayoutBodySchema" },
 );
 
 export const LayoutIdParamsSchema = Type.Object(
   {
     layoutId: Type.String({ format: "uuid" }),
   },
-  { $id: "LayoutIdParamsSchema" }
+  { $id: "LayoutIdParamsSchema" },
 );
 
 // Response schemas
@@ -80,7 +80,7 @@ export const DeleteLayoutResponseSchema = Type.Object(
     success: Type.Boolean(),
     message: Type.String(),
   },
-  { $id: "DeleteLayoutResponseSchema" }
+  { $id: "DeleteLayoutResponseSchema" },
 );
 
 // Type exports

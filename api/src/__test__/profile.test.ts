@@ -74,7 +74,7 @@ describe("ProfileService", () => {
 
       // Act & Assert
       await expect(profileService.getByUserId(userId)).rejects.toThrow(
-        "Database connection failed"
+        "Database connection failed",
       );
     });
   });
@@ -147,10 +147,10 @@ describe("ProfileService", () => {
       // Assert
       expect(result).toEqual(mockCreatedProfile);
       expect(profileRepository.checkUsernameExists).toHaveBeenCalledWith(
-        input.username
+        input.username,
       );
       expect(profileRepository.checkEmailExists).toHaveBeenCalledWith(
-        input.email
+        input.email,
       );
       expect(profileRepository.create).toHaveBeenCalledWith(input);
     });
@@ -167,10 +167,10 @@ describe("ProfileService", () => {
 
       // Act & Assert
       await expect(profileService.create(input)).rejects.toThrow(
-        "Username already exists"
+        "Username already exists",
       );
       expect(profileRepository.checkUsernameExists).toHaveBeenCalledWith(
-        input.username
+        input.username,
       );
       expect(profileRepository.create).not.toHaveBeenCalled();
     });
@@ -188,10 +188,10 @@ describe("ProfileService", () => {
 
       // Act & Assert
       await expect(profileService.create(input)).rejects.toThrow(
-        "Email already exists"
+        "Email already exists",
       );
       expect(profileRepository.checkEmailExists).toHaveBeenCalledWith(
-        input.email
+        input.email,
       );
       expect(profileRepository.create).not.toHaveBeenCalled();
     });
@@ -286,11 +286,11 @@ describe("ProfileService", () => {
       expect(result).toEqual(mockUpdatedProfile);
       expect(profileRepository.checkUsernameExists).toHaveBeenCalledWith(
         input.username,
-        userId
+        userId,
       );
       expect(profileRepository.checkEmailExists).toHaveBeenCalledWith(
         input.email,
-        userId
+        userId,
       );
       expect(profileRepository.update).toHaveBeenCalledWith(userId, input);
     });
@@ -306,7 +306,7 @@ describe("ProfileService", () => {
 
       // Act & Assert
       await expect(profileService.update(userId, input)).rejects.toThrow(
-        "Username already exists"
+        "Username already exists",
       );
       expect(profileRepository.update).not.toHaveBeenCalled();
     });
@@ -322,7 +322,7 @@ describe("ProfileService", () => {
 
       // Act & Assert
       await expect(profileService.update(userId, input)).rejects.toThrow(
-        "Email already exists"
+        "Email already exists",
       );
       expect(profileRepository.update).not.toHaveBeenCalled();
     });
@@ -383,7 +383,7 @@ describe("ProfileService", () => {
       expect(result).toEqual(mockUpdatedProfile);
       expect(profileRepository.checkUsernameExists).toHaveBeenCalledWith(
         input.username,
-        userId
+        userId,
       );
     });
   });
@@ -423,7 +423,7 @@ describe("ProfileService", () => {
 
       // Act & Assert
       await expect(profileService.delete(userId)).rejects.toThrow(
-        "Profile not found"
+        "Profile not found",
       );
     });
   });

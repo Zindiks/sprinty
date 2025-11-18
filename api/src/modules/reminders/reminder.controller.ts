@@ -1,6 +1,10 @@
 import type { FastifyRequest, FastifyReply } from "fastify";
 import { ReminderService } from "./reminder.service";
-import type { CreateReminder, GetCardReminders, DeleteReminder } from "./reminder.schema";
+import type {
+  CreateReminder,
+  GetCardReminders,
+  DeleteReminder,
+} from "./reminder.schema";
 
 export class ReminderController {
   constructor(private service: ReminderService) {}
@@ -11,7 +15,7 @@ export class ReminderController {
    */
   async create(
     request: FastifyRequest<{ Body: CreateReminder }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const reminder = await this.service.createReminder(request.body);
@@ -31,11 +35,11 @@ export class ReminderController {
    */
   async getCardReminders(
     request: FastifyRequest<{ Params: GetCardReminders }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const reminders = await this.service.getCardReminders(
-        request.params.card_id
+        request.params.card_id,
       );
       return reply.send(reminders);
     } catch (error) {
@@ -72,7 +76,7 @@ export class ReminderController {
    */
   async delete(
     request: FastifyRequest<{ Params: DeleteReminder }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       await this.service.deleteReminder(request.params.id);

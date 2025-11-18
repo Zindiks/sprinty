@@ -49,9 +49,7 @@ export class ActivityService {
     return this.activityRepository.getActivities(params);
   }
 
-  async getActivityStats(
-    card_id: string,
-  ): Promise<ActivityStatsResponse> {
+  async getActivityStats(card_id: string): Promise<ActivityStatsResponse> {
     return this.activityRepository.getActivityStats(card_id);
   }
 

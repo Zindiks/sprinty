@@ -68,7 +68,8 @@ export default async function cardRoutes(fastify: FastifyInstance) {
           200: CardSchema.FullCardResponseSchema,
         },
         tags: ["card"],
-        description: "Update card details by ID (title, description, status, due_date, priority)",
+        description:
+          "Update card details by ID (title, description, status, due_date, priority)",
       },
     },
     cardController.updateCardDetailsByIdController.bind(cardController),
@@ -126,7 +127,8 @@ export default async function cardRoutes(fastify: FastifyInstance) {
           200: CardSchema.FullCardResponseSchema,
         },
         tags: ["card"],
-        description: "Update card details (title, description, status, due_date, priority)",
+        description:
+          "Update card details (title, description, status, due_date, priority)",
       },
     },
     cardController.updateCardDetailsController.bind(cardController),

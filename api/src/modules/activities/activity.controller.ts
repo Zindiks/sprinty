@@ -137,11 +137,13 @@ export class ActivityController {
     try {
       const { card_id } = request.params;
 
-      const deleted = await this.activityService.deleteActivitiesByCardId(
-        card_id,
-      );
+      const deleted =
+        await this.activityService.deleteActivitiesByCardId(card_id);
 
-      return reply.send({ deleted, message: "Activities deleted successfully" });
+      return reply.send({
+        deleted,
+        message: "Activities deleted successfully",
+      });
     } catch (error) {
       request.log.error(error);
       return reply.code(500).send({ error: "Failed to delete activities" });

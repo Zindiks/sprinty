@@ -20,7 +20,7 @@ export class SprintController {
     request: FastifyRequest<{
       Body: CreateSprint;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const sprint = await this.service.createSprint({
@@ -44,7 +44,7 @@ export class SprintController {
     request: FastifyRequest<{
       Params: SprintParams;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const { id } = request.params;
@@ -69,7 +69,7 @@ export class SprintController {
     request: FastifyRequest<{
       Params: BoardSprintsParams;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const { boardId } = request.params;
@@ -89,7 +89,7 @@ export class SprintController {
     request: FastifyRequest<{
       Params: BoardSprintsParams;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const { boardId } = request.params;
@@ -115,7 +115,7 @@ export class SprintController {
       Params: SprintParams;
       Body: UpdateSprint;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const { id } = request.params;
@@ -151,7 +151,7 @@ export class SprintController {
     request: FastifyRequest<{
       Params: SprintParams;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const { id } = request.params;
@@ -171,7 +171,7 @@ export class SprintController {
     request: FastifyRequest<{
       Params: SprintParams;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const { id } = request.params;
@@ -192,7 +192,7 @@ export class SprintController {
       Params: SprintParams;
       Body: AddCardsToSprint;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const { id } = request.params;
@@ -214,7 +214,7 @@ export class SprintController {
     request: FastifyRequest<{
       Body: RemoveCardsFromSprint;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const { cardIds } = request.body;
@@ -234,7 +234,7 @@ export class SprintController {
     request: FastifyRequest<{
       Params: SprintParams;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const { id } = request.params;
@@ -259,7 +259,7 @@ export class SprintController {
     request: FastifyRequest<{
       Params: SprintParams;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const { id } = request.params;

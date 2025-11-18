@@ -19,7 +19,7 @@ export default async function reportRoutes(fastify: FastifyInstance) {
         }),
       },
     },
-    controller.generateBoardReport.bind(controller)
+    controller.generateBoardReport.bind(controller),
   );
 
   // Time tracking report
@@ -36,7 +36,7 @@ export default async function reportRoutes(fastify: FastifyInstance) {
         }),
       },
     },
-    controller.generateTimeTrackingReport.bind(controller)
+    controller.generateTimeTrackingReport.bind(controller),
   );
 
   // Sprint report
@@ -51,7 +51,7 @@ export default async function reportRoutes(fastify: FastifyInstance) {
         }),
       },
     },
-    controller.generateSprintReport.bind(controller)
+    controller.generateSprintReport.bind(controller),
   );
 
   // User activity report
@@ -68,7 +68,7 @@ export default async function reportRoutes(fastify: FastifyInstance) {
         }),
       },
     },
-    controller.generateUserActivityReport.bind(controller)
+    controller.generateUserActivityReport.bind(controller),
   );
 
   // Board calendar export
@@ -83,6 +83,6 @@ export default async function reportRoutes(fastify: FastifyInstance) {
         }),
       },
     },
-    controller.generateBoardCalendar.bind(controller)
+    controller.generateBoardCalendar.bind(controller),
   );
 }

@@ -31,7 +31,7 @@ export default async function sprintRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.createSprint.bind(controller)
+    controller.createSprint.bind(controller),
   );
 
   // Get sprint
@@ -47,7 +47,7 @@ export default async function sprintRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.getSprint.bind(controller)
+    controller.getSprint.bind(controller),
   );
 
   // Get board sprints
@@ -63,7 +63,7 @@ export default async function sprintRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.getBoardSprints.bind(controller)
+    controller.getBoardSprints.bind(controller),
   );
 
   // Get active sprint
@@ -79,7 +79,7 @@ export default async function sprintRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.getActiveSprint.bind(controller)
+    controller.getActiveSprint.bind(controller),
   );
 
   // Update sprint
@@ -96,7 +96,7 @@ export default async function sprintRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.updateSprint.bind(controller)
+    controller.updateSprint.bind(controller),
   );
 
   // Delete sprint
@@ -112,7 +112,7 @@ export default async function sprintRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.deleteSprint.bind(controller)
+    controller.deleteSprint.bind(controller),
   );
 
   // Get sprint cards
@@ -128,7 +128,7 @@ export default async function sprintRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.getSprintCards.bind(controller)
+    controller.getSprintCards.bind(controller),
   );
 
   // Add cards to sprint
@@ -145,7 +145,7 @@ export default async function sprintRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.addCardsToSprint.bind(controller)
+    controller.addCardsToSprint.bind(controller),
   );
 
   // Remove cards from sprint
@@ -161,7 +161,7 @@ export default async function sprintRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.removeCardsFromSprint.bind(controller)
+    controller.removeCardsFromSprint.bind(controller),
   );
 
   // Start sprint
@@ -177,7 +177,7 @@ export default async function sprintRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.startSprint.bind(controller)
+    controller.startSprint.bind(controller),
   );
 
   // Complete sprint
@@ -193,6 +193,6 @@ export default async function sprintRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.completeSprint.bind(controller)
+    controller.completeSprint.bind(controller),
   );
 }

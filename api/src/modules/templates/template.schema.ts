@@ -106,7 +106,7 @@ export class TemplateSchema {
           structure: TemplateStructureSchema,
           created_at,
           updated_at,
-        })
+        }),
       ),
       custom: Type.Array(
         Type.Object({
@@ -121,7 +121,7 @@ export class TemplateSchema {
           structure: TemplateStructureSchema,
           created_at,
           updated_at,
-        })
+        }),
       ),
     },
     { $id: "TemplatesCollectionSchema" },
@@ -161,7 +161,15 @@ export type BaseTemplate = Static<typeof TemplateSchema.BaseTemplateSchema>;
 export type CreateTemplate = Static<typeof TemplateSchema.CreateTemplateSchema>;
 export type UpdateTemplate = Static<typeof TemplateSchema.UpdateTemplateSchema>;
 export type DeleteTemplate = Static<typeof TemplateSchema.DeleteTemplateSchema>;
-export type TemplateResponse = Static<typeof TemplateSchema.TemplateResponseSchema>;
-export type TemplatesCollection = Static<typeof TemplateSchema.TemplatesCollectionSchema>;
-export type CreateBoardFromTemplate = Static<typeof TemplateSchema.CreateBoardFromTemplateSchema>;
-export type CreateTemplateFromBoard = Static<typeof TemplateSchema.CreateTemplateFromBoardSchema>;
+export type TemplateResponse = Static<
+  typeof TemplateSchema.TemplateResponseSchema
+>;
+export type TemplatesCollection = Static<
+  typeof TemplateSchema.TemplatesCollectionSchema
+>;
+export type CreateBoardFromTemplate = Static<
+  typeof TemplateSchema.CreateBoardFromTemplateSchema
+>;
+export type CreateTemplateFromBoard = Static<
+  typeof TemplateSchema.CreateTemplateFromBoardSchema
+>;

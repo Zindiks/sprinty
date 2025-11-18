@@ -44,10 +44,7 @@ export class ListRepository {
   }
 
   async getListById(id: string): Promise<FullListResponse | undefined> {
-    const list = await this.knex(table)
-      .select("*")
-      .where({ id })
-      .first();
+    const list = await this.knex(table).select("*").where({ id }).first();
 
     return list;
   }

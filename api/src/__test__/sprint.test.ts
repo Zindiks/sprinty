@@ -29,12 +29,13 @@ describe("SprintService", () => {
 
   beforeEach(() => {
     mockKnex = {} as Knex;
-    sprintRepository = new MockedSprintRepository() as unknown as jest.Mocked<SprintRepository>;
+    sprintRepository =
+      new MockedSprintRepository() as unknown as jest.Mocked<SprintRepository>;
 
     // Mock the repository constructor
-    (SprintRepository as jest.MockedClass<typeof SprintRepository>).mockImplementation(
-      () => sprintRepository
-    );
+    (
+      SprintRepository as jest.MockedClass<typeof SprintRepository>
+    ).mockImplementation(() => sprintRepository);
 
     sprintService = new SprintService(mockKnex);
     jest.clearAllMocks();
@@ -733,7 +734,10 @@ describe("SprintService", () => {
 
       const result = await sprintService.addCardsToSprint(sprintId, cardIds);
 
-      expect(sprintRepository.addCardsToSprint).toHaveBeenCalledWith(sprintId, cardIds);
+      expect(sprintRepository.addCardsToSprint).toHaveBeenCalledWith(
+        sprintId,
+        cardIds,
+      );
       expect(result).toBe(3);
     });
 
@@ -779,7 +783,9 @@ describe("SprintService", () => {
 
       const result = await sprintService.removeCardsFromSprint(cardIds);
 
-      expect(sprintRepository.removeCardsFromSprint).toHaveBeenCalledWith(cardIds);
+      expect(sprintRepository.removeCardsFromSprint).toHaveBeenCalledWith(
+        cardIds,
+      );
       expect(result).toBe(2);
     });
 

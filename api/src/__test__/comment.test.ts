@@ -31,7 +31,8 @@ describe("CommentService", () => {
   let commentRepository: jest.Mocked<CommentRepository>;
 
   beforeEach(() => {
-    commentRepository = new MockedCommentRepository() as unknown as jest.Mocked<CommentRepository>;
+    commentRepository =
+      new MockedCommentRepository() as unknown as jest.Mocked<CommentRepository>;
     commentService = new CommentService();
     // @ts-ignore - inject mocked repository
     commentService["commentRepository"] = commentRepository;
@@ -59,7 +60,10 @@ describe("CommentService", () => {
 
       const result = await commentService.createComment(input, user_id);
 
-      expect(commentRepository.createComment).toHaveBeenCalledWith(input, user_id);
+      expect(commentRepository.createComment).toHaveBeenCalledWith(
+        input,
+        user_id,
+      );
       expect(result).toEqual(expectedResponse);
       expect(result.is_edited).toBe(false);
       expect(result.parent_comment_id).toBeUndefined();
@@ -125,9 +129,9 @@ describe("CommentService", () => {
 
       commentRepository.createComment.mockRejectedValue(error);
 
-      await expect(commentService.createComment(input, user_id)).rejects.toThrow(
-        "Database connection failed",
-      );
+      await expect(
+        commentService.createComment(input, user_id),
+      ).rejects.toThrow("Database connection failed");
     });
   });
 
@@ -153,7 +157,10 @@ describe("CommentService", () => {
 
       const result = await commentService.updateComment(input, user_id);
 
-      expect(commentRepository.updateComment).toHaveBeenCalledWith(input, user_id);
+      expect(commentRepository.updateComment).toHaveBeenCalledWith(
+        input,
+        user_id,
+      );
       expect(result?.content).toBe("Updated comment content");
       expect(result?.is_edited).toBe(true);
     });
@@ -216,7 +223,10 @@ describe("CommentService", () => {
 
       const result = await commentService.deleteComment(input, user_id);
 
-      expect(commentRepository.deleteComment).toHaveBeenCalledWith(input, user_id);
+      expect(commentRepository.deleteComment).toHaveBeenCalledWith(
+        input,
+        user_id,
+      );
       expect(result).toBe(true);
     });
 
@@ -281,7 +291,10 @@ describe("CommentService", () => {
 
       const result = await commentService.getCommentById(id, card_id);
 
-      expect(commentRepository.getCommentById).toHaveBeenCalledWith(id, card_id);
+      expect(commentRepository.getCommentById).toHaveBeenCalledWith(
+        id,
+        card_id,
+      );
       expect(result).toEqual(expectedResponse);
     });
 
@@ -337,7 +350,9 @@ describe("CommentService", () => {
 
       const result = await commentService.getCommentsByCardId(card_id);
 
-      expect(commentRepository.getCommentsByCardId).toHaveBeenCalledWith(card_id);
+      expect(commentRepository.getCommentsByCardId).toHaveBeenCalledWith(
+        card_id,
+      );
       expect(result).toEqual(expectedComments);
       expect(result).toHaveLength(2);
     });
@@ -429,11 +444,15 @@ describe("CommentService", () => {
         },
       ];
 
-      commentRepository.getCommentsWithUserDetails.mockResolvedValue(expectedComments);
+      commentRepository.getCommentsWithUserDetails.mockResolvedValue(
+        expectedComments,
+      );
 
       const result = await commentService.getCommentsWithUserDetails(card_id);
 
-      expect(commentRepository.getCommentsWithUserDetails).toHaveBeenCalledWith(card_id);
+      expect(commentRepository.getCommentsWithUserDetails).toHaveBeenCalledWith(
+        card_id,
+      );
       expect(result).toEqual(expectedComments);
       expect(result[0].user.email).toBe("john@example.com");
       expect(result[0].user.username).toBe("johndoe");
@@ -468,7 +487,9 @@ describe("CommentService", () => {
         },
       ];
 
-      commentRepository.getCommentsWithUserDetails.mockResolvedValue(expectedComments);
+      commentRepository.getCommentsWithUserDetails.mockResolvedValue(
+        expectedComments,
+      );
 
       const result = await commentService.getCommentsWithUserDetails(card_id);
 
@@ -514,11 +535,15 @@ describe("CommentService", () => {
         },
       ];
 
-      commentRepository.getCommentsWithReplies.mockResolvedValue(expectedComments);
+      commentRepository.getCommentsWithReplies.mockResolvedValue(
+        expectedComments,
+      );
 
       const result = await commentService.getCommentsWithReplies(card_id);
 
-      expect(commentRepository.getCommentsWithReplies).toHaveBeenCalledWith(card_id);
+      expect(commentRepository.getCommentsWithReplies).toHaveBeenCalledWith(
+        card_id,
+      );
       expect(result).toEqual(expectedComments);
       expect(result[0].replies).toHaveLength(1);
       expect(result[0].replies[0].parent_comment_id).toBe("comment-001");
@@ -554,7 +579,9 @@ describe("CommentService", () => {
         },
       ];
 
-      commentRepository.getCommentsWithReplies.mockResolvedValue(expectedComments);
+      commentRepository.getCommentsWithReplies.mockResolvedValue(
+        expectedComments,
+      );
 
       const result = await commentService.getCommentsWithReplies(card_id);
 
@@ -612,7 +639,9 @@ describe("CommentService", () => {
         },
       ];
 
-      commentRepository.getCommentsWithReplies.mockResolvedValue(expectedComments);
+      commentRepository.getCommentsWithReplies.mockResolvedValue(
+        expectedComments,
+      );
 
       const result = await commentService.getCommentsWithReplies(card_id);
 
@@ -656,11 +685,16 @@ describe("CommentService", () => {
         },
       ];
 
-      commentRepository.getRepliesByCommentId.mockResolvedValue(expectedReplies);
+      commentRepository.getRepliesByCommentId.mockResolvedValue(
+        expectedReplies,
+      );
 
-      const result = await commentService.getRepliesByCommentId(parent_comment_id);
+      const result =
+        await commentService.getRepliesByCommentId(parent_comment_id);
 
-      expect(commentRepository.getRepliesByCommentId).toHaveBeenCalledWith(parent_comment_id);
+      expect(commentRepository.getRepliesByCommentId).toHaveBeenCalledWith(
+        parent_comment_id,
+      );
       expect(result).toEqual(expectedReplies);
       expect(result).toHaveLength(2);
       expect(result[0].parent_comment_id).toBe("comment-001");
@@ -671,7 +705,8 @@ describe("CommentService", () => {
 
       commentRepository.getRepliesByCommentId.mockResolvedValue([]);
 
-      const result = await commentService.getRepliesByCommentId(parent_comment_id);
+      const result =
+        await commentService.getRepliesByCommentId(parent_comment_id);
 
       expect(result).toEqual([]);
     });
@@ -711,9 +746,12 @@ describe("CommentService", () => {
         },
       ];
 
-      commentRepository.getRepliesByCommentId.mockResolvedValue(expectedReplies);
+      commentRepository.getRepliesByCommentId.mockResolvedValue(
+        expectedReplies,
+      );
 
-      const result = await commentService.getRepliesByCommentId(parent_comment_id);
+      const result =
+        await commentService.getRepliesByCommentId(parent_comment_id);
 
       expect(result[0].created_at).toBe("2025-01-01T11:00:00Z");
       expect(result[1].created_at).toBe("2025-01-01T12:00:00Z");

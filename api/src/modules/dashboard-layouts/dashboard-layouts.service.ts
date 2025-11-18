@@ -43,7 +43,11 @@ export class DashboardLayoutsService {
   /**
    * Update an existing dashboard layout
    */
-  async updateLayout(layoutId: string, userId: string, input: UpdateDashboardLayoutInput) {
+  async updateLayout(
+    layoutId: string,
+    userId: string,
+    input: UpdateDashboardLayoutInput,
+  ) {
     return this.repository.updateLayout(layoutId, userId, input);
   }
 

@@ -63,7 +63,10 @@ export class ProfileController {
       const profile = await this.profileService.create(body);
       return reply.status(201).send(profile);
     } catch (err: any) {
-      if (err.message === "Username already exists" || err.message === "Email already exists") {
+      if (
+        err.message === "Username already exists" ||
+        err.message === "Email already exists"
+      ) {
         return reply.status(409).send({ message: err.message });
       }
       return reply.status(500).send(err);
@@ -89,7 +92,10 @@ export class ProfileController {
 
       return reply.status(200).send(profile);
     } catch (err: any) {
-      if (err.message === "Username already exists" || err.message === "Email already exists") {
+      if (
+        err.message === "Username already exists" ||
+        err.message === "Email already exists"
+      ) {
         return reply.status(409).send({ message: err.message });
       }
       return reply.status(500).send(err);

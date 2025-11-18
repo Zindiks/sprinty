@@ -73,7 +73,7 @@ async function registerPlugins(server: FastifyInstance) {
   });
 
   server.log.info(
-    `http://${server.config.CLIENT_HOST}:${server.config.CLIENT_PORT}`
+    `http://${server.config.CLIENT_HOST}:${server.config.CLIENT_PORT}`,
   );
 
   server.register(swagger, swaggerDocs);
@@ -197,17 +197,17 @@ async function registerRoutes(server: FastifyInstance) {
           v1.register(templateRoutes, { prefix: "/templates" });
           v1.register(reminderRoutes, { prefix: "/reminders" });
         },
-        { prefix: "/v1" }
+        { prefix: "/v1" },
       );
     },
-    { prefix: "/api" }
+    { prefix: "/api" },
   );
 
   server.get(
     "/health",
     async (request: FastifyRequest, reply: FastifyReply) => {
       reply.send({ status: "OK" });
-    }
+    },
   );
 }
 

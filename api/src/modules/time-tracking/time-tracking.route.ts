@@ -31,7 +31,7 @@ export default async function timeTrackingRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.logTime.bind(controller)
+    controller.logTime.bind(controller),
   );
 
   // Get time log by ID
@@ -47,7 +47,7 @@ export default async function timeTrackingRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.getTimeLog.bind(controller)
+    controller.getTimeLog.bind(controller),
   );
 
   // Get card time logs
@@ -63,7 +63,7 @@ export default async function timeTrackingRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.getCardTimeLogs.bind(controller)
+    controller.getCardTimeLogs.bind(controller),
   );
 
   // Get card time total
@@ -79,7 +79,7 @@ export default async function timeTrackingRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.getCardTimeTotal.bind(controller)
+    controller.getCardTimeTotal.bind(controller),
   );
 
   // Get user time logs
@@ -95,7 +95,7 @@ export default async function timeTrackingRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.getUserTimeLogs.bind(controller)
+    controller.getUserTimeLogs.bind(controller),
   );
 
   // Get user time logs in range
@@ -111,7 +111,7 @@ export default async function timeTrackingRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.getTimeLogsInRange.bind(controller)
+    controller.getTimeLogsInRange.bind(controller),
   );
 
   // Update time log
@@ -128,7 +128,7 @@ export default async function timeTrackingRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.updateTimeLog.bind(controller)
+    controller.updateTimeLog.bind(controller),
   );
 
   // Delete time log
@@ -144,6 +144,6 @@ export default async function timeTrackingRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.deleteTimeLog.bind(controller)
+    controller.deleteTimeLog.bind(controller),
   );
 }

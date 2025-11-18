@@ -67,7 +67,15 @@ export class AssigneeSchema {
 
 export type AddAssignee = Static<typeof AssigneeSchema.AddAssigneeSchema>;
 export type RemoveAssignee = Static<typeof AssigneeSchema.RemoveAssigneeSchema>;
-export type AssigneeResponse = Static<typeof AssigneeSchema.AssigneeResponseSchema>;
-export type AssigneeResponseArray = Static<typeof AssigneeSchema.AssigneeResponseSchemaArray>;
-export type AssigneeWithUserDetails = Static<typeof AssigneeSchema.AssigneeWithUserDetailsSchema>;
-export type AssigneeWithUserDetailsArray = Static<typeof AssigneeSchema.AssigneeWithUserDetailsSchemaArray>;
+export type AssigneeResponse = Static<
+  typeof AssigneeSchema.AssigneeResponseSchema
+>;
+export type AssigneeResponseArray = Static<
+  typeof AssigneeSchema.AssigneeResponseSchemaArray
+>;
+export type AssigneeWithUserDetails = Static<
+  typeof AssigneeSchema.AssigneeWithUserDetailsSchema
+>;
+export type AssigneeWithUserDetailsArray = Static<
+  typeof AssigneeSchema.AssigneeWithUserDetailsSchemaArray
+>;

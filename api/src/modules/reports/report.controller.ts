@@ -32,7 +32,7 @@ export class ReportController {
     request: FastifyRequest<{
       Params: BoardReportParams;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const { boardId } = request.params;
@@ -40,7 +40,10 @@ export class ReportController {
 
       reply
         .header("Content-Type", "text/csv")
-        .header("Content-Disposition", `attachment; filename="board-${boardId}.csv"`)
+        .header(
+          "Content-Disposition",
+          `attachment; filename="board-${boardId}.csv"`,
+        )
         .send(csv);
     } catch (error) {
       request.log.error(error);
@@ -56,21 +59,21 @@ export class ReportController {
     request: FastifyRequest<{
       Querystring: TimeTrackingReportQuery;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const { boardId, startDate, endDate } = request.query;
       const csv = await this.service.generateTimeTrackingReport(
         boardId,
         startDate ? new Date(startDate) : undefined,
-        endDate ? new Date(endDate) : undefined
+        endDate ? new Date(endDate) : undefined,
       );
 
       reply
         .header("Content-Type", "text/csv")
         .header(
           "Content-Disposition",
-          `attachment; filename="time-tracking-${boardId}.csv"`
+          `attachment; filename="time-tracking-${boardId}.csv"`,
         )
         .send(csv);
     } catch (error) {
@@ -87,7 +90,7 @@ export class ReportController {
     request: FastifyRequest<{
       Params: SprintReportParams;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const { sprintId } = request.params;
@@ -97,7 +100,7 @@ export class ReportController {
         .header("Content-Type", "text/csv")
         .header(
           "Content-Disposition",
-          `attachment; filename="sprint-${sprintId}.csv"`
+          `attachment; filename="sprint-${sprintId}.csv"`,
         )
         .send(csv);
     } catch (error) {
@@ -114,7 +117,7 @@ export class ReportController {
     request: FastifyRequest<{
       Querystring: UserActivityReportQuery;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       // @ts-ignore - user is added by auth middleware
@@ -129,14 +132,14 @@ export class ReportController {
         userId,
         organizationId,
         startDate ? new Date(startDate) : undefined,
-        endDate ? new Date(endDate) : undefined
+        endDate ? new Date(endDate) : undefined,
       );
 
       reply
         .header("Content-Type", "text/csv")
         .header(
           "Content-Disposition",
-          `attachment; filename="user-activity-${userId}.csv"`
+          `attachment; filename="user-activity-${userId}.csv"`,
         )
         .send(csv);
     } catch (error) {
@@ -153,7 +156,7 @@ export class ReportController {
     request: FastifyRequest<{
       Params: BoardReportParams;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const { boardId } = request.params;
@@ -163,7 +166,7 @@ export class ReportController {
         .header("Content-Type", "text/calendar; charset=utf-8")
         .header(
           "Content-Disposition",
-          `attachment; filename="board-${boardId}-calendar.ics"`
+          `attachment; filename="board-${boardId}-calendar.ics"`,
         )
         .send(ical);
     } catch (error) {

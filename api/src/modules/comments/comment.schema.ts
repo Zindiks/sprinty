@@ -116,9 +116,21 @@ export class CommentSchema {
 export type CreateComment = Static<typeof CommentSchema.CreateCommentSchema>;
 export type UpdateComment = Static<typeof CommentSchema.UpdateCommentSchema>;
 export type DeleteComment = Static<typeof CommentSchema.DeleteCommentSchema>;
-export type CommentResponse = Static<typeof CommentSchema.CommentResponseSchema>;
-export type CommentResponseArray = Static<typeof CommentSchema.CommentResponseSchemaArray>;
-export type CommentWithUserDetails = Static<typeof CommentSchema.CommentWithUserDetailsSchema>;
-export type CommentWithUserDetailsArray = Static<typeof CommentSchema.CommentWithUserDetailsSchemaArray>;
-export type CommentWithReplies = Static<typeof CommentSchema.CommentWithRepliesSchema>;
-export type CommentWithRepliesArray = Static<typeof CommentSchema.CommentWithRepliesSchemaArray>;
+export type CommentResponse = Static<
+  typeof CommentSchema.CommentResponseSchema
+>;
+export type CommentResponseArray = Static<
+  typeof CommentSchema.CommentResponseSchemaArray
+>;
+export type CommentWithUserDetails = Static<
+  typeof CommentSchema.CommentWithUserDetailsSchema
+>;
+export type CommentWithUserDetailsArray = Static<
+  typeof CommentSchema.CommentWithUserDetailsSchemaArray
+>;
+export type CommentWithReplies = Static<
+  typeof CommentSchema.CommentWithRepliesSchema
+>;
+export type CommentWithRepliesArray = Static<
+  typeof CommentSchema.CommentWithRepliesSchemaArray
+>;

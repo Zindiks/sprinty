@@ -29,7 +29,7 @@ async function reminderRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.create.bind(controller)
+    controller.create.bind(controller),
   );
 
   // Get all reminders for a card
@@ -47,7 +47,7 @@ async function reminderRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.getCardReminders.bind(controller)
+    controller.getCardReminders.bind(controller),
   );
 
   // Get all reminders for the current user
@@ -64,7 +64,7 @@ async function reminderRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.getUserReminders.bind(controller)
+    controller.getUserReminders.bind(controller),
   );
 
   // Delete a reminder
@@ -85,7 +85,7 @@ async function reminderRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.delete.bind(controller)
+    controller.delete.bind(controller),
   );
 }
 

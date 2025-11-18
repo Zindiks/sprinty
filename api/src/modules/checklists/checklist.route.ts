@@ -152,7 +152,9 @@ export default async function checklistRoutes(fastify: FastifyInstance) {
         description: "Get checklist progress for a card",
       },
     },
-    checklistController.getChecklistProgressController.bind(checklistController),
+    checklistController.getChecklistProgressController.bind(
+      checklistController,
+    ),
   );
 
   // Get checklist with progress for a card

@@ -8,7 +8,7 @@ export const CreateTimeLogSchema = Type.Object(
     description: Type.Optional(Type.String()),
     loggedAt: Type.Optional(Type.String({ format: "date-time" })),
   },
-  { $id: "CreateTimeLogSchema" }
+  { $id: "CreateTimeLogSchema" },
 );
 
 export const UpdateTimeLogSchema = Type.Object(
@@ -16,28 +16,28 @@ export const UpdateTimeLogSchema = Type.Object(
     durationMinutes: Type.Optional(Type.Number({ minimum: 1 })),
     description: Type.Optional(Type.String()),
   },
-  { $id: "UpdateTimeLogSchema" }
+  { $id: "UpdateTimeLogSchema" },
 );
 
 export const TimeLogParamsSchema = Type.Object(
   {
     id: Type.String({ format: "uuid" }),
   },
-  { $id: "TimeLogParamsSchema" }
+  { $id: "TimeLogParamsSchema" },
 );
 
 export const CardTimeLogsParamsSchema = Type.Object(
   {
     cardId: Type.String({ format: "uuid" }),
   },
-  { $id: "CardTimeLogsParamsSchema" }
+  { $id: "CardTimeLogsParamsSchema" },
 );
 
 export const UserTimeLogsQuerySchema = Type.Object(
   {
     organizationId: Type.Optional(Type.String({ format: "uuid" })),
   },
-  { $id: "UserTimeLogsQuerySchema" }
+  { $id: "UserTimeLogsQuerySchema" },
 );
 
 export const TimeRangeQuerySchema = Type.Object(
@@ -46,7 +46,7 @@ export const TimeRangeQuerySchema = Type.Object(
     endDate: Type.String({ format: "date-time" }),
     organizationId: Type.Optional(Type.String({ format: "uuid" })),
   },
-  { $id: "TimeRangeQuerySchema" }
+  { $id: "TimeRangeQuerySchema" },
 );
 
 // Response schemas
@@ -60,7 +60,7 @@ export const TimeLogSchema = Type.Object(
     logged_at: Type.String(),
     created_at: Type.String(),
   },
-  { $id: "TimeLogSchema" }
+  { $id: "TimeLogSchema" },
 );
 
 export const TimeLogWithDetailsSchema = Type.Object(
@@ -77,7 +77,7 @@ export const TimeLogWithDetailsSchema = Type.Object(
     board_title: Type.Optional(Type.Union([Type.String(), Type.Null()])),
     board_id: Type.Optional(Type.Union([Type.String(), Type.Null()])),
   },
-  { $id: "TimeLogWithDetailsSchema" }
+  { $id: "TimeLogWithDetailsSchema" },
 );
 
 export const CardTimeTotalSchema = Type.Object(
@@ -86,7 +86,7 @@ export const CardTimeTotalSchema = Type.Object(
     totalHours: Type.Number(),
     logCount: Type.Number(),
   },
-  { $id: "CardTimeTotalSchema" }
+  { $id: "CardTimeTotalSchema" },
 );
 
 // Type exports

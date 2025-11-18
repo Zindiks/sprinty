@@ -122,7 +122,7 @@ describe("LabelService", () => {
 
       // Act & Assert
       await expect(labelService.createLabel(input)).rejects.toThrow(
-        "Database insert failed"
+        "Database insert failed",
       );
     });
   });
@@ -352,7 +352,7 @@ describe("LabelService", () => {
       expect(result).toBeUndefined();
       expect(labelRepository.getLabelById).toHaveBeenCalledWith(
         id,
-        wrong_board_id
+        wrong_board_id,
       );
     });
   });
@@ -398,9 +398,7 @@ describe("LabelService", () => {
       expect(result).toEqual(mockLabels);
       expect(result).toHaveLength(3);
       expect(result.every((l) => l.board_id === board_id)).toBe(true);
-      expect(labelRepository.getLabelsByBoardId).toHaveBeenCalledWith(
-        board_id
-      );
+      expect(labelRepository.getLabelsByBoardId).toHaveBeenCalledWith(board_id);
     });
 
     it("should return empty array when board has no labels", async () => {
@@ -488,7 +486,7 @@ describe("LabelService", () => {
       expect(result[0].cards_count).toBe(5);
       expect(result[1].cards_count).toBe(12);
       expect(labelRepository.getLabelsWithCardsCount).toHaveBeenCalledWith(
-        board_id
+        board_id,
       );
     });
 
@@ -609,7 +607,7 @@ describe("LabelService", () => {
 
       // Act & Assert
       await expect(labelService.addLabelToCard(input)).rejects.toThrow(
-        "Database constraint violation"
+        "Database constraint violation",
       );
     });
   });
@@ -762,7 +760,7 @@ describe("LabelService", () => {
       expect(result).toEqual(mockCardIds);
       expect(result).toHaveLength(3);
       expect(labelRepository.getCardIdsByLabelId).toHaveBeenCalledWith(
-        label_id
+        label_id,
       );
     });
 

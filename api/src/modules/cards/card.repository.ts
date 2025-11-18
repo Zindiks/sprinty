@@ -178,10 +178,11 @@ export class CardRepository {
       },
       comments: comments || [],
       attachments: attachments || [],
-      activities: activities.map((activity) => ({
-        ...activity,
-        metadata: activity.metadata ? JSON.parse(activity.metadata) : null,
-      })) || [],
+      activities:
+        activities.map((activity) => ({
+          ...activity,
+          metadata: activity.metadata ? JSON.parse(activity.metadata) : null,
+        })) || [],
     };
   }
 
@@ -212,7 +213,7 @@ export class CardRepository {
         status,
         due_date,
         priority: priority || "medium",
-        order
+        order,
       })
       .returning("*");
 
@@ -240,7 +241,8 @@ export class CardRepository {
     // Filter out undefined values
     const updateData: Record<string, any> = {};
     if (updates.title !== undefined) updateData.title = updates.title;
-    if (updates.description !== undefined) updateData.description = updates.description;
+    if (updates.description !== undefined)
+      updateData.description = updates.description;
     if (updates.status !== undefined) updateData.status = updates.status;
     if (updates.due_date !== undefined) updateData.due_date = updates.due_date;
     if (updates.priority !== undefined) updateData.priority = updates.priority;

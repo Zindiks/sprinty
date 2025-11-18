@@ -61,7 +61,10 @@ export class ProfileRepository {
     return profile;
   }
 
-  async checkUsernameExists(username: string, excludeUserId?: string): Promise<boolean> {
+  async checkUsernameExists(
+    username: string,
+    excludeUserId?: string,
+  ): Promise<boolean> {
     const query = this.knex(table).where({ username });
 
     if (excludeUserId) {
@@ -72,7 +75,10 @@ export class ProfileRepository {
     return !!profile;
   }
 
-  async checkEmailExists(email: string, excludeUserId?: string): Promise<boolean> {
+  async checkEmailExists(
+    email: string,
+    excludeUserId?: string,
+  ): Promise<boolean> {
     const query = this.knex(table).where({ email });
 
     if (excludeUserId) {

@@ -1,2 +1,2 @@
-export * from './errorCodes';
-export * from './httpStatus';
+export * from "./errorCodes";
+export * from "./httpStatus";

@@ -45,9 +45,7 @@ export class BulkService {
   /**
    * Move multiple cards to a target list
    */
-  async moveCards(
-    input: BulkMoveCardsInput,
-  ): Promise<BulkOperationResponse> {
+  async moveCards(input: BulkMoveCardsInput): Promise<BulkOperationResponse> {
     const { card_ids, target_list_id } = input;
 
     return this.knex.transaction(async (trx) => {
@@ -135,9 +133,7 @@ export class BulkService {
   /**
    * Add labels to multiple cards
    */
-  async addLabels(
-    input: BulkAddLabelsInput,
-  ): Promise<BulkOperationResponse> {
+  async addLabels(input: BulkAddLabelsInput): Promise<BulkOperationResponse> {
     const { card_ids, label_ids } = input;
 
     return this.knex.transaction(async (trx) => {
@@ -178,9 +174,7 @@ export class BulkService {
   /**
    * Set due date on multiple cards
    */
-  async setDueDate(
-    input: BulkSetDueDateInput,
-  ): Promise<BulkOperationResponse> {
+  async setDueDate(input: BulkSetDueDateInput): Promise<BulkOperationResponse> {
     const { card_ids, due_date } = input;
 
     return this.knex.transaction(async (trx) => {
@@ -195,7 +189,9 @@ export class BulkService {
         await trx("card_activities").insert({
           card_id: card_id,
           action: due_date ? "due_date_set" : "due_date_removed",
-          details: due_date ? `Due date set to ${due_date}` : "Due date removed",
+          details: due_date
+            ? `Due date set to ${due_date}`
+            : "Due date removed",
           created_at: trx.fn.now(),
         });
       }

@@ -5,21 +5,21 @@ export const PersonalDashboardQuerySchema = Type.Object(
   {
     organizationId: Type.String({ format: "uuid" }),
   },
-  { $id: "PersonalDashboardQuerySchema" }
+  { $id: "PersonalDashboardQuerySchema" },
 );
 
 export const BoardAnalyticsParamsSchema = Type.Object(
   {
     boardId: Type.String({ format: "uuid" }),
   },
-  { $id: "BoardAnalyticsParamsSchema" }
+  { $id: "BoardAnalyticsParamsSchema" },
 );
 
 export const SprintBurndownParamsSchema = Type.Object(
   {
     sprintId: Type.String({ format: "uuid" }),
   },
-  { $id: "SprintBurndownParamsSchema" }
+  { $id: "SprintBurndownParamsSchema" },
 );
 
 // Response schemas
@@ -30,7 +30,7 @@ export const PersonalStatsSchema = Type.Object(
     dueSoon: Type.Number(),
     overdue: Type.Number(),
   },
-  { $id: "PersonalStatsSchema" }
+  { $id: "PersonalStatsSchema" },
 );
 
 export const AssignedTaskSchema = Type.Object(
@@ -50,7 +50,7 @@ export const AssignedTaskSchema = Type.Object(
     board_id: Type.String({ format: "uuid" }),
     board_title: Type.String(),
   },
-  { $id: "AssignedTaskSchema" }
+  { $id: "AssignedTaskSchema" },
 );
 
 export const PersonalDashboardResponseSchema = Type.Object(
@@ -58,7 +58,7 @@ export const PersonalDashboardResponseSchema = Type.Object(
     stats: Type.Ref("PersonalStatsSchema"),
     recentTasks: Type.Array(Type.Ref("AssignedTaskSchema")),
   },
-  { $id: "PersonalDashboardResponseSchema" }
+  { $id: "PersonalDashboardResponseSchema" },
 );
 
 export const CardsByStatusSchema = Type.Object(
@@ -66,7 +66,7 @@ export const CardsByStatusSchema = Type.Object(
     status: Type.String(),
     count: Type.Number(),
   },
-  { $id: "CardsByStatusSchema" }
+  { $id: "CardsByStatusSchema" },
 );
 
 export const CardsByPrioritySchema = Type.Object(
@@ -79,7 +79,7 @@ export const CardsByPrioritySchema = Type.Object(
     ]),
     count: Type.Number(),
   },
-  { $id: "CardsByPrioritySchema" }
+  { $id: "CardsByPrioritySchema" },
 );
 
 export const BoardStatsSchema = Type.Object(
@@ -90,7 +90,7 @@ export const BoardStatsSchema = Type.Object(
     cardsByStatus: Type.Array(CardsByStatusSchema),
     cardsByPriority: Type.Array(CardsByPrioritySchema),
   },
-  { $id: "BoardStatsSchema" }
+  { $id: "BoardStatsSchema" },
 );
 
 export const ActivityTimelineItemSchema = Type.Object(
@@ -102,7 +102,7 @@ export const ActivityTimelineItemSchema = Type.Object(
     card_title: Type.String(),
     user_email: Type.String(),
   },
-  { $id: "ActivityTimelineItemSchema" }
+  { $id: "ActivityTimelineItemSchema" },
 );
 
 export const TimeTrackingUserSchema = Type.Object(
@@ -112,7 +112,7 @@ export const TimeTrackingUserSchema = Type.Object(
     totalMinutes: Type.Number(),
     totalHours: Type.Number(),
   },
-  { $id: "TimeTrackingUserSchema" }
+  { $id: "TimeTrackingUserSchema" },
 );
 
 export const TimeTrackingSummarySchema = Type.Object(
@@ -122,7 +122,7 @@ export const TimeTrackingSummarySchema = Type.Object(
     logCount: Type.Number(),
     byUser: Type.Array(TimeTrackingUserSchema),
   },
-  { $id: "TimeTrackingSummarySchema" }
+  { $id: "TimeTrackingSummarySchema" },
 );
 
 export const BoardAnalyticsResponseSchema = Type.Object(
@@ -131,7 +131,7 @@ export const BoardAnalyticsResponseSchema = Type.Object(
     activityTimeline: Type.Array(Type.Ref("ActivityTimelineItemSchema")),
     timeTracking: Type.Ref("TimeTrackingSummarySchema"),
   },
-  { $id: "BoardAnalyticsResponseSchema" }
+  { $id: "BoardAnalyticsResponseSchema" },
 );
 
 export const BurndownDataPointSchema = Type.Object(
@@ -140,7 +140,7 @@ export const BurndownDataPointSchema = Type.Object(
     remaining: Type.Number(),
     completed: Type.Number(),
   },
-  { $id: "BurndownDataPointSchema" }
+  { $id: "BurndownDataPointSchema" },
 );
 
 export const IdealLineDataPointSchema = Type.Object(
@@ -148,7 +148,7 @@ export const IdealLineDataPointSchema = Type.Object(
     date: Type.String(),
     ideal: Type.Number(),
   },
-  { $id: "IdealLineDataPointSchema" }
+  { $id: "IdealLineDataPointSchema" },
 );
 
 export const SprintInfoSchema = Type.Object(
@@ -164,7 +164,7 @@ export const SprintInfoSchema = Type.Object(
       Type.Literal("cancelled"),
     ]),
   },
-  { $id: "SprintInfoSchema" }
+  { $id: "SprintInfoSchema" },
 );
 
 export const SprintBurndownResponseSchema = Type.Object(
@@ -174,7 +174,7 @@ export const SprintBurndownResponseSchema = Type.Object(
     burndownData: Type.Array(Type.Ref("BurndownDataPointSchema")),
     idealLine: Type.Array(Type.Ref("IdealLineDataPointSchema")),
   },
-  { $id: "SprintBurndownResponseSchema" }
+  { $id: "SprintBurndownResponseSchema" },
 );
 
 export const VelocityMetricSchema = Type.Object(
@@ -191,14 +191,14 @@ export const VelocityMetricSchema = Type.Object(
     ]),
     cards_completed: Type.String(), // Knex returns count as string
   },
-  { $id: "VelocityMetricSchema" }
+  { $id: "VelocityMetricSchema" },
 );
 
 export const VelocityResponseSchema = Type.Array(
   Type.Ref("VelocityMetricSchema"),
   {
     $id: "VelocityResponseSchema",
-  }
+  },
 );
 
 // Due Date Analytics Schemas
@@ -217,7 +217,7 @@ export const DueDateCardSchema = Type.Object(
     list_id: Type.String({ format: "uuid" }),
     list_title: Type.String(),
   },
-  { $id: "DueDateCardSchema" }
+  { $id: "DueDateCardSchema" },
 );
 
 export const DueDateSummarySchema = Type.Object(
@@ -228,7 +228,7 @@ export const DueDateSummarySchema = Type.Object(
     upcoming: Type.Number(),
     noDueDate: Type.Number(),
   },
-  { $id: "DueDateSummarySchema" }
+  { $id: "DueDateSummarySchema" },
 );
 
 export const DueDateByPrioritySchema = Type.Object(
@@ -238,7 +238,7 @@ export const DueDateByPrioritySchema = Type.Object(
     medium: Type.Number(),
     low: Type.Number(),
   },
-  { $id: "DueDateByPrioritySchema" }
+  { $id: "DueDateByPrioritySchema" },
 );
 
 export const DueDateAnalyticsResponseSchema = Type.Object(
@@ -248,7 +248,7 @@ export const DueDateAnalyticsResponseSchema = Type.Object(
     overdueCards: Type.Array(Type.Ref("DueDateCardSchema")),
     dueTodayCards: Type.Array(Type.Ref("DueDateCardSchema")),
   },
-  { $id: "DueDateAnalyticsResponseSchema" }
+  { $id: "DueDateAnalyticsResponseSchema" },
 );
 
 // Type exports

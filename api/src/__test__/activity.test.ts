@@ -29,7 +29,8 @@ describe("ActivityService", () => {
   let activityRepository: jest.Mocked<ActivityRepository>;
 
   beforeEach(() => {
-    activityRepository = new MockedActivityRepository() as unknown as jest.Mocked<ActivityRepository>;
+    activityRepository =
+      new MockedActivityRepository() as unknown as jest.Mocked<ActivityRepository>;
     activityService = new ActivityService();
     // @ts-ignore - inject mocked repository
     activityService["activityRepository"] = activityRepository;
@@ -246,7 +247,9 @@ describe("ActivityService", () => {
         },
       };
 
-      activityRepository.getActivityWithUser.mockResolvedValue(expectedResponse);
+      activityRepository.getActivityWithUser.mockResolvedValue(
+        expectedResponse,
+      );
 
       const result = await activityService.getActivityWithUser(id);
 
@@ -280,7 +283,9 @@ describe("ActivityService", () => {
         },
       };
 
-      activityRepository.getActivityWithUser.mockResolvedValue(expectedResponse);
+      activityRepository.getActivityWithUser.mockResolvedValue(
+        expectedResponse,
+      );
 
       const result = await activityService.getActivityWithUser(id);
 
@@ -321,7 +326,9 @@ describe("ActivityService", () => {
         },
       ];
 
-      activityRepository.getActivitiesByCardId.mockResolvedValue(expectedActivities);
+      activityRepository.getActivitiesByCardId.mockResolvedValue(
+        expectedActivities,
+      );
 
       const result = await activityService.getActivitiesByCardId(card_id);
 
@@ -364,9 +371,14 @@ describe("ActivityService", () => {
         },
       ];
 
-      activityRepository.getActivitiesByCardId.mockResolvedValue(expectedActivities);
+      activityRepository.getActivitiesByCardId.mockResolvedValue(
+        expectedActivities,
+      );
 
-      const result = await activityService.getActivitiesByCardId(card_id, params);
+      const result = await activityService.getActivitiesByCardId(
+        card_id,
+        params,
+      );
 
       expect(activityRepository.getActivitiesByCardId).toHaveBeenCalledWith(
         card_id,
@@ -399,9 +411,14 @@ describe("ActivityService", () => {
         }),
       );
 
-      activityRepository.getActivitiesByCardId.mockResolvedValue(expectedActivities);
+      activityRepository.getActivitiesByCardId.mockResolvedValue(
+        expectedActivities,
+      );
 
-      const result = await activityService.getActivitiesByCardId(card_id, params);
+      const result = await activityService.getActivitiesByCardId(
+        card_id,
+        params,
+      );
 
       expect(result).toHaveLength(10);
     });
@@ -437,7 +454,9 @@ describe("ActivityService", () => {
         },
       ];
 
-      activityRepository.getActivitiesByCardId.mockResolvedValue(expectedActivities);
+      activityRepository.getActivitiesByCardId.mockResolvedValue(
+        expectedActivities,
+      );
 
       const result = await activityService.getActivitiesByCardId(card_id);
 
@@ -479,7 +498,9 @@ describe("ActivityService", () => {
         },
       ];
 
-      activityRepository.getActivitiesByUserId.mockResolvedValue(expectedActivities);
+      activityRepository.getActivitiesByUserId.mockResolvedValue(
+        expectedActivities,
+      );
 
       const result = await activityService.getActivitiesByUserId(user_id);
 
@@ -523,9 +544,14 @@ describe("ActivityService", () => {
         },
       ];
 
-      activityRepository.getActivitiesByUserId.mockResolvedValue(expectedActivities);
+      activityRepository.getActivitiesByUserId.mockResolvedValue(
+        expectedActivities,
+      );
 
-      const result = await activityService.getActivitiesByUserId(user_id, params);
+      const result = await activityService.getActivitiesByUserId(
+        user_id,
+        params,
+      );
 
       expect(result).toHaveLength(1);
       expect(result[0].card_id).toBe("card-123");
@@ -555,9 +581,14 @@ describe("ActivityService", () => {
         }),
       );
 
-      activityRepository.getActivitiesByUserId.mockResolvedValue(expectedActivities);
+      activityRepository.getActivitiesByUserId.mockResolvedValue(
+        expectedActivities,
+      );
 
-      const result = await activityService.getActivitiesByUserId(user_id, params);
+      const result = await activityService.getActivitiesByUserId(
+        user_id,
+        params,
+      );
 
       expect(result).toHaveLength(25);
     });

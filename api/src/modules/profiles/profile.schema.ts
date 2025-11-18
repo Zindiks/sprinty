@@ -62,4 +62,6 @@ export class ProfileSchema {
 export type GetProfile = Static<typeof ProfileSchema.GetProfileSchema>;
 export type UpdateProfile = Static<typeof ProfileSchema.UpdateProfileSchema>;
 export type CreateProfile = Static<typeof ProfileSchema.CreateProfileSchema>;
-export type ProfileResponse = Static<typeof ProfileSchema.ProfileResponseSchema>;
+export type ProfileResponse = Static<
+  typeof ProfileSchema.ProfileResponseSchema
+>;

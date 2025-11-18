@@ -16,9 +16,7 @@ export class AttachmentService {
     this.attachmentRepository = new AttachmentRepository();
   }
 
-  async createAttachment(
-    input: CreateAttachment,
-  ): Promise<AttachmentResponse> {
+  async createAttachment(input: CreateAttachment): Promise<AttachmentResponse> {
     return this.attachmentRepository.createAttachment(input);
   }
 
@@ -52,9 +50,7 @@ export class AttachmentService {
     return this.attachmentRepository.deleteAttachment(input);
   }
 
-  async getAttachmentCount(
-    card_id: string,
-  ): Promise<AttachmentCountResponse> {
+  async getAttachmentCount(card_id: string): Promise<AttachmentCountResponse> {
     return this.attachmentRepository.getAttachmentCount(card_id);
   }
 

@@ -32,7 +32,8 @@ describe("ChecklistService", () => {
   let checklistRepository: jest.Mocked<ChecklistRepository>;
 
   beforeEach(() => {
-    checklistRepository = new MockedChecklistRepository() as unknown as jest.Mocked<ChecklistRepository>;
+    checklistRepository =
+      new MockedChecklistRepository() as unknown as jest.Mocked<ChecklistRepository>;
     checklistService = new ChecklistService();
     // @ts-ignore - inject mocked repository
     checklistService["checklistRepository"] = checklistRepository;
@@ -56,11 +57,16 @@ describe("ChecklistService", () => {
         updated_at: new Date().toISOString(),
       };
 
-      checklistRepository.createChecklistItem.mockResolvedValue(expectedResponse);
+      checklistRepository.createChecklistItem.mockResolvedValue(
+        expectedResponse,
+      );
 
       const result = await checklistService.createChecklistItem(input);
 
-      expect(checklistRepository.createChecklistItem).toHaveBeenCalledWith(input, undefined);
+      expect(checklistRepository.createChecklistItem).toHaveBeenCalledWith(
+        input,
+        undefined,
+      );
       expect(result).toEqual(expectedResponse);
       expect(result.completed).toBe(false);
     });
@@ -80,7 +86,9 @@ describe("ChecklistService", () => {
         updated_at: new Date().toISOString(),
       };
 
-      checklistRepository.createChecklistItem.mockResolvedValue(expectedResponse);
+      checklistRepository.createChecklistItem.mockResolvedValue(
+        expectedResponse,
+      );
 
       const result = await checklistService.createChecklistItem(input);
 
@@ -104,11 +112,19 @@ describe("ChecklistService", () => {
         updated_at: new Date().toISOString(),
       };
 
-      checklistRepository.createChecklistItem.mockResolvedValue(expectedResponse);
+      checklistRepository.createChecklistItem.mockResolvedValue(
+        expectedResponse,
+      );
 
-      const result = await checklistService.createChecklistItem(input, created_by_id);
+      const result = await checklistService.createChecklistItem(
+        input,
+        created_by_id,
+      );
 
-      expect(checklistRepository.createChecklistItem).toHaveBeenCalledWith(input, created_by_id);
+      expect(checklistRepository.createChecklistItem).toHaveBeenCalledWith(
+        input,
+        created_by_id,
+      );
       expect(result).toEqual(expectedResponse);
     });
 
@@ -128,7 +144,9 @@ describe("ChecklistService", () => {
         updated_at: new Date().toISOString(),
       };
 
-      checklistRepository.createChecklistItem.mockResolvedValue(expectedResponse);
+      checklistRepository.createChecklistItem.mockResolvedValue(
+        expectedResponse,
+      );
 
       const result = await checklistService.createChecklistItem(input);
 
@@ -167,11 +185,15 @@ describe("ChecklistService", () => {
         updated_at: new Date().toISOString(),
       };
 
-      checklistRepository.updateChecklistItem.mockResolvedValue(expectedResponse);
+      checklistRepository.updateChecklistItem.mockResolvedValue(
+        expectedResponse,
+      );
 
       const result = await checklistService.updateChecklistItem(input);
 
-      expect(checklistRepository.updateChecklistItem).toHaveBeenCalledWith(input);
+      expect(checklistRepository.updateChecklistItem).toHaveBeenCalledWith(
+        input,
+      );
       expect(result?.title).toBe("Updated title");
     });
 
@@ -191,7 +213,9 @@ describe("ChecklistService", () => {
         updated_at: new Date().toISOString(),
       };
 
-      checklistRepository.updateChecklistItem.mockResolvedValue(expectedResponse);
+      checklistRepository.updateChecklistItem.mockResolvedValue(
+        expectedResponse,
+      );
 
       const result = await checklistService.updateChecklistItem(input);
 
@@ -214,7 +238,9 @@ describe("ChecklistService", () => {
         updated_at: new Date().toISOString(),
       };
 
-      checklistRepository.updateChecklistItem.mockResolvedValue(expectedResponse);
+      checklistRepository.updateChecklistItem.mockResolvedValue(
+        expectedResponse,
+      );
 
       const result = await checklistService.updateChecklistItem(input);
 
@@ -239,7 +265,9 @@ describe("ChecklistService", () => {
         updated_at: new Date().toISOString(),
       };
 
-      checklistRepository.updateChecklistItem.mockResolvedValue(expectedResponse);
+      checklistRepository.updateChecklistItem.mockResolvedValue(
+        expectedResponse,
+      );
 
       const result = await checklistService.updateChecklistItem(input);
 
@@ -296,11 +324,16 @@ describe("ChecklistService", () => {
         updated_at: new Date().toISOString(),
       };
 
-      checklistRepository.toggleChecklistItem.mockResolvedValue(expectedResponse);
+      checklistRepository.toggleChecklistItem.mockResolvedValue(
+        expectedResponse,
+      );
 
       const result = await checklistService.toggleChecklistItem(input, user_id);
 
-      expect(checklistRepository.toggleChecklistItem).toHaveBeenCalledWith(input, user_id);
+      expect(checklistRepository.toggleChecklistItem).toHaveBeenCalledWith(
+        input,
+        user_id,
+      );
       expect(result?.completed).toBe(true);
       expect(result?.completed_by).toBe("user-456");
       expect(result?.completed_at).toBeDefined();
@@ -321,7 +354,9 @@ describe("ChecklistService", () => {
         updated_at: new Date().toISOString(),
       };
 
-      checklistRepository.toggleChecklistItem.mockResolvedValue(expectedResponse);
+      checklistRepository.toggleChecklistItem.mockResolvedValue(
+        expectedResponse,
+      );
 
       const result = await checklistService.toggleChecklistItem(input);
 
@@ -346,11 +381,16 @@ describe("ChecklistService", () => {
         updated_at: new Date().toISOString(),
       };
 
-      checklistRepository.toggleChecklistItem.mockResolvedValue(expectedResponse);
+      checklistRepository.toggleChecklistItem.mockResolvedValue(
+        expectedResponse,
+      );
 
       const result = await checklistService.toggleChecklistItem(input);
 
-      expect(checklistRepository.toggleChecklistItem).toHaveBeenCalledWith(input, undefined);
+      expect(checklistRepository.toggleChecklistItem).toHaveBeenCalledWith(
+        input,
+        undefined,
+      );
       expect(result?.completed).toBe(true);
       expect(result?.completed_by).toBeUndefined();
     });
@@ -380,7 +420,9 @@ describe("ChecklistService", () => {
 
       const result = await checklistService.deleteChecklistItem(input);
 
-      expect(checklistRepository.deleteChecklistItem).toHaveBeenCalledWith(input);
+      expect(checklistRepository.deleteChecklistItem).toHaveBeenCalledWith(
+        input,
+      );
       expect(result).toBe(true);
     });
 
@@ -425,11 +467,16 @@ describe("ChecklistService", () => {
         updated_at: "2025-01-01T10:00:00Z",
       };
 
-      checklistRepository.getChecklistItemById.mockResolvedValue(expectedResponse);
+      checklistRepository.getChecklistItemById.mockResolvedValue(
+        expectedResponse,
+      );
 
       const result = await checklistService.getChecklistItemById(id, card_id);
 
-      expect(checklistRepository.getChecklistItemById).toHaveBeenCalledWith(id, card_id);
+      expect(checklistRepository.getChecklistItemById).toHaveBeenCalledWith(
+        id,
+        card_id,
+      );
       expect(result).toEqual(expectedResponse);
     });
 
@@ -482,11 +529,15 @@ describe("ChecklistService", () => {
         },
       ];
 
-      checklistRepository.getChecklistItemsByCardId.mockResolvedValue(expectedItems);
+      checklistRepository.getChecklistItemsByCardId.mockResolvedValue(
+        expectedItems,
+      );
 
       const result = await checklistService.getChecklistItemsByCardId(card_id);
 
-      expect(checklistRepository.getChecklistItemsByCardId).toHaveBeenCalledWith(card_id);
+      expect(
+        checklistRepository.getChecklistItemsByCardId,
+      ).toHaveBeenCalledWith(card_id);
       expect(result).toEqual(expectedItems);
       expect(result).toHaveLength(2);
     });
@@ -533,7 +584,9 @@ describe("ChecklistService", () => {
         },
       ];
 
-      checklistRepository.getChecklistItemsByCardId.mockResolvedValue(expectedItems);
+      checklistRepository.getChecklistItemsByCardId.mockResolvedValue(
+        expectedItems,
+      );
 
       const result = await checklistService.getChecklistItemsByCardId(card_id);
 
@@ -552,11 +605,15 @@ describe("ChecklistService", () => {
         percentage: 60,
       };
 
-      checklistRepository.getChecklistProgress.mockResolvedValue(expectedProgress);
+      checklistRepository.getChecklistProgress.mockResolvedValue(
+        expectedProgress,
+      );
 
       const result = await checklistService.getChecklistProgress(card_id);
 
-      expect(checklistRepository.getChecklistProgress).toHaveBeenCalledWith(card_id);
+      expect(checklistRepository.getChecklistProgress).toHaveBeenCalledWith(
+        card_id,
+      );
       expect(result).toEqual(expectedProgress);
       expect(result.percentage).toBe(60);
     });
@@ -569,7 +626,9 @@ describe("ChecklistService", () => {
         percentage: 0,
       };
 
-      checklistRepository.getChecklistProgress.mockResolvedValue(expectedProgress);
+      checklistRepository.getChecklistProgress.mockResolvedValue(
+        expectedProgress,
+      );
 
       const result = await checklistService.getChecklistProgress(card_id);
 
@@ -585,7 +644,9 @@ describe("ChecklistService", () => {
         percentage: 100,
       };
 
-      checklistRepository.getChecklistProgress.mockResolvedValue(expectedProgress);
+      checklistRepository.getChecklistProgress.mockResolvedValue(
+        expectedProgress,
+      );
 
       const result = await checklistService.getChecklistProgress(card_id);
 
@@ -600,7 +661,9 @@ describe("ChecklistService", () => {
         percentage: 0,
       };
 
-      checklistRepository.getChecklistProgress.mockResolvedValue(expectedProgress);
+      checklistRepository.getChecklistProgress.mockResolvedValue(
+        expectedProgress,
+      );
 
       const result = await checklistService.getChecklistProgress(card_id);
 
@@ -642,11 +705,15 @@ describe("ChecklistService", () => {
         },
       };
 
-      checklistRepository.getChecklistWithProgress.mockResolvedValue(expectedResponse);
+      checklistRepository.getChecklistWithProgress.mockResolvedValue(
+        expectedResponse,
+      );
 
       const result = await checklistService.getChecklistWithProgress(card_id);
 
-      expect(checklistRepository.getChecklistWithProgress).toHaveBeenCalledWith(card_id);
+      expect(checklistRepository.getChecklistWithProgress).toHaveBeenCalledWith(
+        card_id,
+      );
       expect(result.items).toHaveLength(2);
       expect(result.progress.total).toBe(2);
       expect(result.progress.completed).toBe(1);
@@ -664,7 +731,9 @@ describe("ChecklistService", () => {
         },
       };
 
-      checklistRepository.getChecklistWithProgress.mockResolvedValue(expectedResponse);
+      checklistRepository.getChecklistWithProgress.mockResolvedValue(
+        expectedResponse,
+      );
 
       const result = await checklistService.getChecklistWithProgress(card_id);
 
@@ -686,7 +755,10 @@ describe("ChecklistService", () => {
 
       await checklistService.reorderChecklistItems(card_id, itemOrders);
 
-      expect(checklistRepository.reorderChecklistItems).toHaveBeenCalledWith(card_id, itemOrders);
+      expect(checklistRepository.reorderChecklistItems).toHaveBeenCalledWith(
+        card_id,
+        itemOrders,
+      );
     });
 
     it("should handle reordering single item", async () => {
@@ -697,7 +769,10 @@ describe("ChecklistService", () => {
 
       await checklistService.reorderChecklistItems(card_id, itemOrders);
 
-      expect(checklistRepository.reorderChecklistItems).toHaveBeenCalledWith(card_id, itemOrders);
+      expect(checklistRepository.reorderChecklistItems).toHaveBeenCalledWith(
+        card_id,
+        itemOrders,
+      );
     });
 
     it("should handle reordering many items", async () => {
@@ -711,7 +786,10 @@ describe("ChecklistService", () => {
 
       await checklistService.reorderChecklistItems(card_id, itemOrders);
 
-      expect(checklistRepository.reorderChecklistItems).toHaveBeenCalledWith(card_id, itemOrders);
+      expect(checklistRepository.reorderChecklistItems).toHaveBeenCalledWith(
+        card_id,
+        itemOrders,
+      );
     });
 
     it("should handle transaction errors during reordering", async () => {

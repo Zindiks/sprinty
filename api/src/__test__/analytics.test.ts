@@ -30,9 +30,9 @@ describe("AnalyticsService", () => {
     analyticsRepository = new MockedAnalyticsRepository();
 
     // Mock the repository constructor
-    (AnalyticsRepository as jest.MockedClass<typeof AnalyticsRepository>).mockImplementation(
-      () => analyticsRepository
-    );
+    (
+      AnalyticsRepository as jest.MockedClass<typeof AnalyticsRepository>
+    ).mockImplementation(() => analyticsRepository);
 
     analyticsService = new AnalyticsService(mockKnex);
     jest.clearAllMocks();
@@ -65,10 +65,20 @@ describe("AnalyticsService", () => {
       analyticsRepository.getPersonalStats.mockResolvedValue(expectedStats);
       analyticsRepository.getAssignedTasks.mockResolvedValue(expectedTasks);
 
-      const result = await analyticsService.getPersonalDashboard(userId, organizationId);
+      const result = await analyticsService.getPersonalDashboard(
+        userId,
+        organizationId,
+      );
 
-      expect(analyticsRepository.getPersonalStats).toHaveBeenCalledWith(userId, organizationId);
-      expect(analyticsRepository.getAssignedTasks).toHaveBeenCalledWith(userId, organizationId, 20);
+      expect(analyticsRepository.getPersonalStats).toHaveBeenCalledWith(
+        userId,
+        organizationId,
+      );
+      expect(analyticsRepository.getAssignedTasks).toHaveBeenCalledWith(
+        userId,
+        organizationId,
+        20,
+      );
       expect(result.stats).toEqual(expectedStats);
       expect(result.recentTasks).toEqual(expectedTasks);
     });
@@ -86,7 +96,10 @@ describe("AnalyticsService", () => {
       analyticsRepository.getPersonalStats.mockResolvedValue(expectedStats);
       analyticsRepository.getAssignedTasks.mockResolvedValue([]);
 
-      const result = await analyticsService.getPersonalDashboard(userId, organizationId);
+      const result = await analyticsService.getPersonalDashboard(
+        userId,
+        organizationId,
+      );
 
       expect(result.stats.assignedCards).toBe(0);
       expect(result.recentTasks).toEqual([]);
@@ -137,14 +150,23 @@ describe("AnalyticsService", () => {
       };
 
       analyticsRepository.getBoardStats.mockResolvedValue(expectedStats);
-      analyticsRepository.getActivityTimeline.mockResolvedValue(expectedTimeline);
-      analyticsRepository.getTimeTrackingSummary.mockResolvedValue(expectedTimeTracking);
+      analyticsRepository.getActivityTimeline.mockResolvedValue(
+        expectedTimeline,
+      );
+      analyticsRepository.getTimeTrackingSummary.mockResolvedValue(
+        expectedTimeTracking,
+      );
 
       const result = await analyticsService.getBoardAnalytics(boardId);
 
       expect(analyticsRepository.getBoardStats).toHaveBeenCalledWith(boardId);
-      expect(analyticsRepository.getActivityTimeline).toHaveBeenCalledWith(boardId, 50);
-      expect(analyticsRepository.getTimeTrackingSummary).toHaveBeenCalledWith(boardId);
+      expect(analyticsRepository.getActivityTimeline).toHaveBeenCalledWith(
+        boardId,
+        50,
+      );
+      expect(analyticsRepository.getTimeTrackingSummary).toHaveBeenCalledWith(
+        boardId,
+      );
       expect(result.stats).toEqual(expectedStats);
       expect(result.activityTimeline).toEqual(expectedTimeline);
       expect(result.timeTracking).toEqual(expectedTimeTracking);
@@ -202,7 +224,9 @@ describe("AnalyticsService", () => {
 
       const result = await analyticsService.getSprintBurndown(sprintId);
 
-      expect(analyticsRepository.getBurndownData).toHaveBeenCalledWith(sprintId);
+      expect(analyticsRepository.getBurndownData).toHaveBeenCalledWith(
+        sprintId,
+      );
       expect(result).toEqual(expectedData);
       expect(result?.totalCards).toBe(20);
     });
@@ -274,7 +298,9 @@ describe("AnalyticsService", () => {
 
       const result = await analyticsService.getBoardVelocity(boardId);
 
-      expect(analyticsRepository.getVelocityMetrics).toHaveBeenCalledWith(boardId);
+      expect(analyticsRepository.getVelocityMetrics).toHaveBeenCalledWith(
+        boardId,
+      );
       expect(result).toEqual(expectedMetrics);
       expect(result).toHaveLength(3);
     });
@@ -321,9 +347,15 @@ describe("AnalyticsService", () => {
 
       analyticsRepository.getAssignedTasks.mockResolvedValue(expectedTasks);
 
-      const result = await analyticsService.getUserAssignedTasks(userId, organizationId);
+      const result = await analyticsService.getUserAssignedTasks(
+        userId,
+        organizationId,
+      );
 
-      expect(analyticsRepository.getAssignedTasks).toHaveBeenCalledWith(userId, organizationId);
+      expect(analyticsRepository.getAssignedTasks).toHaveBeenCalledWith(
+        userId,
+        organizationId,
+      );
       expect(result).toEqual(expectedTasks);
       expect(result).toHaveLength(2);
     });
@@ -334,7 +366,10 @@ describe("AnalyticsService", () => {
 
       analyticsRepository.getAssignedTasks.mockResolvedValue([]);
 
-      const result = await analyticsService.getUserAssignedTasks(userId, organizationId);
+      const result = await analyticsService.getUserAssignedTasks(
+        userId,
+        organizationId,
+      );
 
       expect(result).toEqual([]);
     });
@@ -381,11 +416,15 @@ describe("AnalyticsService", () => {
         ],
       };
 
-      analyticsRepository.getDueDateAnalytics.mockResolvedValue(expectedAnalytics);
+      analyticsRepository.getDueDateAnalytics.mockResolvedValue(
+        expectedAnalytics,
+      );
 
       const result = await analyticsService.getDueDateAnalytics(boardId);
 
-      expect(analyticsRepository.getDueDateAnalytics).toHaveBeenCalledWith(boardId);
+      expect(analyticsRepository.getDueDateAnalytics).toHaveBeenCalledWith(
+        boardId,
+      );
       expect(result.summary.overdue).toBe(3);
       expect(result.summary.dueToday).toBe(2);
       expect(result.byPriority.critical).toBe(1);
@@ -411,7 +450,9 @@ describe("AnalyticsService", () => {
         dueTodayCards: [],
       };
 
-      analyticsRepository.getDueDateAnalytics.mockResolvedValue(expectedAnalytics);
+      analyticsRepository.getDueDateAnalytics.mockResolvedValue(
+        expectedAnalytics,
+      );
 
       const result = await analyticsService.getDueDateAnalytics(boardId);
 
@@ -448,7 +489,9 @@ describe("AnalyticsService", () => {
         },
       };
 
-      analyticsRepository.getProductivityTrends.mockResolvedValue(expectedTrends);
+      analyticsRepository.getProductivityTrends.mockResolvedValue(
+        expectedTrends,
+      );
 
       const result = await analyticsService.getProductivityTrends(
         userId,
@@ -487,7 +530,9 @@ describe("AnalyticsService", () => {
         },
       };
 
-      analyticsRepository.getProductivityTrends.mockResolvedValue(expectedTrends);
+      analyticsRepository.getProductivityTrends.mockResolvedValue(
+        expectedTrends,
+      );
 
       const result = await analyticsService.getProductivityTrends(
         userId,
@@ -520,7 +565,9 @@ describe("AnalyticsService", () => {
         },
       };
 
-      analyticsRepository.getProductivityTrends.mockResolvedValue(expectedTrends);
+      analyticsRepository.getProductivityTrends.mockResolvedValue(
+        expectedTrends,
+      );
 
       const result = await analyticsService.getProductivityTrends(
         userId,
@@ -565,7 +612,10 @@ describe("AnalyticsService", () => {
 
       analyticsRepository.getBoardsOverview.mockResolvedValue(expectedOverview);
 
-      const result = await analyticsService.getBoardsOverview(userId, organizationId);
+      const result = await analyticsService.getBoardsOverview(
+        userId,
+        organizationId,
+      );
 
       expect(analyticsRepository.getBoardsOverview).toHaveBeenCalledWith(
         userId,
@@ -581,7 +631,10 @@ describe("AnalyticsService", () => {
 
       analyticsRepository.getBoardsOverview.mockResolvedValue([]);
 
-      const result = await analyticsService.getBoardsOverview(userId, organizationId);
+      const result = await analyticsService.getBoardsOverview(
+        userId,
+        organizationId,
+      );
 
       expect(result).toEqual([]);
     });
@@ -611,7 +664,10 @@ describe("AnalyticsService", () => {
 
       analyticsRepository.getWeeklyMetrics.mockResolvedValue(expectedMetrics);
 
-      const result = await analyticsService.getWeeklyMetrics(userId, organizationId);
+      const result = await analyticsService.getWeeklyMetrics(
+        userId,
+        organizationId,
+      );
 
       expect(analyticsRepository.getWeeklyMetrics).toHaveBeenCalledWith(
         userId,
@@ -628,7 +684,11 @@ describe("AnalyticsService", () => {
 
       analyticsRepository.getWeeklyMetrics.mockResolvedValue([]);
 
-      await analyticsService.getWeeklyMetrics(userId, organizationId, weeksBack);
+      await analyticsService.getWeeklyMetrics(
+        userId,
+        organizationId,
+        weeksBack,
+      );
 
       expect(analyticsRepository.getWeeklyMetrics).toHaveBeenCalledWith(
         userId,
@@ -670,7 +730,10 @@ describe("AnalyticsService", () => {
 
       analyticsRepository.getMonthlyMetrics.mockResolvedValue(expectedMetrics);
 
-      const result = await analyticsService.getMonthlyMetrics(userId, organizationId);
+      const result = await analyticsService.getMonthlyMetrics(
+        userId,
+        organizationId,
+      );
 
       expect(analyticsRepository.getMonthlyMetrics).toHaveBeenCalledWith(
         userId,
@@ -687,7 +750,11 @@ describe("AnalyticsService", () => {
 
       analyticsRepository.getMonthlyMetrics.mockResolvedValue([]);
 
-      await analyticsService.getMonthlyMetrics(userId, organizationId, monthsBack);
+      await analyticsService.getMonthlyMetrics(
+        userId,
+        organizationId,
+        monthsBack,
+      );
 
       expect(analyticsRepository.getMonthlyMetrics).toHaveBeenCalledWith(
         userId,
@@ -714,7 +781,10 @@ describe("AnalyticsService", () => {
 
       analyticsRepository.getMonthlyMetrics.mockResolvedValue(expectedMetrics);
 
-      const result = await analyticsService.getMonthlyMetrics(userId, organizationId);
+      const result = await analyticsService.getMonthlyMetrics(
+        userId,
+        organizationId,
+      );
 
       expect(result[0].cardsCompleted).toBe(0);
     });

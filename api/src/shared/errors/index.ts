@@ -1,20 +1,20 @@
 // Base error class
-export * from './ApiError';
+export * from "./ApiError";
 
 // Validation errors (400)
-export * from './ValidationError';
+export * from "./ValidationError";
 
 // Authentication errors (401)
-export * from './AuthenticationError';
+export * from "./AuthenticationError";
 
 // Authorization errors (403)
-export * from './AuthorizationError';
+export * from "./AuthorizationError";
 
 // Not found errors (404)
-export * from './NotFoundError';
+export * from "./NotFoundError";
 
 // Conflict errors (409)
-export * from './ConflictError';
+export * from "./ConflictError";
 
 // Server errors (500+)
-export * from './InternalServerError';
+export * from "./InternalServerError";

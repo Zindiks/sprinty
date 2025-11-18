@@ -64,7 +64,7 @@ export class DashboardLayoutsController {
     request: FastifyRequest<{
       Params: LayoutIdParams;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const { layoutId } = request.params;
@@ -96,7 +96,7 @@ export class DashboardLayoutsController {
     request: FastifyRequest<{
       Body: CreateLayoutBody;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       // @ts-ignore - user is added by auth middleware
@@ -127,7 +127,7 @@ export class DashboardLayoutsController {
       Params: LayoutIdParams;
       Body: UpdateLayoutBody;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const { layoutId } = request.params;
@@ -147,7 +147,7 @@ export class DashboardLayoutsController {
       const layout = await this.service.updateLayout(
         layoutId,
         userId,
-        request.body
+        request.body,
       );
 
       return reply.code(200).send(layout);
@@ -165,7 +165,7 @@ export class DashboardLayoutsController {
     request: FastifyRequest<{
       Params: LayoutIdParams;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const { layoutId } = request.params;

@@ -17,12 +17,12 @@ export class ReminderService {
     const exists = await this.repository.exists(
       data.card_id,
       data.user_id,
-      data.reminder_type
+      data.reminder_type,
     );
 
     if (exists) {
       throw new Error(
-        `A ${data.reminder_type} reminder already exists for this card`
+        `A ${data.reminder_type} reminder already exists for this card`,
       );
     }
 
@@ -72,7 +72,11 @@ export class ReminderService {
   /**
    * Calculate reminder time based on due date and type
    */
-  calculateReminderTime(dueDate: string, type: "24h" | "1h" | "custom", customTime?: string): string {
+  calculateReminderTime(
+    dueDate: string,
+    type: "24h" | "1h" | "custom",
+    customTime?: string,
+  ): string {
     const due = new Date(dueDate);
 
     if (type === "24h") {

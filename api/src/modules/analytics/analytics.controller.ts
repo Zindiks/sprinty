@@ -17,7 +17,7 @@ export class AnalyticsController {
     request: FastifyRequest<{
       Querystring: PersonalDashboardQuery;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const { organizationId } = request.query;
@@ -30,7 +30,7 @@ export class AnalyticsController {
 
       const dashboard = await this.service.getPersonalDashboard(
         userId,
-        organizationId
+        organizationId,
       );
       return reply.code(200).send(dashboard);
     } catch (error) {
@@ -47,7 +47,7 @@ export class AnalyticsController {
     request: FastifyRequest<{
       Params: BoardAnalyticsParams;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const { boardId } = request.params;
@@ -67,7 +67,7 @@ export class AnalyticsController {
     request: FastifyRequest<{
       Params: SprintBurndownParams;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const { sprintId } = request.params;
@@ -92,7 +92,7 @@ export class AnalyticsController {
     request: FastifyRequest<{
       Params: BoardAnalyticsParams;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const { boardId } = request.params;
@@ -112,7 +112,7 @@ export class AnalyticsController {
     request: FastifyRequest<{
       Querystring: PersonalDashboardQuery;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const { organizationId } = request.query;
@@ -125,7 +125,7 @@ export class AnalyticsController {
 
       const tasks = await this.service.getUserAssignedTasks(
         userId,
-        organizationId
+        organizationId,
       );
       return reply.code(200).send(tasks);
     } catch (error) {
@@ -142,7 +142,7 @@ export class AnalyticsController {
     request: FastifyRequest<{
       Params: BoardAnalyticsParams;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const { boardId } = request.params;
@@ -165,7 +165,7 @@ export class AnalyticsController {
         daysBack?: number;
       };
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const { organizationId, period, daysBack } = request.query;
@@ -180,7 +180,7 @@ export class AnalyticsController {
         userId,
         organizationId,
         period,
-        daysBack
+        daysBack,
       );
       return reply.code(200).send(trends);
     } catch (error) {
@@ -197,7 +197,7 @@ export class AnalyticsController {
     request: FastifyRequest<{
       Querystring: PersonalDashboardQuery;
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const { organizationId } = request.query;
@@ -208,7 +208,10 @@ export class AnalyticsController {
         return reply.code(401).send({ error: "Unauthorized" });
       }
 
-      const boards = await this.service.getBoardsOverview(userId, organizationId);
+      const boards = await this.service.getBoardsOverview(
+        userId,
+        organizationId,
+      );
       return reply.code(200).send(boards);
     } catch (error) {
       request.log.error(error);
@@ -224,7 +227,7 @@ export class AnalyticsController {
     request: FastifyRequest<{
       Querystring: PersonalDashboardQuery & { weeksBack?: number };
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const { organizationId, weeksBack } = request.query;
@@ -238,7 +241,7 @@ export class AnalyticsController {
       const metrics = await this.service.getWeeklyMetrics(
         userId,
         organizationId,
-        weeksBack
+        weeksBack,
       );
       return reply.code(200).send(metrics);
     } catch (error) {
@@ -255,7 +258,7 @@ export class AnalyticsController {
     request: FastifyRequest<{
       Querystring: PersonalDashboardQuery & { monthsBack?: number };
     }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) {
     try {
       const { organizationId, monthsBack } = request.query;
@@ -269,7 +272,7 @@ export class AnalyticsController {
       const metrics = await this.service.getMonthlyMetrics(
         userId,
         organizationId,
-        monthsBack
+        monthsBack,
       );
       return reply.code(200).send(metrics);
     } catch (error) {

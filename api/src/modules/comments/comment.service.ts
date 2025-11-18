@@ -30,10 +30,7 @@ export class CommentService {
     return this.commentRepository.updateComment(input, user_id);
   }
 
-  async deleteComment(
-    input: DeleteComment,
-    user_id: string,
-  ): Promise<boolean> {
+  async deleteComment(input: DeleteComment, user_id: string): Promise<boolean> {
     return this.commentRepository.deleteComment(input, user_id);
   }
 
@@ -44,9 +41,7 @@ export class CommentService {
     return this.commentRepository.getCommentById(id, card_id);
   }
 
-  async getCommentsByCardId(
-    card_id: string,
-  ): Promise<CommentResponseArray> {
+  async getCommentsByCardId(card_id: string): Promise<CommentResponseArray> {
     return this.commentRepository.getCommentsByCardId(card_id);
   }
 

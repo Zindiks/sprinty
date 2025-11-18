@@ -30,7 +30,7 @@ export default async function analyticsRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.getPersonalDashboard.bind(controller)
+    controller.getPersonalDashboard.bind(controller),
   );
 
   // Get board analytics
@@ -46,7 +46,7 @@ export default async function analyticsRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.getBoardAnalytics.bind(controller)
+    controller.getBoardAnalytics.bind(controller),
   );
 
   // Get sprint burndown
@@ -62,7 +62,7 @@ export default async function analyticsRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.getSprintBurndown.bind(controller)
+    controller.getSprintBurndown.bind(controller),
   );
 
   // Get board velocity
@@ -78,7 +78,7 @@ export default async function analyticsRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.getBoardVelocity.bind(controller)
+    controller.getBoardVelocity.bind(controller),
   );
 
   // Get assigned tasks
@@ -94,7 +94,7 @@ export default async function analyticsRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.getAssignedTasks.bind(controller)
+    controller.getAssignedTasks.bind(controller),
   );
 
   // Get due date analytics
@@ -110,7 +110,7 @@ export default async function analyticsRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.getDueDateAnalytics.bind(controller)
+    controller.getDueDateAnalytics.bind(controller),
   );
 
   // Get productivity trends
@@ -118,7 +118,8 @@ export default async function analyticsRoutes(fastify: FastifyInstance) {
     "/trends/personal",
     {
       schema: {
-        description: "Get productivity trends (cards created vs completed over time)",
+        description:
+          "Get productivity trends (cards created vs completed over time)",
         tags: ["Analytics"],
         querystring: {
           type: "object",
@@ -131,7 +132,7 @@ export default async function analyticsRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.getProductivityTrends.bind(controller)
+    controller.getProductivityTrends.bind(controller),
   );
 
   // Get boards overview
@@ -144,7 +145,7 @@ export default async function analyticsRoutes(fastify: FastifyInstance) {
         querystring: PersonalDashboardQuerySchema,
       },
     },
-    controller.getBoardsOverview.bind(controller)
+    controller.getBoardsOverview.bind(controller),
   );
 
   // Get weekly metrics
@@ -164,7 +165,7 @@ export default async function analyticsRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.getWeeklyMetrics.bind(controller)
+    controller.getWeeklyMetrics.bind(controller),
   );
 
   // Get monthly metrics
@@ -184,6 +185,6 @@ export default async function analyticsRoutes(fastify: FastifyInstance) {
         },
       },
     },
-    controller.getMonthlyMetrics.bind(controller)
+    controller.getMonthlyMetrics.bind(controller),
   );
 }

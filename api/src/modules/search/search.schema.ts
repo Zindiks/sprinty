@@ -42,7 +42,7 @@ export class SearchSchema {
       updated_at,
       result_type: Type.Literal("board"),
     },
-    { $id: "BoardResultSchema" }
+    { $id: "BoardResultSchema" },
   );
 
   static ListResultSchema = Type.Object(
@@ -56,7 +56,7 @@ export class SearchSchema {
       updated_at,
       result_type: Type.Literal("list"),
     },
-    { $id: "ListResultSchema" }
+    { $id: "ListResultSchema" },
   );
 
   static CardResultSchema = Type.Object(
@@ -74,7 +74,7 @@ export class SearchSchema {
       updated_at,
       result_type: Type.Literal("card"),
     },
-    { $id: "CardResultSchema" }
+    { $id: "CardResultSchema" },
   );
 
   static CommentResultSchema = Type.Object(
@@ -93,7 +93,7 @@ export class SearchSchema {
       updated_at,
       result_type: Type.Literal("comment"),
     },
-    { $id: "CommentResultSchema" }
+    { $id: "CommentResultSchema" },
   );
 
   // Combined search response schema

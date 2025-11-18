@@ -12,11 +12,14 @@ export class AnalyticsService {
    * Get personal dashboard data for a user
    */
   async getPersonalDashboard(userId: string, organizationId: string) {
-    const stats = await this.repository.getPersonalStats(userId, organizationId);
+    const stats = await this.repository.getPersonalStats(
+      userId,
+      organizationId,
+    );
     const assignedTasks = await this.repository.getAssignedTasks(
       userId,
       organizationId,
-      20
+      20,
     );
 
     return {
@@ -77,9 +80,14 @@ export class AnalyticsService {
     userId: string,
     organizationId: string,
     period: "weekly" | "monthly" = "weekly",
-    daysBack?: number
+    daysBack?: number,
   ) {
-    return this.repository.getProductivityTrends(userId, organizationId, period, daysBack);
+    return this.repository.getProductivityTrends(
+      userId,
+      organizationId,
+      period,
+      daysBack,
+    );
   }
 
   /**
@@ -92,14 +100,26 @@ export class AnalyticsService {
   /**
    * Get weekly metrics for a user
    */
-  async getWeeklyMetrics(userId: string, organizationId: string, weeksBack?: number) {
+  async getWeeklyMetrics(
+    userId: string,
+    organizationId: string,
+    weeksBack?: number,
+  ) {
     return this.repository.getWeeklyMetrics(userId, organizationId, weeksBack);
   }
 
   /**
    * Get monthly metrics for a user
    */
-  async getMonthlyMetrics(userId: string, organizationId: string, monthsBack?: number) {
-    return this.repository.getMonthlyMetrics(userId, organizationId, monthsBack);
+  async getMonthlyMetrics(
+    userId: string,
+    organizationId: string,
+    monthsBack?: number,
+  ) {
+    return this.repository.getMonthlyMetrics(
+      userId,
+      organizationId,
+      monthsBack,
+    );
   }
 }

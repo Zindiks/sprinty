@@ -89,11 +89,27 @@ export class ChecklistSchema {
   );
 }
 
-export type CreateChecklistItem = Static<typeof ChecklistSchema.CreateChecklistItemSchema>;
-export type UpdateChecklistItem = Static<typeof ChecklistSchema.UpdateChecklistItemSchema>;
-export type ToggleChecklistItem = Static<typeof ChecklistSchema.ToggleChecklistItemSchema>;
-export type DeleteChecklistItem = Static<typeof ChecklistSchema.DeleteChecklistItemSchema>;
-export type ChecklistItemResponse = Static<typeof ChecklistSchema.ChecklistItemResponseSchema>;
-export type ChecklistItemResponseArray = Static<typeof ChecklistSchema.ChecklistItemResponseSchemaArray>;
-export type ChecklistProgress = Static<typeof ChecklistSchema.ChecklistProgressSchema>;
-export type ChecklistWithProgress = Static<typeof ChecklistSchema.ChecklistWithProgressSchema>;
+export type CreateChecklistItem = Static<
+  typeof ChecklistSchema.CreateChecklistItemSchema
+>;
+export type UpdateChecklistItem = Static<
+  typeof ChecklistSchema.UpdateChecklistItemSchema
+>;
+export type ToggleChecklistItem = Static<
+  typeof ChecklistSchema.ToggleChecklistItemSchema
+>;
+export type DeleteChecklistItem = Static<
+  typeof ChecklistSchema.DeleteChecklistItemSchema
+>;
+export type ChecklistItemResponse = Static<
+  typeof ChecklistSchema.ChecklistItemResponseSchema
+>;
+export type ChecklistItemResponseArray = Static<
+  typeof ChecklistSchema.ChecklistItemResponseSchemaArray
+>;
+export type ChecklistProgress = Static<
+  typeof ChecklistSchema.ChecklistProgressSchema
+>;
+export type ChecklistWithProgress = Static<
+  typeof ChecklistSchema.ChecklistWithProgressSchema
+>;

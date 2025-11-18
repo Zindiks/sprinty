@@ -24,9 +24,7 @@ export class AssigneeRepository {
     const { card_id, user_id } = input;
 
     // Check if assignment already exists
-    const existing = await this.knex(table)
-      .where({ card_id, user_id })
-      .first();
+    const existing = await this.knex(table).where({ card_id, user_id }).first();
 
     if (existing) {
       return existing;
@@ -46,9 +44,7 @@ export class AssigneeRepository {
   async removeAssignee(input: RemoveAssignee): Promise<boolean> {
     const { card_id, user_id } = input;
 
-    const deleted = await this.knex(table)
-      .where({ card_id, user_id })
-      .delete();
+    const deleted = await this.knex(table).where({ card_id, user_id }).delete();
 
     return deleted > 0;
   }
@@ -89,17 +85,13 @@ export class AssigneeRepository {
   }
 
   async isUserAssigned(card_id: string, user_id: string): Promise<boolean> {
-    const assignee = await this.knex(table)
-      .where({ card_id, user_id })
-      .first();
+    const assignee = await this.knex(table).where({ card_id, user_id }).first();
 
     return !!assignee;
   }
 
   async getCardIdsByUserId(user_id: string): Promise<string[]> {
-    const cards = await this.knex(table)
-      .where({ user_id })
-      .select("card_id");
+    const cards = await this.knex(table).where({ user_id }).select("card_id");
 
     return cards.map((card) => card.card_id);
   }

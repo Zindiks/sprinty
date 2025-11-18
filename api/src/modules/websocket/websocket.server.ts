@@ -44,18 +44,14 @@ export function initializeWebSocketServer(
 
   // Connection handler
   io.on(WebSocketEvent.CONNECTION, (socket: AuthenticatedSocket) => {
-    console.log(
-      `Client connected: ${socket.id} (User: ${socket.userId})`,
-    );
+    console.log(`Client connected: ${socket.id} (User: ${socket.userId})`);
 
     // Set up event handlers
     setupEventHandlers(socket, wsService);
 
     // Handle disconnect
     socket.on(WebSocketEvent.DISCONNECT, () => {
-      console.log(
-        `Client disconnected: ${socket.id} (User: ${socket.userId})`,
-      );
+      console.log(`Client disconnected: ${socket.id} (User: ${socket.userId})`);
       wsService.handleDisconnect(socket);
     });
 
@@ -89,7 +85,10 @@ function setupEventHandlers(
    */
   socket.on(
     WebSocketEvent.BOARD_JOIN,
-    async (payload: BoardJoinPayload, callback?: (response: unknown) => void) => {
+    async (
+      payload: BoardJoinPayload,
+      callback?: (response: unknown) => void,
+    ) => {
       try {
         const { boardId } = payload;
 
@@ -123,7 +122,10 @@ function setupEventHandlers(
    */
   socket.on(
     WebSocketEvent.BOARD_LEAVE,
-    async (payload: BoardLeavePayload, callback?: (response: unknown) => void) => {
+    async (
+      payload: BoardLeavePayload,
+      callback?: (response: unknown) => void,
+    ) => {
       try {
         const { boardId } = payload;
 

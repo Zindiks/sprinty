@@ -1,9 +1,5 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import {
-  CreateComment,
-  UpdateComment,
-  DeleteComment,
-} from "./comment.schema";
+import { CreateComment, UpdateComment, DeleteComment } from "./comment.schema";
 import { CommentService } from "./comment.service";
 
 export class CommentController {
@@ -105,8 +101,7 @@ export class CommentController {
     const { card_id } = request.params;
 
     try {
-      const comments =
-        await this.commentService.getCommentsByCardId(card_id);
+      const comments = await this.commentService.getCommentsByCardId(card_id);
       return reply.status(200).send(comments);
     } catch (err) {
       return reply.status(500).send(err);

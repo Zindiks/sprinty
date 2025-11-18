@@ -35,7 +35,9 @@ export class BulkController {
       }
 
       if (!target_list_id) {
-        return reply.status(400).send({ message: "target_list_id is required" });
+        return reply
+          .status(400)
+          .send({ message: "target_list_id is required" });
       }
 
       const result = await this.bulkService.moveCards(request.body);

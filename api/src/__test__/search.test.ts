@@ -4,8 +4,7 @@ import { SearchQuery } from "../modules/search/search.schema";
 
 jest.mock("../modules/search/search.repository");
 
-const MockedSearchRepository =
-  SearchRepository as jest.Mock<SearchRepository>;
+const MockedSearchRepository = SearchRepository as jest.Mock<SearchRepository>;
 
 describe("SearchService", () => {
   let searchService: SearchService;
@@ -229,7 +228,7 @@ describe("SearchService", () => {
         boards: mockBoards,
         lists: [],
         cards: [],
-          comments: [],
+        comments: [],
       });
 
       const result = await searchService.search(params);
@@ -249,7 +248,7 @@ describe("SearchService", () => {
         boards: [],
         lists: [],
         cards: [],
-          comments: [],
+        comments: [],
       });
 
       const result = await searchService.search(params);

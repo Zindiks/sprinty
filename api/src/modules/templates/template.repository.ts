@@ -89,10 +89,7 @@ export class TemplateRepository {
       .orderBy("created_at", "desc");
   }
 
-  async checkOwnership(
-    id: string,
-    organization_id: string,
-  ): Promise<boolean> {
+  async checkOwnership(id: string, organization_id: string): Promise<boolean> {
     const [template] = await this.knex(table)
       .select("organization_id", "is_system")
       .where({ id });

@@ -48,7 +48,8 @@ export default async function activityRoutes(server: FastifyInstance) {
     "/card/:card_id",
     {
       schema: {
-        description: "Get all activities for a card with filtering and pagination",
+        description:
+          "Get all activities for a card with filtering and pagination",
         tags: ["activities"],
         params: {
           type: "object",
@@ -71,7 +72,8 @@ export default async function activityRoutes(server: FastifyInstance) {
     "/user/:user_id",
     {
       schema: {
-        description: "Get all activities by a user with filtering and pagination",
+        description:
+          "Get all activities by a user with filtering and pagination",
         tags: ["activities"],
         params: {
           type: "object",

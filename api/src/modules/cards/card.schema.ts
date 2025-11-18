@@ -72,7 +72,10 @@ export class CardSchema {
       list_id,
       title: Type.Optional(title),
       description: Type.Optional(
-        Type.Union([Type.String({ minLength: 3, maxLength: 255 }), Type.Null()]),
+        Type.Union([
+          Type.String({ minLength: 3, maxLength: 255 }),
+          Type.Null(),
+        ]),
       ),
       status: Type.Optional(Type.String()),
       due_date: Type.Optional(
@@ -95,7 +98,10 @@ export class CardSchema {
       list_id,
       title: Type.Optional(title),
       description: Type.Optional(
-        Type.Union([Type.String({ minLength: 3, maxLength: 255 }), Type.Null()]),
+        Type.Union([
+          Type.String({ minLength: 3, maxLength: 255 }),
+          Type.Null(),
+        ]),
       ),
       status: Type.Optional(Type.String()),
       due_date: Type.Optional(
@@ -277,8 +283,12 @@ export class CardSchema {
 
 export type CreateCard = Static<typeof CardSchema.CreateCardSchema>;
 export type UpdateCardTitle = Static<typeof CardSchema.UpdateCardTitleSchema>;
-export type UpdateCardDetails = Static<typeof CardSchema.UpdateCardDetailsSchema>;
-export type UpdateCardDetailsById = Static<typeof CardSchema.UpdateCardDetailsByIdSchema>;
+export type UpdateCardDetails = Static<
+  typeof CardSchema.UpdateCardDetailsSchema
+>;
+export type UpdateCardDetailsById = Static<
+  typeof CardSchema.UpdateCardDetailsByIdSchema
+>;
 export type UpdateCardOrder = Static<typeof CardSchema.UpdateCardOrderSchema>;
 export type UpdateCardOrderArray = Static<
   typeof CardSchema.UpdateCardOrderSchemaArray
@@ -289,5 +299,9 @@ export type FullCardResponse = Static<typeof CardSchema.FullCardResponseSchema>;
 export type FullCardResponseArray = Static<
   typeof CardSchema.FullCardResponseSchemaArray
 >;
-export type CardWithAssigneesResponse = Static<typeof CardSchema.CardWithAssigneesResponseSchema>;
-export type CardWithDetailsResponse = Static<typeof CardSchema.CardWithDetailsResponseSchema>;
+export type CardWithAssigneesResponse = Static<
+  typeof CardSchema.CardWithAssigneesResponseSchema
+>;
+export type CardWithDetailsResponse = Static<
+  typeof CardSchema.CardWithDetailsResponseSchema
+>;

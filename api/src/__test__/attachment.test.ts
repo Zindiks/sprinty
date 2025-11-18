@@ -133,7 +133,7 @@ describe("AttachmentService", () => {
 
       // Act & Assert
       await expect(attachmentService.createAttachment(input)).rejects.toThrow(
-        "Database insert failed"
+        "Database insert failed",
       );
     });
   });
@@ -165,7 +165,7 @@ describe("AttachmentService", () => {
       expect(result).toEqual(mockAttachment);
       expect(attachmentRepository.getAttachmentById).toHaveBeenCalledWith(
         id,
-        card_id
+        card_id,
       );
     });
 
@@ -183,7 +183,7 @@ describe("AttachmentService", () => {
       expect(result).toBeUndefined();
       expect(attachmentRepository.getAttachmentById).toHaveBeenCalledWith(
         id,
-        card_id
+        card_id,
       );
     });
 
@@ -197,14 +197,14 @@ describe("AttachmentService", () => {
       // Act
       const result = await attachmentService.getAttachmentById(
         id,
-        wrong_card_id
+        wrong_card_id,
       );
 
       // Assert
       expect(result).toBeUndefined();
       expect(attachmentRepository.getAttachmentById).toHaveBeenCalledWith(
         id,
-        wrong_card_id
+        wrong_card_id,
       );
     });
   });
@@ -233,14 +233,11 @@ describe("AttachmentService", () => {
       };
 
       attachmentRepository.getAttachmentWithUser.mockResolvedValue(
-        mockAttachment
+        mockAttachment,
       );
 
       // Act
-      const result = await attachmentService.getAttachmentWithUser(
-        id,
-        card_id
-      );
+      const result = await attachmentService.getAttachmentWithUser(id, card_id);
 
       // Assert
       expect(result).toEqual(mockAttachment);
@@ -248,7 +245,7 @@ describe("AttachmentService", () => {
       expect(result?.user.email).toBe("uploader@example.com");
       expect(attachmentRepository.getAttachmentWithUser).toHaveBeenCalledWith(
         id,
-        card_id
+        card_id,
       );
     });
 
@@ -275,14 +272,11 @@ describe("AttachmentService", () => {
       };
 
       attachmentRepository.getAttachmentWithUser.mockResolvedValue(
-        mockAttachment
+        mockAttachment,
       );
 
       // Act
-      const result = await attachmentService.getAttachmentWithUser(
-        id,
-        card_id
-      );
+      const result = await attachmentService.getAttachmentWithUser(id, card_id);
 
       // Assert
       expect(result).toEqual(mockAttachment);
@@ -297,10 +291,7 @@ describe("AttachmentService", () => {
       attachmentRepository.getAttachmentWithUser.mockResolvedValue(undefined);
 
       // Act
-      const result = await attachmentService.getAttachmentWithUser(
-        id,
-        card_id
-      );
+      const result = await attachmentService.getAttachmentWithUser(id, card_id);
 
       // Assert
       expect(result).toBeUndefined();
@@ -348,7 +339,7 @@ describe("AttachmentService", () => {
       ];
 
       attachmentRepository.getAttachmentsByCardId.mockResolvedValue(
-        mockAttachments
+        mockAttachments,
       );
 
       // Act
@@ -358,7 +349,7 @@ describe("AttachmentService", () => {
       expect(result).toEqual(mockAttachments);
       expect(result).toHaveLength(2);
       expect(attachmentRepository.getAttachmentsByCardId).toHaveBeenCalledWith(
-        card_id
+        card_id,
       );
     });
 
@@ -416,7 +407,7 @@ describe("AttachmentService", () => {
       ];
 
       attachmentRepository.getAttachmentsByCardId.mockResolvedValue(
-        mockAttachments
+        mockAttachments,
       );
 
       // Act
@@ -579,7 +570,7 @@ describe("AttachmentService", () => {
       expect(result).toEqual(mockCount);
       expect(result.count).toBe(5);
       expect(attachmentRepository.getAttachmentCount).toHaveBeenCalledWith(
-        card_id
+        card_id,
       );
     });
 
@@ -661,7 +652,7 @@ describe("AttachmentService", () => {
       ];
 
       attachmentRepository.getAttachmentsByUserId.mockResolvedValue(
-        mockAttachments
+        mockAttachments,
       );
 
       // Act
@@ -672,7 +663,7 @@ describe("AttachmentService", () => {
       expect(result).toHaveLength(2);
       expect(result.every((a) => a.uploaded_by === user_id)).toBe(true);
       expect(attachmentRepository.getAttachmentsByUserId).toHaveBeenCalledWith(
-        user_id
+        user_id,
       );
     });
 
@@ -728,7 +719,7 @@ describe("AttachmentService", () => {
       ];
 
       attachmentRepository.getAttachmentsByUserId.mockResolvedValue(
-        mockAttachments
+        mockAttachments,
       );
 
       // Act

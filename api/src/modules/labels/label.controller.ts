@@ -120,8 +120,7 @@ export class LabelController {
     const { board_id } = request.params;
 
     try {
-      const labels =
-        await this.labelService.getLabelsWithCardsCount(board_id);
+      const labels = await this.labelService.getLabelsWithCardsCount(board_id);
       return reply.status(200).send(labels);
     } catch (err) {
       return reply.status(500).send(err);

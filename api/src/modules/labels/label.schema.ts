@@ -52,9 +52,12 @@ export class LabelSchema {
     { $id: "LabelResponseSchema" },
   );
 
-  static LabelResponseSchemaArray = Type.Array(LabelSchema.LabelResponseSchema, {
-    $id: "LabelResponseSchemaArray",
-  });
+  static LabelResponseSchemaArray = Type.Array(
+    LabelSchema.LabelResponseSchema,
+    {
+      $id: "LabelResponseSchemaArray",
+    },
+  );
 
   // Card-Label association schemas
   static AddLabelToCardSchema = Type.Object(
@@ -108,11 +111,21 @@ export type CreateLabel = Static<typeof LabelSchema.CreateLabelSchema>;
 export type UpdateLabel = Static<typeof LabelSchema.UpdateLabelSchema>;
 export type DeleteLabel = Static<typeof LabelSchema.DeleteLabelSchema>;
 export type LabelResponse = Static<typeof LabelSchema.LabelResponseSchema>;
-export type LabelResponseArray = Static<typeof LabelSchema.LabelResponseSchemaArray>;
+export type LabelResponseArray = Static<
+  typeof LabelSchema.LabelResponseSchemaArray
+>;
 
 export type AddLabelToCard = Static<typeof LabelSchema.AddLabelToCardSchema>;
-export type RemoveLabelFromCard = Static<typeof LabelSchema.RemoveLabelFromCardSchema>;
-export type CardLabelResponse = Static<typeof LabelSchema.CardLabelResponseSchema>;
+export type RemoveLabelFromCard = Static<
+  typeof LabelSchema.RemoveLabelFromCardSchema
+>;
+export type CardLabelResponse = Static<
+  typeof LabelSchema.CardLabelResponseSchema
+>;
 
-export type LabelWithCardsCount = Static<typeof LabelSchema.LabelWithCardsCountSchema>;
-export type LabelWithCardsCountArray = Static<typeof LabelSchema.LabelWithCardsCountSchemaArray>;
+export type LabelWithCardsCount = Static<
+  typeof LabelSchema.LabelWithCardsCountSchema
+>;
+export type LabelWithCardsCountArray = Static<
+  typeof LabelSchema.LabelWithCardsCountSchemaArray
+>;

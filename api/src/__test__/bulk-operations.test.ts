@@ -158,7 +158,7 @@ describe("BulkService", () => {
 
       // Act & Assert
       await expect(bulkService.moveCards(input)).rejects.toThrow(
-        "Database error"
+        "Database error",
       );
     });
   });
@@ -255,7 +255,7 @@ describe("BulkService", () => {
 
       // Act & Assert
       await expect(bulkService.assignUsers(input)).rejects.toThrow(
-        "Assignment failed"
+        "Assignment failed",
       );
     });
   });
@@ -585,7 +585,7 @@ describe("BulkService", () => {
 
       // Act & Assert
       await expect(bulkService.deleteCards(input)).rejects.toThrow(
-        "Deletion failed"
+        "Deletion failed",
       );
     });
 
@@ -614,7 +614,8 @@ describe("BulkService", () => {
         () => bulkService.moveCards({ card_ids: ["c1"], target_list_id: "l1" }),
         () => bulkService.assignUsers({ card_ids: ["c1"], user_ids: ["u1"] }),
         () => bulkService.addLabels({ card_ids: ["c1"], label_ids: ["l1"] }),
-        () => bulkService.setDueDate({ card_ids: ["c1"], due_date: "2025-12-31" }),
+        () =>
+          bulkService.setDueDate({ card_ids: ["c1"], due_date: "2025-12-31" }),
         () => bulkService.archiveCards({ card_ids: ["c1"] }),
         () => bulkService.deleteCards({ card_ids: ["c1"] }),
       ];

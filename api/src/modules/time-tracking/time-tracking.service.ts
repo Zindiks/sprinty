@@ -44,13 +44,13 @@ export class TimeTrackingService {
     userId: string,
     startDate: Date,
     endDate: Date,
-    organizationId?: string
+    organizationId?: string,
   ) {
     return this.repository.getTimeLogsInRange(
       userId,
       startDate,
       endDate,
-      organizationId
+      organizationId,
     );
   }
 }

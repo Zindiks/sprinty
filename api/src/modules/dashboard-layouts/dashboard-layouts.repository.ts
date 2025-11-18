@@ -39,7 +39,10 @@ export class DashboardLayoutsRepository {
   /**
    * Get a specific layout by ID
    */
-  async getLayoutById(layoutId: string, userId: string): Promise<DashboardLayout | undefined> {
+  async getLayoutById(
+    layoutId: string,
+    userId: string,
+  ): Promise<DashboardLayout | undefined> {
     return this.knex("dashboard_layouts")
       .where("id", layoutId)
       .where("user_id", userId)
@@ -59,7 +62,9 @@ export class DashboardLayoutsRepository {
   /**
    * Create a new dashboard layout
    */
-  async createLayout(input: CreateDashboardLayoutInput): Promise<DashboardLayout> {
+  async createLayout(
+    input: CreateDashboardLayoutInput,
+  ): Promise<DashboardLayout> {
     // If this layout is being set as default, unset any existing default
     if (input.is_default) {
       await this.knex("dashboard_layouts")
@@ -86,7 +91,7 @@ export class DashboardLayoutsRepository {
   async updateLayout(
     layoutId: string,
     userId: string,
-    input: UpdateDashboardLayoutInput
+    input: UpdateDashboardLayoutInput,
   ): Promise<DashboardLayout | undefined> {
     // If this layout is being set as default, unset any existing default
     if (input.is_default) {
@@ -102,8 +107,10 @@ export class DashboardLayoutsRepository {
     };
 
     if (input.name !== undefined) updateData.name = input.name;
-    if (input.widgets !== undefined) updateData.widgets = JSON.stringify(input.widgets);
-    if (input.is_default !== undefined) updateData.is_default = input.is_default;
+    if (input.widgets !== undefined)
+      updateData.widgets = JSON.stringify(input.widgets);
+    if (input.is_default !== undefined)
+      updateData.is_default = input.is_default;
 
     const [layout] = await this.knex("dashboard_layouts")
       .where("id", layoutId)

@@ -27,12 +27,13 @@ describe("TimeTrackingService", () => {
 
   beforeEach(() => {
     mockKnex = {} as Knex;
-    timeTrackingRepository = new MockedTimeTrackingRepository() as unknown as jest.Mocked<TimeTrackingRepository>;
+    timeTrackingRepository =
+      new MockedTimeTrackingRepository() as unknown as jest.Mocked<TimeTrackingRepository>;
 
     // Mock the repository constructor
-    (TimeTrackingRepository as jest.MockedClass<typeof TimeTrackingRepository>).mockImplementation(
-      () => timeTrackingRepository
-    );
+    (
+      TimeTrackingRepository as jest.MockedClass<typeof TimeTrackingRepository>
+    ).mockImplementation(() => timeTrackingRepository);
 
     timeTrackingService = new TimeTrackingService(mockKnex);
     jest.clearAllMocks();
@@ -263,7 +264,9 @@ describe("TimeTrackingService", () => {
 
       const result = await timeTrackingService.getCardTimeLogs(cardId);
 
-      expect(timeTrackingRepository.getTimeLogsByCard).toHaveBeenCalledWith(cardId);
+      expect(timeTrackingRepository.getTimeLogsByCard).toHaveBeenCalledWith(
+        cardId,
+      );
       expect(result).toEqual(expectedLogs);
       expect(result).toHaveLength(2);
     });
@@ -418,7 +421,10 @@ describe("TimeTrackingService", () => {
 
       timeTrackingRepository.getTimeLogsByUser.mockResolvedValue(expectedLogs);
 
-      const result = await timeTrackingService.getUserTimeLogs(userId, organizationId);
+      const result = await timeTrackingService.getUserTimeLogs(
+        userId,
+        organizationId,
+      );
 
       expect(timeTrackingRepository.getTimeLogsByUser).toHaveBeenCalledWith(
         userId,
@@ -570,11 +576,15 @@ describe("TimeTrackingService", () => {
         logCount: 3,
       };
 
-      timeTrackingRepository.getTotalTimeForCard.mockResolvedValue(expectedTotal);
+      timeTrackingRepository.getTotalTimeForCard.mockResolvedValue(
+        expectedTotal,
+      );
 
       const result = await timeTrackingService.getCardTimeTotal(cardId);
 
-      expect(timeTrackingRepository.getTotalTimeForCard).toHaveBeenCalledWith(cardId);
+      expect(timeTrackingRepository.getTotalTimeForCard).toHaveBeenCalledWith(
+        cardId,
+      );
       expect(result.totalMinutes).toBe(150);
       expect(result.totalHours).toBe(2.5);
       expect(result.logCount).toBe(3);
@@ -588,7 +598,9 @@ describe("TimeTrackingService", () => {
         logCount: 0,
       };
 
-      timeTrackingRepository.getTotalTimeForCard.mockResolvedValue(expectedTotal);
+      timeTrackingRepository.getTotalTimeForCard.mockResolvedValue(
+        expectedTotal,
+      );
 
       const result = await timeTrackingService.getCardTimeTotal(cardId);
 
@@ -605,7 +617,9 @@ describe("TimeTrackingService", () => {
         logCount: 1,
       };
 
-      timeTrackingRepository.getTotalTimeForCard.mockResolvedValue(expectedTotal);
+      timeTrackingRepository.getTotalTimeForCard.mockResolvedValue(
+        expectedTotal,
+      );
 
       const result = await timeTrackingService.getCardTimeTotal(cardId);
 
@@ -621,7 +635,9 @@ describe("TimeTrackingService", () => {
         logCount: 2,
       };
 
-      timeTrackingRepository.getTotalTimeForCard.mockResolvedValue(expectedTotal);
+      timeTrackingRepository.getTotalTimeForCard.mockResolvedValue(
+        expectedTotal,
+      );
 
       const result = await timeTrackingService.getCardTimeTotal(cardId);
 
@@ -637,7 +653,9 @@ describe("TimeTrackingService", () => {
         logCount: 10,
       };
 
-      timeTrackingRepository.getTotalTimeForCard.mockResolvedValue(expectedTotal);
+      timeTrackingRepository.getTotalTimeForCard.mockResolvedValue(
+        expectedTotal,
+      );
 
       const result = await timeTrackingService.getCardTimeTotal(cardId);
 

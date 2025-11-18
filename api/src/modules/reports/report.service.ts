@@ -44,7 +44,7 @@ export class ReportService {
         "cards.due_date",
         "cards.created_at",
         "cards.updated_at",
-        "lists.title as list_title"
+        "lists.title as list_title",
       )
       .join("lists", "cards.list_id", "lists.id")
       .where("lists.board_id", boardId)
@@ -71,7 +71,7 @@ export class ReportService {
   async generateTimeTrackingReport(
     boardId: string,
     startDate?: Date,
-    endDate?: Date
+    endDate?: Date,
   ): Promise<string> {
     let query = this.knex("time_logs")
       .select(
@@ -81,7 +81,7 @@ export class ReportService {
         "time_logs.logged_at",
         "cards.title as card_title",
         "users.oauth_provider_id as user_email",
-        "lists.title as list_title"
+        "lists.title as list_title",
       )
       .join("cards", "time_logs.card_id", "cards.id")
       .join("lists", "cards.list_id", "lists.id")
@@ -124,7 +124,7 @@ export class ReportService {
         "cards.due_date",
         "cards.created_at",
         "cards.updated_at",
-        "lists.title as list_title"
+        "lists.title as list_title",
       )
       .join("lists", "cards.list_id", "lists.id")
       .where("cards.sprint_id", sprintId)
@@ -153,7 +153,7 @@ export class ReportService {
     userId: string,
     organizationId: string,
     startDate?: Date,
-    endDate?: Date
+    endDate?: Date,
   ): Promise<string> {
     let query = this.knex("card_activities")
       .select(
@@ -162,7 +162,7 @@ export class ReportService {
         "card_activities.created_at",
         "cards.title as card_title",
         "lists.title as list_title",
-        "boards.title as board_title"
+        "boards.title as board_title",
       )
       .join("cards", "card_activities.card_id", "cards.id")
       .join("lists", "cards.list_id", "lists.id")
@@ -177,7 +177,10 @@ export class ReportService {
       query = query.where("card_activities.created_at", "<=", endDate);
     }
 
-    const activities = await query.orderBy("card_activities.created_at", "desc");
+    const activities = await query.orderBy(
+      "card_activities.created_at",
+      "desc",
+    );
 
     const headers = [
       "id",
@@ -227,7 +230,7 @@ export class ReportService {
         "cards.created_at",
         "cards.updated_at",
         "lists.title as list_title",
-        "boards.title as board_title"
+        "boards.title as board_title",
       )
       .join("lists", "cards.list_id", "lists.id")
       .join("boards", "lists.board_id", "boards.id")
@@ -260,15 +263,27 @@ export class ReportService {
       icalLines.push(`SUMMARY:${this.escapeICalText(card.title)}`);
       icalLines.push(`DESCRIPTION:${description}`);
       icalLines.push(`LOCATION:${this.escapeICalText(card.list_title)}`);
-      icalLines.push(`CREATED:${this.formatICalDate(new Date(card.created_at))}`);
-      icalLines.push(`LAST-MODIFIED:${this.formatICalDate(new Date(card.updated_at))}`);
+      icalLines.push(
+        `CREATED:${this.formatICalDate(new Date(card.created_at))}`,
+      );
+      icalLines.push(
+        `LAST-MODIFIED:${this.formatICalDate(new Date(card.updated_at))}`,
+      );
 
       // Set priority based on card priority
-      const icalPriority = card.priority === "critical" ? "1" : card.priority === "high" ? "3" : card.priority === "medium" ? "5" : "9";
+      const icalPriority =
+        card.priority === "critical"
+          ? "1"
+          : card.priority === "high"
+            ? "3"
+            : card.priority === "medium"
+              ? "5"
+              : "9";
       icalLines.push(`PRIORITY:${icalPriority}`);
 
       // Set status
-      const icalStatus = card.status === "completed" ? "COMPLETED" : "CONFIRMED";
+      const icalStatus =
+        card.status === "completed" ? "COMPLETED" : "CONFIRMED";
       icalLines.push(`STATUS:${icalStatus}`);
 
       icalLines.push("END:VEVENT");

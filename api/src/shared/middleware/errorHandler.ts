@@ -1,7 +1,7 @@
-import { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
-import { ApiError } from '../errors/ApiError';
-import { HttpStatus } from '../constants/httpStatus';
-import { ErrorCodes } from '../constants/errorCodes';
+import { FastifyError, FastifyReply, FastifyRequest } from "fastify";
+import { ApiError } from "../errors/ApiError";
+import { HttpStatus } from "../constants/httpStatus";
+import { ErrorCodes } from "../constants/errorCodes";
 
 /**
  * Fastify error handler middleware
@@ -10,7 +10,7 @@ import { ErrorCodes } from '../constants/errorCodes';
 export async function errorHandler(
   error: FastifyError | ApiError | Error,
   request: FastifyRequest,
-  reply: FastifyReply
+  reply: FastifyReply,
 ) {
   // Log the error for debugging
   request.log.error(error);
@@ -33,7 +33,8 @@ export async function errorHandler(
 
   // Handle Fastify errors with statusCode
   if ((error as FastifyError).statusCode) {
-    const statusCode = (error as FastifyError).statusCode || HttpStatus.INTERNAL_SERVER_ERROR;
+    const statusCode =
+      (error as FastifyError).statusCode || HttpStatus.INTERNAL_SERVER_ERROR;
     return reply.status(statusCode).send({
       error: {
         code: `ERR_${statusCode}`,
@@ -46,9 +47,9 @@ export async function errorHandler(
   return reply.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
     error: {
       code: ErrorCodes.INTERNAL_SERVER_ERROR,
-      message: 'An unexpected error occurred',
+      message: "An unexpected error occurred",
       // Only include error details in development mode
-      ...(process.env.NODE_ENV === 'development' && {
+      ...(process.env.NODE_ENV === "development" && {
         details: error.message,
         stack: error.stack,
       }),
