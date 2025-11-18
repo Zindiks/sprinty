@@ -1,6 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { AssigneeController } from "./assignee.controller";
 import { AssigneeSchema } from "./assignee.schema";
+import { requireCardAccess } from "../../middleware/authorization.middleware";
 
 const assigneeController = new AssigneeController();
 
@@ -8,6 +9,7 @@ export default async function assigneeRoutes(fastify: FastifyInstance) {
   fastify.post(
     "/",
     {
+      preHandler: [requireCardAccess],
       schema: {
         body: AssigneeSchema.AddAssigneeSchema,
         response: {
@@ -23,6 +25,7 @@ export default async function assigneeRoutes(fastify: FastifyInstance) {
   fastify.delete(
     "/:card_id/user/:user_id",
     {
+      preHandler: [requireCardAccess],
       schema: {
         params: AssigneeSchema.RemoveAssigneeSchema,
         response: {
@@ -43,6 +46,7 @@ export default async function assigneeRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/card/:card_id",
     {
+      preHandler: [requireCardAccess],
       schema: {
         params: {
           type: "object",
@@ -63,6 +67,7 @@ export default async function assigneeRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/check/:card_id/user/:user_id",
     {
+      preHandler: [requireCardAccess],
       schema: {
         params: {
           type: "object",

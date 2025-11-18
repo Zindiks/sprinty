@@ -1,6 +1,10 @@
 import { FastifyInstance } from "fastify";
 import { LabelController } from "./label.controller";
 import { LabelSchema } from "./label.schema";
+import {
+  requireBoardAccess,
+  requireCardAccess
+} from "../../middleware/authorization.middleware";
 
 const labelController = new LabelController();
 
@@ -9,6 +13,7 @@ export default async function labelRoutes(fastify: FastifyInstance) {
   fastify.post(
     "/",
     {
+      preHandler: [requireBoardAccess],
       schema: {
         body: LabelSchema.CreateLabelSchema,
         response: {
@@ -28,6 +33,7 @@ export default async function labelRoutes(fastify: FastifyInstance) {
   fastify.patch(
     "/",
     {
+      preHandler: [requireBoardAccess],
       schema: {
         body: LabelSchema.UpdateLabelSchema,
         response: {
@@ -51,6 +57,7 @@ export default async function labelRoutes(fastify: FastifyInstance) {
   fastify.delete(
     "/:id/board/:board_id",
     {
+      preHandler: [requireBoardAccess],
       schema: {
         params: LabelSchema.DeleteLabelSchema,
         response: {
@@ -73,6 +80,7 @@ export default async function labelRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/:id/board/:board_id",
     {
+      preHandler: [requireBoardAccess],
       schema: {
         params: {
           type: "object",
@@ -98,6 +106,7 @@ export default async function labelRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/board/:board_id",
     {
+      preHandler: [requireBoardAccess],
       schema: {
         params: {
           type: "object",
@@ -118,6 +127,7 @@ export default async function labelRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/board/:board_id/with-count",
     {
+      preHandler: [requireBoardAccess],
       schema: {
         params: {
           type: "object",
@@ -139,6 +149,7 @@ export default async function labelRoutes(fastify: FastifyInstance) {
   fastify.post(
     "/card",
     {
+      preHandler: [requireCardAccess],
       schema: {
         body: LabelSchema.AddLabelToCardSchema,
         response: {
@@ -154,6 +165,7 @@ export default async function labelRoutes(fastify: FastifyInstance) {
   fastify.delete(
     "/card/:card_id/label/:label_id",
     {
+      preHandler: [requireCardAccess],
       schema: {
         params: LabelSchema.RemoveLabelFromCardSchema,
         response: {
@@ -176,6 +188,7 @@ export default async function labelRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/card/:card_id",
     {
+      preHandler: [requireCardAccess],
       schema: {
         params: {
           type: "object",

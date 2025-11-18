@@ -2,6 +2,7 @@ import { FastifyInstance } from "fastify";
 import { ChecklistController } from "./checklist.controller";
 import { ChecklistSchema } from "./checklist.schema";
 import { Type } from "@sinclair/typebox";
+import { requireCardAccess } from "../../middleware/authorization.middleware";
 
 const checklistController = new ChecklistController();
 
@@ -10,6 +11,7 @@ export default async function checklistRoutes(fastify: FastifyInstance) {
   fastify.post(
     "/",
     {
+      preHandler: [requireCardAccess],
       schema: {
         body: ChecklistSchema.CreateChecklistItemSchema,
         response: {
@@ -26,6 +28,7 @@ export default async function checklistRoutes(fastify: FastifyInstance) {
   fastify.patch(
     "/",
     {
+      preHandler: [requireCardAccess],
       schema: {
         body: ChecklistSchema.UpdateChecklistItemSchema,
         response: {
@@ -46,6 +49,7 @@ export default async function checklistRoutes(fastify: FastifyInstance) {
   fastify.patch(
     "/:id/card/:card_id/toggle",
     {
+      preHandler: [requireCardAccess],
       schema: {
         params: ChecklistSchema.ToggleChecklistItemSchema,
         response: {
@@ -66,6 +70,7 @@ export default async function checklistRoutes(fastify: FastifyInstance) {
   fastify.delete(
     "/:id/card/:card_id",
     {
+      preHandler: [requireCardAccess],
       schema: {
         params: ChecklistSchema.DeleteChecklistItemSchema,
         response: {
@@ -89,6 +94,7 @@ export default async function checklistRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/:id/card/:card_id",
     {
+      preHandler: [requireCardAccess],
       schema: {
         params: {
           type: "object",
@@ -115,6 +121,7 @@ export default async function checklistRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/card/:card_id",
     {
+      preHandler: [requireCardAccess],
       schema: {
         params: {
           type: "object",
@@ -138,6 +145,7 @@ export default async function checklistRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/card/:card_id/progress",
     {
+      preHandler: [requireCardAccess],
       schema: {
         params: {
           type: "object",
@@ -159,6 +167,7 @@ export default async function checklistRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/card/:card_id/with-progress",
     {
+      preHandler: [requireCardAccess],
       schema: {
         params: {
           type: "object",
@@ -182,6 +191,7 @@ export default async function checklistRoutes(fastify: FastifyInstance) {
   fastify.put(
     "/card/:card_id/reorder",
     {
+      preHandler: [requireCardAccess],
       schema: {
         params: {
           type: "object",

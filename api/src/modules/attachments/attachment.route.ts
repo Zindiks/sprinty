@@ -1,6 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { AttachmentController } from "./attachment.controller";
 import { AttachmentSchema } from "./attachment.schema";
+import { requireCardAccess } from "../../middleware/authorization.middleware";
 
 export default async function attachmentRoutes(server: FastifyInstance) {
   const attachmentController = new AttachmentController();
@@ -9,6 +10,7 @@ export default async function attachmentRoutes(server: FastifyInstance) {
   server.post(
     "/card/:card_id",
     {
+      preHandler: [requireCardAccess],
       schema: {
         description: "Upload attachment to a card",
         tags: ["attachments"],
@@ -31,6 +33,7 @@ export default async function attachmentRoutes(server: FastifyInstance) {
   server.get(
     "/:id/card/:card_id",
     {
+      preHandler: [requireCardAccess],
       schema: {
         description: "Get attachment by ID with user details",
         tags: ["attachments"],
@@ -54,6 +57,7 @@ export default async function attachmentRoutes(server: FastifyInstance) {
   server.get(
     "/card/:card_id",
     {
+      preHandler: [requireCardAccess],
       schema: {
         description: "Get all attachments for a card",
         tags: ["attachments"],
@@ -76,6 +80,7 @@ export default async function attachmentRoutes(server: FastifyInstance) {
   server.get(
     "/:id/card/:card_id/download",
     {
+      preHandler: [requireCardAccess],
       schema: {
         description: "Download attachment file",
         tags: ["attachments"],
@@ -96,6 +101,7 @@ export default async function attachmentRoutes(server: FastifyInstance) {
   server.patch(
     "/",
     {
+      preHandler: [requireCardAccess],
       schema: {
         description: "Update attachment metadata (rename)",
         tags: ["attachments"],
@@ -112,6 +118,7 @@ export default async function attachmentRoutes(server: FastifyInstance) {
   server.delete(
     "/:id/card/:card_id",
     {
+      preHandler: [requireCardAccess],
       schema: {
         description: "Delete attachment",
         tags: ["attachments"],
@@ -135,6 +142,7 @@ export default async function attachmentRoutes(server: FastifyInstance) {
   server.get(
     "/card/:card_id/count",
     {
+      preHandler: [requireCardAccess],
       schema: {
         description: "Get attachment count for a card",
         tags: ["attachments"],

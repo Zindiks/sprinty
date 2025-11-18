@@ -1,11 +1,16 @@
 import { FastifyInstance } from "fastify";
 import { TemplateSchema } from "./template.schema";
 import { TemplateController } from "./template.controller";
+import {
+  requireOrgMember,
+  requireOrgAdmin,
+  requireBoardAccess
+} from "../../middleware/authorization.middleware";
 
 const templateController = new TemplateController();
 
 export default async function templateRoutes(fastify: FastifyInstance) {
-  // Get single template by ID
+  // Get single template by ID (public for system templates, org check for custom)
   fastify.get(
     "/:id",
     {
@@ -23,6 +28,7 @@ export default async function templateRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/",
     {
+      preHandler: [requireOrgMember],
       schema: {
         querystring: {
           type: "object",
@@ -43,6 +49,7 @@ export default async function templateRoutes(fastify: FastifyInstance) {
   fastify.post(
     "/",
     {
+      preHandler: [requireOrgAdmin],
       schema: {
         body: TemplateSchema.CreateTemplateSchema,
         response: { 201: TemplateSchema.TemplateResponseSchema },
@@ -57,6 +64,7 @@ export default async function templateRoutes(fastify: FastifyInstance) {
   fastify.put(
     "/:id",
     {
+      preHandler: [requireOrgAdmin],
       schema: {
         params: {
           type: "object",
@@ -82,6 +90,7 @@ export default async function templateRoutes(fastify: FastifyInstance) {
   fastify.delete(
     "/:id",
     {
+      preHandler: [requireOrgAdmin],
       schema: {
         params: { type: "object", properties: { id: { type: "string" } } },
         querystring: {
@@ -108,6 +117,7 @@ export default async function templateRoutes(fastify: FastifyInstance) {
   fastify.post(
     "/create-board",
     {
+      preHandler: [requireOrgAdmin],
       schema: {
         body: TemplateSchema.CreateBoardFromTemplateSchema,
         response: {
@@ -136,6 +146,7 @@ export default async function templateRoutes(fastify: FastifyInstance) {
   fastify.post(
     "/from-board",
     {
+      preHandler: [requireBoardAccess],
       schema: {
         body: TemplateSchema.CreateTemplateFromBoardSchema,
         response: { 201: TemplateSchema.TemplateResponseSchema },

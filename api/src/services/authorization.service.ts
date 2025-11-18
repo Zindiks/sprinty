@@ -235,6 +235,35 @@ export class AuthorizationService {
 
     return await this.canAccessCard(userId, cardId)
   }
+
+  /**
+   * Get board ID from sprint ID
+   * @param sprintId - Sprint UUID
+   * @returns Board UUID or null if sprint not found
+   */
+  async getSprintBoard(sprintId: string): Promise<string | null> {
+    const sprint = await this.knex('sprints')
+      .where({ id: sprintId })
+      .first()
+
+    return sprint?.board_id || null
+  }
+
+  /**
+   * Check if user can access sprint (via board access)
+   * @param userId - User UUID
+   * @param sprintId - Sprint UUID
+   * @returns true if user can access the sprint's board, false otherwise
+   */
+  async canAccessSprint(userId: string, sprintId: string): Promise<boolean> {
+    const boardId = await this.getSprintBoard(sprintId)
+
+    if (!boardId) {
+      return false
+    }
+
+    return await this.canAccessBoard(userId, boardId)
+  }
 }
 
 // Export singleton instance

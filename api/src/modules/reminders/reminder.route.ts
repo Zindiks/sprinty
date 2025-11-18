@@ -6,6 +6,7 @@ import {
   GetCardRemindersSchema,
   DeleteReminderSchema,
 } from "./reminder.schema";
+import { requireCardAccess } from "../../middleware/authorization.middleware";
 
 async function reminderRoutes(fastify: FastifyInstance) {
   const service = new ReminderService(fastify.knex);
@@ -15,6 +16,7 @@ async function reminderRoutes(fastify: FastifyInstance) {
   fastify.post(
     "/reminders",
     {
+      preHandler: [requireCardAccess],
       schema: {
         description: "Create a new reminder for a card",
         tags: ["reminders"],
@@ -36,6 +38,7 @@ async function reminderRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/reminders/card/:card_id",
     {
+      preHandler: [requireCardAccess],
       schema: {
         description: "Get all reminders for a specific card",
         tags: ["reminders"],
@@ -50,7 +53,7 @@ async function reminderRoutes(fastify: FastifyInstance) {
     controller.getCardReminders.bind(controller)
   );
 
-  // Get all reminders for the current user
+  // Get all reminders for the current user (no card access needed - user's own data)
   fastify.get(
     "/reminders/user",
     {
@@ -67,7 +70,7 @@ async function reminderRoutes(fastify: FastifyInstance) {
     controller.getUserReminders.bind(controller)
   );
 
-  // Delete a reminder
+  // Delete a reminder (user can only delete their own)
   fastify.delete(
     "/reminders/:id",
     {

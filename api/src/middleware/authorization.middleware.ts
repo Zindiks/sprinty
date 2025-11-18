@@ -397,3 +397,47 @@ export async function requireCommentAccess(
     })
   }
 }
+
+/**
+ * requireSprintAccess Middleware
+ *
+ * Requires user to have access to the sprint (via board access).
+ * Returns 403 Forbidden if user cannot access the sprint.
+ *
+ * Usage:
+ * ```typescript
+ * fastify.get('/sprints/:id', {
+ *   preHandler: [requireAuth, requireSprintAccess],
+ *   handler: controller.getSprint
+ * })
+ * ```
+ */
+export async function requireSprintAccess(
+  request: FastifyRequest,
+  reply: FastifyReply
+): Promise<void> {
+  const userId = request.user!.id
+
+  // Try to get sprint_id from params or body
+  const sprintId = (request.params as any).id ||
+                   (request.params as any).sprint_id ||
+                   (request.body as any)?.sprint_id
+
+  if (!sprintId) {
+    return reply.code(400).send({
+      statusCode: 400,
+      error: 'Bad Request',
+      message: 'sprint_id is required',
+    })
+  }
+
+  const hasAccess = await authorizationService.canAccessSprint(userId, sprintId)
+
+  if (!hasAccess) {
+    return reply.code(403).send({
+      statusCode: 403,
+      error: 'Forbidden',
+      message: 'You do not have access to this resource',
+    })
+  }
+}

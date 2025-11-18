@@ -13,6 +13,11 @@ import {
   SprintCardSchema,
 } from "./sprint.schema";
 import { Type } from "@sinclair/typebox";
+import {
+  requireBoardAccess,
+  requireSprintAccess,
+  requireBulkCardAccess
+} from "../../middleware/authorization.middleware";
 
 export default async function sprintRoutes(fastify: FastifyInstance) {
   const service = new SprintService(fastify.knex);
@@ -22,6 +27,7 @@ export default async function sprintRoutes(fastify: FastifyInstance) {
   fastify.post(
     "/",
     {
+      preHandler: [requireBoardAccess],
       schema: {
         description: "Create a new sprint",
         tags: ["Sprints"],
@@ -38,6 +44,7 @@ export default async function sprintRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/:id",
     {
+      preHandler: [requireSprintAccess],
       schema: {
         description: "Get a sprint with stats",
         tags: ["Sprints"],
@@ -54,6 +61,7 @@ export default async function sprintRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/board/:boardId",
     {
+      preHandler: [requireBoardAccess],
       schema: {
         description: "Get all sprints for a board",
         tags: ["Sprints"],
@@ -70,6 +78,7 @@ export default async function sprintRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/board/:boardId/active",
     {
+      preHandler: [requireBoardAccess],
       schema: {
         description: "Get active sprint for a board",
         tags: ["Sprints"],
@@ -86,6 +95,7 @@ export default async function sprintRoutes(fastify: FastifyInstance) {
   fastify.patch(
     "/:id",
     {
+      preHandler: [requireSprintAccess],
       schema: {
         description: "Update a sprint",
         tags: ["Sprints"],
@@ -103,6 +113,7 @@ export default async function sprintRoutes(fastify: FastifyInstance) {
   fastify.delete(
     "/:id",
     {
+      preHandler: [requireSprintAccess],
       schema: {
         description: "Delete a sprint",
         tags: ["Sprints"],
@@ -119,6 +130,7 @@ export default async function sprintRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/:id/cards",
     {
+      preHandler: [requireSprintAccess],
       schema: {
         description: "Get cards in a sprint",
         tags: ["Sprints"],
@@ -135,6 +147,7 @@ export default async function sprintRoutes(fastify: FastifyInstance) {
   fastify.post(
     "/:id/cards",
     {
+      preHandler: [requireSprintAccess, requireBulkCardAccess],
       schema: {
         description: "Add cards to a sprint",
         tags: ["Sprints"],
@@ -152,6 +165,7 @@ export default async function sprintRoutes(fastify: FastifyInstance) {
   fastify.post(
     "/cards/remove",
     {
+      preHandler: [requireBulkCardAccess],
       schema: {
         description: "Remove cards from sprint",
         tags: ["Sprints"],
@@ -168,6 +182,7 @@ export default async function sprintRoutes(fastify: FastifyInstance) {
   fastify.post(
     "/:id/start",
     {
+      preHandler: [requireSprintAccess],
       schema: {
         description: "Start a sprint",
         tags: ["Sprints"],
@@ -184,6 +199,7 @@ export default async function sprintRoutes(fastify: FastifyInstance) {
   fastify.post(
     "/:id/complete",
     {
+      preHandler: [requireSprintAccess],
       schema: {
         description: "Complete a sprint",
         tags: ["Sprints"],
