@@ -76,21 +76,14 @@ export const AddComment = ({
   };
 
   if (!currentUser) {
-    return (
-      <p className="text-sm text-muted-foreground italic">
-        Please log in to comment
-      </p>
-    );
+    return <p className="text-sm text-muted-foreground italic">Please log in to comment</p>;
   }
 
   return (
     <div className="flex gap-3">
       <Avatar className="w-8 h-8 flex-shrink-0">
         {currentUser.avatar_url && (
-          <AvatarImage
-            src={currentUser.avatar_url}
-            alt={currentUser.login || currentUser.email}
-          />
+          <AvatarImage src={currentUser.avatar_url} alt={currentUser.login || currentUser.email} />
         )}
         <AvatarFallback className="text-xs">
           {getInitials(currentUser.login, currentUser.email)}
@@ -116,11 +109,7 @@ export const AddComment = ({
               onClick={handleSubmit}
               disabled={!content.trim() || createComment.isPending}
             >
-              {createComment.isPending
-                ? "Posting..."
-                : parentCommentId
-                ? "Reply"
-                : "Comment"}
+              {createComment.isPending ? "Posting..." : parentCommentId ? "Reply" : "Comment"}
             </Button>
             <Button
               size="sm"
@@ -131,14 +120,8 @@ export const AddComment = ({
               Cancel
             </Button>
             <span className="text-xs text-muted-foreground ml-2">
-              <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px]">
-                Cmd
-              </kbd>{" "}
-              +{" "}
-              <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px]">
-                Enter
-              </kbd>{" "}
-              to post
+              <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px]">Cmd</kbd> +{" "}
+              <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px]">Enter</kbd> to post
             </span>
           </div>
         )}

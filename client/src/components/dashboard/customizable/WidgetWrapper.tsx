@@ -55,9 +55,7 @@ const WidgetWrapper = ({
                   isDraggingEnabled ? "cursor-grab active:cursor-grabbing" : "cursor-default"
                 }`}
               >
-                {isDraggingEnabled && (
-                  <GripVertical className="w-4 h-4 text-gray-400" />
-                )}
+                {isDraggingEnabled && <GripVertical className="w-4 h-4 text-gray-400" />}
                 <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">
                   Widget
                 </span>
@@ -71,15 +69,9 @@ const WidgetWrapper = ({
                     className="p-1 hover:bg-gray-200 rounded transition"
                     title="Resize widget"
                   >
-                    {currentSize === "small" && (
-                      <Maximize2 className="w-4 h-4 text-gray-600" />
-                    )}
-                    {currentSize === "medium" && (
-                      <Maximize2 className="w-4 h-4 text-gray-600" />
-                    )}
-                    {currentSize === "large" && (
-                      <Minimize2 className="w-4 h-4 text-gray-600" />
-                    )}
+                    {currentSize === "small" && <Maximize2 className="w-4 h-4 text-gray-600" />}
+                    {currentSize === "medium" && <Maximize2 className="w-4 h-4 text-gray-600" />}
+                    {currentSize === "large" && <Minimize2 className="w-4 h-4 text-gray-600" />}
                   </button>
                 )}
 

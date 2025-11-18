@@ -13,7 +13,7 @@ export class OrganizationController {
     request: FastifyRequest<{
       Params: { id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { id } = request.params;
     try {
@@ -24,10 +24,7 @@ export class OrganizationController {
     }
   }
 
-  public async getAllOrganizationController(
-    request: FastifyRequest,
-    reply: FastifyReply,
-  ) {
+  public async getAllOrganizationController(request: FastifyRequest, reply: FastifyReply) {
     try {
       const result = await this.organizationService.getAll();
       return reply.status(200).send(result);
@@ -40,7 +37,7 @@ export class OrganizationController {
     request: FastifyRequest<{
       Body: CreateOrganization;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const body = request.body;
 
@@ -57,7 +54,7 @@ export class OrganizationController {
       Body: UpdateOrganization;
       Params: { id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const body = request.body;
     const { id } = request.params;
@@ -74,7 +71,7 @@ export class OrganizationController {
     request: FastifyRequest<{
       Params: { id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { id } = request.params;
     try {

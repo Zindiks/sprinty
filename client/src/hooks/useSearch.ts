@@ -30,9 +30,7 @@ export const useSearch = () => {
         }),
       });
 
-      const response = await apiClient.get(
-        `/search?${queryParams.toString()}`
-      );
+      const response = await apiClient.get(`/search?${queryParams.toString()}`);
       return response.data;
     } catch (err) {
       throw new Error("Error searching: " + err);

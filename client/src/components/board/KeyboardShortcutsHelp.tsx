@@ -1,9 +1,5 @@
 import { Keyboard } from "lucide-react";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 
 export const KeyboardShortcutsHelp = () => {
@@ -47,9 +43,7 @@ export const KeyboardShortcutsHelp = () => {
                     </div>
                   ))}
                 </div>
-                <span className="text-xs text-muted-foreground ml-3">
-                  {shortcut.description}
-                </span>
+                <span className="text-xs text-muted-foreground ml-3">{shortcut.description}</span>
               </div>
             ))}
           </div>

@@ -16,7 +16,7 @@ export default async function templateRoutes(fastify: FastifyInstance) {
         description: "Get a template by ID",
       },
     },
-    templateController.getTemplateController.bind(templateController),
+    templateController.getTemplateController.bind(templateController)
   );
 
   // Get all templates (system + custom for organization)
@@ -32,11 +32,10 @@ export default async function templateRoutes(fastify: FastifyInstance) {
         },
         response: { 200: TemplateSchema.TemplatesCollectionSchema },
         tags: ["templates"],
-        description:
-          "Get all templates (system templates + custom templates for organization)",
+        description: "Get all templates (system templates + custom templates for organization)",
       },
     },
-    templateController.getAllTemplatesController.bind(templateController),
+    templateController.getAllTemplatesController.bind(templateController)
   );
 
   // Create a new template
@@ -50,7 +49,7 @@ export default async function templateRoutes(fastify: FastifyInstance) {
         description: "Create a new template",
       },
     },
-    templateController.createTemplateController.bind(templateController),
+    templateController.createTemplateController.bind(templateController)
   );
 
   // Update a template
@@ -75,7 +74,7 @@ export default async function templateRoutes(fastify: FastifyInstance) {
         description: "Update a custom template (requires ownership)",
       },
     },
-    templateController.updateTemplateController.bind(templateController),
+    templateController.updateTemplateController.bind(templateController)
   );
 
   // Delete a template
@@ -101,7 +100,7 @@ export default async function templateRoutes(fastify: FastifyInstance) {
         description: "Delete a custom template (requires ownership)",
       },
     },
-    templateController.deleteTemplateController.bind(templateController),
+    templateController.deleteTemplateController.bind(templateController)
   );
 
   // Create board from template
@@ -127,9 +126,7 @@ export default async function templateRoutes(fastify: FastifyInstance) {
         description: "Create a board from a template",
       },
     },
-    templateController.createBoardFromTemplateController.bind(
-      templateController,
-    ),
+    templateController.createBoardFromTemplateController.bind(templateController)
   );
 
   // Create template from board
@@ -143,8 +140,6 @@ export default async function templateRoutes(fastify: FastifyInstance) {
         description: "Save a board as a template",
       },
     },
-    templateController.createTemplateFromBoardController.bind(
-      templateController,
-    ),
+    templateController.createTemplateFromBoardController.bind(templateController)
   );
 }

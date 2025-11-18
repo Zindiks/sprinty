@@ -84,11 +84,7 @@ export class ReminderRepository {
   /**
    * Check if a reminder already exists for a card/user/type combination
    */
-  async exists(
-    cardId: string,
-    userId: string,
-    reminderType: string
-  ): Promise<boolean> {
+  async exists(cardId: string, userId: string, reminderType: string): Promise<boolean> {
     const reminder = await this.db("card_reminders")
       .where({
         card_id: cardId,

@@ -27,9 +27,7 @@ export class LabelRepository {
     const { board_id, name, color } = input;
 
     // Check if label with same name exists on this board
-    const existing = await this.knex(labelsTable)
-      .where({ board_id, name })
-      .first();
+    const existing = await this.knex(labelsTable).where({ board_id, name }).first();
 
     if (existing) {
       throw new Error("Label with this name already exists on this board");
@@ -77,20 +75,13 @@ export class LabelRepository {
   async deleteLabel(input: DeleteLabel): Promise<boolean> {
     const { id, board_id } = input;
 
-    const deleted = await this.knex(labelsTable)
-      .where({ id, board_id })
-      .delete();
+    const deleted = await this.knex(labelsTable).where({ id, board_id }).delete();
 
     return deleted > 0;
   }
 
-  async getLabelById(
-    id: string,
-    board_id: string,
-  ): Promise<LabelResponse | undefined> {
-    const label = await this.knex(labelsTable)
-      .where({ id, board_id })
-      .first();
+  async getLabelById(id: string, board_id: string): Promise<LabelResponse | undefined> {
+    const label = await this.knex(labelsTable).where({ id, board_id }).first();
 
     return label;
   }
@@ -104,16 +95,11 @@ export class LabelRepository {
     return labels;
   }
 
-  async getLabelsWithCardsCount(
-    board_id: string,
-  ): Promise<LabelWithCardsCountArray> {
+  async getLabelsWithCardsCount(board_id: string): Promise<LabelWithCardsCountArray> {
     const labels = await this.knex(labelsTable)
       .where({ "labels.board_id": board_id })
       .leftJoin(cardLabelsTable, "labels.id", "card_labels.label_id")
-      .select(
-        "labels.*",
-        this.knex.raw("COUNT(card_labels.card_id)::int as cards_count"),
-      )
+      .select("labels.*", this.knex.raw("COUNT(card_labels.card_id)::int as cards_count"))
       .groupBy("labels.id")
       .orderBy("labels.name", "asc");
 
@@ -125,9 +111,7 @@ export class LabelRepository {
     const { card_id, label_id } = input;
 
     // Check if association already exists
-    const existing = await this.knex(cardLabelsTable)
-      .where({ card_id, label_id })
-      .first();
+    const existing = await this.knex(cardLabelsTable).where({ card_id, label_id }).first();
 
     if (existing) {
       return existing;
@@ -146,9 +130,7 @@ export class LabelRepository {
   async removeLabelFromCard(input: RemoveLabelFromCard): Promise<boolean> {
     const { card_id, label_id } = input;
 
-    const deleted = await this.knex(cardLabelsTable)
-      .where({ card_id, label_id })
-      .delete();
+    const deleted = await this.knex(cardLabelsTable).where({ card_id, label_id }).delete();
 
     return deleted > 0;
   }
@@ -164,9 +146,7 @@ export class LabelRepository {
   }
 
   async getCardIdsByLabelId(label_id: string): Promise<string[]> {
-    const cards = await this.knex(cardLabelsTable)
-      .where({ label_id })
-      .select("card_id");
+    const cards = await this.knex(cardLabelsTable).where({ label_id }).select("card_id");
 
     return cards.map((card) => card.card_id);
   }

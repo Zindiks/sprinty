@@ -81,11 +81,7 @@ export const AddChecklistItem = ({ cardId }: AddChecklistItemProps) => {
         className="text-sm"
       />
       <div className="flex items-center gap-2">
-        <Button
-          size="sm"
-          onClick={handleAdd}
-          disabled={!itemTitle.trim() || createItem.isPending}
-        >
+        <Button size="sm" onClick={handleAdd} disabled={!itemTitle.trim() || createItem.isPending}>
           {createItem.isPending ? "Adding..." : "Add"}
         </Button>
         <Button size="sm" variant="ghost" onClick={handleCancel}>

@@ -20,11 +20,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import axios from "axios";
 
 import { useNavigate } from "react-router-dom";
@@ -117,10 +113,7 @@ export function OrganizationCombobox() {
                 >
                   {organization.name}
                   <Check
-                    className={cn(
-                      "ml-auto",
-                      id === organization.id ? "opacity-100" : "opacity-0",
-                    )}
+                    className={cn("ml-auto", id === organization.id ? "opacity-100" : "opacity-0")}
                   />
                 </CommandItem>
               ))}

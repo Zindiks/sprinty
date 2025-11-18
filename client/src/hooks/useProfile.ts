@@ -56,10 +56,7 @@ export const useProfile = (user_id: string) => {
 
   const updateProfile = useMutation<AxiosResponse, FetchError, UpdateProfile>({
     mutationFn: (formData) => {
-      return apiClient.put(
-        `/profiles/user/${user_id}`,
-        formData
-      );
+      return apiClient.put(`/profiles/user/${user_id}`, formData);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["profile", user_id] });

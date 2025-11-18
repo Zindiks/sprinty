@@ -25,7 +25,7 @@ export class BulkController {
     request: FastifyRequest<{
       Body: BulkMoveCardsInput;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       const { card_ids, target_list_id } = request.body;
@@ -65,7 +65,7 @@ export class BulkController {
     request: FastifyRequest<{
       Body: BulkAssignUsersInput;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       const { card_ids, user_ids } = request.body;
@@ -104,7 +104,7 @@ export class BulkController {
     request: FastifyRequest<{
       Body: BulkAddLabelsInput;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       const { card_ids, label_ids } = request.body;
@@ -143,7 +143,7 @@ export class BulkController {
     request: FastifyRequest<{
       Body: BulkSetDueDateInput;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       const { card_ids, due_date } = request.body;
@@ -178,7 +178,7 @@ export class BulkController {
     request: FastifyRequest<{
       Body: BulkArchiveCardsInput;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       const { card_ids } = request.body;
@@ -213,7 +213,7 @@ export class BulkController {
     request: FastifyRequest<{
       Body: BulkDeleteCardsInput;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       const { card_ids } = request.body;

@@ -1,9 +1,5 @@
 import { Button } from "@/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
 import { useSelectionStore } from "@/hooks/store/useSelectionStore";
 import { useBulkActions } from "@/hooks/useBulkActions";
@@ -57,26 +53,14 @@ export const BulkDueDateAction = () => {
             className="w-full"
           />
           <div className="flex gap-2">
-            <Button
-              onClick={handleSetDueDate}
-              disabled={!date}
-              className="flex-1"
-              size="sm"
-            >
+            <Button onClick={handleSetDueDate} disabled={!date} className="flex-1" size="sm">
               Set Date
             </Button>
-            <Button
-              onClick={handleClearDueDate}
-              variant="outline"
-              className="flex-1"
-              size="sm"
-            >
+            <Button onClick={handleClearDueDate} variant="outline" className="flex-1" size="sm">
               Clear
             </Button>
           </div>
-          <div className="text-xs text-muted-foreground">
-            Phase 4: Can add calendar picker
-          </div>
+          <div className="text-xs text-muted-foreground">Phase 4: Can add calendar picker</div>
         </div>
       </PopoverContent>
     </Popover>

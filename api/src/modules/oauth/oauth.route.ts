@@ -8,10 +8,7 @@ const userController = new UserController();
 async function oauthRoutes(fastify: FastifyInstance) {
   fastify.register(fastifyOauth2, oauth2Options);
 
-  fastify.get(
-    "/github/callback",
-    userController.githubCallback.bind(userController),
-  );
+  fastify.get("/github/callback", userController.githubCallback.bind(userController));
   fastify.get("/user", userController.getUserController.bind(userController));
   fastify.get("/logout", userController.logout.bind(userController));
 }

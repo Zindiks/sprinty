@@ -33,7 +33,7 @@ export class ListRepository {
               ORDER BY cards.order ASC
             ) FILTER (WHERE cards.id IS NOT NULL), '[]'
           ) as cards
-        `),
+        `)
       )
       .leftJoin("cards", "lists.id", "cards.list_id")
       .where({ "lists.board_id": board_id })
@@ -44,10 +44,7 @@ export class ListRepository {
   }
 
   async getListById(id: string): Promise<FullListResponse | undefined> {
-    const list = await this.knex(table)
-      .select("*")
-      .where({ id })
-      .first();
+    const list = await this.knex(table).select("*").where({ id }).first();
 
     return list;
   }
@@ -63,9 +60,7 @@ export class ListRepository {
 
     const order = lastList ? lastList.order + 1 : 0;
 
-    const [list] = await this.knex(table)
-      .insert({ title, board_id, order })
-      .returning("*");
+    const [list] = await this.knex(table).insert({ title, board_id, order }).returning("*");
 
     return list;
   }
@@ -73,10 +68,7 @@ export class ListRepository {
   async updateTitle(input: UpdateListTitle): Promise<FullListResponse> {
     const { id, board_id, title } = input;
 
-    const [list] = await this.knex(table)
-      .update({ title })
-      .where({ id, board_id })
-      .returning("*");
+    const [list] = await this.knex(table).update({ title }).where({ id, board_id }).returning("*");
 
     return list;
   }
@@ -129,12 +121,7 @@ export class ListRepository {
         })
         .returning("*");
       // Insert the associated cards, if any
-      if (
-        cards &&
-        Array.isArray(cards) &&
-        cards.length > 0 &&
-        cards[0] !== null
-      ) {
+      if (cards && Array.isArray(cards) && cards.length > 0 && cards[0] !== null) {
         const cardsData = cards.map((card) => ({
           title: card.title,
           description: card.description,
@@ -149,10 +136,7 @@ export class ListRepository {
 
   async deleteList(input: DeleteList) {
     const { id, board_id } = input;
-    const [deletedList] = await this.knex(table)
-      .where({ id, board_id })
-      .del()
-      .returning("*");
+    const [deletedList] = await this.knex(table).where({ id, board_id }).del().returning("*");
 
     const lists: UpdateListOrderArray = await this.knex(table)
       .select("order", "id")

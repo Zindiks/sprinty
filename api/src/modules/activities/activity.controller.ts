@@ -13,7 +13,7 @@ export class ActivityController {
     request: FastifyRequest<{
       Body: CreateActivity;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       const activity = await this.activityService.logActivity(request.body);
@@ -28,7 +28,7 @@ export class ActivityController {
     request: FastifyRequest<{
       Params: { id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       const { id } = request.params;
@@ -51,16 +51,13 @@ export class ActivityController {
       Params: { card_id: string };
       Querystring: ActivityQueryParams;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       const { card_id } = request.params;
       const queryParams = request.query;
 
-      const activities = await this.activityService.getActivitiesByCardId(
-        card_id,
-        queryParams,
-      );
+      const activities = await this.activityService.getActivitiesByCardId(card_id, queryParams);
 
       return reply.send(activities);
     } catch (error) {
@@ -74,16 +71,13 @@ export class ActivityController {
       Params: { user_id: string };
       Querystring: ActivityQueryParams;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       const { user_id } = request.params;
       const queryParams = request.query;
 
-      const activities = await this.activityService.getActivitiesByUserId(
-        user_id,
-        queryParams,
-      );
+      const activities = await this.activityService.getActivitiesByUserId(user_id, queryParams);
 
       return reply.send(activities);
     } catch (error) {
@@ -96,7 +90,7 @@ export class ActivityController {
     request: FastifyRequest<{
       Querystring: ActivityQueryParams;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       const queryParams = request.query;
@@ -114,7 +108,7 @@ export class ActivityController {
     request: FastifyRequest<{
       Params: { card_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       const { card_id } = request.params;
@@ -132,14 +126,12 @@ export class ActivityController {
     request: FastifyRequest<{
       Params: { card_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       const { card_id } = request.params;
 
-      const deleted = await this.activityService.deleteActivitiesByCardId(
-        card_id,
-      );
+      const deleted = await this.activityService.deleteActivitiesByCardId(card_id);
 
       return reply.send({ deleted, message: "Activities deleted successfully" });
     } catch (error) {

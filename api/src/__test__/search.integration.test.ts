@@ -32,32 +32,20 @@ describe.skip("Search Integration Tests", () => {
     describe("searchBoards", () => {
       it("should find boards by title (case-insensitive)", async () => {
         // TODO: Insert test boards
-        const results = await searchRepository.searchBoards(
-          "test",
-          "org-id",
-          10,
-        );
+        const results = await searchRepository.searchBoards("test", "org-id", 10);
         expect(results.length).toBeGreaterThan(0);
         expect(results[0].result_type).toBe("board");
       });
 
       it("should find boards by description", async () => {
         // TODO: Insert test boards with descriptions
-        const results = await searchRepository.searchBoards(
-          "description",
-          "org-id",
-          10,
-        );
+        const results = await searchRepository.searchBoards("description", "org-id", 10);
         expect(results.length).toBeGreaterThan(0);
       });
 
       it("should only return boards from specified organization", async () => {
         // TODO: Insert boards for different organizations
-        const results = await searchRepository.searchBoards(
-          "test",
-          "org-1",
-          10,
-        );
+        const results = await searchRepository.searchBoards("test", "org-1", 10);
         results.forEach((board) => {
           expect(board.organization_id).toBe("org-1");
         });
@@ -65,26 +53,16 @@ describe.skip("Search Integration Tests", () => {
 
       it("should respect limit parameter", async () => {
         // TODO: Insert many test boards
-        const results = await searchRepository.searchBoards(
-          "test",
-          "org-id",
-          5,
-        );
+        const results = await searchRepository.searchBoards("test", "org-id", 5);
         expect(results.length).toBeLessThanOrEqual(5);
       });
 
       it("should order results by created_at desc", async () => {
         // TODO: Insert boards with different timestamps
-        const results = await searchRepository.searchBoards(
-          "test",
-          "org-id",
-          10,
-        );
+        const results = await searchRepository.searchBoards("test", "org-id", 10);
         for (let i = 0; i < results.length - 1; i++) {
-          expect(
-            new Date(results[i].created_at).getTime(),
-          ).toBeGreaterThanOrEqual(
-            new Date(results[i + 1].created_at).getTime(),
+          expect(new Date(results[i].created_at).getTime()).toBeGreaterThanOrEqual(
+            new Date(results[i + 1].created_at).getTime()
           );
         }
       });
@@ -93,12 +71,7 @@ describe.skip("Search Integration Tests", () => {
     describe("searchLists", () => {
       it("should find lists by title with board information", async () => {
         // TODO: Insert test lists and boards
-        const results = await searchRepository.searchLists(
-          "test",
-          "org-id",
-          undefined,
-          10,
-        );
+        const results = await searchRepository.searchLists("test", "org-id", undefined, 10);
         expect(results.length).toBeGreaterThan(0);
         expect(results[0].result_type).toBe("list");
         expect(results[0].board_title).toBeDefined();
@@ -106,12 +79,7 @@ describe.skip("Search Integration Tests", () => {
 
       it("should filter lists by board_id when provided", async () => {
         // TODO: Insert lists in different boards
-        const results = await searchRepository.searchLists(
-          "test",
-          "org-id",
-          "board-1",
-          10,
-        );
+        const results = await searchRepository.searchLists("test", "org-id", "board-1", 10);
         results.forEach((list) => {
           expect(list.board_id).toBe("board-1");
         });
@@ -119,12 +87,7 @@ describe.skip("Search Integration Tests", () => {
 
       it("should only return lists from boards in the organization", async () => {
         // TODO: Insert lists for different organizations
-        const results = await searchRepository.searchLists(
-          "test",
-          "org-1",
-          undefined,
-          10,
-        );
+        const results = await searchRepository.searchLists("test", "org-1", undefined, 10);
         // All results should belong to boards in org-1
         expect(results.length).toBeGreaterThan(0);
       });
@@ -133,12 +96,7 @@ describe.skip("Search Integration Tests", () => {
     describe("searchCards", () => {
       it("should find cards by title with list and board information", async () => {
         // TODO: Insert test cards, lists, and boards
-        const results = await searchRepository.searchCards(
-          "test",
-          "org-id",
-          undefined,
-          10,
-        );
+        const results = await searchRepository.searchCards("test", "org-id", undefined, 10);
         expect(results.length).toBeGreaterThan(0);
         expect(results[0].result_type).toBe("card");
         expect(results[0].list_title).toBeDefined();
@@ -147,23 +105,13 @@ describe.skip("Search Integration Tests", () => {
 
       it("should find cards by description", async () => {
         // TODO: Insert cards with descriptions
-        const results = await searchRepository.searchCards(
-          "description",
-          "org-id",
-          undefined,
-          10,
-        );
+        const results = await searchRepository.searchCards("description", "org-id", undefined, 10);
         expect(results.length).toBeGreaterThan(0);
       });
 
       it("should filter cards by board_id when provided", async () => {
         // TODO: Insert cards in different boards
-        const results = await searchRepository.searchCards(
-          "test",
-          "org-id",
-          "board-1",
-          10,
-        );
+        const results = await searchRepository.searchCards("test", "org-id", "board-1", 10);
         results.forEach((card) => {
           expect(card.board_id).toBe("board-1");
         });
@@ -171,12 +119,7 @@ describe.skip("Search Integration Tests", () => {
 
       it("should return cards with all related information", async () => {
         // TODO: Insert complete test data
-        const results = await searchRepository.searchCards(
-          "test",
-          "org-id",
-          undefined,
-          10,
-        );
+        const results = await searchRepository.searchCards("test", "org-id", undefined, 10);
         const card = results[0];
         expect(card).toHaveProperty("id");
         expect(card).toHaveProperty("title");
@@ -208,8 +151,7 @@ describe.skip("Search Integration Tests", () => {
           organization_id: "org-id",
           limit: 30,
         });
-        const total =
-          results.boards.length + results.lists.length + results.cards.length;
+        const total = results.boards.length + results.lists.length + results.cards.length;
         expect(total).toBeLessThanOrEqual(30);
       });
     });

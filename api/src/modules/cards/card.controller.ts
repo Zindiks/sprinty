@@ -24,7 +24,7 @@ export class CardController {
     request: FastifyRequest<{
       Params: { id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { id } = request.params;
 
@@ -40,7 +40,7 @@ export class CardController {
     request: FastifyRequest<{
       Params: { id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { id } = request.params;
 
@@ -59,7 +59,7 @@ export class CardController {
     request: FastifyRequest<{
       Params: { id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { id } = request.params;
 
@@ -78,7 +78,7 @@ export class CardController {
     request: FastifyRequest<{
       Params: { list_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { list_id } = request.params;
 
@@ -94,7 +94,7 @@ export class CardController {
     request: FastifyRequest<{
       Body: CreateCard;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const body = request.body;
 
@@ -128,7 +128,7 @@ export class CardController {
     request: FastifyRequest<{
       Body: UpdateCardTitle;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const body = request.body;
 
@@ -159,7 +159,7 @@ export class CardController {
     request: FastifyRequest<{
       Body: UpdateCardDetails;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const body = request.body;
 
@@ -176,7 +176,7 @@ export class CardController {
       Params: { id: string };
       Body: UpdateCardDetailsById;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { id } = request.params;
     const body = request.body;
@@ -193,7 +193,7 @@ export class CardController {
     request: FastifyRequest<{
       Body: UpdateCardOrderArray;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const body = request.body;
 
@@ -230,7 +230,7 @@ export class CardController {
     request: FastifyRequest<{
       Params: DeleteCard;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const body = request.params;
 

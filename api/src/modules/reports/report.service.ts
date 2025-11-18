@@ -179,14 +179,7 @@ export class ReportService {
 
     const activities = await query.orderBy("card_activities.created_at", "desc");
 
-    const headers = [
-      "id",
-      "action_type",
-      "card_title",
-      "list_title",
-      "board_title",
-      "created_at",
-    ];
+    const headers = ["id", "action_type", "card_title", "list_title", "board_title", "created_at"];
 
     return this.generateCSV(activities, headers);
   }
@@ -264,7 +257,14 @@ export class ReportService {
       icalLines.push(`LAST-MODIFIED:${this.formatICalDate(new Date(card.updated_at))}`);
 
       // Set priority based on card priority
-      const icalPriority = card.priority === "critical" ? "1" : card.priority === "high" ? "3" : card.priority === "medium" ? "5" : "9";
+      const icalPriority =
+        card.priority === "critical"
+          ? "1"
+          : card.priority === "high"
+            ? "3"
+            : card.priority === "medium"
+              ? "5"
+              : "9";
       icalLines.push(`PRIORITY:${icalPriority}`);
 
       // Set status

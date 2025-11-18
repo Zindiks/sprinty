@@ -48,10 +48,7 @@ export const useComments = (cardId?: string) => {
   // Create comment or reply
   const createComment = useMutation<AxiosResponse, FetchError, CreateCommentParams>({
     mutationFn: (params) => {
-      return apiClient.post(
-        `/comments/`,
-        params
-      );
+      return apiClient.post(`/comments/`, params);
     },
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ["comments", variables.card_id] });
@@ -73,10 +70,7 @@ export const useComments = (cardId?: string) => {
   // Update comment
   const updateComment = useMutation<AxiosResponse, FetchError, UpdateCommentParams>({
     mutationFn: ({ id, card_id, content }) => {
-      return apiClient.patch(
-        `/comments/`,
-        { id, card_id, content }
-      );
+      return apiClient.patch(`/comments/`, { id, card_id, content });
     },
     onMutate: async (params) => {
       // Cancel outgoing refetches

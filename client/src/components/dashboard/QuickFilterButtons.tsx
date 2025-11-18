@@ -2,13 +2,8 @@ import { useDashboardStore } from "../../hooks/store/useDashboardStore";
 import { AlertCircle, Clock, Flame, User } from "lucide-react";
 
 const QuickFilterButtons = () => {
-  const {
-    filters,
-    setDueDateFilter,
-    setStatusFilter,
-    setPriorityFilter,
-    setShowOnlyAssignedToMe,
-  } = useDashboardStore();
+  const { filters, setDueDateFilter, setStatusFilter, setPriorityFilter, setShowOnlyAssignedToMe } =
+    useDashboardStore();
 
   const quickFilters = [
     {
@@ -84,10 +79,10 @@ const QuickFilterButtons = () => {
                 ? filter.color === "red"
                   ? "bg-red-600 text-white shadow-md hover:bg-red-700"
                   : filter.color === "blue"
-                  ? "bg-blue-600 text-white shadow-md hover:bg-blue-700"
-                  : filter.color === "orange"
-                  ? "bg-orange-600 text-white shadow-md hover:bg-orange-700"
-                  : "bg-purple-600 text-white shadow-md hover:bg-purple-700"
+                    ? "bg-blue-600 text-white shadow-md hover:bg-blue-700"
+                    : filter.color === "orange"
+                      ? "bg-orange-600 text-white shadow-md hover:bg-orange-700"
+                      : "bg-purple-600 text-white shadow-md hover:bg-purple-700"
                 : "bg-white text-gray-700 border border-gray-300 hover:border-gray-400 hover:bg-gray-50"
             }`}
           >

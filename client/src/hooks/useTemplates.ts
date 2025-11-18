@@ -25,9 +25,7 @@ export const useTemplates = (organization_id?: string) => {
   const { toast } = useToast();
 
   // Fetch all templates (system + custom for organization)
-  const fetchTemplates = async (
-    organization_id?: string,
-  ): Promise<TemplatesCollection> => {
+  const fetchTemplates = async (organization_id?: string): Promise<TemplatesCollection> => {
     try {
       const params = organization_id ? { organization_id } : {};
       const response = await apiClient.get(`/templates`, { params });
@@ -71,10 +69,7 @@ export const useTemplates = (organization_id?: string) => {
     CreateBoardFromTemplateRequest
   >({
     mutationFn: (formData) => {
-      return apiClient.post(
-        `/templates/create-board`,
-        formData
-      );
+      return apiClient.post(`/templates/create-board`, formData);
     },
 
     onSuccess: (response) => {
@@ -105,10 +100,7 @@ export const useTemplates = (organization_id?: string) => {
     CreateTemplateFromBoardRequest
   >({
     mutationFn: (formData) => {
-      return apiClient.post(
-        `/templates/from-board`,
-        formData
-      );
+      return apiClient.post(`/templates/from-board`, formData);
     },
 
     onSuccess: (response) => {
@@ -139,10 +131,7 @@ export const useTemplates = (organization_id?: string) => {
     { id: string; data: UpdateTemplateRequest }
   >({
     mutationFn: ({ id, data }) => {
-      return apiClient.put(
-        `/templates/${id}?organization_id=${organization_id}`,
-        data
-      );
+      return apiClient.put(`/templates/${id}?organization_id=${organization_id}`, data);
     },
 
     onSuccess: (response) => {
@@ -176,9 +165,7 @@ export const useTemplates = (organization_id?: string) => {
     string // template_id
   >({
     mutationFn: (template_id) => {
-      return apiClient.delete(
-        `/templates/${template_id}?organization_id=${organization_id}`
-      );
+      return apiClient.delete(`/templates/${template_id}?organization_id=${organization_id}`);
     },
 
     onSuccess: () => {

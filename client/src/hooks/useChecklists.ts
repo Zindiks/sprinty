@@ -63,10 +63,7 @@ export const useChecklists = (cardId?: string) => {
   // Create checklist item
   const createItem = useMutation<AxiosResponse, FetchError, CreateChecklistItemParams>({
     mutationFn: (params) => {
-      return apiClient.post(
-        `/checklists/`,
-        params
-      );
+      return apiClient.post(`/checklists/`, params);
     },
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ["checklists", variables.card_id] });
@@ -89,10 +86,7 @@ export const useChecklists = (cardId?: string) => {
   // Update checklist item
   const updateItem = useMutation<AxiosResponse, FetchError, UpdateChecklistItemParams>({
     mutationFn: ({ id, card_id, ...updates }) => {
-      return apiClient.patch(
-        `/checklists/`,
-        { id, card_id, ...updates }
-      );
+      return apiClient.patch(`/checklists/`, { id, card_id, ...updates });
     },
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ["checklists", variables.card_id] });
@@ -121,7 +115,10 @@ export const useChecklists = (cardId?: string) => {
       await queryClient.cancelQueries({ queryKey: ["checklists", params.card_id] });
 
       // Snapshot previous value
-      const previousData = queryClient.getQueryData<ChecklistWithProgress>(["checklists", params.card_id]);
+      const previousData = queryClient.getQueryData<ChecklistWithProgress>([
+        "checklists",
+        params.card_id,
+      ]);
 
       // Optimistically update
       if (previousData) {
@@ -171,7 +168,10 @@ export const useChecklists = (cardId?: string) => {
       await queryClient.cancelQueries({ queryKey: ["checklists", params.card_id] });
 
       // Snapshot previous value
-      const previousData = queryClient.getQueryData<ChecklistWithProgress>(["checklists", params.card_id]);
+      const previousData = queryClient.getQueryData<ChecklistWithProgress>([
+        "checklists",
+        params.card_id,
+      ]);
 
       // Optimistically update
       if (previousData) {
@@ -216,17 +216,17 @@ export const useChecklists = (cardId?: string) => {
   // Reorder checklist items
   const reorderItems = useMutation<AxiosResponse, FetchError, ReorderChecklistParams>({
     mutationFn: ({ card_id, items }) => {
-      return apiClient.put(
-        `/checklists/card/${card_id}/reorder`,
-        { items }
-      );
+      return apiClient.put(`/checklists/card/${card_id}/reorder`, { items });
     },
     onMutate: async (params) => {
       // Cancel outgoing refetches
       await queryClient.cancelQueries({ queryKey: ["checklists", params.card_id] });
 
       // Snapshot previous value
-      const previousData = queryClient.getQueryData<ChecklistWithProgress>(["checklists", params.card_id]);
+      const previousData = queryClient.getQueryData<ChecklistWithProgress>([
+        "checklists",
+        params.card_id,
+      ]);
 
       return { previousData };
     },

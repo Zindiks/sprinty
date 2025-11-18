@@ -4,16 +4,14 @@ import { SearchQuery } from "../modules/search/search.schema";
 
 jest.mock("../modules/search/search.repository");
 
-const MockedSearchRepository =
-  SearchRepository as jest.Mock<SearchRepository>;
+const MockedSearchRepository = SearchRepository as jest.Mock<SearchRepository>;
 
 describe("SearchService", () => {
   let searchService: SearchService;
   let searchRepository: jest.Mocked<SearchRepository>;
 
   beforeEach(() => {
-    searchRepository =
-      new MockedSearchRepository() as jest.Mocked<SearchRepository>;
+    searchRepository = new MockedSearchRepository() as jest.Mocked<SearchRepository>;
     searchService = new SearchService();
     // @ts-ignore
     searchService["searchRepository"] = searchRepository;
@@ -114,11 +112,7 @@ describe("SearchService", () => {
           comments: [],
         },
       });
-      expect(searchRepository.searchBoards).toHaveBeenCalledWith(
-        "test",
-        "org-1",
-        50,
-      );
+      expect(searchRepository.searchBoards).toHaveBeenCalledWith("test", "org-1", 50);
     });
 
     it("should search only lists when type is 'list'", async () => {
@@ -143,12 +137,7 @@ describe("SearchService", () => {
           comments: [],
         },
       });
-      expect(searchRepository.searchLists).toHaveBeenCalledWith(
-        "test",
-        "org-1",
-        undefined,
-        50,
-      );
+      expect(searchRepository.searchLists).toHaveBeenCalledWith("test", "org-1", undefined, 50);
     });
 
     it("should search only cards when type is 'card'", async () => {
@@ -173,19 +162,13 @@ describe("SearchService", () => {
           comments: [],
         },
       });
-      expect(searchRepository.searchCards).toHaveBeenCalledWith(
-        "test",
-        "org-1",
-        undefined,
-        50,
-        {
-          assignee_id: undefined,
-          label_id: undefined,
-          date_from: undefined,
-          date_to: undefined,
-          include_archived: undefined,
-        },
-      );
+      expect(searchRepository.searchCards).toHaveBeenCalledWith("test", "org-1", undefined, 50, {
+        assignee_id: undefined,
+        label_id: undefined,
+        date_from: undefined,
+        date_to: undefined,
+        include_archived: undefined,
+      });
     });
 
     it("should search with board_id filter when provided", async () => {
@@ -211,12 +194,7 @@ describe("SearchService", () => {
           comments: [],
         },
       });
-      expect(searchRepository.searchLists).toHaveBeenCalledWith(
-        "test",
-        "org-1",
-        "board-1",
-        50,
-      );
+      expect(searchRepository.searchLists).toHaveBeenCalledWith("test", "org-1", "board-1", 50);
     });
 
     it("should default to 'all' type when type is not specified", async () => {
@@ -229,7 +207,7 @@ describe("SearchService", () => {
         boards: mockBoards,
         lists: [],
         cards: [],
-          comments: [],
+        comments: [],
       });
 
       const result = await searchService.search(params);
@@ -249,7 +227,7 @@ describe("SearchService", () => {
         boards: [],
         lists: [],
         cards: [],
-          comments: [],
+        comments: [],
       });
 
       const result = await searchService.search(params);
@@ -293,11 +271,7 @@ describe("SearchService", () => {
 
       await searchService.search(params);
 
-      expect(searchRepository.searchBoards).toHaveBeenCalledWith(
-        "test",
-        "org-1",
-        10,
-      );
+      expect(searchRepository.searchBoards).toHaveBeenCalledWith("test", "org-1", 10);
     });
   });
 });

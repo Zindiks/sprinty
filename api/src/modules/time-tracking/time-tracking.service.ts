@@ -46,11 +46,6 @@ export class TimeTrackingService {
     endDate: Date,
     organizationId?: string
   ) {
-    return this.repository.getTimeLogsInRange(
-      userId,
-      startDate,
-      endDate,
-      organizationId
-    );
+    return this.repository.getTimeLogsInRange(userId, startDate, endDate, organizationId);
   }
 }

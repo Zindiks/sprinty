@@ -33,9 +33,7 @@ export class TimeTrackingController {
       const timeLog = await this.service.logTime({
         ...request.body,
         userId,
-        loggedAt: request.body.loggedAt
-          ? new Date(request.body.loggedAt)
-          : undefined,
+        loggedAt: request.body.loggedAt ? new Date(request.body.loggedAt) : undefined,
       });
 
       return reply.code(201).send(timeLog);
@@ -129,10 +127,7 @@ export class TimeTrackingController {
       }
 
       const { organizationId } = request.query;
-      const timeLogs = await this.service.getUserTimeLogs(
-        userId,
-        organizationId
-      );
+      const timeLogs = await this.service.getUserTimeLogs(userId, organizationId);
       return reply.code(200).send(timeLogs);
     } catch (error) {
       request.log.error(error);

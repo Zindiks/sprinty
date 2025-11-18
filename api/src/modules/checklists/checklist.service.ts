@@ -19,20 +19,20 @@ export class ChecklistService {
 
   async createChecklistItem(
     input: CreateChecklistItem,
-    created_by_id?: string,
+    created_by_id?: string
   ): Promise<ChecklistItemResponse> {
     return this.checklistRepository.createChecklistItem(input, created_by_id);
   }
 
   async updateChecklistItem(
-    input: UpdateChecklistItem,
+    input: UpdateChecklistItem
   ): Promise<ChecklistItemResponse | undefined> {
     return this.checklistRepository.updateChecklistItem(input);
   }
 
   async toggleChecklistItem(
     input: ToggleChecklistItem,
-    user_id?: string,
+    user_id?: string
   ): Promise<ChecklistItemResponse | undefined> {
     return this.checklistRepository.toggleChecklistItem(input, user_id);
   }
@@ -43,14 +43,12 @@ export class ChecklistService {
 
   async getChecklistItemById(
     id: string,
-    card_id: string,
+    card_id: string
   ): Promise<ChecklistItemResponse | undefined> {
     return this.checklistRepository.getChecklistItemById(id, card_id);
   }
 
-  async getChecklistItemsByCardId(
-    card_id: string,
-  ): Promise<ChecklistItemResponseArray> {
+  async getChecklistItemsByCardId(card_id: string): Promise<ChecklistItemResponseArray> {
     return this.checklistRepository.getChecklistItemsByCardId(card_id);
   }
 
@@ -58,15 +56,13 @@ export class ChecklistService {
     return this.checklistRepository.getChecklistProgress(card_id);
   }
 
-  async getChecklistWithProgress(
-    card_id: string,
-  ): Promise<ChecklistWithProgress> {
+  async getChecklistWithProgress(card_id: string): Promise<ChecklistWithProgress> {
     return this.checklistRepository.getChecklistWithProgress(card_id);
   }
 
   async reorderChecklistItems(
     card_id: string,
-    itemOrders: Array<{ id: string; order: number }>,
+    itemOrders: Array<{ id: string; order: number }>
   ): Promise<void> {
     return this.checklistRepository.reorderChecklistItems(card_id, itemOrders);
   }

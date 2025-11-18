@@ -1,5 +1,5 @@
-import { vi } from 'vitest';
-import { DateTime, Settings } from 'luxon';
+import { vi } from "vitest";
+import { DateTime, Settings } from "luxon";
 
 /**
  * Test helper utilities
@@ -122,11 +122,11 @@ export function suppressConsoleWarning() {
  * @param type - MIME type
  */
 export function createMockFile(
-  name: string = 'test.txt',
+  name: string = "test.txt",
   size: number = 1024,
-  type: string = 'text/plain'
+  type: string = "text/plain"
 ): File {
-  const blob = new Blob(['a'.repeat(size)], { type });
+  const blob = new Blob(["a".repeat(size)], { type });
   return new File([blob], name, { type });
 }
 
@@ -135,7 +135,7 @@ export function createMockFile(
  */
 export function expectValidISODate(dateString: string | undefined) {
   if (!dateString) {
-    throw new Error('Expected date string, got undefined');
+    throw new Error("Expected date string, got undefined");
   }
   const date = DateTime.fromISO(dateString);
   if (!date.isValid) {
@@ -147,8 +147,8 @@ export function expectValidISODate(dateString: string | undefined) {
  * Compare two dates ignoring milliseconds
  */
 export function expectDatesEqual(date1: Date | string, date2: Date | string) {
-  const dt1 = DateTime.fromJSDate(new Date(date1)).startOf('second');
-  const dt2 = DateTime.fromJSDate(new Date(date2)).startOf('second');
+  const dt1 = DateTime.fromJSDate(new Date(date1)).startOf("second");
+  const dt2 = DateTime.fromJSDate(new Date(date2)).startOf("second");
   return dt1.equals(dt2);
 }
 

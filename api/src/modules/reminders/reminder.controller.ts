@@ -9,10 +9,7 @@ export class ReminderController {
    * POST /reminders
    * Create a new reminder
    */
-  async create(
-    request: FastifyRequest<{ Body: CreateReminder }>,
-    reply: FastifyReply
-  ) {
+  async create(request: FastifyRequest<{ Body: CreateReminder }>, reply: FastifyReply) {
     try {
       const reminder = await this.service.createReminder(request.body);
       return reply.code(201).send(reminder);
@@ -34,9 +31,7 @@ export class ReminderController {
     reply: FastifyReply
   ) {
     try {
-      const reminders = await this.service.getCardReminders(
-        request.params.card_id
-      );
+      const reminders = await this.service.getCardReminders(request.params.card_id);
       return reply.send(reminders);
     } catch (error) {
       request.log.error(error);
@@ -70,10 +65,7 @@ export class ReminderController {
    * DELETE /reminders/:id
    * Delete a reminder
    */
-  async delete(
-    request: FastifyRequest<{ Params: DeleteReminder }>,
-    reply: FastifyReply
-  ) {
+  async delete(request: FastifyRequest<{ Params: DeleteReminder }>, reply: FastifyReply) {
     try {
       await this.service.deleteReminder(request.params.id);
       return reply.code(204).send();

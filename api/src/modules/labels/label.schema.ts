@@ -19,7 +19,7 @@ export class LabelSchema {
       name,
       color,
     },
-    { $id: "CreateLabelSchema" },
+    { $id: "CreateLabelSchema" }
   );
 
   static UpdateLabelSchema = Type.Object(
@@ -29,7 +29,7 @@ export class LabelSchema {
       name: Type.Optional(name),
       color: Type.Optional(color),
     },
-    { $id: "UpdateLabelSchema" },
+    { $id: "UpdateLabelSchema" }
   );
 
   static DeleteLabelSchema = Type.Object(
@@ -37,7 +37,7 @@ export class LabelSchema {
       id,
       board_id,
     },
-    { $id: "DeleteLabelSchema" },
+    { $id: "DeleteLabelSchema" }
   );
 
   static LabelResponseSchema = Type.Object(
@@ -49,7 +49,7 @@ export class LabelSchema {
       created_at,
       updated_at,
     },
-    { $id: "LabelResponseSchema" },
+    { $id: "LabelResponseSchema" }
   );
 
   static LabelResponseSchemaArray = Type.Array(LabelSchema.LabelResponseSchema, {
@@ -62,7 +62,7 @@ export class LabelSchema {
       card_id,
       label_id,
     },
-    { $id: "AddLabelToCardSchema" },
+    { $id: "AddLabelToCardSchema" }
   );
 
   static RemoveLabelFromCardSchema = Type.Object(
@@ -70,7 +70,7 @@ export class LabelSchema {
       card_id,
       label_id,
     },
-    { $id: "RemoveLabelFromCardSchema" },
+    { $id: "RemoveLabelFromCardSchema" }
   );
 
   static CardLabelResponseSchema = Type.Object(
@@ -80,7 +80,7 @@ export class LabelSchema {
       label_id,
       added_at,
     },
-    { $id: "CardLabelResponseSchema" },
+    { $id: "CardLabelResponseSchema" }
   );
 
   static LabelWithCardsCountSchema = Type.Object(
@@ -93,15 +93,12 @@ export class LabelSchema {
       updated_at,
       cards_count: Type.Number(),
     },
-    { $id: "LabelWithCardsCountSchema" },
+    { $id: "LabelWithCardsCountSchema" }
   );
 
-  static LabelWithCardsCountSchemaArray = Type.Array(
-    LabelSchema.LabelWithCardsCountSchema,
-    {
-      $id: "LabelWithCardsCountSchemaArray",
-    },
-  );
+  static LabelWithCardsCountSchemaArray = Type.Array(LabelSchema.LabelWithCardsCountSchema, {
+    $id: "LabelWithCardsCountSchemaArray",
+  });
 }
 
 export type CreateLabel = Static<typeof LabelSchema.CreateLabelSchema>;

@@ -40,10 +40,7 @@ export class DashboardLayoutsRepository {
    * Get a specific layout by ID
    */
   async getLayoutById(layoutId: string, userId: string): Promise<DashboardLayout | undefined> {
-    return this.knex("dashboard_layouts")
-      .where("id", layoutId)
-      .where("user_id", userId)
-      .first();
+    return this.knex("dashboard_layouts").where("id", layoutId).where("user_id", userId).first();
   }
 
   /**

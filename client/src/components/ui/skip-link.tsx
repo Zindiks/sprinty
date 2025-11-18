@@ -47,23 +47,14 @@ export const LiveRegion = ({
   priority?: "polite" | "assertive";
 }) => {
   return (
-    <div
-      role="status"
-      aria-live={priority}
-      aria-atomic="true"
-      className="sr-only"
-    >
+    <div role="status" aria-live={priority} aria-atomic="true" className="sr-only">
       {children}
     </div>
   );
 };
 
 // Visually hidden but accessible to screen readers
-export const VisuallyHidden = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+export const VisuallyHidden = ({ children }: { children: React.ReactNode }) => {
   return (
     <span
       style={{

@@ -25,7 +25,7 @@ export default async function profileRoutes(fastify: FastifyInstance) {
         description: "Get a profile by user ID",
       },
     },
-    profileController.getProfileByUserIdController.bind(profileController),
+    profileController.getProfileByUserIdController.bind(profileController)
   );
 
   // Get profile by profile id
@@ -48,7 +48,7 @@ export default async function profileRoutes(fastify: FastifyInstance) {
         description: "Get a profile by profile ID",
       },
     },
-    profileController.getProfileByIdController.bind(profileController),
+    profileController.getProfileByIdController.bind(profileController)
   );
 
   // Create profile
@@ -68,7 +68,7 @@ export default async function profileRoutes(fastify: FastifyInstance) {
         description: "Create a new profile",
       },
     },
-    profileController.createProfileController.bind(profileController),
+    profileController.createProfileController.bind(profileController)
   );
 
   // Update profile
@@ -96,7 +96,7 @@ export default async function profileRoutes(fastify: FastifyInstance) {
         description: "Update a profile by user ID",
       },
     },
-    profileController.updateProfileController.bind(profileController),
+    profileController.updateProfileController.bind(profileController)
   );
 
   // Delete profile
@@ -119,6 +119,6 @@ export default async function profileRoutes(fastify: FastifyInstance) {
         description: "Delete a profile by user ID",
       },
     },
-    profileController.deleteProfileController.bind(profileController),
+    profileController.deleteProfileController.bind(profileController)
   );
 }

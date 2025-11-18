@@ -13,13 +13,7 @@ export const useBulkActions = () => {
   const { clearSelection } = useSelectionStore();
 
   const bulkMoveCardsMutation = useMutation({
-    mutationFn: async ({
-      cardIds,
-      targetListId,
-    }: {
-      cardIds: string[];
-      targetListId: string;
-    }) => {
+    mutationFn: async ({ cardIds, targetListId }: { cardIds: string[]; targetListId: string }) => {
       const response = await apiClient.post(`/cards/bulk/move`, {
         card_ids: cardIds,
         target_list_id: targetListId,
@@ -42,13 +36,7 @@ export const useBulkActions = () => {
   });
 
   const bulkAssignUsersMutation = useMutation({
-    mutationFn: async ({
-      cardIds,
-      userIds,
-    }: {
-      cardIds: string[];
-      userIds: string[];
-    }) => {
+    mutationFn: async ({ cardIds, userIds }: { cardIds: string[]; userIds: string[] }) => {
       const response = await apiClient.post(`/cards/bulk/assign`, {
         card_ids: cardIds,
         user_ids: userIds,
@@ -71,13 +59,7 @@ export const useBulkActions = () => {
   });
 
   const bulkAddLabelsMutation = useMutation({
-    mutationFn: async ({
-      cardIds,
-      labelIds,
-    }: {
-      cardIds: string[];
-      labelIds: string[];
-    }) => {
+    mutationFn: async ({ cardIds, labelIds }: { cardIds: string[]; labelIds: string[] }) => {
       const response = await apiClient.post(`/cards/bulk/labels`, {
         card_ids: cardIds,
         label_ids: labelIds,
@@ -100,13 +82,7 @@ export const useBulkActions = () => {
   });
 
   const bulkSetDueDateMutation = useMutation({
-    mutationFn: async ({
-      cardIds,
-      dueDate,
-    }: {
-      cardIds: string[];
-      dueDate: string | null;
-    }) => {
+    mutationFn: async ({ cardIds, dueDate }: { cardIds: string[]; dueDate: string | null }) => {
       const response = await apiClient.post(`/cards/bulk/due-date`, {
         card_ids: cardIds,
         due_date: dueDate,
@@ -183,10 +159,8 @@ export const useBulkActions = () => {
       bulkAddLabelsMutation.mutate({ cardIds, labelIds }),
     bulkSetDueDate: (cardIds: string[], dueDate: string | null) =>
       bulkSetDueDateMutation.mutate({ cardIds, dueDate }),
-    bulkArchiveCards: (cardIds: string[]) =>
-      bulkArchiveCardsMutation.mutate({ cardIds }),
-    bulkDeleteCards: (cardIds: string[]) =>
-      bulkDeleteCardsMutation.mutate({ cardIds }),
+    bulkArchiveCards: (cardIds: string[]) => bulkArchiveCardsMutation.mutate({ cardIds }),
+    bulkDeleteCards: (cardIds: string[]) => bulkDeleteCardsMutation.mutate({ cardIds }),
     isLoading:
       bulkMoveCardsMutation.isPending ||
       bulkAssignUsersMutation.isPending ||

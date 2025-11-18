@@ -103,7 +103,10 @@ export const UpcomingDueDatesWidget = ({ boardId }: UpcomingDueDatesWidgetProps)
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       <h4 className="text-sm font-medium text-gray-900 truncate">{card.title}</h4>
-                      <Badge variant="outline" className={`text-xs ${getPriorityColor(card.priority)}`}>
+                      <Badge
+                        variant="outline"
+                        className={`text-xs ${getPriorityColor(card.priority)}`}
+                      >
                         {card.priority}
                       </Badge>
                     </div>
@@ -130,19 +133,21 @@ export const UpcomingDueDatesWidget = ({ boardId }: UpcomingDueDatesWidgetProps)
               <Calendar className="w-4 h-4 text-gray-500" />
               <span className="text-sm text-gray-700">Cards without due dates</span>
             </div>
-            <span className="text-lg font-semibold text-gray-900">{analytics.summary.noDueDate}</span>
+            <span className="text-lg font-semibold text-gray-900">
+              {analytics.summary.noDueDate}
+            </span>
           </div>
         </div>
       )}
 
       {/* Empty State */}
       {analytics.summary.dueToday === 0 &&
-       analytics.summary.dueThisWeek === 0 &&
-       analytics.summary.upcoming === 0 && (
-        <div className="text-center py-8 text-gray-500">
-          <p>No upcoming due dates</p>
-        </div>
-      )}
+        analytics.summary.dueThisWeek === 0 &&
+        analytics.summary.upcoming === 0 && (
+          <div className="text-center py-8 text-gray-500">
+            <p>No upcoming due dates</p>
+          </div>
+        )}
     </div>
   );
 };

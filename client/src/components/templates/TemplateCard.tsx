@@ -9,11 +9,7 @@ interface TemplateCardProps {
   selected?: boolean;
 }
 
-export function TemplateCard({
-  template,
-  onSelect,
-  selected = false,
-}: TemplateCardProps) {
+export function TemplateCard({ template, onSelect, selected = false }: TemplateCardProps) {
   const listCount = template.structure.lists.length;
   const listNames = template.structure.lists
     .slice(0, 3)
@@ -49,9 +45,7 @@ export function TemplateCard({
       </CardHeader>
       <CardContent className="space-y-3">
         {template.description && (
-          <p className="text-sm text-muted-foreground line-clamp-2">
-            {template.description}
-          </p>
+          <p className="text-sm text-muted-foreground line-clamp-2">{template.description}</p>
         )}
 
         <div className="space-y-1">

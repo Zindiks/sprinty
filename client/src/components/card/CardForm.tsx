@@ -27,9 +27,7 @@ const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(
     useOnClickOutside(formRef, disableEditing);
     useEventListener("keydown", onKeyDown);
 
-    const onTextareakeyDown: KeyboardEventHandler<HTMLTextAreaElement> = (
-      e,
-    ) => {
+    const onTextareakeyDown: KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
         formRef.current?.requestSubmit();
@@ -49,7 +47,7 @@ const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(
           onError: () => {
             console.log("asdasd");
           },
-        },
+        }
       );
 
       disableEditing();
@@ -57,11 +55,7 @@ const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(
 
     if (isEditing) {
       return (
-        <form
-          className="m-1 py-0.5 px-1 space-y-4"
-          onSubmit={onSubmit}
-          ref={formRef}
-        >
+        <form className="m-1 py-0.5 px-1 space-y-4" onSubmit={onSubmit} ref={formRef}>
           <FormTextarea
             id="title"
             onKeyDown={onTextareakeyDown}
@@ -94,7 +88,7 @@ const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(
         </Button>
       </div>
     );
-  },
+  }
 );
 
 CardForm.displayName = "CardForm";

@@ -24,10 +24,7 @@ export class OrganizationService {
     return await this.organizationRepository.create(input);
   }
 
-  async update(
-    input: UpdateOrganization,
-    id: string,
-  ): Promise<OrganizationResponse> {
+  async update(input: UpdateOrganization, id: string): Promise<OrganizationResponse> {
     return await this.organizationRepository.update(input, id);
   }
 

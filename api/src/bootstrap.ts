@@ -1,8 +1,4 @@
-import Fastify, {
-  FastifyInstance,
-  FastifyReply,
-  FastifyRequest,
-} from "fastify";
+import Fastify, { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 import fastifyEnv from "@fastify/env";
 import fastifyCors from "@fastify/cors";
@@ -44,10 +40,7 @@ import { ProfileSchema } from "./modules/profiles/profile.schema";
 import { ChecklistSchema } from "./modules/checklists/checklist.schema";
 import { CommentSchema } from "./modules/comments/comment.schema";
 import { SearchSchema } from "./modules/search/search.schema";
-import {
-  AnalyticsSchema,
-  AnalyticsSchemaNested,
-} from "./modules/analytics/analytics.schema";
+import { AnalyticsSchema, AnalyticsSchemaNested } from "./modules/analytics/analytics.schema";
 import { TimeTrackingSchemas } from "./modules/time-tracking/time-tracking.schema";
 import { SprintSchemas } from "./modules/sprints/sprint.schema";
 import { AttachmentSchema } from "./modules/attachments/attachment.schema";
@@ -72,9 +65,7 @@ async function registerPlugins(server: FastifyInstance) {
     credentials: true,
   });
 
-  server.log.info(
-    `http://${server.config.CLIENT_HOST}:${server.config.CLIENT_PORT}`
-  );
+  server.log.info(`http://${server.config.CLIENT_HOST}:${server.config.CLIENT_PORT}`);
 
   server.register(swagger, swaggerDocs);
   server.register(swagger_ui, { routePrefix: "/docs" });
@@ -203,12 +194,9 @@ async function registerRoutes(server: FastifyInstance) {
     { prefix: "/api" }
   );
 
-  server.get(
-    "/health",
-    async (request: FastifyRequest, reply: FastifyReply) => {
-      reply.send({ status: "OK" });
-    }
-  );
+  server.get("/health", async (request: FastifyRequest, reply: FastifyReply) => {
+    reply.send({ status: "OK" });
+  });
 }
 
 // Global WebSocket service instance

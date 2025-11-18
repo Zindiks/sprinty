@@ -13,17 +13,14 @@ export class AssigneeController {
     request: FastifyRequest<{
       Body: AddAssignee;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const body = request.body;
     // TODO: Get assigned_by from authenticated user
     const assigned_by_id = undefined; // Will be set from auth context
 
     try {
-      const assignee = await this.assigneeService.addAssignee(
-        body,
-        assigned_by_id,
-      );
+      const assignee = await this.assigneeService.addAssignee(body, assigned_by_id);
       return reply.status(201).send(assignee);
     } catch (err) {
       return reply.status(500).send(err);
@@ -34,7 +31,7 @@ export class AssigneeController {
     request: FastifyRequest<{
       Params: RemoveAssignee;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const params = request.params;
 
@@ -53,13 +50,12 @@ export class AssigneeController {
     request: FastifyRequest<{
       Params: { card_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { card_id } = request.params;
 
     try {
-      const assignees =
-        await this.assigneeService.getAssigneesWithUserDetails(card_id);
+      const assignees = await this.assigneeService.getAssigneesWithUserDetails(card_id);
       return reply.status(200).send(assignees);
     } catch (err) {
       return reply.status(500).send(err);
@@ -70,15 +66,12 @@ export class AssigneeController {
     request: FastifyRequest<{
       Params: { card_id: string; user_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { card_id, user_id } = request.params;
 
     try {
-      const isAssigned = await this.assigneeService.isUserAssigned(
-        card_id,
-        user_id,
-      );
+      const isAssigned = await this.assigneeService.isUserAssigned(card_id, user_id);
       return reply.status(200).send({ is_assigned: isAssigned });
     } catch (err) {
       return reply.status(500).send(err);
@@ -89,7 +82,7 @@ export class AssigneeController {
     request: FastifyRequest<{
       Params: { user_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { user_id } = request.params;
 

@@ -1,11 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -15,11 +11,7 @@ interface DueDatePickerProps {
   disabled?: boolean;
 }
 
-export const DueDatePicker = ({
-  value,
-  onChange,
-  disabled = false,
-}: DueDatePickerProps) => {
+export const DueDatePicker = ({ value, onChange, disabled = false }: DueDatePickerProps) => {
   const [open, setOpen] = useState(false);
   const [tempDate, setTempDate] = useState(value || "");
 
@@ -81,18 +73,13 @@ export const DueDatePicker = ({
           variant="outline"
           size="sm"
           disabled={disabled}
-          className={cn(
-            "h-8 gap-2",
-            value && isOverdue(value) && "text-red-500 border-red-500"
-          )}
+          className={cn("h-8 gap-2", value && isOverdue(value) && "text-red-500 border-red-500")}
         >
           <Calendar className="w-4 h-4" />
           {value ? (
             <div className="flex flex-col items-start">
               <span className="text-xs font-medium">{formatDate(value)}</span>
-              <span className="text-[10px] text-muted-foreground">
-                {getRelativeTime(value)}
-              </span>
+              <span className="text-[10px] text-muted-foreground">{getRelativeTime(value)}</span>
             </div>
           ) : (
             <span className="text-xs">Set due date</span>
@@ -111,32 +98,18 @@ export const DueDatePicker = ({
             />
           </div>
           {tempDate && (
-            <div className="text-sm text-muted-foreground">
-              {getRelativeTime(tempDate)}
-            </div>
+            <div className="text-sm text-muted-foreground">{getRelativeTime(tempDate)}</div>
           )}
           <div className="flex items-center gap-2">
-            <Button
-              size="sm"
-              onClick={handleSave}
-              className="flex-1"
-            >
+            <Button size="sm" onClick={handleSave} className="flex-1">
               Save
             </Button>
             {value && (
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={handleClear}
-              >
+              <Button size="sm" variant="outline" onClick={handleClear}>
                 <X className="w-4 h-4" />
               </Button>
             )}
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={handleCancel}
-            >
+            <Button size="sm" variant="ghost" onClick={handleCancel}>
               Cancel
             </Button>
           </div>

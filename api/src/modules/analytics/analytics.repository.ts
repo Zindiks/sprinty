@@ -181,24 +181,19 @@ export class AnalyticsRepository {
       .join("lists", "cards.list_id", "lists.id")
       .join("users", "time_logs.user_id", "users.id")
       .where("lists.board_id", boardId)
-      .select(
-        "users.id as user_id",
-        "users.oauth_provider_id as user_email"
-      )
+      .select("users.id as user_id", "users.oauth_provider_id as user_email")
       .sum("time_logs.duration_minutes as total_minutes")
       .groupBy("users.id", "users.oauth_provider_id");
 
     return {
       totalMinutes: parseInt(summary?.total_minutes as string) || 0,
-      totalHours:
-        Math.round(((parseInt(summary?.total_minutes as string) || 0) / 60) * 100) / 100,
+      totalHours: Math.round(((parseInt(summary?.total_minutes as string) || 0) / 60) * 100) / 100,
       logCount: parseInt(summary?.log_count as string) || 0,
       byUser: byUser.map((row) => ({
         userId: row.user_id,
         userEmail: row.user_email,
         totalMinutes: parseInt(row.total_minutes as string) || 0,
-        totalHours:
-          Math.round(((parseInt(row.total_minutes as string) || 0) / 60) * 100) / 100,
+        totalHours: Math.round(((parseInt(row.total_minutes as string) || 0) / 60) * 100) / 100,
       })),
     };
   }
@@ -208,9 +203,7 @@ export class AnalyticsRepository {
    */
   async getBurndownData(sprintId: string) {
     // Get sprint details
-    const sprint = await this.knex("sprints")
-      .where("id", sprintId)
-      .first();
+    const sprint = await this.knex("sprints").where("id", sprintId).first();
 
     if (!sprint) {
       return null;
@@ -294,14 +287,16 @@ export class AnalyticsRepository {
       )
       .count("cards.id as cards_completed")
       .leftJoin("cards", function () {
-        this.on("cards.sprint_id", "=", "sprints.id").andOnVal(
-          "cards.status",
-          "=",
-          "completed"
-        );
+        this.on("cards.sprint_id", "=", "sprints.id").andOnVal("cards.status", "=", "completed");
       })
       .where("sprints.board_id", boardId)
-      .groupBy("sprints.id", "sprints.name", "sprints.start_date", "sprints.end_date", "sprints.status")
+      .groupBy(
+        "sprints.id",
+        "sprints.name",
+        "sprints.start_date",
+        "sprints.end_date",
+        "sprints.status"
+      )
       .orderBy("sprints.start_date", "desc");
   }
 
@@ -457,10 +452,7 @@ export class AnalyticsRepository {
       .where("card_assignees.user_id", userId)
       .where("boards.organization_id", organizationId)
       .where("cards.created_at", ">=", startDate.toISOString())
-      .select(
-        this.knex.raw("DATE(cards.created_at) as date"),
-        this.knex.raw("COUNT(*) as count")
-      )
+      .select(this.knex.raw("DATE(cards.created_at) as date"), this.knex.raw("COUNT(*) as count"))
       .groupBy(this.knex.raw("DATE(cards.created_at)"))
       .orderBy("date", "asc");
 
@@ -483,7 +475,10 @@ export class AnalyticsRepository {
       .orderBy("date", "asc");
 
     // Merge data by date
-    const dataMap = new Map<string, { date: string; cardsCreated: number; cardsCompleted: number }>();
+    const dataMap = new Map<
+      string,
+      { date: string; cardsCreated: number; cardsCompleted: number }
+    >();
 
     cardsCreated.forEach((row: any) => {
       const date = row.date;
@@ -515,9 +510,11 @@ export class AnalyticsRepository {
     let trend: "increasing" | "decreasing" | "stable" = "stable";
     if (data.length > 1) {
       const recentHalf = data.slice(Math.floor(data.length / 2));
-      const recentAvg = recentHalf.reduce((sum, item) => sum + item.cardsCompleted, 0) / recentHalf.length;
+      const recentAvg =
+        recentHalf.reduce((sum, item) => sum + item.cardsCompleted, 0) / recentHalf.length;
       const earlierHalf = data.slice(0, Math.floor(data.length / 2));
-      const earlierAvg = earlierHalf.reduce((sum, item) => sum + item.cardsCompleted, 0) / earlierHalf.length;
+      const earlierAvg =
+        earlierHalf.reduce((sum, item) => sum + item.cardsCompleted, 0) / earlierHalf.length;
 
       if (recentAvg > earlierAvg * 1.1) trend = "increasing";
       else if (recentAvg < earlierAvg * 0.9) trend = "decreasing";
@@ -551,7 +548,14 @@ export class AnalyticsRepository {
     // For each board, get statistics
     const boardOverviews = await Promise.all(
       boards.map(async (board) => {
-        const [totalCards, completedCards, inProgressCards, overdueCards, lastActivity, assignedToMeCount] = await Promise.all([
+        const [
+          totalCards,
+          completedCards,
+          inProgressCards,
+          overdueCards,
+          lastActivity,
+          assignedToMeCount,
+        ] = await Promise.all([
           // Total cards
           this.knex("cards")
             .join("lists", "cards.list_id", "lists.id")
@@ -634,7 +638,7 @@ export class AnalyticsRepository {
 
     for (let i = 0; i < weeksBack; i++) {
       const weekEnd = new Date();
-      weekEnd.setDate(weekEnd.getDate() - (i * 7));
+      weekEnd.setDate(weekEnd.getDate() - i * 7);
       const weekStart = new Date(weekEnd);
       weekStart.setDate(weekStart.getDate() - 6);
 
@@ -659,7 +663,10 @@ export class AnalyticsRepository {
         .where("boards.organization_id", organizationId)
         .where("card_activities.action_type", "updated")
         .whereRaw("card_activities.metadata->>'status' = 'completed'")
-        .whereBetween("card_activities.created_at", [weekStart.toISOString(), weekEnd.toISOString()])
+        .whereBetween("card_activities.created_at", [
+          weekStart.toISOString(),
+          weekEnd.toISOString(),
+        ])
         .count("* as count")
         .first();
 
@@ -684,7 +691,10 @@ export class AnalyticsRepository {
         .where("boards.organization_id", organizationId)
         .where("card_activities.action_type", "updated")
         .whereRaw("card_activities.metadata->>'status' = 'completed'")
-        .whereBetween("card_activities.created_at", [weekStart.toISOString(), weekEnd.toISOString()])
+        .whereBetween("card_activities.created_at", [
+          weekStart.toISOString(),
+          weekEnd.toISOString(),
+        ])
         .select("boards.id as board_id", "boards.title as board_title")
         .count("* as cards_completed")
         .groupBy("boards.id", "boards.title")
@@ -754,7 +764,10 @@ export class AnalyticsRepository {
         .where("boards.organization_id", organizationId)
         .where("card_activities.action_type", "updated")
         .whereRaw("card_activities.metadata->>'status' = 'completed'")
-        .whereBetween("card_activities.created_at", [monthStart.toISOString(), monthEnd.toISOString()])
+        .whereBetween("card_activities.created_at", [
+          monthStart.toISOString(),
+          monthEnd.toISOString(),
+        ])
         .count("* as count")
         .first();
 
@@ -771,11 +784,13 @@ export class AnalyticsRepository {
 
       // Weekly breakdown
       const weeklyBreakdown = [];
-      const weeksInMonth = Math.ceil((monthEnd.getTime() - monthStart.getTime()) / (7 * 24 * 60 * 60 * 1000));
+      const weeksInMonth = Math.ceil(
+        (monthEnd.getTime() - monthStart.getTime()) / (7 * 24 * 60 * 60 * 1000)
+      );
 
       for (let week = 0; week < weeksInMonth; week++) {
         const weekStartDate = new Date(monthStart);
-        weekStartDate.setDate(monthStart.getDate() + (week * 7));
+        weekStartDate.setDate(monthStart.getDate() + week * 7);
         const weekEndDate = new Date(weekStartDate);
         weekEndDate.setDate(weekEndDate.getDate() + 6);
         if (weekEndDate > monthEnd) weekEndDate.setTime(monthEnd.getTime());
@@ -789,7 +804,10 @@ export class AnalyticsRepository {
           .where("boards.organization_id", organizationId)
           .where("card_activities.action_type", "updated")
           .whereRaw("card_activities.metadata->>'status' = 'completed'")
-          .whereBetween("card_activities.created_at", [weekStartDate.toISOString(), weekEndDate.toISOString()])
+          .whereBetween("card_activities.created_at", [
+            weekStartDate.toISOString(),
+            weekEndDate.toISOString(),
+          ])
           .count("* as count")
           .first();
 
@@ -799,14 +817,18 @@ export class AnalyticsRepository {
           .join("boards", "lists.board_id", "boards.id")
           .where("time_logs.user_id", userId)
           .where("boards.organization_id", organizationId)
-          .whereBetween("time_logs.logged_at", [weekStartDate.toISOString(), weekEndDate.toISOString()])
+          .whereBetween("time_logs.logged_at", [
+            weekStartDate.toISOString(),
+            weekEndDate.toISOString(),
+          ])
           .sum("time_logs.duration_minutes as total_minutes")
           .first();
 
         weeklyBreakdown.push({
           weekNumber: week + 1,
           cardsCompleted: parseInt(weekCompleted?.count as string) || 0,
-          timeSpentHours: Math.round(((parseInt(weekTime?.total_minutes as string) || 0) / 60) * 100) / 100,
+          timeSpentHours:
+            Math.round(((parseInt(weekTime?.total_minutes as string) || 0) / 60) * 100) / 100,
         });
       }
 
@@ -821,7 +843,10 @@ export class AnalyticsRepository {
         .where("boards.organization_id", organizationId)
         .where("card_activities.action_type", "updated")
         .whereRaw("card_activities.metadata->>'status' = 'completed'")
-        .whereBetween("card_activities.created_at", [monthStart.toISOString(), monthEnd.toISOString()])
+        .whereBetween("card_activities.created_at", [
+          monthStart.toISOString(),
+          monthEnd.toISOString(),
+        ])
         .select("boards.id as board_id", "boards.title as board_title")
         .count("cards.id as cards_completed")
         .sum("time_logs.duration_minutes as total_minutes")
@@ -846,7 +871,8 @@ export class AnalyticsRepository {
           boardId: board.board_id,
           boardTitle: board.board_title,
           cardsCompleted: parseInt(board.cards_completed as string),
-          timeSpentHours: Math.round(((parseInt(board.total_minutes as string) || 0) / 60) * 100) / 100,
+          timeSpentHours:
+            Math.round(((parseInt(board.total_minutes as string) || 0) / 60) * 100) / 100,
         })),
       });
     }

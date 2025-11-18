@@ -47,9 +47,7 @@ export class ActivityRepository {
     };
   }
 
-  async getActivityWithUser(
-    id: string,
-  ): Promise<ActivityWithUserResponse | undefined> {
+  async getActivityWithUser(id: string): Promise<ActivityWithUserResponse | undefined> {
     const activity = await this.knex(table)
       .where({ "card_activities.id": id })
       .join("users", "card_activities.user_id", "users.id")
@@ -62,7 +60,7 @@ export class ActivityRepository {
             'email', users.email,
             'username', profiles.username
           ) as user
-        `),
+        `)
       )
       .first();
 
@@ -76,7 +74,7 @@ export class ActivityRepository {
 
   async getActivitiesByCardId(
     card_id: string,
-    params?: ActivityQueryParams,
+    params?: ActivityQueryParams
   ): Promise<ActivityListResponse> {
     const limit = params?.limit || 50;
     const offset = params?.offset || 0;
@@ -93,7 +91,7 @@ export class ActivityRepository {
             'email', users.email,
             'username', profiles.username
           ) as user
-        `),
+        `)
       );
 
     if (params?.action_type) {
@@ -117,7 +115,7 @@ export class ActivityRepository {
 
   async getActivitiesByUserId(
     user_id: string,
-    params?: ActivityQueryParams,
+    params?: ActivityQueryParams
   ): Promise<ActivityListResponse> {
     const limit = params?.limit || 50;
     const offset = params?.offset || 0;
@@ -134,7 +132,7 @@ export class ActivityRepository {
             'email', users.email,
             'username', profiles.username
           ) as user
-        `),
+        `)
       );
 
     if (params?.card_id) {
@@ -156,9 +154,7 @@ export class ActivityRepository {
     }));
   }
 
-  async getActivities(
-    params: ActivityQueryParams,
-  ): Promise<ActivityListResponse> {
+  async getActivities(params: ActivityQueryParams): Promise<ActivityListResponse> {
     const limit = params.limit || 50;
     const offset = params.offset || 0;
 
@@ -173,7 +169,7 @@ export class ActivityRepository {
             'email', users.email,
             'username', profiles.username
           ) as user
-        `),
+        `)
       );
 
     if (params.card_id) {
@@ -199,14 +195,9 @@ export class ActivityRepository {
     }));
   }
 
-  async getActivityStats(
-    card_id: string,
-  ): Promise<ActivityStatsResponse> {
+  async getActivityStats(card_id: string): Promise<ActivityStatsResponse> {
     // Get total count
-    const totalResult = await this.knex(table)
-      .where({ card_id })
-      .count("id as count")
-      .first();
+    const totalResult = await this.knex(table).where({ card_id }).count("id as count").first();
 
     const total = Number(totalResult?.count) || 0;
 
@@ -235,7 +226,7 @@ export class ActivityRepository {
             'email', users.email,
             'username', profiles.username
           ) as user
-        `),
+        `)
       )
       .orderBy("card_activities.created_at", "desc")
       .first();
@@ -247,9 +238,7 @@ export class ActivityRepository {
       recent_activity: recentActivity
         ? {
             ...recentActivity,
-            metadata: recentActivity.metadata
-              ? JSON.parse(recentActivity.metadata)
-              : null,
+            metadata: recentActivity.metadata ? JSON.parse(recentActivity.metadata) : null,
           }
         : undefined,
     };

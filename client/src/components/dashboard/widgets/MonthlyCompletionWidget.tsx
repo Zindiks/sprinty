@@ -37,9 +37,7 @@ const MonthlyCompletionWidget = ({ organizationId }: MonthlyCompletionWidgetProp
   if (!metrics || metrics.length === 0) {
     return (
       <div className="bg-white rounded-lg shadow p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
-          Monthly Trends
-        </h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Monthly Trends</h3>
         <div className="flex items-center justify-center h-64 text-gray-500">
           No monthly metrics available
         </div>
@@ -75,9 +73,7 @@ const MonthlyCompletionWidget = ({ organizationId }: MonthlyCompletionWidgetProp
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
           <Calendar className="w-5 h-5 text-purple-600" />
-          <h3 className="text-lg font-semibold text-gray-900">
-            Monthly Trends
-          </h3>
+          <h3 className="text-lg font-semibold text-gray-900">Monthly Trends</h3>
         </div>
 
         <div className="flex gap-2">
@@ -130,16 +126,12 @@ const MonthlyCompletionWidget = ({ organizationId }: MonthlyCompletionWidgetProp
         </div>
         <div className="text-center p-3 bg-purple-50 rounded-lg">
           <p className="text-xs text-gray-600">Hours Logged</p>
-          <p className="text-xl font-bold text-purple-600">
-            {totals.timeSpent.toFixed(1)}h
-          </p>
+          <p className="text-xl font-bold text-purple-600">{totals.timeSpent.toFixed(1)}h</p>
         </div>
         <div className="text-center p-3 bg-orange-50 rounded-lg">
           <p className="text-xs text-gray-600">Avg Completion</p>
           <p className="text-xl font-bold text-orange-600">
-            {metrics.length > 0
-              ? (totals.completed / metrics.length).toFixed(0)
-              : 0}
+            {metrics.length > 0 ? (totals.completed / metrics.length).toFixed(0) : 0}
             /mo
           </p>
         </div>
@@ -221,17 +213,11 @@ const MonthlyCompletionWidget = ({ organizationId }: MonthlyCompletionWidgetProp
                 className="flex items-center justify-between p-2 bg-gray-50 rounded hover:bg-gray-100 transition"
               >
                 <div className="flex items-center gap-2 flex-1">
-                  <span className="text-xs font-semibold text-gray-500 w-6">
-                    #{index + 1}
-                  </span>
-                  <span className="text-sm text-gray-900 truncate">
-                    {board.boardTitle}
-                  </span>
+                  <span className="text-xs font-semibold text-gray-500 w-6">#{index + 1}</span>
+                  <span className="text-sm text-gray-900 truncate">{board.boardTitle}</span>
                 </div>
                 <div className="flex items-center gap-4 text-sm">
-                  <span className="text-green-600 font-semibold">
-                    {board.cardsCompleted} cards
-                  </span>
+                  <span className="text-green-600 font-semibold">{board.cardsCompleted} cards</span>
                   <span className="text-purple-600 font-semibold">
                     {board.timeSpentHours.toFixed(1)}h
                   </span>

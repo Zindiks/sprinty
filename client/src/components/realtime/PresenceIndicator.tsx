@@ -1,11 +1,6 @@
 import { PresenceUser } from "@/types/websocket.types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Users } from "lucide-react";
 
 interface PresenceIndicatorProps {
@@ -50,9 +45,7 @@ export function PresenceIndicator({ users, maxVisible = 5 }: PresenceIndicatorPr
               <TooltipContent side="bottom">
                 <div className="text-xs">
                   <p className="font-semibold">{user.email}</p>
-                  <p className="text-gray-400">
-                    Joined {getTimeAgo(user.joinedAt)}
-                  </p>
+                  <p className="text-gray-400">Joined {getTimeAgo(user.joinedAt)}</p>
                 </div>
               </TooltipContent>
             </Tooltip>

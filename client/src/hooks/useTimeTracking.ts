@@ -39,10 +39,7 @@ export const useCreateTimeLog = () => {
 
   return useMutation({
     mutationFn: async (input: CreateTimeLogInput) => {
-      const { data } = await apiClient.post(
-        `/time-tracking`,
-        input
-      );
+      const { data } = await apiClient.post(`/time-tracking`, input);
       return data;
     },
     onSuccess: (_, variables) => {
@@ -59,9 +56,7 @@ export const useCardTimeLogs = (cardId: string | null) => {
   return useQuery<TimeLog[]>({
     queryKey: ["time-logs", "card", cardId],
     queryFn: async () => {
-      const { data } = await apiClient.get(
-        `/time-tracking/card/${cardId}`
-      );
+      const { data } = await apiClient.get(`/time-tracking/card/${cardId}`);
       return data;
     },
     enabled: !!cardId,
@@ -73,9 +68,7 @@ export const useCardTimeTotal = (cardId: string | null) => {
   return useQuery<CardTimeTotal>({
     queryKey: ["time-total", cardId],
     queryFn: async () => {
-      const { data } = await apiClient.get(
-        `/time-tracking/card/${cardId}/total`
-      );
+      const { data } = await apiClient.get(`/time-tracking/card/${cardId}/total`);
       return data;
     },
     enabled: !!cardId,
@@ -101,10 +94,7 @@ export const useUpdateTimeLog = () => {
 
   return useMutation({
     mutationFn: async ({ id, ...input }: UpdateTimeLogInput & { id: string }) => {
-      const { data } = await apiClient.patch(
-        `/time-tracking/${id}`,
-        input
-      );
+      const { data } = await apiClient.patch(`/time-tracking/${id}`, input);
       return data;
     },
     onSuccess: (data) => {

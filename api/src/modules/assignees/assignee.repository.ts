@@ -17,16 +17,11 @@ export class AssigneeRepository {
     this.knex = knexInstance;
   }
 
-  async addAssignee(
-    input: AddAssignee,
-    assigned_by_id?: string,
-  ): Promise<AssigneeResponse> {
+  async addAssignee(input: AddAssignee, assigned_by_id?: string): Promise<AssigneeResponse> {
     const { card_id, user_id } = input;
 
     // Check if assignment already exists
-    const existing = await this.knex(table)
-      .where({ card_id, user_id })
-      .first();
+    const existing = await this.knex(table).where({ card_id, user_id }).first();
 
     if (existing) {
       return existing;
@@ -46,9 +41,7 @@ export class AssigneeRepository {
   async removeAssignee(input: RemoveAssignee): Promise<boolean> {
     const { card_id, user_id } = input;
 
-    const deleted = await this.knex(table)
-      .where({ card_id, user_id })
-      .delete();
+    const deleted = await this.knex(table).where({ card_id, user_id }).delete();
 
     return deleted > 0;
   }
@@ -62,9 +55,7 @@ export class AssigneeRepository {
     return assignees;
   }
 
-  async getAssigneesWithUserDetails(
-    card_id: string,
-  ): Promise<AssigneeWithUserDetailsArray> {
+  async getAssigneesWithUserDetails(card_id: string): Promise<AssigneeWithUserDetailsArray> {
     const assignees = await this.knex(table)
       .where({ "card_assignees.card_id": card_id })
       .join("users", "card_assignees.user_id", "users.id")
@@ -81,7 +72,7 @@ export class AssigneeRepository {
             'email', users.email,
             'username', profiles.username
           ) as user
-        `),
+        `)
       )
       .orderBy("card_assignees.assigned_at", "asc");
 
@@ -89,17 +80,13 @@ export class AssigneeRepository {
   }
 
   async isUserAssigned(card_id: string, user_id: string): Promise<boolean> {
-    const assignee = await this.knex(table)
-      .where({ card_id, user_id })
-      .first();
+    const assignee = await this.knex(table).where({ card_id, user_id }).first();
 
     return !!assignee;
   }
 
   async getCardIdsByUserId(user_id: string): Promise<string[]> {
-    const cards = await this.knex(table)
-      .where({ user_id })
-      .select("card_id");
+    const cards = await this.knex(table).where({ user_id }).select("card_id");
 
     return cards.map((card) => card.card_id);
   }

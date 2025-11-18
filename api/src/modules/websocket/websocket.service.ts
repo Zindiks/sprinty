@@ -38,7 +38,7 @@ export class WebSocketService {
     socket: AuthenticatedSocket,
     boardId: string,
     userId: string,
-    userEmail: string,
+    userEmail: string
   ): Promise<void> {
     const roomName = getRoomName(boardId);
 
@@ -63,11 +63,7 @@ export class WebSocketService {
   /**
    * Leave a board room
    */
-  async leaveBoard(
-    socket: AuthenticatedSocket,
-    boardId: string,
-    userId: string,
-  ): Promise<void> {
+  async leaveBoard(socket: AuthenticatedSocket, boardId: string, userId: string): Promise<void> {
     const roomName = getRoomName(boardId);
 
     // Leave the Socket.io room
@@ -103,11 +99,7 @@ export class WebSocketService {
   /**
    * Add user to board presence
    */
-  private addUserPresence(
-    boardId: string,
-    userId: string,
-    userEmail: string,
-  ): void {
+  private addUserPresence(boardId: string, userId: string, userEmail: string): void {
     if (!this.boardPresence.has(boardId)) {
       this.boardPresence.set(boardId, new Map());
     }
@@ -159,12 +151,7 @@ export class WebSocketService {
   /**
    * Emit event to all users in a board room
    */
-  emitToBoard<T>(
-    boardId: string,
-    event: WebSocketEvent,
-    data: T,
-    excludeSocketId?: string,
-  ): void {
+  emitToBoard<T>(boardId: string, event: WebSocketEvent, data: T, excludeSocketId?: string): void {
     const roomName = getRoomName(boardId);
     const payload: WebSocketEventPayload<T> = {
       event,

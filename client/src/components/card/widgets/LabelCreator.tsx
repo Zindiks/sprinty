@@ -41,11 +41,7 @@ const PRESET_COLORS = [
   { name: "Slate", value: "#64748b" },
 ];
 
-export const LabelCreator = ({
-  boardId,
-  open,
-  onClose,
-}: LabelCreatorProps) => {
+export const LabelCreator = ({ boardId, open, onClose }: LabelCreatorProps) => {
   const { createLabel } = useLabels(boardId);
   const [labelName, setLabelName] = useState("");
   const [selectedColor, setSelectedColor] = useState(PRESET_COLORS[0].value);
@@ -86,9 +82,7 @@ export const LabelCreator = ({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Create Label</DialogTitle>
-          <DialogDescription>
-            Create a new label for your board
-          </DialogDescription>
+          <DialogDescription>Create a new label for your board</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">
@@ -164,9 +158,7 @@ export const LabelCreator = ({
                 }}
               />
             </div>
-            <p className="text-xs text-muted-foreground">
-              Enter a hex color code (e.g., #FF5733)
-            </p>
+            <p className="text-xs text-muted-foreground">Enter a hex color code (e.g., #FF5733)</p>
           </div>
         </div>
 
@@ -174,10 +166,7 @@ export const LabelCreator = ({
           <Button variant="outline" onClick={handleClose}>
             Cancel
           </Button>
-          <Button
-            onClick={handleCreate}
-            disabled={!labelName.trim() || createLabel.isPending}
-          >
+          <Button onClick={handleCreate} disabled={!labelName.trim() || createLabel.isPending}>
             {createLabel.isPending ? "Creating..." : "Create Label"}
           </Button>
         </DialogFooter>

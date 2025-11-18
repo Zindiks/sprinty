@@ -450,17 +450,13 @@ describe("AnalyticsService", () => {
 
       analyticsRepository.getProductivityTrends.mockResolvedValue(expectedTrends);
 
-      const result = await analyticsService.getProductivityTrends(
-        userId,
-        organizationId,
-        "weekly",
-      );
+      const result = await analyticsService.getProductivityTrends(userId, organizationId, "weekly");
 
       expect(analyticsRepository.getProductivityTrends).toHaveBeenCalledWith(
         userId,
         organizationId,
         "weekly",
-        undefined,
+        undefined
       );
       expect(result.period).toBe("weekly");
       expect(result.summary.trend).toBe("stable");
@@ -493,14 +489,14 @@ describe("AnalyticsService", () => {
         userId,
         organizationId,
         "monthly",
-        60,
+        60
       );
 
       expect(analyticsRepository.getProductivityTrends).toHaveBeenCalledWith(
         userId,
         organizationId,
         "monthly",
-        60,
+        60
       );
       expect(result.period).toBe("monthly");
       expect(result.summary.trend).toBe("increasing");
@@ -522,11 +518,7 @@ describe("AnalyticsService", () => {
 
       analyticsRepository.getProductivityTrends.mockResolvedValue(expectedTrends);
 
-      const result = await analyticsService.getProductivityTrends(
-        userId,
-        organizationId,
-        "weekly",
-      );
+      const result = await analyticsService.getProductivityTrends(userId, organizationId, "weekly");
 
       expect(result.summary.totalCompleted).toBe(0);
     });
@@ -567,10 +559,7 @@ describe("AnalyticsService", () => {
 
       const result = await analyticsService.getBoardsOverview(userId, organizationId);
 
-      expect(analyticsRepository.getBoardsOverview).toHaveBeenCalledWith(
-        userId,
-        organizationId,
-      );
+      expect(analyticsRepository.getBoardsOverview).toHaveBeenCalledWith(userId, organizationId);
       expect(result).toEqual(expectedOverview);
       expect(result).toHaveLength(2);
     });
@@ -616,7 +605,7 @@ describe("AnalyticsService", () => {
       expect(analyticsRepository.getWeeklyMetrics).toHaveBeenCalledWith(
         userId,
         organizationId,
-        undefined,
+        undefined
       );
       expect(result).toEqual(expectedMetrics);
     });
@@ -633,7 +622,7 @@ describe("AnalyticsService", () => {
       expect(analyticsRepository.getWeeklyMetrics).toHaveBeenCalledWith(
         userId,
         organizationId,
-        weeksBack,
+        weeksBack
       );
     });
   });
@@ -675,7 +664,7 @@ describe("AnalyticsService", () => {
       expect(analyticsRepository.getMonthlyMetrics).toHaveBeenCalledWith(
         userId,
         organizationId,
-        undefined,
+        undefined
       );
       expect(result).toEqual(expectedMetrics);
     });
@@ -692,7 +681,7 @@ describe("AnalyticsService", () => {
       expect(analyticsRepository.getMonthlyMetrics).toHaveBeenCalledWith(
         userId,
         organizationId,
-        monthsBack,
+        monthsBack
       );
     });
 

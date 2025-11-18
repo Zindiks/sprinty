@@ -41,10 +41,7 @@ export const useAssignees = (cardId?: string) => {
   // Add assignee to card
   const addAssignee = useMutation<AxiosResponse, FetchError, AddAssigneeParams>({
     mutationFn: (params) => {
-      return apiClient.post(
-        `/assignees/`,
-        params
-      );
+      return apiClient.post(`/assignees/`, params);
     },
     onMutate: async (params) => {
       // Cancel outgoing refetches

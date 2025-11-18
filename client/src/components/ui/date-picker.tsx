@@ -5,11 +5,7 @@ import { DateTime } from "luxon";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
@@ -66,7 +62,11 @@ export function DatePicker({
       },
       {
         label: "Next Monday",
-        date: now.plus({ weeks: 1 }).startOf("week").set({ hour: 9, minute: 0, second: 0 }).toJSDate(),
+        date: now
+          .plus({ weeks: 1 })
+          .startOf("week")
+          .set({ hour: 9, minute: 0, second: 0 })
+          .toJSDate(),
       },
       {
         label: "End of Month",
@@ -148,9 +148,7 @@ export function DatePicker({
           {showQuickPresets && (
             <>
               <div className="space-y-2">
-                <Label className="text-xs font-medium text-muted-foreground">
-                  Quick Presets
-                </Label>
+                <Label className="text-xs font-medium text-muted-foreground">Quick Presets</Label>
                 <div className="grid grid-cols-3 gap-2">
                   {quickPresets.map((preset) => (
                     <Button
@@ -208,11 +206,7 @@ export function DatePicker({
                   <X className="h-4 w-4 mr-1" />
                   Clear
                 </Button>
-                <Button
-                  size="sm"
-                  onClick={() => setOpen(false)}
-                  className="h-8"
-                >
+                <Button size="sm" onClick={() => setOpen(false)} className="h-8">
                   Done
                 </Button>
               </div>

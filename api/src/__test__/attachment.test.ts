@@ -10,16 +10,14 @@ import type {
 
 jest.mock("../modules/attachments/attachment.repository");
 
-const MockedAttachmentRepository =
-  AttachmentRepository as jest.Mock<AttachmentRepository>;
+const MockedAttachmentRepository = AttachmentRepository as jest.Mock<AttachmentRepository>;
 
 describe("AttachmentService", () => {
   let attachmentService: AttachmentService;
   let attachmentRepository: jest.Mocked<AttachmentRepository>;
 
   beforeEach(() => {
-    attachmentRepository =
-      new MockedAttachmentRepository() as jest.Mocked<AttachmentRepository>;
+    attachmentRepository = new MockedAttachmentRepository() as jest.Mocked<AttachmentRepository>;
     attachmentService = new AttachmentService();
     // @ts-ignore - inject mocked repository
     attachmentService["attachmentRepository"] = attachmentRepository;
@@ -163,10 +161,7 @@ describe("AttachmentService", () => {
 
       // Assert
       expect(result).toEqual(mockAttachment);
-      expect(attachmentRepository.getAttachmentById).toHaveBeenCalledWith(
-        id,
-        card_id
-      );
+      expect(attachmentRepository.getAttachmentById).toHaveBeenCalledWith(id, card_id);
     });
 
     it("should return undefined when attachment not found", async () => {
@@ -181,10 +176,7 @@ describe("AttachmentService", () => {
 
       // Assert
       expect(result).toBeUndefined();
-      expect(attachmentRepository.getAttachmentById).toHaveBeenCalledWith(
-        id,
-        card_id
-      );
+      expect(attachmentRepository.getAttachmentById).toHaveBeenCalledWith(id, card_id);
     });
 
     it("should require both id and card_id for security", async () => {
@@ -195,17 +187,11 @@ describe("AttachmentService", () => {
       attachmentRepository.getAttachmentById.mockResolvedValue(undefined);
 
       // Act
-      const result = await attachmentService.getAttachmentById(
-        id,
-        wrong_card_id
-      );
+      const result = await attachmentService.getAttachmentById(id, wrong_card_id);
 
       // Assert
       expect(result).toBeUndefined();
-      expect(attachmentRepository.getAttachmentById).toHaveBeenCalledWith(
-        id,
-        wrong_card_id
-      );
+      expect(attachmentRepository.getAttachmentById).toHaveBeenCalledWith(id, wrong_card_id);
     });
   });
 
@@ -232,24 +218,16 @@ describe("AttachmentService", () => {
         },
       };
 
-      attachmentRepository.getAttachmentWithUser.mockResolvedValue(
-        mockAttachment
-      );
+      attachmentRepository.getAttachmentWithUser.mockResolvedValue(mockAttachment);
 
       // Act
-      const result = await attachmentService.getAttachmentWithUser(
-        id,
-        card_id
-      );
+      const result = await attachmentService.getAttachmentWithUser(id, card_id);
 
       // Assert
       expect(result).toEqual(mockAttachment);
       expect(result?.user).toBeDefined();
       expect(result?.user.email).toBe("uploader@example.com");
-      expect(attachmentRepository.getAttachmentWithUser).toHaveBeenCalledWith(
-        id,
-        card_id
-      );
+      expect(attachmentRepository.getAttachmentWithUser).toHaveBeenCalledWith(id, card_id);
     });
 
     it("should return attachment with user without username", async () => {
@@ -274,15 +252,10 @@ describe("AttachmentService", () => {
         },
       };
 
-      attachmentRepository.getAttachmentWithUser.mockResolvedValue(
-        mockAttachment
-      );
+      attachmentRepository.getAttachmentWithUser.mockResolvedValue(mockAttachment);
 
       // Act
-      const result = await attachmentService.getAttachmentWithUser(
-        id,
-        card_id
-      );
+      const result = await attachmentService.getAttachmentWithUser(id, card_id);
 
       // Assert
       expect(result).toEqual(mockAttachment);
@@ -297,10 +270,7 @@ describe("AttachmentService", () => {
       attachmentRepository.getAttachmentWithUser.mockResolvedValue(undefined);
 
       // Act
-      const result = await attachmentService.getAttachmentWithUser(
-        id,
-        card_id
-      );
+      const result = await attachmentService.getAttachmentWithUser(id, card_id);
 
       // Assert
       expect(result).toBeUndefined();
@@ -347,9 +317,7 @@ describe("AttachmentService", () => {
         },
       ];
 
-      attachmentRepository.getAttachmentsByCardId.mockResolvedValue(
-        mockAttachments
-      );
+      attachmentRepository.getAttachmentsByCardId.mockResolvedValue(mockAttachments);
 
       // Act
       const result = await attachmentService.getAttachmentsByCardId(card_id);
@@ -357,9 +325,7 @@ describe("AttachmentService", () => {
       // Assert
       expect(result).toEqual(mockAttachments);
       expect(result).toHaveLength(2);
-      expect(attachmentRepository.getAttachmentsByCardId).toHaveBeenCalledWith(
-        card_id
-      );
+      expect(attachmentRepository.getAttachmentsByCardId).toHaveBeenCalledWith(card_id);
     });
 
     it("should return empty array when card has no attachments", async () => {
@@ -415,9 +381,7 @@ describe("AttachmentService", () => {
         },
       ];
 
-      attachmentRepository.getAttachmentsByCardId.mockResolvedValue(
-        mockAttachments
-      );
+      attachmentRepository.getAttachmentsByCardId.mockResolvedValue(mockAttachments);
 
       // Act
       const result = await attachmentService.getAttachmentsByCardId(card_id);
@@ -578,9 +542,7 @@ describe("AttachmentService", () => {
       // Assert
       expect(result).toEqual(mockCount);
       expect(result.count).toBe(5);
-      expect(attachmentRepository.getAttachmentCount).toHaveBeenCalledWith(
-        card_id
-      );
+      expect(attachmentRepository.getAttachmentCount).toHaveBeenCalledWith(card_id);
     });
 
     it("should return zero count when card has no attachments", async () => {
@@ -660,9 +622,7 @@ describe("AttachmentService", () => {
         },
       ];
 
-      attachmentRepository.getAttachmentsByUserId.mockResolvedValue(
-        mockAttachments
-      );
+      attachmentRepository.getAttachmentsByUserId.mockResolvedValue(mockAttachments);
 
       // Act
       const result = await attachmentService.getAttachmentsByUserId(user_id);
@@ -671,9 +631,7 @@ describe("AttachmentService", () => {
       expect(result).toEqual(mockAttachments);
       expect(result).toHaveLength(2);
       expect(result.every((a) => a.uploaded_by === user_id)).toBe(true);
-      expect(attachmentRepository.getAttachmentsByUserId).toHaveBeenCalledWith(
-        user_id
-      );
+      expect(attachmentRepository.getAttachmentsByUserId).toHaveBeenCalledWith(user_id);
     });
 
     it("should return empty array when user has no attachments", async () => {
@@ -727,9 +685,7 @@ describe("AttachmentService", () => {
         },
       ];
 
-      attachmentRepository.getAttachmentsByUserId.mockResolvedValue(
-        mockAttachments
-      );
+      attachmentRepository.getAttachmentsByUserId.mockResolvedValue(mockAttachments);
 
       // Act
       const result = await attachmentService.getAttachmentsByUserId(user_id);

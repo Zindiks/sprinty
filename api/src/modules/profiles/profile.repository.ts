@@ -1,9 +1,5 @@
 import { Knex } from "knex";
-import {
-  CreateProfile,
-  UpdateProfile,
-  ProfileResponse,
-} from "./profile.schema";
+import { CreateProfile, UpdateProfile, ProfileResponse } from "./profile.schema";
 import knexInstance from "../../db/knexInstance";
 
 const table = "profiles";
@@ -37,10 +33,7 @@ export class ProfileRepository {
     return profile;
   }
 
-  async update(
-    user_id: string,
-    input: UpdateProfile,
-  ): Promise<ProfileResponse> {
+  async update(user_id: string, input: UpdateProfile): Promise<ProfileResponse> {
     const [profile] = await this.knex(table)
       .where({ user_id })
       .update({
@@ -53,10 +46,7 @@ export class ProfileRepository {
   }
 
   async delete(user_id: string): Promise<ProfileResponse> {
-    const [profile] = await this.knex(table)
-      .where({ user_id })
-      .del()
-      .returning("*");
+    const [profile] = await this.knex(table).where({ user_id }).del().returning("*");
 
     return profile;
   }

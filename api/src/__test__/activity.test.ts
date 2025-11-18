@@ -29,7 +29,8 @@ describe("ActivityService", () => {
   let activityRepository: jest.Mocked<ActivityRepository>;
 
   beforeEach(() => {
-    activityRepository = new MockedActivityRepository() as unknown as jest.Mocked<ActivityRepository>;
+    activityRepository =
+      new MockedActivityRepository() as unknown as jest.Mocked<ActivityRepository>;
     activityService = new ActivityService();
     // @ts-ignore - inject mocked repository
     activityService["activityRepository"] = activityRepository;
@@ -172,7 +173,7 @@ describe("ActivityService", () => {
       activityRepository.createActivity.mockRejectedValue(error);
 
       await expect(activityService.logActivity(input)).rejects.toThrow(
-        "Database connection failed",
+        "Database connection failed"
       );
     });
   });
@@ -325,10 +326,7 @@ describe("ActivityService", () => {
 
       const result = await activityService.getActivitiesByCardId(card_id);
 
-      expect(activityRepository.getActivitiesByCardId).toHaveBeenCalledWith(
-        card_id,
-        undefined,
-      );
+      expect(activityRepository.getActivitiesByCardId).toHaveBeenCalledWith(card_id, undefined);
       expect(result).toEqual(expectedActivities);
       expect(result).toHaveLength(2);
     });
@@ -368,10 +366,7 @@ describe("ActivityService", () => {
 
       const result = await activityService.getActivitiesByCardId(card_id, params);
 
-      expect(activityRepository.getActivitiesByCardId).toHaveBeenCalledWith(
-        card_id,
-        params,
-      );
+      expect(activityRepository.getActivitiesByCardId).toHaveBeenCalledWith(card_id, params);
       expect(result).toHaveLength(1);
       expect(result[0].action_type).toBe("moved");
     });
@@ -382,22 +377,19 @@ describe("ActivityService", () => {
         limit: 10,
         offset: 5,
       };
-      const expectedActivities: ActivityListResponse = Array.from(
-        { length: 10 },
-        (_, i) => ({
-          id: `activity-${i + 6}`,
-          card_id: "card-123",
-          user_id: "user-456",
-          action_type: "updated",
-          metadata: null,
-          created_at: new Date(Date.now() - i * 1000).toISOString(),
-          user: {
-            id: "user-456",
-            email: "john@example.com",
-            username: "johndoe",
-          },
-        }),
-      );
+      const expectedActivities: ActivityListResponse = Array.from({ length: 10 }, (_, i) => ({
+        id: `activity-${i + 6}`,
+        card_id: "card-123",
+        user_id: "user-456",
+        action_type: "updated",
+        metadata: null,
+        created_at: new Date(Date.now() - i * 1000).toISOString(),
+        user: {
+          id: "user-456",
+          email: "john@example.com",
+          username: "johndoe",
+        },
+      }));
 
       activityRepository.getActivitiesByCardId.mockResolvedValue(expectedActivities);
 
@@ -483,10 +475,7 @@ describe("ActivityService", () => {
 
       const result = await activityService.getActivitiesByUserId(user_id);
 
-      expect(activityRepository.getActivitiesByUserId).toHaveBeenCalledWith(
-        user_id,
-        undefined,
-      );
+      expect(activityRepository.getActivitiesByUserId).toHaveBeenCalledWith(user_id, undefined);
       expect(result).toEqual(expectedActivities);
       expect(result).toHaveLength(2);
     });
@@ -538,22 +527,19 @@ describe("ActivityService", () => {
         limit: 25,
         offset: 10,
       };
-      const expectedActivities: ActivityListResponse = Array.from(
-        { length: 25 },
-        (_, i) => ({
-          id: `activity-${i + 11}`,
-          card_id: "card-123",
-          user_id: "user-456",
-          action_type: "updated",
-          metadata: null,
-          created_at: new Date(Date.now() - i * 1000).toISOString(),
-          user: {
-            id: "user-456",
-            email: "john@example.com",
-            username: "johndoe",
-          },
-        }),
-      );
+      const expectedActivities: ActivityListResponse = Array.from({ length: 25 }, (_, i) => ({
+        id: `activity-${i + 11}`,
+        card_id: "card-123",
+        user_id: "user-456",
+        action_type: "updated",
+        metadata: null,
+        created_at: new Date(Date.now() - i * 1000).toISOString(),
+        user: {
+          id: "user-456",
+          email: "john@example.com",
+          username: "johndoe",
+        },
+      }));
 
       activityRepository.getActivitiesByUserId.mockResolvedValue(expectedActivities);
 
@@ -598,22 +584,19 @@ describe("ActivityService", () => {
 
     it("should return all activities with default pagination", async () => {
       const params: ActivityQueryParams = {};
-      const expectedActivities: ActivityListResponse = Array.from(
-        { length: 50 },
-        (_, i) => ({
-          id: `activity-${i + 1}`,
-          card_id: "card-123",
-          user_id: "user-456",
-          action_type: "updated",
-          metadata: null,
-          created_at: new Date(Date.now() - i * 1000).toISOString(),
-          user: {
-            id: "user-456",
-            email: "john@example.com",
-            username: "johndoe",
-          },
-        }),
-      );
+      const expectedActivities: ActivityListResponse = Array.from({ length: 50 }, (_, i) => ({
+        id: `activity-${i + 1}`,
+        card_id: "card-123",
+        user_id: "user-456",
+        action_type: "updated",
+        metadata: null,
+        created_at: new Date(Date.now() - i * 1000).toISOString(),
+        user: {
+          id: "user-456",
+          email: "john@example.com",
+          username: "johndoe",
+        },
+      }));
 
       activityRepository.getActivities.mockResolvedValue(expectedActivities);
 
@@ -748,9 +731,7 @@ describe("ActivityService", () => {
 
       const result = await activityService.deleteActivitiesByCardId(card_id);
 
-      expect(activityRepository.deleteActivitiesByCardId).toHaveBeenCalledWith(
-        card_id,
-      );
+      expect(activityRepository.deleteActivitiesByCardId).toHaveBeenCalledWith(card_id);
       expect(result).toBe(10);
     });
 

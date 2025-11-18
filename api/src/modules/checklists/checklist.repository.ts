@@ -22,7 +22,7 @@ export class ChecklistRepository {
 
   async createChecklistItem(
     input: CreateChecklistItem,
-    created_by_id?: string,
+    created_by_id?: string
   ): Promise<ChecklistItemResponse> {
     const { card_id, title, order: orderInput } = input;
 
@@ -51,7 +51,7 @@ export class ChecklistRepository {
   }
 
   async updateChecklistItem(
-    input: UpdateChecklistItem,
+    input: UpdateChecklistItem
   ): Promise<ChecklistItemResponse | undefined> {
     const { id, card_id, title, completed, order } = input;
 
@@ -61,24 +61,19 @@ export class ChecklistRepository {
     if (order !== undefined) updateData.order = order;
     updateData.updated_at = this.knex.fn.now();
 
-    const [item] = await this.knex(table)
-      .update(updateData)
-      .where({ id, card_id })
-      .returning("*");
+    const [item] = await this.knex(table).update(updateData).where({ id, card_id }).returning("*");
 
     return item;
   }
 
   async toggleChecklistItem(
     input: ToggleChecklistItem,
-    user_id?: string,
+    user_id?: string
   ): Promise<ChecklistItemResponse | undefined> {
     const { id, card_id } = input;
 
     // Get current state
-    const currentItem = await this.knex(table)
-      .where({ id, card_id })
-      .first();
+    const currentItem = await this.knex(table).where({ id, card_id }).first();
 
     if (!currentItem) {
       return undefined;
@@ -99,10 +94,7 @@ export class ChecklistRepository {
       updateData.completed_by = null;
     }
 
-    const [item] = await this.knex(table)
-      .update(updateData)
-      .where({ id, card_id })
-      .returning("*");
+    const [item] = await this.knex(table).update(updateData).where({ id, card_id }).returning("*");
 
     return item;
   }
@@ -117,20 +109,15 @@ export class ChecklistRepository {
 
   async getChecklistItemById(
     id: string,
-    card_id: string,
+    card_id: string
   ): Promise<ChecklistItemResponse | undefined> {
     const item = await this.knex(table).where({ id, card_id }).first();
 
     return item;
   }
 
-  async getChecklistItemsByCardId(
-    card_id: string,
-  ): Promise<ChecklistItemResponseArray> {
-    const items = await this.knex(table)
-      .where({ card_id })
-      .orderBy("order", "asc")
-      .select("*");
+  async getChecklistItemsByCardId(card_id: string): Promise<ChecklistItemResponseArray> {
+    const items = await this.knex(table).where({ card_id }).orderBy("order", "asc").select("*");
 
     return items;
   }
@@ -140,7 +127,7 @@ export class ChecklistRepository {
       .where({ card_id })
       .select(
         this.knex.raw("COUNT(*)::int as total"),
-        this.knex.raw("COUNT(*) FILTER (WHERE completed = true)::int as completed"),
+        this.knex.raw("COUNT(*) FILTER (WHERE completed = true)::int as completed")
       )
       .first();
 
@@ -155,9 +142,7 @@ export class ChecklistRepository {
     };
   }
 
-  async getChecklistWithProgress(
-    card_id: string,
-  ): Promise<ChecklistWithProgress> {
+  async getChecklistWithProgress(card_id: string): Promise<ChecklistWithProgress> {
     const items = await this.getChecklistItemsByCardId(card_id);
     const progress = await this.getChecklistProgress(card_id);
 
@@ -169,7 +154,7 @@ export class ChecklistRepository {
 
   async reorderChecklistItems(
     card_id: string,
-    itemOrders: Array<{ id: string; order: number }>,
+    itemOrders: Array<{ id: string; order: number }>
   ): Promise<void> {
     await this.knex.transaction(async (trx) => {
       for (const item of itemOrders) {

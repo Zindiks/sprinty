@@ -1,10 +1,5 @@
 import { FastifyRequest } from "fastify";
-import {
-  oauth2Options,
-  OAuthResponse,
-  ProfileResponse,
-  UserResponse,
-} from "./oauth.schema";
+import { oauth2Options, OAuthResponse, ProfileResponse, UserResponse } from "./oauth.schema";
 import { OAuth2Namespace } from "@fastify/oauth2";
 import { UserRepository } from "./oauth.repository";
 
@@ -14,17 +9,11 @@ declare module "fastify" {
   }
 }
 
-export async function getAccessTokenFromAuthorizationCodeFlow(
-  request: FastifyRequest,
-) {
-  return await request.server.githubOAuth2.getAccessTokenFromAuthorizationCodeFlow(
-    request,
-  );
+export async function getAccessTokenFromAuthorizationCodeFlow(request: FastifyRequest) {
+  return await request.server.githubOAuth2.getAccessTokenFromAuthorizationCodeFlow(request);
 }
 
-export async function fetchUserData(
-  accessToken: string,
-): Promise<OAuthResponse | null> {
+export async function fetchUserData(accessToken: string): Promise<OAuthResponse | null> {
   const response = await fetch("https://api.github.com/user", {
     headers: {
       Authorization: `token ${accessToken}`,

@@ -27,7 +27,8 @@ describe("TimeTrackingService", () => {
 
   beforeEach(() => {
     mockKnex = {} as Knex;
-    timeTrackingRepository = new MockedTimeTrackingRepository() as unknown as jest.Mocked<TimeTrackingRepository>;
+    timeTrackingRepository =
+      new MockedTimeTrackingRepository() as unknown as jest.Mocked<TimeTrackingRepository>;
 
     // Mock the repository constructor
     (TimeTrackingRepository as jest.MockedClass<typeof TimeTrackingRepository>).mockImplementation(
@@ -171,7 +172,7 @@ describe("TimeTrackingService", () => {
       timeTrackingRepository.createTimeLog.mockRejectedValue(error);
 
       await expect(timeTrackingService.logTime(input)).rejects.toThrow(
-        "Database connection failed",
+        "Database connection failed"
       );
     });
   });
@@ -380,10 +381,7 @@ describe("TimeTrackingService", () => {
 
       const result = await timeTrackingService.getUserTimeLogs(userId);
 
-      expect(timeTrackingRepository.getTimeLogsByUser).toHaveBeenCalledWith(
-        userId,
-        undefined,
-      );
+      expect(timeTrackingRepository.getTimeLogsByUser).toHaveBeenCalledWith(userId, undefined);
       expect(result).toEqual(expectedLogs);
       expect(result).toHaveLength(2);
     });
@@ -420,10 +418,7 @@ describe("TimeTrackingService", () => {
 
       const result = await timeTrackingService.getUserTimeLogs(userId, organizationId);
 
-      expect(timeTrackingRepository.getTimeLogsByUser).toHaveBeenCalledWith(
-        userId,
-        organizationId,
-      );
+      expect(timeTrackingRepository.getTimeLogsByUser).toHaveBeenCalledWith(userId, organizationId);
       expect(result).toHaveLength(1);
     });
 
@@ -677,17 +672,13 @@ describe("TimeTrackingService", () => {
 
       timeTrackingRepository.getTimeLogsInRange.mockResolvedValue(expectedLogs);
 
-      const result = await timeTrackingService.getTimeLogsInDateRange(
-        userId,
-        startDate,
-        endDate,
-      );
+      const result = await timeTrackingService.getTimeLogsInDateRange(userId, startDate, endDate);
 
       expect(timeTrackingRepository.getTimeLogsInRange).toHaveBeenCalledWith(
         userId,
         startDate,
         endDate,
-        undefined,
+        undefined
       );
       expect(result).toEqual(expectedLogs);
       expect(result).toHaveLength(2);
@@ -700,11 +691,7 @@ describe("TimeTrackingService", () => {
 
       timeTrackingRepository.getTimeLogsInRange.mockResolvedValue([]);
 
-      const result = await timeTrackingService.getTimeLogsInDateRange(
-        userId,
-        startDate,
-        endDate,
-      );
+      const result = await timeTrackingService.getTimeLogsInDateRange(userId, startDate, endDate);
 
       expect(result).toEqual([]);
     });
@@ -734,14 +721,14 @@ describe("TimeTrackingService", () => {
         userId,
         startDate,
         endDate,
-        organizationId,
+        organizationId
       );
 
       expect(timeTrackingRepository.getTimeLogsInRange).toHaveBeenCalledWith(
         userId,
         startDate,
         endDate,
-        organizationId,
+        organizationId
       );
       expect(result).toHaveLength(1);
     });
@@ -777,11 +764,7 @@ describe("TimeTrackingService", () => {
 
       timeTrackingRepository.getTimeLogsInRange.mockResolvedValue(expectedLogs);
 
-      const result = await timeTrackingService.getTimeLogsInDateRange(
-        userId,
-        startDate,
-        endDate,
-      );
+      const result = await timeTrackingService.getTimeLogsInDateRange(userId, startDate, endDate);
 
       // Most recent first
       expect(result[0].logged_at).toBe("2025-01-25T10:00:00Z");
@@ -808,11 +791,7 @@ describe("TimeTrackingService", () => {
 
       timeTrackingRepository.getTimeLogsInRange.mockResolvedValue(expectedLogs);
 
-      const result = await timeTrackingService.getTimeLogsInDateRange(
-        userId,
-        startDate,
-        endDate,
-      );
+      const result = await timeTrackingService.getTimeLogsInDateRange(userId, startDate, endDate);
 
       expect(result).toHaveLength(1);
     });

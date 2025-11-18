@@ -1,4 +1,4 @@
-import { faker } from '@faker-js/faker';
+import { faker } from "@faker-js/faker";
 import type {
   User,
   Organization,
@@ -13,7 +13,7 @@ import type {
   Attachment,
   Activity,
   ActivityActionType,
-} from '@/types/types';
+} from "@/types/types";
 
 /**
  * Mock data factories for testing
@@ -64,9 +64,9 @@ export const mockCard = (overrides?: Partial<Card>): Card => ({
   title: faker.lorem.sentence(),
   order: faker.number.int({ min: 0, max: 10 }),
   description: faker.lorem.paragraph(),
-  status: faker.helpers.arrayElement(['todo', 'in_progress', 'done']),
+  status: faker.helpers.arrayElement(["todo", "in_progress", "done"]),
   due_date: faker.date.future().toISOString(),
-  priority: faker.helpers.arrayElement(['low', 'medium', 'high', 'critical']),
+  priority: faker.helpers.arrayElement(["low", "medium", "high", "critical"]),
   created_at: faker.date.past().toISOString(),
   updated_at: faker.date.recent().toISOString(),
   ...overrides,
@@ -136,7 +136,7 @@ export const mockActivity = (overrides?: Partial<Activity>): Activity => ({
   id: faker.string.uuid(),
   card_id: faker.string.uuid(),
   user_id: faker.string.uuid(),
-  action_type: 'created' as ActivityActionType,
+  action_type: "created" as ActivityActionType,
   metadata: {},
   created_at: faker.date.recent().toISOString(),
   user: mockUser(),
@@ -165,17 +165,14 @@ export const mockCardWithDetails = (overrides?: Partial<CardWithDetails>): CardW
 /**
  * Helper functions to create multiple entities
  */
-export const mockUsers = (count: number): User[] =>
-  Array.from({ length: count }, () => mockUser());
+export const mockUsers = (count: number): User[] => Array.from({ length: count }, () => mockUser());
 
 export const mockBoards = (count: number): Board[] =>
   Array.from({ length: count }, () => mockBoard());
 
-export const mockLists = (count: number): List[] =>
-  Array.from({ length: count }, () => mockList());
+export const mockLists = (count: number): List[] => Array.from({ length: count }, () => mockList());
 
-export const mockCards = (count: number): Card[] =>
-  Array.from({ length: count }, () => mockCard());
+export const mockCards = (count: number): Card[] => Array.from({ length: count }, () => mockCard());
 
 export const mockLabels = (count: number): Label[] =>
   Array.from({ length: count }, () => mockLabel());
@@ -228,10 +225,10 @@ export const mockCardsWithDueDates = () => {
  * Create cards with specific priorities for filtering tests
  */
 export const mockCardsWithPriorities = () => ({
-  lowPriorityCard: mockCard({ priority: 'low' }),
-  mediumPriorityCard: mockCard({ priority: 'medium' }),
-  highPriorityCard: mockCard({ priority: 'high' }),
-  criticalPriorityCard: mockCard({ priority: 'critical' }),
+  lowPriorityCard: mockCard({ priority: "low" }),
+  mediumPriorityCard: mockCard({ priority: "medium" }),
+  highPriorityCard: mockCard({ priority: "high" }),
+  criticalPriorityCard: mockCard({ priority: "critical" }),
   noPriorityCard: mockCard({ priority: undefined }),
 });
 
@@ -239,7 +236,7 @@ export const mockCardsWithPriorities = () => ({
  * Create cards with specific statuses for filtering tests
  */
 export const mockCardsWithStatuses = () => ({
-  todoCard: mockCard({ status: 'todo' }),
-  inProgressCard: mockCard({ status: 'in_progress' }),
-  doneCard: mockCard({ status: 'done' }),
+  todoCard: mockCard({ status: "todo" }),
+  inProgressCard: mockCard({ status: "in_progress" }),
+  doneCard: mockCard({ status: "done" }),
 });

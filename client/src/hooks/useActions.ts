@@ -206,8 +206,7 @@ export function useActions() {
       .filter((action) => {
         // Match against label, description, and keywords
         const matchesLabel = action.label.toLowerCase().includes(lowerQuery);
-        const matchesDescription =
-          action.description?.toLowerCase().includes(lowerQuery) || false;
+        const matchesDescription = action.description?.toLowerCase().includes(lowerQuery) || false;
         const matchesKeywords = action.keywords.some((keyword) =>
           keyword.toLowerCase().includes(lowerQuery)
         );
@@ -230,13 +229,16 @@ export function useActions() {
    * Get actions grouped by category
    */
   const getGroupedActions = () => {
-    const grouped = actions.reduce((acc, action) => {
-      if (!acc[action.group]) {
-        acc[action.group] = [];
-      }
-      acc[action.group].push(action);
-      return acc;
-    }, {} as Record<string, Action[]>);
+    const grouped = actions.reduce(
+      (acc, action) => {
+        if (!acc[action.group]) {
+          acc[action.group] = [];
+        }
+        acc[action.group].push(action);
+        return acc;
+      },
+      {} as Record<string, Action[]>
+    );
 
     return grouped;
   };

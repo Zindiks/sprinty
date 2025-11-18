@@ -1,10 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Filter, X } from "lucide-react";
 import type { ActivityActionType } from "@/types/types";
 import type { ActivityFilters as Filters } from "@/hooks/useActivities";
@@ -33,10 +29,7 @@ const ACTION_TYPE_LABELS: Record<ActivityActionType, string> = {
   due_date_removed: "Due Date Removed",
 };
 
-export const ActivityFilters = ({
-  onFiltersChange,
-  activeFilters,
-}: ActivityFiltersProps) => {
+export const ActivityFilters = ({ onFiltersChange, activeFilters }: ActivityFiltersProps) => {
   const [open, setOpen] = useState(false);
   const [localFilters, setLocalFilters] = useState<Filters>(activeFilters);
 
@@ -45,8 +38,7 @@ export const ActivityFilters = ({
   const handleActionTypeToggle = (actionType: ActivityActionType) => {
     const newFilters = {
       ...localFilters,
-      action_type:
-        localFilters.action_type === actionType ? undefined : actionType,
+      action_type: localFilters.action_type === actionType ? undefined : actionType,
     };
     setLocalFilters(newFilters);
     onFiltersChange(newFilters);
@@ -65,10 +57,7 @@ export const ActivityFilters = ({
           <Button
             variant="outline"
             size="sm"
-            className={cn(
-              "h-8 gap-2",
-              hasActiveFilters && "border-primary bg-primary/10"
-            )}
+            className={cn("h-8 gap-2", hasActiveFilters && "border-primary bg-primary/10")}
           >
             <Filter className="w-3 h-3" />
             Filter
@@ -97,28 +86,23 @@ export const ActivityFilters = ({
 
             {/* Action Type Filter */}
             <div className="space-y-2">
-              <label className="text-xs font-medium text-muted-foreground">
-                Action Type
-              </label>
+              <label className="text-xs font-medium text-muted-foreground">Action Type</label>
               <div className="grid grid-cols-1 gap-1 max-h-64 overflow-y-auto">
-                {(
-                  Object.entries(ACTION_TYPE_LABELS) as [
-                    ActivityActionType,
-                    string
-                  ][]
-                ).map(([actionType, label]) => (
-                  <button
-                    key={actionType}
-                    onClick={() => handleActionTypeToggle(actionType)}
-                    className={cn(
-                      "text-left px-3 py-2 rounded-md text-sm transition-colors hover:bg-accent",
-                      localFilters.action_type === actionType &&
-                        "bg-primary/10 text-primary font-medium"
-                    )}
-                  >
-                    {label}
-                  </button>
-                ))}
+                {(Object.entries(ACTION_TYPE_LABELS) as [ActivityActionType, string][]).map(
+                  ([actionType, label]) => (
+                    <button
+                      key={actionType}
+                      onClick={() => handleActionTypeToggle(actionType)}
+                      className={cn(
+                        "text-left px-3 py-2 rounded-md text-sm transition-colors hover:bg-accent",
+                        localFilters.action_type === actionType &&
+                          "bg-primary/10 text-primary font-medium"
+                      )}
+                    >
+                      {label}
+                    </button>
+                  )
+                )}
               </div>
             </div>
           </div>
@@ -130,9 +114,7 @@ export const ActivityFilters = ({
         <div className="flex items-center gap-1 px-2 py-1 rounded-md bg-primary/10 text-primary text-xs">
           <span>{ACTION_TYPE_LABELS[activeFilters.action_type]}</span>
           <button
-            onClick={() =>
-              onFiltersChange({ ...activeFilters, action_type: undefined })
-            }
+            onClick={() => onFiltersChange({ ...activeFilters, action_type: undefined })}
             className="hover:bg-primary/20 rounded p-0.5"
           >
             <X className="w-3 h-3" />

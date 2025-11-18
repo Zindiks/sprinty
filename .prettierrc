@@ -1,12 +1,8 @@
 {
   "semi": true,
   "tabWidth": 2,
-  "overrides": [
-    {
-      "files": ["*.js", "*.jsx", "*.ts", "*.tsx"],
-      "options": {
-        "parser": "babel-ts"
-      }
-    }
-  ]
+  "singleQuote": false,
+  "trailingComma": "es5",
+  "printWidth": 100,
+  "arrowParens": "always"
 }

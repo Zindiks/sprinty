@@ -32,7 +32,8 @@ describe("ChecklistService", () => {
   let checklistRepository: jest.Mocked<ChecklistRepository>;
 
   beforeEach(() => {
-    checklistRepository = new MockedChecklistRepository() as unknown as jest.Mocked<ChecklistRepository>;
+    checklistRepository =
+      new MockedChecklistRepository() as unknown as jest.Mocked<ChecklistRepository>;
     checklistService = new ChecklistService();
     // @ts-ignore - inject mocked repository
     checklistService["checklistRepository"] = checklistRepository;
@@ -145,7 +146,7 @@ describe("ChecklistService", () => {
       checklistRepository.createChecklistItem.mockRejectedValue(error);
 
       await expect(checklistService.createChecklistItem(input)).rejects.toThrow(
-        "Database connection failed",
+        "Database connection failed"
       );
     });
   });
@@ -724,9 +725,9 @@ describe("ChecklistService", () => {
 
       checklistRepository.reorderChecklistItems.mockRejectedValue(error);
 
-      await expect(
-        checklistService.reorderChecklistItems(card_id, itemOrders),
-      ).rejects.toThrow("Transaction failed");
+      await expect(checklistService.reorderChecklistItems(card_id, itemOrders)).rejects.toThrow(
+        "Transaction failed"
+      );
     });
   });
 });

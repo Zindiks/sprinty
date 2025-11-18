@@ -16,7 +16,7 @@ export class ProfileSchema {
     {
       user_id,
     },
-    { $id: "GetProfileSchema" },
+    { $id: "GetProfileSchema" }
   );
 
   static UpdateProfileSchema = Type.Object(
@@ -27,7 +27,7 @@ export class ProfileSchema {
       date_of_birth,
       avatar_url,
     },
-    { $id: "UpdateProfileSchema" },
+    { $id: "UpdateProfileSchema" }
   );
 
   static CreateProfileSchema = Type.Object(
@@ -39,7 +39,7 @@ export class ProfileSchema {
       date_of_birth,
       avatar_url,
     },
-    { $id: "CreateProfileSchema" },
+    { $id: "CreateProfileSchema" }
   );
 
   // RESPONSE SCHEMA
@@ -55,7 +55,7 @@ export class ProfileSchema {
       created_at,
       updated_at,
     },
-    { $id: "ProfileResponseSchema" },
+    { $id: "ProfileResponseSchema" }
   );
 }
 

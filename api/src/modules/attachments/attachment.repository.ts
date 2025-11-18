@@ -19,9 +19,7 @@ export class AttachmentRepository {
     this.knex = knexInstance;
   }
 
-  async createAttachment(
-    input: CreateAttachment,
-  ): Promise<AttachmentResponse> {
+  async createAttachment(input: CreateAttachment): Promise<AttachmentResponse> {
     const {
       card_id,
       filename,
@@ -47,20 +45,15 @@ export class AttachmentRepository {
     return attachment;
   }
 
-  async getAttachmentById(
-    id: string,
-    card_id: string,
-  ): Promise<AttachmentResponse | undefined> {
-    const attachment = await this.knex(table)
-      .where({ id, card_id })
-      .first("*");
+  async getAttachmentById(id: string, card_id: string): Promise<AttachmentResponse | undefined> {
+    const attachment = await this.knex(table).where({ id, card_id }).first("*");
 
     return attachment;
   }
 
   async getAttachmentWithUser(
     id: string,
-    card_id: string,
+    card_id: string
   ): Promise<AttachmentWithUserResponse | undefined> {
     const attachment = await this.knex(table)
       .where({ "attachments.id": id, "attachments.card_id": card_id })
@@ -74,16 +67,14 @@ export class AttachmentRepository {
             'email', users.email,
             'username', profiles.username
           ) as user
-        `),
+        `)
       )
       .first();
 
     return attachment;
   }
 
-  async getAttachmentsByCardId(
-    card_id: string,
-  ): Promise<AttachmentListResponse> {
+  async getAttachmentsByCardId(card_id: string): Promise<AttachmentListResponse> {
     const attachments = await this.knex(table)
       .where({ "attachments.card_id": card_id })
       .join("users", "attachments.uploaded_by", "users.id")
@@ -96,16 +87,14 @@ export class AttachmentRepository {
             'email', users.email,
             'username', profiles.username
           ) as user
-        `),
+        `)
       )
       .orderBy("attachments.uploaded_at", "desc");
 
     return attachments || [];
   }
 
-  async updateAttachment(
-    input: UpdateAttachment,
-  ): Promise<AttachmentResponse | undefined> {
+  async updateAttachment(input: UpdateAttachment): Promise<AttachmentResponse | undefined> {
     const { id, card_id, filename } = input;
 
     const updateData: Partial<CreateAttachment> = {};
@@ -134,13 +123,8 @@ export class AttachmentRepository {
     return deleted > 0;
   }
 
-  async getAttachmentCount(
-    card_id: string,
-  ): Promise<AttachmentCountResponse> {
-    const result = await this.knex(table)
-      .where({ card_id })
-      .count("id as count")
-      .first();
+  async getAttachmentCount(card_id: string): Promise<AttachmentCountResponse> {
+    const result = await this.knex(table).where({ card_id }).count("id as count").first();
 
     return {
       card_id,
@@ -148,9 +132,7 @@ export class AttachmentRepository {
     };
   }
 
-  async getAttachmentsByUserId(
-    user_id: string,
-  ): Promise<AttachmentListResponse> {
+  async getAttachmentsByUserId(user_id: string): Promise<AttachmentListResponse> {
     const attachments = await this.knex(table)
       .where({ "attachments.uploaded_by": user_id })
       .join("users", "attachments.uploaded_by", "users.id")
@@ -163,7 +145,7 @@ export class AttachmentRepository {
             'email', users.email,
             'username', profiles.username
           ) as user
-        `),
+        `)
       )
       .orderBy("attachments.uploaded_at", "desc");
 

@@ -14,10 +14,7 @@ export class AssigneeService {
     this.assigneeRepository = new AssigneeRepository();
   }
 
-  async addAssignee(
-    input: AddAssignee,
-    assigned_by_id?: string,
-  ): Promise<AssigneeResponse> {
+  async addAssignee(input: AddAssignee, assigned_by_id?: string): Promise<AssigneeResponse> {
     return this.assigneeRepository.addAssignee(input, assigned_by_id);
   }
 
@@ -29,9 +26,7 @@ export class AssigneeService {
     return this.assigneeRepository.getAssigneesByCardId(card_id);
   }
 
-  async getAssigneesWithUserDetails(
-    card_id: string,
-  ): Promise<AssigneeWithUserDetailsArray> {
+  async getAssigneesWithUserDetails(card_id: string): Promise<AssigneeWithUserDetailsArray> {
     return this.assigneeRepository.getAssigneesWithUserDetails(card_id);
   }
 

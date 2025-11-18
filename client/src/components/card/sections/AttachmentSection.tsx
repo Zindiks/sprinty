@@ -8,8 +8,7 @@ interface AttachmentSectionProps {
 }
 
 export const AttachmentSection = ({ cardId }: AttachmentSectionProps) => {
-  const { attachments, isLoading, deleteAttachment, downloadAttachment } =
-    useAttachments(cardId);
+  const { attachments, isLoading, deleteAttachment, downloadAttachment } = useAttachments(cardId);
 
   return (
     <div className="space-y-4">
@@ -18,9 +17,7 @@ export const AttachmentSection = ({ cardId }: AttachmentSectionProps) => {
           <Paperclip className="w-4 h-4" />
           Attachments
           {attachments && attachments.length > 0 && (
-            <span className="text-xs text-muted-foreground">
-              ({attachments.length})
-            </span>
+            <span className="text-xs text-muted-foreground">({attachments.length})</span>
           )}
         </h3>
       </div>
@@ -40,9 +37,7 @@ export const AttachmentSection = ({ cardId }: AttachmentSectionProps) => {
             <AttachmentItem
               key={attachment.id}
               attachment={attachment}
-              onDownload={() =>
-                downloadAttachment(attachment.id, attachment.filename)
-              }
+              onDownload={() => downloadAttachment(attachment.id, attachment.filename)}
               onDelete={() =>
                 deleteAttachment.mutate({
                   id: attachment.id,

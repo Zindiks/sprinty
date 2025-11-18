@@ -141,9 +141,7 @@ describe.skip("Profile Integration Tests", () => {
         email: "different@example.com",
       };
 
-      await expect(profileService.create(input)).rejects.toThrow(
-        "Username already exists"
-      );
+      await expect(profileService.create(input)).rejects.toThrow("Username already exists");
     });
 
     it("should return 409 when email already exists", async () => {
@@ -156,9 +154,7 @@ describe.skip("Profile Integration Tests", () => {
         email: "taken@example.com",
       };
 
-      await expect(profileService.create(input)).rejects.toThrow(
-        "Email already exists"
-      );
+      await expect(profileService.create(input)).rejects.toThrow("Email already exists");
     });
 
     it("should automatically set created_at and updated_at timestamps", async () => {
@@ -172,7 +168,9 @@ describe.skip("Profile Integration Tests", () => {
       const createdProfile = await profileRepository.create(input);
       const after = new Date();
 
-      expect(new Date(createdProfile.created_at).getTime()).toBeGreaterThanOrEqual(before.getTime());
+      expect(new Date(createdProfile.created_at).getTime()).toBeGreaterThanOrEqual(
+        before.getTime()
+      );
       expect(new Date(createdProfile.created_at).getTime()).toBeLessThanOrEqual(after.getTime());
       expect(createdProfile.created_at).toBe(createdProfile.updated_at);
     });
@@ -212,7 +210,7 @@ describe.skip("Profile Integration Tests", () => {
       const originalProfile = await profileRepository.getByUserId(userId);
 
       // Wait a moment to ensure timestamp difference
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 100));
 
       const updates: UpdateProfile = {
         description: "New description",
@@ -221,8 +219,9 @@ describe.skip("Profile Integration Tests", () => {
       const updatedProfile = await profileRepository.update(userId, updates);
 
       expect(updatedProfile.updated_at).not.toBe(originalProfile?.updated_at);
-      expect(new Date(updatedProfile.updated_at).getTime())
-        .toBeGreaterThan(new Date(originalProfile!.updated_at).getTime());
+      expect(new Date(updatedProfile.updated_at).getTime()).toBeGreaterThan(
+        new Date(originalProfile!.updated_at).getTime()
+      );
     });
 
     it("should return 404 when user does not exist", async () => {

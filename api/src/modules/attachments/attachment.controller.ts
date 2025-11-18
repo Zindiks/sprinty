@@ -1,10 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { AttachmentService } from "./attachment.service";
-import {
-  CreateAttachment,
-  UpdateAttachment,
-  DeleteAttachment,
-} from "./attachment.schema";
+import { CreateAttachment, UpdateAttachment, DeleteAttachment } from "./attachment.schema";
 import path from "path";
 import fs from "fs/promises";
 import * as fsSync from "fs";
@@ -47,7 +43,7 @@ export class AttachmentController {
     request: FastifyRequest<{
       Params: { card_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       const { card_id } = request.params;
@@ -63,9 +59,7 @@ export class AttachmentController {
 
       // Validate file size
       if (data.file.bytesRead > this.maxFileSize) {
-        return reply
-          .code(400)
-          .send({ error: "File size exceeds 10MB limit" });
+        return reply.code(400).send({ error: "File size exceeds 10MB limit" });
       }
 
       // Validate MIME type
@@ -95,8 +89,7 @@ export class AttachmentController {
         uploaded_by: user_id,
       };
 
-      const attachment =
-        await this.attachmentService.createAttachment(attachmentData);
+      const attachment = await this.attachmentService.createAttachment(attachmentData);
 
       return reply.code(201).send(attachment);
     } catch (error) {
@@ -109,15 +102,12 @@ export class AttachmentController {
     request: FastifyRequest<{
       Params: { id: string; card_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       const { id, card_id } = request.params;
 
-      const attachment = await this.attachmentService.getAttachmentWithUser(
-        id,
-        card_id,
-      );
+      const attachment = await this.attachmentService.getAttachmentWithUser(id, card_id);
 
       if (!attachment) {
         return reply.code(404).send({ error: "Attachment not found" });
@@ -134,13 +124,12 @@ export class AttachmentController {
     request: FastifyRequest<{
       Params: { card_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       const { card_id } = request.params;
 
-      const attachments =
-        await this.attachmentService.getAttachmentsByCardId(card_id);
+      const attachments = await this.attachmentService.getAttachmentsByCardId(card_id);
 
       return reply.send(attachments);
     } catch (error) {
@@ -153,15 +142,12 @@ export class AttachmentController {
     request: FastifyRequest<{
       Params: { id: string; card_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       const { id, card_id } = request.params;
 
-      const attachment = await this.attachmentService.getAttachmentById(
-        id,
-        card_id,
-      );
+      const attachment = await this.attachmentService.getAttachmentById(id, card_id);
 
       if (!attachment) {
         return reply.code(404).send({ error: "Attachment not found" });
@@ -176,10 +162,7 @@ export class AttachmentController {
 
       // Set headers for file download
       reply.header("Content-Type", attachment.mime_type);
-      reply.header(
-        "Content-Disposition",
-        `attachment; filename="${attachment.original_filename}"`,
-      );
+      reply.header("Content-Disposition", `attachment; filename="${attachment.original_filename}"`);
 
       // Stream file to response
       const fileStream = fsSync.createReadStream(attachment.storage_path);
@@ -194,12 +177,10 @@ export class AttachmentController {
     request: FastifyRequest<{
       Body: UpdateAttachment;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
-      const attachment = await this.attachmentService.updateAttachment(
-        request.body,
-      );
+      const attachment = await this.attachmentService.updateAttachment(request.body);
 
       if (!attachment) {
         return reply.code(404).send({ error: "Attachment not found" });
@@ -216,16 +197,13 @@ export class AttachmentController {
     request: FastifyRequest<{
       Params: { id: string; card_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       const { id, card_id } = request.params;
 
       // Get attachment to find file path
-      const attachment = await this.attachmentService.getAttachmentById(
-        id,
-        card_id,
-      );
+      const attachment = await this.attachmentService.getAttachmentById(id, card_id);
 
       if (!attachment) {
         return reply.code(404).send({ error: "Attachment not found" });
@@ -245,10 +223,7 @@ export class AttachmentController {
       try {
         await fs.unlink(attachment.storage_path);
       } catch (error) {
-        request.log.error(
-          `Failed to delete file: ${attachment.storage_path}`,
-          error,
-        );
+        request.log.error(`Failed to delete file: ${attachment.storage_path}`, error);
         // Continue even if file deletion fails
       }
 
@@ -263,13 +238,12 @@ export class AttachmentController {
     request: FastifyRequest<{
       Params: { card_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       const { card_id } = request.params;
 
-      const count =
-        await this.attachmentService.getAttachmentCount(card_id);
+      const count = await this.attachmentService.getAttachmentCount(card_id);
 
       return reply.send(count);
     } catch (error) {
@@ -282,20 +256,17 @@ export class AttachmentController {
     request: FastifyRequest<{
       Params: { user_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     try {
       const { user_id } = request.params;
 
-      const attachments =
-        await this.attachmentService.getAttachmentsByUserId(user_id);
+      const attachments = await this.attachmentService.getAttachmentsByUserId(user_id);
 
       return reply.send(attachments);
     } catch (error) {
       request.log.error(error);
-      return reply
-        .code(500)
-        .send({ error: "Failed to get user attachments" });
+      return reply.code(500).send({ error: "Failed to get user attachments" });
     }
   }
 }

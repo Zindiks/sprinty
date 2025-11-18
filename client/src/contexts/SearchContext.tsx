@@ -16,9 +16,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
   const closeSearch = () => setSearchOpen(false);
 
   return (
-    <SearchContext.Provider
-      value={{ searchOpen, setSearchOpen, openSearch, closeSearch }}
-    >
+    <SearchContext.Provider value={{ searchOpen, setSearchOpen, openSearch, closeSearch }}>
       {children}
     </SearchContext.Provider>
   );

@@ -12,18 +12,12 @@ export class BoardRepository {
   }
 
   async getById(id: string): Promise<BoardResponse> {
-    const [board] = await this.knex(table)
-      .select("*")
-      .where({ id })
-      .returning("*");
+    const [board] = await this.knex(table).select("*").where({ id }).returning("*");
     return board;
   }
 
   async getAll(organization_id: string): Promise<BoardResponse[]> {
-    return await this.knex(table)
-      .select("*")
-      .where({ organization_id })
-      .returning("*");
+    return await this.knex(table).select("*").where({ organization_id }).returning("*");
   }
 
   async create(input: CreateBoard): Promise<BoardResponse> {
@@ -36,18 +30,12 @@ export class BoardRepository {
       ...input,
       updated_at: this.knex.fn.now(),
     };
-    const [board] = await this.knex(table)
-      .update(updatedInput)
-      .where({ id })
-      .returning("*");
+    const [board] = await this.knex(table).update(updatedInput).where({ id }).returning("*");
     return board;
   }
 
   async deleteBoard(id: string) {
-    const [deleted] = await this.knex(table)
-      .where({ id })
-      .delete()
-      .returning("id");
+    const [deleted] = await this.knex(table).where({ id }).delete().returning("id");
     return deleted;
   }
 }

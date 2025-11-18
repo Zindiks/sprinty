@@ -6,11 +6,7 @@ import { CardCheckbox } from "./CardCheckbox";
 import { Calendar, Flag, AlertCircle, Clock } from "lucide-react";
 import { useSelectionStore } from "@/hooks/store/useSelectionStore";
 import { cn } from "@/lib/utils";
-import {
-  formatDueDateShort,
-  getDueDateColor,
-  getDueDateStatus
-} from "@/lib/dateUtils";
+import { formatDueDateShort, getDueDateColor, getDueDateStatus } from "@/lib/dateUtils";
 import { CardDetailsPanel } from "./CardDetailsPanel";
 
 interface CardItemProps {
@@ -24,13 +20,8 @@ const CardItem = ({ index, data, allCardIds = [] }: CardItemProps) => {
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
 
   // Selection state
-  const {
-    selectionMode,
-    isCardSelected,
-    toggleCard,
-    selectRange,
-    lastSelectedCardId,
-  } = useSelectionStore();
+  const { selectionMode, isCardSelected, toggleCard, selectRange, lastSelectedCardId } =
+    useSelectionStore();
 
   const isSelected = isCardSelected(data.id);
 
@@ -83,11 +74,7 @@ const CardItem = ({ index, data, allCardIds = [] }: CardItemProps) => {
 
   return (
     <>
-      <Draggable
-        draggableId={data.id}
-        index={index}
-        isDragDisabled={selectionMode}
-      >
+      <Draggable draggableId={data.id} index={index} isDragDisabled={selectionMode}>
         {(provided) => (
           <div
             {...provided.dragHandleProps}
@@ -118,44 +105,38 @@ const CardItem = ({ index, data, allCardIds = [] }: CardItemProps) => {
               {/* Card Metadata */}
               <div className="flex items-center gap-2 flex-wrap">
                 {data.priority && (
-                  <Badge
-                    variant={getPriorityColor(data.priority)}
-                    className="text-xs"
-                  >
+                  <Badge variant={getPriorityColor(data.priority)} className="text-xs">
                     <Flag className="w-3 h-3 mr-1" />
                     {data.priority}
                   </Badge>
                 )}
-                {data.due_date && (() => {
-                  const status = getDueDateStatus(data.due_date);
-                  const color = getDueDateColor(data.due_date);
-                  const isOverdue = status === 'overdue';
-                  const isToday = status === 'today';
+                {data.due_date &&
+                  (() => {
+                    const status = getDueDateStatus(data.due_date);
+                    const color = getDueDateColor(data.due_date);
+                    const isOverdue = status === "overdue";
+                    const isToday = status === "today";
 
-                  return (
-                    <Badge variant={color} className="text-xs">
-                      {isOverdue ? (
-                        <AlertCircle className="w-3 h-3 mr-1" />
-                      ) : isToday ? (
-                        <Clock className="w-3 h-3 mr-1" />
-                      ) : (
-                        <Calendar className="w-3 h-3 mr-1" />
-                      )}
-                      {formatDueDateShort(data.due_date)}
-                    </Badge>
-                  );
-                })()}
+                    return (
+                      <Badge variant={color} className="text-xs">
+                        {isOverdue ? (
+                          <AlertCircle className="w-3 h-3 mr-1" />
+                        ) : isToday ? (
+                          <Clock className="w-3 h-3 mr-1" />
+                        ) : (
+                          <Calendar className="w-3 h-3 mr-1" />
+                        )}
+                        {formatDueDateShort(data.due_date)}
+                      </Badge>
+                    );
+                  })()}
               </div>
             </div>
           </div>
         )}
       </Draggable>
 
-      <CardDetailsPanel
-        cardId={selectedCardId}
-        isOpen={isPanelOpen}
-        onClose={handleClosePanel}
-      />
+      <CardDetailsPanel cardId={selectedCardId} isOpen={isPanelOpen} onClose={handleClosePanel} />
     </>
   );
 };

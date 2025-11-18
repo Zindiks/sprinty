@@ -15,9 +15,7 @@ export default async function organizationRoutes(fastify: FastifyInstance) {
         description: "Get an organization",
       },
     },
-    organizationController.getOrganizationController.bind(
-      organizationController,
-    ),
+    organizationController.getOrganizationController.bind(organizationController)
   );
 
   fastify.get(
@@ -34,9 +32,7 @@ export default async function organizationRoutes(fastify: FastifyInstance) {
         description: "Get all organizations",
       },
     },
-    organizationController.getAllOrganizationController.bind(
-      organizationController,
-    ),
+    organizationController.getAllOrganizationController.bind(organizationController)
   );
 
   fastify.post(
@@ -52,9 +48,7 @@ export default async function organizationRoutes(fastify: FastifyInstance) {
       },
     },
 
-    organizationController.createOrganizationController.bind(
-      organizationController,
-    ),
+    organizationController.createOrganizationController.bind(organizationController)
   );
 
   fastify.put(
@@ -75,9 +69,7 @@ export default async function organizationRoutes(fastify: FastifyInstance) {
         description: "Update an organization",
       },
     },
-    organizationController.updateOrganizationController.bind(
-      organizationController,
-    ),
+    organizationController.updateOrganizationController.bind(organizationController)
   );
 
   fastify.delete(
@@ -92,8 +84,6 @@ export default async function organizationRoutes(fastify: FastifyInstance) {
         description: "Delete an organization",
       },
     },
-    organizationController.removeOrganizationController.bind(
-      organizationController,
-    ),
+    organizationController.removeOrganizationController.bind(organizationController)
   );
 }

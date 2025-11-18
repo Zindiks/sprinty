@@ -119,11 +119,7 @@ export const useCards = () => {
     },
   });
 
-  const updateCardDetails = useMutation<
-    AxiosResponse,
-    FetchError,
-    UpdateCardDetails
-  >({
+  const updateCardDetails = useMutation<AxiosResponse, FetchError, UpdateCardDetails>({
     mutationFn: (formData) => {
       return apiClient.patch(`/cards/details`, formData);
     },

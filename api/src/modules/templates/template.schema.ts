@@ -38,7 +38,7 @@ export class TemplateSchema {
       icon,
       structure: TemplateStructureSchema,
     },
-    { $id: "BaseTemplateSchema" },
+    { $id: "BaseTemplateSchema" }
   );
 
   static CreateTemplateSchema = Type.Object(
@@ -52,7 +52,7 @@ export class TemplateSchema {
       created_by: Type.Optional(created_by),
       structure: TemplateStructureSchema,
     },
-    { $id: "CreateTemplateSchema" },
+    { $id: "CreateTemplateSchema" }
   );
 
   static UpdateTemplateSchema = Type.Object(
@@ -62,14 +62,14 @@ export class TemplateSchema {
       icon,
       structure: Type.Optional(TemplateStructureSchema),
     },
-    { $id: "UpdateTemplateSchema" },
+    { $id: "UpdateTemplateSchema" }
   );
 
   static DeleteTemplateSchema = Type.Object(
     {
       id,
     },
-    { $id: "DeleteTemplateSchema" },
+    { $id: "DeleteTemplateSchema" }
   );
 
   // Response schema (used for single template responses)
@@ -87,7 +87,7 @@ export class TemplateSchema {
       created_at,
       updated_at,
     },
-    { $id: "TemplateResponseSchema" },
+    { $id: "TemplateResponseSchema" }
   );
 
   // Templates collection response (uses direct reference to avoid duplicate registration)
@@ -124,7 +124,7 @@ export class TemplateSchema {
         })
       ),
     },
-    { $id: "TemplatesCollectionSchema" },
+    { $id: "TemplatesCollectionSchema" }
   );
 
   // Create board from template schema
@@ -135,7 +135,7 @@ export class TemplateSchema {
       board_title: Type.Optional(Type.String({ minLength: 3, maxLength: 50 })),
       include_example_cards: Type.Boolean(),
     },
-    { $id: "CreateBoardFromTemplateSchema" },
+    { $id: "CreateBoardFromTemplateSchema" }
   );
 
   // Create template from board schema
@@ -148,7 +148,7 @@ export class TemplateSchema {
       icon,
       include_cards_as_examples: Type.Boolean(),
     },
-    { $id: "CreateTemplateFromBoardSchema" },
+    { $id: "CreateTemplateFromBoardSchema" }
   );
 }
 

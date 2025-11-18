@@ -14,7 +14,7 @@ async function app() {
         process.exit(1);
       }
       server.log.info(`Server listening at ${address}`);
-    },
+    }
   );
 }
 

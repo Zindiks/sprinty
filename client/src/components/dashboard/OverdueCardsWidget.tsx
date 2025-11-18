@@ -108,7 +108,10 @@ export const OverdueCardsWidget = ({ boardId }: OverdueCardsWidgetProps) => {
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-2">
                   <h3 className="text-sm font-medium text-gray-900 truncate">{card.title}</h3>
-                  <Badge variant="destructive" className={`text-xs ${getPriorityColor(card.priority)}`}>
+                  <Badge
+                    variant="destructive"
+                    className={`text-xs ${getPriorityColor(card.priority)}`}
+                  >
                     {card.priority}
                   </Badge>
                 </div>

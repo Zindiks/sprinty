@@ -12,5 +12,5 @@ export const LoadingScreen = () => {
         <p className="text-muted-foreground">Loading...</p>
       </div>
     </div>
-  )
-}
+  );
+};

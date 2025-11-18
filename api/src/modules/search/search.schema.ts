@@ -18,7 +18,7 @@ export class SearchSchema {
           Type.Literal("card"),
           Type.Literal("comment"),
           Type.Literal("all"),
-        ]),
+        ])
       ),
       limit: Type.Optional(Type.Number({ minimum: 1, maximum: 100 })),
       // New filter parameters for Phase 2
@@ -28,7 +28,7 @@ export class SearchSchema {
       date_to: Type.Optional(Type.String({ format: "date-time" })),
       include_archived: Type.Optional(Type.Boolean()),
     },
-    { $id: "SearchQuerySchema" },
+    { $id: "SearchQuerySchema" }
   );
 
   // Individual result schemas
@@ -108,7 +108,7 @@ export class SearchSchema {
         comments: Type.Array(SearchSchema.CommentResultSchema),
       }),
     },
-    { $id: "SearchResponseSchema" },
+    { $id: "SearchResponseSchema" }
   );
 }
 

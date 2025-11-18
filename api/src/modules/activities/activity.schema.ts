@@ -29,7 +29,7 @@ export class ActivitySchema {
       action_type: ActionTypeEnum,
       metadata: Type.Optional(Type.Any()),
     },
-    { $id: "CreateActivitySchema" },
+    { $id: "CreateActivitySchema" }
   );
 
   static ActivityResponseSchema = Type.Object(
@@ -41,7 +41,7 @@ export class ActivitySchema {
       metadata: Type.Any(),
       created_at: Type.String({ format: "date-time" }),
     },
-    { $id: "ActivityResponseSchema" },
+    { $id: "ActivityResponseSchema" }
   );
 
   static ActivityWithUserResponseSchema = Type.Object(
@@ -58,13 +58,12 @@ export class ActivitySchema {
         username: Type.Optional(Type.String()),
       }),
     },
-    { $id: "ActivityWithUserResponseSchema" },
+    { $id: "ActivityWithUserResponseSchema" }
   );
 
-  static ActivityListResponseSchema = Type.Array(
-    ActivitySchema.ActivityWithUserResponseSchema,
-    { $id: "ActivityListResponseSchema" },
-  );
+  static ActivityListResponseSchema = Type.Array(ActivitySchema.ActivityWithUserResponseSchema, {
+    $id: "ActivityListResponseSchema",
+  });
 
   static ActivityQueryParamsSchema = Type.Object(
     {
@@ -74,7 +73,7 @@ export class ActivitySchema {
       limit: Type.Optional(Type.Number({ minimum: 1, maximum: 100 })),
       offset: Type.Optional(Type.Number({ minimum: 0 })),
     },
-    { $id: "ActivityQueryParamsSchema" },
+    { $id: "ActivityQueryParamsSchema" }
   );
 
   static ActivityStatsResponseSchema = Type.Object(
@@ -82,27 +81,15 @@ export class ActivitySchema {
       card_id: Type.String({ format: "uuid" }),
       total_activities: Type.Number(),
       activities_by_type: Type.Record(Type.String(), Type.Number()),
-      recent_activity: Type.Optional(
-        ActivitySchema.ActivityWithUserResponseSchema,
-      ),
+      recent_activity: Type.Optional(ActivitySchema.ActivityWithUserResponseSchema),
     },
-    { $id: "ActivityStatsResponseSchema" },
+    { $id: "ActivityStatsResponseSchema" }
   );
 }
 
 export type CreateActivity = Static<typeof ActivitySchema.CreateActivitySchema>;
-export type ActivityResponse = Static<
-  typeof ActivitySchema.ActivityResponseSchema
->;
-export type ActivityWithUserResponse = Static<
-  typeof ActivitySchema.ActivityWithUserResponseSchema
->;
-export type ActivityListResponse = Static<
-  typeof ActivitySchema.ActivityListResponseSchema
->;
-export type ActivityQueryParams = Static<
-  typeof ActivitySchema.ActivityQueryParamsSchema
->;
-export type ActivityStatsResponse = Static<
-  typeof ActivitySchema.ActivityStatsResponseSchema
->;
+export type ActivityResponse = Static<typeof ActivitySchema.ActivityResponseSchema>;
+export type ActivityWithUserResponse = Static<typeof ActivitySchema.ActivityWithUserResponseSchema>;
+export type ActivityListResponse = Static<typeof ActivitySchema.ActivityListResponseSchema>;
+export type ActivityQueryParams = Static<typeof ActivitySchema.ActivityQueryParamsSchema>;
+export type ActivityStatsResponse = Static<typeof ActivitySchema.ActivityStatsResponseSchema>;

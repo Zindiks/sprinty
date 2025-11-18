@@ -15,7 +15,7 @@ export default async function boardRoutes(fastify: FastifyInstance) {
         description: "Get a board",
       },
     },
-    boardController.getBoardController.bind(boardController),
+    boardController.getBoardController.bind(boardController)
   );
 
   fastify.get(
@@ -36,7 +36,7 @@ export default async function boardRoutes(fastify: FastifyInstance) {
         description: "Get all boards",
       },
     },
-    boardController.getAllBoardsController.bind(boardController),
+    boardController.getAllBoardsController.bind(boardController)
   );
 
   fastify.post(
@@ -51,7 +51,7 @@ export default async function boardRoutes(fastify: FastifyInstance) {
         description: "Create a new Board",
       },
     },
-    boardController.createBoardController.bind(boardController),
+    boardController.createBoardController.bind(boardController)
   );
 
   fastify.put(
@@ -72,7 +72,7 @@ export default async function boardRoutes(fastify: FastifyInstance) {
         description: "Update a board",
       },
     },
-    boardController.updateBoardController.bind(boardController),
+    boardController.updateBoardController.bind(boardController)
   );
 
   fastify.delete(
@@ -85,6 +85,6 @@ export default async function boardRoutes(fastify: FastifyInstance) {
         description: "Delete a board",
       },
     },
-    boardController.removeBoardController.bind(boardController),
+    boardController.removeBoardController.bind(boardController)
   );
 }

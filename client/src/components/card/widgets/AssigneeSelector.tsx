@@ -37,10 +37,7 @@ export const AssigneeSelector = ({
 
   const filteredUsers = availableUsers.filter((user) => {
     const query = searchQuery.toLowerCase();
-    return (
-      user.login?.toLowerCase().includes(query) ||
-      user.email?.toLowerCase().includes(query)
-    );
+    return user.login?.toLowerCase().includes(query) || user.email?.toLowerCase().includes(query);
   });
 
   const getInitials = (username?: string, email?: string) => {
@@ -79,9 +76,7 @@ export const AssigneeSelector = ({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Add Assignee</DialogTitle>
-          <DialogDescription>
-            Search for a user to assign to this card
-          </DialogDescription>
+          <DialogDescription>Search for a user to assign to this card</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">
@@ -99,9 +94,7 @@ export const AssigneeSelector = ({
           {/* User List */}
           <div className="space-y-2 max-h-[300px] overflow-y-auto">
             {filteredUsers.length === 0 ? (
-              <p className="text-sm text-muted-foreground text-center py-4">
-                No users found
-              </p>
+              <p className="text-sm text-muted-foreground text-center py-4">No users found</p>
             ) : (
               filteredUsers.map((user) => {
                 const assigned = isAssigned(user.id);
@@ -112,31 +105,20 @@ export const AssigneeSelector = ({
                     disabled={assigned || addAssignee.isPending}
                     className={cn(
                       "w-full flex items-center gap-3 p-3 rounded-lg border transition-colors",
-                      assigned
-                        ? "bg-accent cursor-not-allowed"
-                        : "hover:bg-accent cursor-pointer"
+                      assigned ? "bg-accent cursor-not-allowed" : "hover:bg-accent cursor-pointer"
                     )}
                   >
                     <Avatar className="w-10 h-10">
                       {user.avatar_url && (
-                        <AvatarImage
-                          src={user.avatar_url}
-                          alt={user.login || user.email}
-                        />
+                        <AvatarImage src={user.avatar_url} alt={user.login || user.email} />
                       )}
-                      <AvatarFallback>
-                        {getInitials(user.login, user.email)}
-                      </AvatarFallback>
+                      <AvatarFallback>{getInitials(user.login, user.email)}</AvatarFallback>
                     </Avatar>
                     <div className="flex-1 text-left">
-                      <p className="text-sm font-medium">
-                        {user.login || "Unknown User"}
-                      </p>
+                      <p className="text-sm font-medium">{user.login || "Unknown User"}</p>
                       <p className="text-xs text-muted-foreground">{user.email}</p>
                     </div>
-                    {assigned && (
-                      <Check className="w-5 h-5 text-primary flex-shrink-0" />
-                    )}
+                    {assigned && <Check className="w-5 h-5 text-primary flex-shrink-0" />}
                   </button>
                 );
               })

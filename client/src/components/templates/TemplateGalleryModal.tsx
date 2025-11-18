@@ -1,10 +1,5 @@
 import { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -23,22 +18,15 @@ interface TemplateGalleryModalProps {
   onOpenChange: (open: boolean) => void;
 }
 
-export function TemplateGalleryModal({
-  open,
-  onOpenChange,
-}: TemplateGalleryModalProps) {
+export function TemplateGalleryModal({ open, onOpenChange }: TemplateGalleryModalProps) {
   const navigate = useNavigate();
   const { organization_id } = useStore();
-  const { GetTemplates, createBoardFromTemplate } = useTemplates(
-    organization_id,
-  );
+  const { GetTemplates, createBoardFromTemplate } = useTemplates(organization_id);
   const { createBoard } = useBoard(organization_id);
 
   const { data: templates, isLoading, error } = GetTemplates();
 
-  const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(
-    null,
-  );
+  const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
   const [boardTitle, setBoardTitle] = useState("");
   const [boardDescription, setDescription] = useState("");
   const [includeExampleCards, setIncludeExampleCards] = useState(true);
@@ -52,7 +40,7 @@ export function TemplateGalleryModal({
     return templateList.filter(
       (template) =>
         template.name.toLowerCase().includes(query) ||
-        template.description?.toLowerCase().includes(query),
+        template.description?.toLowerCase().includes(query)
     );
   };
 
@@ -169,15 +157,13 @@ export function TemplateGalleryModal({
                   </div>
                 )}
 
-                {!isLoading &&
-                  !error &&
-                  filterTemplates(templates?.system || []).length === 0 && (
-                    <div className="text-center py-12 text-muted-foreground">
-                      {searchQuery
-                        ? "No templates found matching your search"
-                        : "No pre-built templates available"}
-                    </div>
-                  )}
+                {!isLoading && !error && filterTemplates(templates?.system || []).length === 0 && (
+                  <div className="text-center py-12 text-muted-foreground">
+                    {searchQuery
+                      ? "No templates found matching your search"
+                      : "No pre-built templates available"}
+                  </div>
+                )}
               </TabsContent>
 
               {/* Custom Templates Tab */}
@@ -198,14 +184,13 @@ export function TemplateGalleryModal({
                   </div>
                 )}
 
-                {!isLoading &&
-                  filterTemplates(templates?.custom || []).length === 0 && (
-                    <div className="text-center py-12 text-muted-foreground">
-                      {searchQuery
-                        ? "No custom templates found matching your search"
-                        : "No custom templates yet. Create one by saving a board as a template!"}
-                    </div>
-                  )}
+                {!isLoading && filterTemplates(templates?.custom || []).length === 0 && (
+                  <div className="text-center py-12 text-muted-foreground">
+                    {searchQuery
+                      ? "No custom templates found matching your search"
+                      : "No custom templates yet. Create one by saving a board as a template!"}
+                  </div>
+                )}
               </TabsContent>
 
               {/* Blank Board Tab */}
@@ -222,9 +207,7 @@ export function TemplateGalleryModal({
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="blank-description">
-                      Description (optional)
-                    </Label>
+                    <Label htmlFor="blank-description">Description (optional)</Label>
                     <Input
                       id="blank-description"
                       value={boardDescription}
@@ -235,13 +218,9 @@ export function TemplateGalleryModal({
                   <Button
                     onClick={handleCreateBlankBoard}
                     className="w-full"
-                    disabled={
-                      !boardTitle.trim() || createBoard.isPending
-                    }
+                    disabled={!boardTitle.trim() || createBoard.isPending}
                   >
-                    {createBoard.isPending
-                      ? "Creating..."
-                      : "Create Blank Board"}
+                    {createBoard.isPending ? "Creating..." : "Create Blank Board"}
                   </Button>
                 </div>
               </TabsContent>
@@ -264,16 +243,12 @@ export function TemplateGalleryModal({
           {/* Selected Template Preview */}
           <div className="border rounded-lg p-4 bg-muted/50">
             <div className="flex items-center gap-2 mb-2">
-              {selectedTemplate.icon && (
-                <span className="text-xl">{selectedTemplate.icon}</span>
-              )}
+              {selectedTemplate.icon && <span className="text-xl">{selectedTemplate.icon}</span>}
               <span className="font-medium">{selectedTemplate.name}</span>
             </div>
             <p className="text-sm text-muted-foreground">
               {selectedTemplate.structure.lists.length} lists:{" "}
-              {selectedTemplate.structure.lists
-                .map((list) => list.title)
-                .join(", ")}
+              {selectedTemplate.structure.lists.map((list) => list.title).join(", ")}
             </p>
           </div>
 
@@ -294,14 +269,9 @@ export function TemplateGalleryModal({
             <Checkbox
               id="example-cards"
               checked={includeExampleCards}
-              onCheckedChange={(checked) =>
-                setIncludeExampleCards(checked as boolean)
-              }
+              onCheckedChange={(checked) => setIncludeExampleCards(checked as boolean)}
             />
-            <Label
-              htmlFor="example-cards"
-              className="text-sm font-normal cursor-pointer"
-            >
+            <Label htmlFor="example-cards" className="text-sm font-normal cursor-pointer">
               Include example cards
             </Label>
           </div>
@@ -314,13 +284,9 @@ export function TemplateGalleryModal({
             <Button
               onClick={handleCreateFromTemplate}
               className="flex-1"
-              disabled={
-                !boardTitle.trim() || createBoardFromTemplate.isPending
-              }
+              disabled={!boardTitle.trim() || createBoardFromTemplate.isPending}
             >
-              {createBoardFromTemplate.isPending
-                ? "Creating..."
-                : "Create Board"}
+              {createBoardFromTemplate.isPending ? "Creating..." : "Create Board"}
             </Button>
           </div>
         </div>

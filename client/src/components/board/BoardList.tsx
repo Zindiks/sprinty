@@ -40,11 +40,7 @@ const BoardList = () => {
               "group relative aspect-video bg-no-repeat bg-center bg-cover bg-sky-700 rounded-sm h-full w-full p-2 overflow-hidden"
             }
           >
-            <div
-              className={
-                "absolute inset-0 bg-black/30 group-hover:bg-black/40 transition p-2"
-              }
-            >
+            <div className={"absolute inset-0 bg-black/30 group-hover:bg-black/40 transition p-2"}>
               <p className={"relative text-white"}>{board.title}</p>
             </div>
           </Link>

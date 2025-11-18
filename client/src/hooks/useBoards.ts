@@ -31,9 +31,7 @@ export const useBoard = (organization_id: string) => {
 
   const fetchBoards = async (organization_id: string) => {
     try {
-      const response = await apiClient.get(
-        `/boards/${organization_id}/all`,
-      );
+      const response = await apiClient.get(`/boards/${organization_id}/all`);
       return response.data;
     } catch (err) {
       throw new Error("Error fetching boards: " + err);
@@ -110,16 +108,9 @@ export const useBoard = (organization_id: string) => {
     },
   });
 
-  const updateBoardTitle = useMutation<
-    AxiosResponse,
-    FetchError,
-    UpdateBoardTitle
-  >({
+  const updateBoardTitle = useMutation<AxiosResponse, FetchError, UpdateBoardTitle>({
     mutationFn: (formData) => {
-      return apiClient.put(
-        `/boards/${formData.id}`,
-        formData,
-      );
+      return apiClient.put(`/boards/${formData.id}`, formData);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({

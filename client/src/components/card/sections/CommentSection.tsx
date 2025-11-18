@@ -20,9 +20,7 @@ export const CommentSection = ({ cardId }: CommentSectionProps) => {
           <MessageSquare className="w-4 h-4" />
           Comments
           {comments && comments.length > 0 && (
-            <span className="text-xs text-muted-foreground">
-              ({comments.length})
-            </span>
+            <span className="text-xs text-muted-foreground">({comments.length})</span>
           )}
         </h3>
       </div>

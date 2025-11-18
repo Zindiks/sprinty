@@ -40,9 +40,7 @@ export const AssigneeSection = ({ cardId }: AssigneeSectionProps) => {
           <Users className="w-4 h-4" />
           Assignees
           {assignees && assignees.length > 0 && (
-            <span className="text-xs text-muted-foreground">
-              ({assignees.length})
-            </span>
+            <span className="text-xs text-muted-foreground">({assignees.length})</span>
           )}
         </h3>
         <Button
@@ -96,9 +94,7 @@ export const AssigneeSection = ({ cardId }: AssigneeSectionProps) => {
           ))}
         </div>
       ) : (
-        <p className="text-sm text-muted-foreground italic">
-          No assignees yet
-        </p>
+        <p className="text-sm text-muted-foreground italic">No assignees yet</p>
       )}
 
       <AssigneeSelector

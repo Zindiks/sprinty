@@ -18,17 +18,14 @@ export class ChecklistController {
     request: FastifyRequest<{
       Body: CreateChecklistItem;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const body = request.body;
     // TODO: Get user_id from auth context
     const created_by_id = undefined;
 
     try {
-      const item = await this.checklistService.createChecklistItem(
-        body,
-        created_by_id,
-      );
+      const item = await this.checklistService.createChecklistItem(body, created_by_id);
       return reply.status(201).send(item);
     } catch (err) {
       return reply.status(500).send(err);
@@ -39,7 +36,7 @@ export class ChecklistController {
     request: FastifyRequest<{
       Body: UpdateChecklistItem;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const body = request.body;
 
@@ -58,17 +55,14 @@ export class ChecklistController {
     request: FastifyRequest<{
       Params: ToggleChecklistItem;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const params = request.params;
     // TODO: Get user_id from auth context
     const user_id = undefined;
 
     try {
-      const item = await this.checklistService.toggleChecklistItem(
-        params,
-        user_id,
-      );
+      const item = await this.checklistService.toggleChecklistItem(params, user_id);
       if (!item) {
         return reply.status(404).send({ message: "Checklist item not found" });
       }
@@ -82,7 +76,7 @@ export class ChecklistController {
     request: FastifyRequest<{
       Params: DeleteChecklistItem;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const params = request.params;
 
@@ -101,15 +95,12 @@ export class ChecklistController {
     request: FastifyRequest<{
       Params: { id: string; card_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { id, card_id } = request.params;
 
     try {
-      const item = await this.checklistService.getChecklistItemById(
-        id,
-        card_id,
-      );
+      const item = await this.checklistService.getChecklistItemById(id, card_id);
       if (!item) {
         return reply.status(404).send({ message: "Checklist item not found" });
       }
@@ -123,13 +114,12 @@ export class ChecklistController {
     request: FastifyRequest<{
       Params: { card_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { card_id } = request.params;
 
     try {
-      const items =
-        await this.checklistService.getChecklistItemsByCardId(card_id);
+      const items = await this.checklistService.getChecklistItemsByCardId(card_id);
       return reply.status(200).send(items);
     } catch (err) {
       return reply.status(500).send(err);
@@ -140,13 +130,12 @@ export class ChecklistController {
     request: FastifyRequest<{
       Params: { card_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { card_id } = request.params;
 
     try {
-      const progress =
-        await this.checklistService.getChecklistProgress(card_id);
+      const progress = await this.checklistService.getChecklistProgress(card_id);
       return reply.status(200).send(progress);
     } catch (err) {
       return reply.status(500).send(err);
@@ -157,13 +146,12 @@ export class ChecklistController {
     request: FastifyRequest<{
       Params: { card_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { card_id } = request.params;
 
     try {
-      const checklist =
-        await this.checklistService.getChecklistWithProgress(card_id);
+      const checklist = await this.checklistService.getChecklistWithProgress(card_id);
       return reply.status(200).send(checklist);
     } catch (err) {
       return reply.status(500).send(err);
@@ -175,7 +163,7 @@ export class ChecklistController {
       Params: { card_id: string };
       Body: { items: Array<{ id: string; order: number }> };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { card_id } = request.params;
     const { items } = request.body;

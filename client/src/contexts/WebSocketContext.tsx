@@ -28,16 +28,32 @@ interface WebSocketContextValue {
   leaveBoard: (boardId: string) => Promise<void>;
 
   // Event listeners
-  onCardCreated: (callback: (data: WebSocketEventPayload<CardCreatedPayload>) => void) => () => void;
-  onCardUpdated: (callback: (data: WebSocketEventPayload<CardUpdatedPayload>) => void) => () => void;
+  onCardCreated: (
+    callback: (data: WebSocketEventPayload<CardCreatedPayload>) => void
+  ) => () => void;
+  onCardUpdated: (
+    callback: (data: WebSocketEventPayload<CardUpdatedPayload>) => void
+  ) => () => void;
   onCardMoved: (callback: (data: WebSocketEventPayload<CardMovedPayload>) => void) => () => void;
-  onCardDeleted: (callback: (data: WebSocketEventPayload<CardDeletedPayload>) => void) => () => void;
-  onListCreated: (callback: (data: WebSocketEventPayload<ListCreatedPayload>) => void) => () => void;
-  onListUpdated: (callback: (data: WebSocketEventPayload<ListUpdatedPayload>) => void) => () => void;
+  onCardDeleted: (
+    callback: (data: WebSocketEventPayload<CardDeletedPayload>) => void
+  ) => () => void;
+  onListCreated: (
+    callback: (data: WebSocketEventPayload<ListCreatedPayload>) => void
+  ) => () => void;
+  onListUpdated: (
+    callback: (data: WebSocketEventPayload<ListUpdatedPayload>) => void
+  ) => () => void;
   onListMoved: (callback: (data: WebSocketEventPayload<ListMovedPayload>) => void) => () => void;
-  onListDeleted: (callback: (data: WebSocketEventPayload<ListDeletedPayload>) => void) => () => void;
-  onBoardUpdated: (callback: (data: WebSocketEventPayload<BoardUpdatedPayload>) => void) => () => void;
-  onPresenceUpdate: (callback: (data: WebSocketEventPayload<BoardPresencePayload>) => void) => () => void;
+  onListDeleted: (
+    callback: (data: WebSocketEventPayload<ListDeletedPayload>) => void
+  ) => () => void;
+  onBoardUpdated: (
+    callback: (data: WebSocketEventPayload<BoardUpdatedPayload>) => void
+  ) => () => void;
+  onPresenceUpdate: (
+    callback: (data: WebSocketEventPayload<BoardPresencePayload>) => void
+  ) => () => void;
 }
 
 const WebSocketContext = createContext<WebSocketContextValue | undefined>(undefined);
@@ -62,7 +78,9 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
   userEmail,
 }) => {
   const [socket, setSocket] = useState<Socket | null>(null);
-  const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>(ConnectionStatus.DISCONNECTED);
+  const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>(
+    ConnectionStatus.DISCONNECTED
+  );
   const [presenceUsers, setPresenceUsers] = useState<PresenceUser[]>([]);
   const currentBoardId = useRef<string | null>(null);
 
@@ -116,10 +134,13 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
     });
 
     // Presence updates
-    newSocket.on(WebSocketEvent.BOARD_PRESENCE, (payload: WebSocketEventPayload<BoardPresencePayload>) => {
-      console.log("Presence update:", payload.data);
-      setPresenceUsers(payload.data.users);
-    });
+    newSocket.on(
+      WebSocketEvent.BOARD_PRESENCE,
+      (payload: WebSocketEventPayload<BoardPresencePayload>) => {
+        console.log("Presence update:", payload.data);
+        setPresenceUsers(payload.data.users);
+      }
+    );
 
     setSocket(newSocket);
 
@@ -147,7 +168,12 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
         socket.emit(
           WebSocketEvent.BOARD_JOIN,
           { boardId },
-          (response: { success: boolean; message?: string; error?: string; presence?: PresenceUser[] }) => {
+          (response: {
+            success: boolean;
+            message?: string;
+            error?: string;
+            presence?: PresenceUser[];
+          }) => {
             if (response.success) {
               console.log(`Joined board: ${boardId}`);
               currentBoardId.current = boardId;
@@ -176,18 +202,14 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
       }
 
       return new Promise<void>((resolve) => {
-        socket.emit(
-          WebSocketEvent.BOARD_LEAVE,
-          { boardId },
-          (response: { success: boolean }) => {
-            if (response.success) {
-              console.log(`Left board: ${boardId}`);
-              currentBoardId.current = null;
-              setPresenceUsers([]);
-            }
-            resolve();
+        socket.emit(WebSocketEvent.BOARD_LEAVE, { boardId }, (response: { success: boolean }) => {
+          if (response.success) {
+            console.log(`Left board: ${boardId}`);
+            currentBoardId.current = null;
+            setPresenceUsers([]);
           }
-        );
+          resolve();
+        });
       });
     },
     [socket]

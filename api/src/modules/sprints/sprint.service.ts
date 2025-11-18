@@ -1,9 +1,5 @@
 import { Knex } from "knex";
-import {
-  SprintRepository,
-  CreateSprintInput,
-  UpdateSprintInput,
-} from "./sprint.repository";
+import { SprintRepository, CreateSprintInput, UpdateSprintInput } from "./sprint.repository";
 
 export class SprintService {
   private repository: SprintRepository;

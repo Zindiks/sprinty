@@ -28,11 +28,7 @@ export const useDueDateShortcuts = ({ enableShortcuts, onSetDueDate }: DueDateSh
     const handleKeyPress = (event: KeyboardEvent) => {
       // Ignore shortcuts when typing in input fields
       const target = event.target as HTMLElement;
-      if (
-        target.tagName === "INPUT" ||
-        target.tagName === "TEXTAREA" ||
-        target.isContentEditable
-      ) {
+      if (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable) {
         return;
       }
 

@@ -44,9 +44,7 @@ export const useDefaultLayout = () => {
   return useQuery<DashboardLayout>({
     queryKey: ["dashboardLayouts", "default"],
     queryFn: async () => {
-      const response = await apiClient.get(
-        `/dashboard-layouts/default`
-      );
+      const response = await apiClient.get(`/dashboard-layouts/default`);
       return response.data;
     },
     retry: false, // Don't retry if no default layout exists
@@ -61,9 +59,7 @@ export const useDashboardLayout = (layoutId: string | null) => {
     queryKey: ["dashboardLayouts", layoutId],
     queryFn: async () => {
       if (!layoutId) throw new Error("Layout ID is required");
-      const response = await apiClient.get(
-        `/dashboard-layouts/${layoutId}`
-      );
+      const response = await apiClient.get(`/dashboard-layouts/${layoutId}`);
       return response.data;
     },
     enabled: !!layoutId,
@@ -78,10 +74,7 @@ export const useCreateLayout = () => {
 
   return useMutation({
     mutationFn: async (input: CreateLayoutInput) => {
-      const response = await apiClient.post(
-        `/dashboard-layouts`,
-        input
-      );
+      const response = await apiClient.post(`/dashboard-layouts`, input);
       return response.data;
     },
     onSuccess: () => {
@@ -98,17 +91,8 @@ export const useUpdateLayout = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({
-      layoutId,
-      input,
-    }: {
-      layoutId: string;
-      input: UpdateLayoutInput;
-    }) => {
-      const response = await apiClient.patch(
-        `/dashboard-layouts/${layoutId}`,
-        input
-      );
+    mutationFn: async ({ layoutId, input }: { layoutId: string; input: UpdateLayoutInput }) => {
+      const response = await apiClient.patch(`/dashboard-layouts/${layoutId}`, input);
       return response.data;
     },
     onSuccess: (_, variables) => {
@@ -129,9 +113,7 @@ export const useDeleteLayout = () => {
 
   return useMutation({
     mutationFn: async (layoutId: string) => {
-      const response = await apiClient.delete(
-        `/dashboard-layouts/${layoutId}`
-      );
+      const response = await apiClient.delete(`/dashboard-layouts/${layoutId}`);
       return response.data;
     },
     onSuccess: () => {

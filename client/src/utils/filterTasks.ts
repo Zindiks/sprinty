@@ -49,9 +49,7 @@ export const filterAndSortTasks = (
 
   // Apply board filter
   if (filters.selectedBoards.length > 0) {
-    filtered = filtered.filter((task) =>
-      filters.selectedBoards.includes(task.board_id)
-    );
+    filtered = filtered.filter((task) => filters.selectedBoards.includes(task.board_id));
   }
 
   // Apply search query
@@ -89,8 +87,7 @@ export const filterAndSortTasks = (
         break;
 
       case "created_date":
-        compareValue =
-          new Date(a.id).getTime() - new Date(b.id).getTime();
+        compareValue = new Date(a.id).getTime() - new Date(b.id).getTime();
         break;
 
       case "title":

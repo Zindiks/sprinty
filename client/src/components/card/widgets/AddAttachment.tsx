@@ -115,9 +115,7 @@ export const AddAttachment = ({ cardId }: AddAttachmentProps) => {
         <p className="text-sm font-medium mb-1">
           {isDragging ? "Drop file here" : "Drag and drop or click to upload"}
         </p>
-        <p className="text-xs text-muted-foreground">
-          Maximum file size: 10MB
-        </p>
+        <p className="text-xs text-muted-foreground">Maximum file size: 10MB</p>
       </div>
 
       {/* Hidden File Input */}
@@ -134,16 +132,10 @@ export const AddAttachment = ({ cardId }: AddAttachmentProps) => {
         <div className="flex items-center gap-3 p-3 rounded-lg border bg-muted/50">
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium truncate">{selectedFile.name}</p>
-            <p className="text-xs text-muted-foreground">
-              {formatFileSize(selectedFile.size)}
-            </p>
+            <p className="text-xs text-muted-foreground">{formatFileSize(selectedFile.size)}</p>
           </div>
           <div className="flex items-center gap-2">
-            <Button
-              size="sm"
-              onClick={handleUpload}
-              disabled={uploadAttachment.isPending}
-            >
+            <Button size="sm" onClick={handleUpload} disabled={uploadAttachment.isPending}>
               {uploadAttachment.isPending ? "Uploading..." : "Upload"}
             </Button>
             <Button
@@ -164,9 +156,7 @@ export const AddAttachment = ({ cardId }: AddAttachmentProps) => {
           <div className="w-full bg-secondary rounded-full h-2">
             <div className="bg-primary h-2 rounded-full animate-pulse w-3/4" />
           </div>
-          <p className="text-xs text-muted-foreground text-center">
-            Uploading file...
-          </p>
+          <p className="text-xs text-muted-foreground text-center">Uploading file...</p>
         </div>
       )}
     </div>

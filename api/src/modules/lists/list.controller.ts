@@ -19,7 +19,7 @@ export class ListController {
     request: FastifyRequest<{
       Params: { board_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { board_id } = request.params;
 
@@ -39,7 +39,7 @@ export class ListController {
     request: FastifyRequest<{
       Body: CreateList;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const body = request.body;
 
@@ -68,7 +68,7 @@ export class ListController {
     request: FastifyRequest<{
       Body: UpdateListTitle;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const body = request.body;
 
@@ -97,7 +97,7 @@ export class ListController {
       Body: UpdateListOrderArray;
       Params: { board_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const body = request.body;
     const { board_id } = request.params;
@@ -128,7 +128,7 @@ export class ListController {
     request: FastifyRequest<{
       Body: CopyList;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const body = request.body;
 
@@ -154,7 +154,7 @@ export class ListController {
     request: FastifyRequest<{
       Params: DeleteList;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const body = request.params;
 

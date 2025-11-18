@@ -22,15 +22,11 @@ export class CardService {
     return this.cardRepository.getCardById(id);
   }
 
-  async getCardWithAssignees(
-    id: string,
-  ): Promise<CardWithAssigneesResponse | undefined> {
+  async getCardWithAssignees(id: string): Promise<CardWithAssigneesResponse | undefined> {
     return this.cardRepository.getCardWithAssignees(id);
   }
 
-  async getCardWithDetails(
-    id: string,
-  ): Promise<CardWithDetailsResponse | undefined> {
+  async getCardWithDetails(id: string): Promise<CardWithDetailsResponse | undefined> {
     return this.cardRepository.getCardWithDetails(id);
   }
 
@@ -42,15 +38,11 @@ export class CardService {
     return this.cardRepository.create(input);
   }
 
-  async updateTitle(
-    input: UpdateCardTitle,
-  ): Promise<FullCardResponse | undefined> {
+  async updateTitle(input: UpdateCardTitle): Promise<FullCardResponse | undefined> {
     return this.cardRepository.updateTitle(input);
   }
 
-  async updateDetails(
-    input: UpdateCardDetails,
-  ): Promise<FullCardResponse | undefined> {
+  async updateDetails(input: UpdateCardDetails): Promise<FullCardResponse | undefined> {
     return this.cardRepository.updateDetails(input);
   }
 
