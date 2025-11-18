@@ -1,10 +1,10 @@
 import { useEffect, useRef } from "react";
 import type { CardWithDetails } from "@/types/types";
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-} from "@/components/ui/sheet";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+} from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useCardDetails } from "@/hooks/useCardDetails";
@@ -105,28 +105,28 @@ export const CardDetailsPanel = ({
 
   // Handler functions
   const handleUpdateTitle = (title: string) => {
-    if (!cardId) return;
-    updateDetails.mutate({ id: cardId, title });
+    if (!cardId || !cardDetails) return;
+    updateDetails.mutate({ id: cardId, list_id: cardDetails.list_id, title });
   };
 
   const handleUpdateDescription = (description: string) => {
-    if (!cardId) return;
-    updateDetails.mutate({ id: cardId, description });
+    if (!cardId || !cardDetails) return;
+    updateDetails.mutate({ id: cardId, list_id: cardDetails.list_id, description });
   };
 
   const handleUpdatePriority = (priority: "low" | "medium" | "high" | "critical" | undefined) => {
-    if (!cardId) return;
-    updateDetails.mutate({ id: cardId, priority });
+    if (!cardId || !cardDetails) return;
+    updateDetails.mutate({ id: cardId, list_id: cardDetails.list_id, priority });
   };
 
   const handleUpdateStatus = (status: string) => {
-    if (!cardId) return;
-    updateDetails.mutate({ id: cardId, status });
+    if (!cardId || !cardDetails) return;
+    updateDetails.mutate({ id: cardId, list_id: cardDetails.list_id, status });
   };
 
   const handleUpdateDueDate = (due_date: string | undefined) => {
-    if (!cardId) return;
-    updateDetails.mutate({ id: cardId, due_date });
+    if (!cardId || !cardDetails) return;
+    updateDetails.mutate({ id: cardId, list_id: cardDetails.list_id, due_date });
   };
 
   const handleDeleteCard = () => {
@@ -142,8 +142,8 @@ export const CardDetailsPanel = ({
   };
 
   return (
-    <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent size="wide" className="overflow-y-auto p-0">
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto p-0">
         {isLoading && (
           <div className="p-6 space-y-4">
             <Skeleton className="h-8 w-3/4" />
@@ -153,9 +153,9 @@ export const CardDetailsPanel = ({
         )}
 
         {!isLoading && cardDetails && (
-          <div className="flex flex-col h-full">
+          <div className="flex flex-col">
             {/* Header */}
-            <SheetHeader className="p-6 pb-4">
+            <DialogHeader className="p-6 pb-4">
               <div className="flex items-start justify-between pr-8" ref={titleRef}>
                 <EditableTitle
                   value={cardDetails.title}
@@ -171,10 +171,10 @@ export const CardDetailsPanel = ({
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 in list <span className="font-medium">List Name</span>
               </div>
-            </SheetHeader>
+            </DialogHeader>
 
             {/* Main Content */}
-            <div className="flex-1 px-6 pb-6 space-y-6">
+            <div className="px-6 pb-6 space-y-6">
               {/* Metadata Section */}
               <div className="flex flex-wrap gap-3">
                 <PrioritySelector
@@ -250,10 +250,10 @@ export const CardDetailsPanel = ({
             <p>Card not found</p>
           </div>
         )}
-      </SheetContent>
+      </DialogContent>
 
       {/* Keyboard Shortcuts Dialog */}
       <KeyboardShortcutsDialog open={showDialog} onOpenChange={setShowDialog} />
-    </Sheet>
+    </Dialog>
   );
 };

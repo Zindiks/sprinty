@@ -4,6 +4,7 @@ import {
   UpdateCardOrderArray,
   UpdateCardTitle,
   UpdateCardDetails,
+  UpdateCardDetailsById,
   DeleteCard,
 } from "./card.schema";
 import { CardService } from "./card.service";
@@ -164,6 +165,24 @@ export class CardController {
 
     try {
       const card = await this.cardService.updateDetails(body);
+      return reply.status(200).send(card);
+    } catch (err) {
+      return reply.status(500).send(err);
+    }
+  }
+
+  public async updateCardDetailsByIdController(
+    request: FastifyRequest<{
+      Params: { id: string };
+      Body: UpdateCardDetailsById;
+    }>,
+    reply: FastifyReply,
+  ) {
+    const { id } = request.params;
+    const body = request.body;
+
+    try {
+      const card = await this.cardService.updateDetails({ id, ...body });
       return reply.status(200).send(card);
     } catch (err) {
       return reply.status(500).send(err);
