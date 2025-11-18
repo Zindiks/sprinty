@@ -71,7 +71,7 @@ export const useComments = (cardId?: string) => {
   });
 
   // Update comment
-  const updateComment = useMutation<AxiosResponse, FetchError, UpdateCommentParams>({
+  const updateComment = useMutation<AxiosResponse, FetchError, UpdateCommentParams, { previousComments?: Comment[] }>({
     mutationFn: ({ id, card_id, content }) => {
       return apiClient.patch(
         `/comments/`,
@@ -129,7 +129,7 @@ export const useComments = (cardId?: string) => {
   });
 
   // Delete comment
-  const deleteComment = useMutation<AxiosResponse, FetchError, DeleteCommentParams>({
+  const deleteComment = useMutation<AxiosResponse, FetchError, DeleteCommentParams, { previousComments?: Comment[] }>({
     mutationFn: ({ id, card_id }) => {
       return apiClient.delete(`/comments/${id}/card/${card_id}`);
     },

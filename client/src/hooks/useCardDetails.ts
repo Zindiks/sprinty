@@ -45,7 +45,7 @@ export const useCardDetails = (cardId?: string) => {
   });
 
   // Update card details (title, description, priority, status, due_date)
-  const updateDetails = useMutation<AxiosResponse, FetchError, UpdateCardDetailsParams>({
+  const updateDetails = useMutation<AxiosResponse, FetchError, UpdateCardDetailsParams, { previousCard?: CardWithDetails }>({
     mutationFn: ({ id, ...updates }) => {
       return apiClient.patch(
         `/cards/${id}/details`,

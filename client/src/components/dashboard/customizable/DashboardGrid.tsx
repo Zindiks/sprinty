@@ -45,6 +45,8 @@ const DashboardGrid = ({
     const newWidget: WidgetConfig = {
       id: `widget-${Date.now()}`,
       type,
+      title: "New Widget",
+      enabled: true,
       position: { x: 0, y: widgets.length },
       size,
     };

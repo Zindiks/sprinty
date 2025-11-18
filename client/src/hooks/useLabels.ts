@@ -144,7 +144,7 @@ export const useLabels = (boardId?: string, cardId?: string) => {
   });
 
   // Add label to card
-  const addLabelToCard = useMutation<AxiosResponse, FetchError, AddLabelToCardParams>({
+  const addLabelToCard = useMutation<AxiosResponse, FetchError, AddLabelToCardParams, { previousLabels?: Label[] }>({
     mutationFn: (params) => {
       return apiClient.post(
         `/labels/card`,
@@ -183,7 +183,7 @@ export const useLabels = (boardId?: string, cardId?: string) => {
   });
 
   // Remove label from card
-  const removeLabelFromCard = useMutation<AxiosResponse, FetchError, RemoveLabelFromCardParams>({
+  const removeLabelFromCard = useMutation<AxiosResponse, FetchError, RemoveLabelFromCardParams, { previousLabels?: Label[] }>({
     mutationFn: ({ card_id, label_id }) => {
       return apiClient.delete(`/labels/card/${card_id}/label/${label_id}`);
     },

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { DateTime, Settings } from 'luxon';
+import { DateTime } from 'luxon';
 import {
   formatDueDate,
   formatDueDateWithTime,
@@ -347,8 +347,8 @@ describe('dateUtils', () => {
       it('should convert Date to ISO string', () => {
         const date = new Date('2024-01-15T12:00:00.000Z');
         const result = toISOString(date);
-        // Luxon can return either Z or +00:00 format for UTC
-        expect(result).toMatch(/2024-01-15T12:00:00\.000(Z|\+00:00)/);
+        // Verify it's a valid ISO string and represents the same time
+        expect(new Date(result).getTime()).toBe(date.getTime());
       });
     });
 

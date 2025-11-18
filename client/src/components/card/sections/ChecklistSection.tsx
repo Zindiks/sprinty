@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { CheckSquare, Trash2 } from "lucide-react";
+import { CheckSquare } from "lucide-react";
 import { useChecklists } from "@/hooks/useChecklists";
 import { ChecklistItem } from "../widgets/ChecklistItem";
 import { AddChecklistItem } from "../widgets/AddChecklistItem";

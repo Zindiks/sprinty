@@ -71,9 +71,8 @@ const QuickFilterButtons = () => {
         const Icon = filter.icon;
         const baseClasses =
           "flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all";
-        const activeClasses = filter.isActive
-          ? `bg-${filter.color}-600 text-white shadow-md hover:bg-${filter.color}-700`
-          : `bg-white text-gray-700 border border-gray-300 hover:border-${filter.color}-400 hover:bg-${filter.color}-50`;
+
+
 
         return (
           <button

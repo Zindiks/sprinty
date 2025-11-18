@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { renderHook, waitFor, act } from '@testing-library/react';
 import { createWrapper } from '@/__tests__/utils/test-utils';
 import { useBoard } from '@/hooks/useBoards';
@@ -173,7 +173,7 @@ describe('useBoard hook', () => {
         wrapper: createWrapper(),
       });
 
-      let requestBody: any = null;
+      let requestBody: any;
 
       // Intercept the request to verify organization_id
       server.events.on('request:start', async ({ request }) => {
@@ -195,6 +195,8 @@ describe('useBoard hook', () => {
 
       // Note: This test validates the hook adds organization_id
       // The actual verification would require inspecting the request
+      expect(requestBody).toBeDefined();
+      expect(requestBody.organization_id).toBe(testOrgId);
     });
   });
 
@@ -296,7 +298,7 @@ describe('useBoard hook', () => {
         expect(queryResult.current.isLoading).toBe(false);
       });
 
-      const initialDataLength = queryResult.current.data?.length || 0;
+
 
       // Create a new board
       await act(async () => {

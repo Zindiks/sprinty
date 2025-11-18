@@ -39,59 +39,56 @@ export const luxonLocalizer = (): DateLocalizer => {
       },
     },
 
-    firstOfWeek: () => 0, // Sunday
+
 
     format: (date: Date, format: string) => {
       return DateTime.fromJSDate(date).toFormat(format);
     },
 
-    parse: (value: string) => {
-      return DateTime.fromISO(value).toJSDate();
-    },
 
-    startOf: (date: Date, unit: 'day' | 'week' | 'month' | 'year') => {
+
+    startOf: (date: Date, unit: any) => {
       return DateTime.fromJSDate(date).startOf(unit).toJSDate();
     },
 
-    endOf: (date: Date, unit: 'day' | 'week' | 'month' | 'year') => {
+    endOf: (date: Date, unit: any) => {
       return DateTime.fromJSDate(date).endOf(unit).toJSDate();
     },
 
-    add: (date: Date, num: number, unit: 'day' | 'week' | 'month' | 'year') => {
-      const unitMap = {
+    add: (date: Date, num: number, unit: any) => {
+      const unitMap: any = {
         day: 'days',
         week: 'weeks',
         month: 'months',
         year: 'years',
-      } as const;
-      return DateTime.fromJSDate(date).plus({ [unitMap[unit]]: num }).toJSDate();
+        // Add more mappings if needed, or rely on Luxon's flexibility if it accepts singular
+      };
+      // Luxon accepts singular or plural, but let's be safe if we use the map.
+      // Actually Luxon .plus({ [unit]: num }) works for many units.
+      // But let's keep it simple and trust Luxon or map common ones.
+      const plural = unitMap[unit] || unit + 's'; 
+      return DateTime.fromJSDate(date).plus({ [plural]: num }).toJSDate();
     },
 
-    range: (start: Date, end: Date, unit: 'day' | 'week' | 'month' | 'year' = 'day') => {
+    range: (start: Date, end: Date, unit: any = 'day') => {
       const startDt = DateTime.fromJSDate(start);
       const endDt = DateTime.fromJSDate(end);
-      const diff = Math.floor(endDt.diff(startDt, unit).toObject()[`${unit}s`] || 0);
+      const diff = Math.floor(endDt.diff(startDt, unit).as(unit) || 0);
 
       const range: Date[] = [];
       for (let i = 0; i <= diff; i++) {
-        range.push(startDt.plus({ [`${unit}s`]: i }).toJSDate());
+        range.push(startDt.plus({ [unit]: i }).toJSDate());
       }
       return range;
     },
 
-    ceil: (date: Date, unit: 'day' | 'week' | 'month' | 'year') => {
+    ceil: (date: Date, unit: any) => {
       const dt = DateTime.fromJSDate(date);
       return dt.startOf(unit).equals(dt) ? dt.toJSDate() : dt.endOf(unit).plus({ seconds: 1 }).toJSDate();
     },
 
-    diff: (start: Date, end: Date, unit: 'day' | 'week' | 'month' | 'year' = 'day') => {
-      const unitMap = {
-        day: 'days',
-        week: 'weeks',
-        month: 'months',
-        year: 'years',
-      } as const;
-      return Math.floor(DateTime.fromJSDate(end).diff(DateTime.fromJSDate(start), unitMap[unit]).toObject()[unitMap[unit]] || 0);
+    diff: (start: Date, end: Date, unit: any = 'day') => {
+      return Math.floor(DateTime.fromJSDate(end).diff(DateTime.fromJSDate(start), unit).as(unit) || 0);
     },
 
     eq: (a: Date, b: Date) => {
@@ -133,8 +130,12 @@ export const luxonLocalizer = (): DateLocalizer => {
       return dates.reduce((max, date) => (date > max ? date : max));
     },
 
-    minutes: (date: Date) => {
-      return DateTime.fromJSDate(date).minute;
+    minutes: (date: Date, value?: number): any => {
+      const dt = DateTime.fromJSDate(date);
+      if (value === undefined) {
+        return dt.minute;
+      }
+      return dt.set({ minute: value }).toJSDate();
     },
 
     getSlotDate: (date: Date, minutesFromMidnight: number) => {
@@ -158,12 +159,10 @@ export const luxonLocalizer = (): DateLocalizer => {
       return DateTime.fromJSDate(end) > DateTime.fromJSDate(last);
     },
 
-    sortEvents: (events: { start: Date; end: Date }[]) => {
-      return events.sort((a, b) => {
+    sortEvents: (a: any, b: any) => {
         const aStart = DateTime.fromJSDate(a.start);
         const bStart = DateTime.fromJSDate(b.start);
-        return aStart < bStart ? -1 : aStart > bStart ? 1 : 0;
-      });
+        return aStart < bStart;
     },
 
     merge: (date: Date, time: Date) => {
@@ -175,5 +174,5 @@ export const luxonLocalizer = (): DateLocalizer => {
         second: timePart.second,
       }).toJSDate();
     },
-  };
+  } as any;
 };

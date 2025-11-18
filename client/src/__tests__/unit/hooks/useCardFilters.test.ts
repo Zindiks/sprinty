@@ -9,13 +9,13 @@ describe('useCardFilters hook', () => {
   const createMockCard = (overrides: Partial<Card> = {}): Card => ({
     id: `card-${Math.random()}`,
     title: 'Test Card',
-    description: null,
+    description: undefined,
     list_id: 'list-1',
     order: 0,
     status: 'todo',
     priority: 'medium',
-    due_date: null,
-    archived: false,
+    due_date: undefined,
+
     created_at: '2024-01-01T00:00:00.000Z',
     updated_at: '2024-01-01T00:00:00.000Z',
     ...overrides,
@@ -36,7 +36,7 @@ describe('useCardFilters hook', () => {
       createMockCard({
         id: 'card-1',
         title: 'Due Today',
-        due_date: now.toISO(),
+        due_date: now.toISO() ?? undefined,
         priority: 'high',
         created_at: '2024-01-10T00:00:00.000Z',
       }),
@@ -44,7 +44,7 @@ describe('useCardFilters hook', () => {
       createMockCard({
         id: 'card-2',
         title: 'Due This Week',
-        due_date: now.plus({ days: 3 }).toISO(),
+        due_date: now.plus({ days: 3 }).toISO() ?? undefined,
         priority: 'medium',
         created_at: '2024-01-11T00:00:00.000Z',
       }),
@@ -52,7 +52,7 @@ describe('useCardFilters hook', () => {
       createMockCard({
         id: 'card-3',
         title: 'Overdue',
-        due_date: now.minus({ days: 2 }).toISO(),
+        due_date: now.minus({ days: 2 }).toISO() ?? undefined,
         priority: 'critical',
         created_at: '2024-01-09T00:00:00.000Z',
       }),
@@ -60,7 +60,7 @@ describe('useCardFilters hook', () => {
       createMockCard({
         id: 'card-4',
         title: 'No Due Date',
-        due_date: null,
+        due_date: undefined,
         priority: 'low',
         created_at: '2024-01-12T00:00:00.000Z',
       }),
@@ -68,7 +68,7 @@ describe('useCardFilters hook', () => {
       createMockCard({
         id: 'card-5',
         title: 'Upcoming',
-        due_date: now.plus({ days: 10 }).toISO(),
+        due_date: now.plus({ days: 10 }).toISO() ?? undefined,
         priority: 'medium',
         created_at: '2024-01-08T00:00:00.000Z',
       }),
@@ -230,7 +230,7 @@ describe('useCardFilters hook', () => {
       const filtered = result.current.filterAndSortCards(mockCards);
       // Should include cards that have due dates and are not overdue
       expect(filtered.length).toBeGreaterThan(0);
-      expect(filtered.every((c) => c.due_date !== null)).toBe(true);
+      expect(filtered.every((c) => c.due_date !== undefined)).toBe(true);
       expect(filtered.some((c) => c.id === 'card-3')).toBe(false); // Overdue card excluded
     });
   });
@@ -308,7 +308,7 @@ describe('useCardFilters hook', () => {
       // Overdue card should be first
       expect(sorted[0].id).toBe('card-3');
       // Cards with null due_date should be last
-      expect(sorted[sorted.length - 1].due_date).toBeNull();
+      expect(sorted[sorted.length - 1].due_date).toBeUndefined();
     });
 
     it('should sort by title alphabetically', () => {
@@ -354,7 +354,7 @@ describe('useCardFilters hook', () => {
       const filtered = result.current.filterAndSortCards(mockCards);
 
       // Should only include upcoming cards
-      expect(filtered.every((c) => c.due_date !== null)).toBe(true);
+      expect(filtered.every((c) => c.due_date !== undefined)).toBe(true);
       // Should be sorted by priority
       expect(filtered.length).toBeGreaterThan(0);
     });

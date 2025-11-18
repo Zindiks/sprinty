@@ -117,6 +117,7 @@ describe('useCardDetails hook', () => {
         title: 'Updated Title',
         description: 'Updated description',
         priority: 'high' as const,
+        list_id: testListId,
       };
 
       await act(async () => {
@@ -140,7 +141,8 @@ describe('useCardDetails hook', () => {
 
       await act(async () => {
         result.current.updateDetails.mutate({
-          id: testCardId,
+          id: 'test-card-id',
+          list_id: 'test-list-id',
           title: 'Updated Title',
         });
       });
@@ -165,6 +167,7 @@ describe('useCardDetails hook', () => {
         result.current.updateDetails.mutate({
           id: testCardId,
           title: 'New Title Only',
+          list_id: testListId,
         });
       });
 
@@ -188,6 +191,7 @@ describe('useCardDetails hook', () => {
         result.current.updateDetails.mutate({
           id: testCardId,
           priority: 'critical',
+          list_id: testListId,
         });
       });
 
@@ -211,6 +215,7 @@ describe('useCardDetails hook', () => {
         result.current.updateDetails.mutate({
           id: testCardId,
           status: 'in-progress',
+          list_id: testListId,
         });
       });
 
@@ -236,6 +241,7 @@ describe('useCardDetails hook', () => {
         result.current.updateDetails.mutate({
           id: testCardId,
           due_date: dueDate,
+          list_id: testListId,
         });
       });
 
