@@ -34,7 +34,7 @@ describe("AnalyticsService", () => {
     // Mock the repository constructor
     (
       AnalyticsRepository as jest.MockedClass<typeof AnalyticsRepository>
-    ).mockImplementation(() => analyticsRepository);
+    ).mockImplementation(() => analyticsRepository as any);
 
     analyticsService = new AnalyticsService(mockKnex);
     jest.clearAllMocks();
