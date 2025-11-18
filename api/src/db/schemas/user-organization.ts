@@ -15,5 +15,6 @@ export const userOrganizationSchema = (knex: Knex) => {
       .inTable("organizations")
       .onDelete("CASCADE");
     table.primary(["user_id", "organization_id"]);
+    table.enum("role", ["ADMIN", "MEMBER", "GUEST"]).notNullable();
   });
 };
