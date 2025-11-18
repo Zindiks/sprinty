@@ -14,7 +14,7 @@ interface CardFormProps {
 
 const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(
   ({ list_id, enableEditing, disableEditing, isEditing }, ref) => {
-    const formRef = useRef<ElementRef<"form">>(null);
+    const formRef = useRef<HTMLFormElement>(null);
 
     const { createCard } = useCards();
 
