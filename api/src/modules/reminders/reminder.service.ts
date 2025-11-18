@@ -1,6 +1,11 @@
 import type { Knex } from "knex";
 import { ReminderRepository } from "./reminder.repository";
 import type { Reminder, CreateReminder } from "./reminder.schema";
+import {
+  ConflictError,
+  NotFoundError,
+  ValidationError,
+} from "../../shared/errors";
 
 export class ReminderService {
   private repository: ReminderRepository;
@@ -21,7 +26,7 @@ export class ReminderService {
     );
 
     if (exists) {
-      throw new Error(
+      throw new ConflictError(
         `A ${data.reminder_type} reminder already exists for this card`
       );
     }
@@ -49,7 +54,7 @@ export class ReminderService {
   async deleteReminder(id: string): Promise<void> {
     const reminder = await this.repository.findById(id);
     if (!reminder) {
-      throw new Error("Reminder not found");
+      throw new NotFoundError("Reminder not found");
     }
 
     await this.repository.delete(id);
@@ -85,6 +90,6 @@ export class ReminderService {
       return new Date(customTime).toISOString();
     }
 
-    throw new Error("Invalid reminder type or missing custom time");
+    throw new ValidationError("Invalid reminder type or missing custom time");
   }
 }

@@ -4,6 +4,10 @@ import {
   ProfileResponse,
 } from "./profile.schema";
 import { ProfileRepository } from "./profile.repository";
+import {
+  UsernameAlreadyExistsError,
+  EmailAlreadyExistsError,
+} from "../../shared/errors";
 
 export class ProfileService {
   private readonly profileRepository: ProfileRepository;
@@ -27,7 +31,7 @@ export class ProfileService {
         input.username,
       );
       if (usernameExists) {
-        throw new Error("Username already exists");
+        throw new UsernameAlreadyExistsError();
       }
     }
 
@@ -37,7 +41,7 @@ export class ProfileService {
         input.email,
       );
       if (emailExists) {
-        throw new Error("Email already exists");
+        throw new EmailAlreadyExistsError();
       }
     }
 
@@ -55,7 +59,7 @@ export class ProfileService {
         user_id,
       );
       if (usernameExists) {
-        throw new Error("Username already exists");
+        throw new UsernameAlreadyExistsError();
       }
     }
 
@@ -66,7 +70,7 @@ export class ProfileService {
         user_id,
       );
       if (emailExists) {
-        throw new Error("Email already exists");
+        throw new EmailAlreadyExistsError();
       }
     }
 

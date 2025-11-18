@@ -13,6 +13,11 @@ import {
 } from "./template.schema";
 import { BoardResponse } from "../boards/board.schema";
 import knexInstance from "../../db/knexInstance";
+import {
+  AuthorizationError,
+  NotFoundError,
+  BoardNotFoundError,
+} from "../../shared/errors";
 
 export class TemplateService {
   private readonly templateRepository: TemplateRepository;
@@ -50,7 +55,7 @@ export class TemplateService {
       organization_id,
     );
     if (!canUpdate) {
-      throw new Error("Unauthorized: Cannot update this template");
+      throw new AuthorizationError("Cannot update this template");
     }
     return this.templateRepository.update(input, id);
   }
@@ -62,7 +67,7 @@ export class TemplateService {
       organization_id,
     );
     if (!canDelete) {
-      throw new Error("Unauthorized: Cannot delete this template");
+      throw new AuthorizationError("Cannot delete this template");
     }
     return this.templateRepository.deleteTemplate(id);
   }
@@ -76,7 +81,7 @@ export class TemplateService {
     // Fetch the template
     const template = await this.templateRepository.getById(template_id);
     if (!template) {
-      throw new Error("Template not found");
+      throw new NotFoundError("Template not found");
     }
 
     // Use transaction to ensure atomicity
@@ -138,7 +143,7 @@ export class TemplateService {
     // Fetch the board
     const board = await this.boardRepository.getById(board_id);
     if (!board) {
-      throw new Error("Board not found");
+      throw new BoardNotFoundError();
     }
 
     // Fetch all lists with cards
