@@ -128,7 +128,7 @@ export const usePersonalDashboard = (organizationId: string | null) => {
     queryKey: ["dashboard", "personal", organizationId],
     queryFn: async () => {
       const { data } = await apiClient.get(
-        `/api/v1/analytics/dashboard/personal`,
+        `/analytics/dashboard/personal`,
         {
           params: { organizationId },
         }
@@ -145,7 +145,7 @@ export const useBoardAnalytics = (boardId: string | null) => {
     queryKey: ["analytics", "board", boardId],
     queryFn: async () => {
       const { data } = await apiClient.get(
-        `/api/v1/analytics/board/${boardId}`
+        `/analytics/board/${boardId}`
       );
       return data;
     },
@@ -159,7 +159,7 @@ export const useSprintBurndown = (sprintId: string | null) => {
     queryKey: ["analytics", "sprint", sprintId, "burndown"],
     queryFn: async () => {
       const { data } = await apiClient.get(
-        `/api/v1/analytics/sprint/${sprintId}/burndown`
+        `/analytics/sprint/${sprintId}/burndown`
       );
       return data;
     },
@@ -173,7 +173,7 @@ export const useBoardVelocity = (boardId: string | null) => {
     queryKey: ["analytics", "board", boardId, "velocity"],
     queryFn: async () => {
       const { data } = await apiClient.get(
-        `/api/v1/analytics/board/${boardId}/velocity`
+        `/analytics/board/${boardId}/velocity`
       );
       return data;
     },
@@ -187,7 +187,7 @@ export const useAssignedTasks = (organizationId: string | null) => {
     queryKey: ["analytics", "tasks", "assigned", organizationId],
     queryFn: async () => {
       const { data } = await apiClient.get(
-        `/api/v1/analytics/tasks/assigned`,
+        `/analytics/tasks/assigned`,
         {
           params: { organizationId },
         }
@@ -204,7 +204,7 @@ export const useDueDateAnalytics = (boardId: string | null) => {
     queryKey: ["analytics", "board", boardId, "due-dates"],
     queryFn: async () => {
       const { data } = await apiClient.get(
-        `/api/v1/analytics/board/${boardId}/due-dates`
+        `/analytics/board/${boardId}/due-dates`
       );
       return data;
     },
@@ -222,7 +222,7 @@ export const useProductivityTrends = (
     queryKey: ["analytics", "trends", "personal", organizationId, period, daysBack],
     queryFn: async () => {
       const { data } = await apiClient.get(
-        `/api/v1/analytics/trends/personal`,
+        `/analytics/trends/personal`,
         {
           params: { organizationId, period, daysBack },
         }
@@ -239,7 +239,7 @@ export const useBoardsOverview = (organizationId: string | null) => {
     queryKey: ["analytics", "boards", "overview", organizationId],
     queryFn: async () => {
       const { data } = await apiClient.get(
-        `/api/v1/analytics/boards/overview`,
+        `/analytics/boards/overview`,
         {
           params: { organizationId },
         }
@@ -259,7 +259,7 @@ export const useWeeklyMetrics = (
     queryKey: ["analytics", "metrics", "weekly", organizationId, weeksBack],
     queryFn: async () => {
       const { data } = await apiClient.get(
-        `/api/v1/analytics/metrics/weekly`,
+        `/analytics/metrics/weekly`,
         {
           params: { organizationId, weeksBack },
         }
@@ -279,7 +279,7 @@ export const useMonthlyMetrics = (
     queryKey: ["analytics", "metrics", "monthly", organizationId, monthsBack],
     queryFn: async () => {
       const { data } = await apiClient.get(
-        `/api/v1/analytics/metrics/monthly`,
+        `/analytics/metrics/monthly`,
         {
           params: { organizationId, monthsBack },
         }

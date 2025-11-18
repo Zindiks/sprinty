@@ -38,7 +38,7 @@ export const useCreateSprint = () => {
 
   return useMutation({
     mutationFn: async (input: CreateSprintInput) => {
-      const { data } = await apiClient.post(`/api/v1/sprints`, input);
+      const { data } = await apiClient.post(`/sprints`, input);
       return data;
     },
     onSuccess: (data) => {
@@ -53,7 +53,7 @@ export const useBoardSprints = (boardId: string | null) => {
     queryKey: ["sprints", "board", boardId],
     queryFn: async () => {
       const { data } = await apiClient.get(
-        `/api/v1/sprints/board/${boardId}`
+        `/sprints/board/${boardId}`
       );
       return data;
     },
@@ -67,7 +67,7 @@ export const useActiveSprint = (boardId: string | null) => {
     queryKey: ["sprints", "board", boardId, "active"],
     queryFn: async () => {
       const { data } = await apiClient.get(
-        `/api/v1/sprints/board/${boardId}/active`
+        `/sprints/board/${boardId}/active`
       );
       return data;
     },
@@ -81,7 +81,7 @@ export const useSprint = (sprintId: string | null) => {
   return useQuery<Sprint>({
     queryKey: ["sprints", sprintId],
     queryFn: async () => {
-      const { data } = await apiClient.get(`/api/v1/sprints/${sprintId}`);
+      const { data } = await apiClient.get(`/sprints/${sprintId}`);
       return data;
     },
     enabled: !!sprintId,
@@ -95,7 +95,7 @@ export const useUpdateSprint = () => {
   return useMutation({
     mutationFn: async ({ id, ...input }: UpdateSprintInput & { id: string }) => {
       const { data } = await apiClient.patch(
-        `/api/v1/sprints/${id}`,
+        `/sprints/${id}`,
         input
       );
       return data;
@@ -114,7 +114,7 @@ export const useStartSprint = () => {
   return useMutation({
     mutationFn: async (sprintId: string) => {
       const { data } = await apiClient.post(
-        `/api/v1/sprints/${sprintId}/start`,
+        `/sprints/${sprintId}/start`,
         {}
       );
       return data;
@@ -133,7 +133,7 @@ export const useCompleteSprint = () => {
   return useMutation({
     mutationFn: async (sprintId: string) => {
       const { data } = await apiClient.post(
-        `/api/v1/sprints/${sprintId}/complete`,
+        `/sprints/${sprintId}/complete`,
         {}
       );
       return data;
@@ -151,7 +151,7 @@ export const useDeleteSprint = () => {
 
   return useMutation({
     mutationFn: async ({ id, boardId }: { id: string; boardId: string }) => {
-      await apiClient.delete(`/api/v1/sprints/${id}`);
+      await apiClient.delete(`/sprints/${id}`);
       return { id, boardId };
     },
     onSuccess: (data) => {

@@ -31,7 +31,7 @@ export const useDashboardLayouts = () => {
   return useQuery<DashboardLayout[]>({
     queryKey: ["dashboardLayouts"],
     queryFn: async () => {
-      const response = await apiClient.get(`/api/v1/dashboard-layouts`);
+      const response = await apiClient.get(`/dashboard-layouts`);
       return response.data;
     },
   });
@@ -45,7 +45,7 @@ export const useDefaultLayout = () => {
     queryKey: ["dashboardLayouts", "default"],
     queryFn: async () => {
       const response = await apiClient.get(
-        `/api/v1/dashboard-layouts/default`
+        `/dashboard-layouts/default`
       );
       return response.data;
     },
@@ -62,7 +62,7 @@ export const useDashboardLayout = (layoutId: string | null) => {
     queryFn: async () => {
       if (!layoutId) throw new Error("Layout ID is required");
       const response = await apiClient.get(
-        `/api/v1/dashboard-layouts/${layoutId}`
+        `/dashboard-layouts/${layoutId}`
       );
       return response.data;
     },
@@ -79,7 +79,7 @@ export const useCreateLayout = () => {
   return useMutation({
     mutationFn: async (input: CreateLayoutInput) => {
       const response = await apiClient.post(
-        `/api/v1/dashboard-layouts`,
+        `/dashboard-layouts`,
         input
       );
       return response.data;
@@ -106,7 +106,7 @@ export const useUpdateLayout = () => {
       input: UpdateLayoutInput;
     }) => {
       const response = await apiClient.patch(
-        `/api/v1/dashboard-layouts/${layoutId}`,
+        `/dashboard-layouts/${layoutId}`,
         input
       );
       return response.data;
@@ -130,7 +130,7 @@ export const useDeleteLayout = () => {
   return useMutation({
     mutationFn: async (layoutId: string) => {
       const response = await apiClient.delete(
-        `/api/v1/dashboard-layouts/${layoutId}`
+        `/dashboard-layouts/${layoutId}`
       );
       return response.data;
     },

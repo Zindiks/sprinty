@@ -40,7 +40,7 @@ export const useCreateTimeLog = () => {
   return useMutation({
     mutationFn: async (input: CreateTimeLogInput) => {
       const { data } = await apiClient.post(
-        `/api/v1/time-tracking`,
+        `/time-tracking`,
         input
       );
       return data;
@@ -60,7 +60,7 @@ export const useCardTimeLogs = (cardId: string | null) => {
     queryKey: ["time-logs", "card", cardId],
     queryFn: async () => {
       const { data } = await apiClient.get(
-        `/api/v1/time-tracking/card/${cardId}`
+        `/time-tracking/card/${cardId}`
       );
       return data;
     },
@@ -74,7 +74,7 @@ export const useCardTimeTotal = (cardId: string | null) => {
     queryKey: ["time-total", cardId],
     queryFn: async () => {
       const { data } = await apiClient.get(
-        `/api/v1/time-tracking/card/${cardId}/total`
+        `/time-tracking/card/${cardId}/total`
       );
       return data;
     },
@@ -87,7 +87,7 @@ export const useUserTimeLogs = (organizationId?: string) => {
   return useQuery<TimeLog[]>({
     queryKey: ["time-logs", "user", organizationId],
     queryFn: async () => {
-      const { data } = await apiClient.get(`/api/v1/time-tracking/user`, {
+      const { data } = await apiClient.get(`/time-tracking/user`, {
         params: organizationId ? { organizationId } : {},
       });
       return data;
@@ -102,7 +102,7 @@ export const useUpdateTimeLog = () => {
   return useMutation({
     mutationFn: async ({ id, ...input }: UpdateTimeLogInput & { id: string }) => {
       const { data } = await apiClient.patch(
-        `/api/v1/time-tracking/${id}`,
+        `/time-tracking/${id}`,
         input
       );
       return data;
@@ -121,7 +121,7 @@ export const useDeleteTimeLog = () => {
 
   return useMutation({
     mutationFn: async (id: string) => {
-      await apiClient.delete(`/api/v1/time-tracking/${id}`);
+      await apiClient.delete(`/time-tracking/${id}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["time-logs"] });
