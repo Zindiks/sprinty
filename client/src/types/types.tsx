@@ -346,6 +346,8 @@ export interface DashboardLayout {
   isDefault: boolean;
   created_at: string;
   updated_at: string;
+}
+
 // Template types
 export interface TemplateCard {
   title: string;
