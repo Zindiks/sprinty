@@ -1,12 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import apiClient from "@/lib/axios";
 import { SearchParams, SearchResponse } from "@/types/types";
-
-const API_HOST = import.meta.env.VITE_API_HOST;
-const API_PORT = import.meta.env.VITE_API_PORT;
-const API_VERSION = import.meta.env.VITE_API_VERSION;
-
-const API_URL = `${API_HOST}:${API_PORT}${API_VERSION}`;
 
 export interface FetchError {
   message: string;
@@ -36,8 +30,8 @@ export const useSearch = () => {
         }),
       });
 
-      const response = await axios.get(
-        `${API_URL}/search?${queryParams.toString()}`,
+      const response = await apiClient.get(
+        `/search?${queryParams.toString()}`
       );
       return response.data;
     } catch (err) {

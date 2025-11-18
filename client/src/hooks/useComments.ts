@@ -1,13 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
+import apiClient from "@/lib/axios";
 import { useToast } from "@/hooks/use-toast";
 import type { Comment } from "@/types/types";
-
-const API_HOST = import.meta.env.VITE_API_HOST;
-const API_PORT = import.meta.env.VITE_API_PORT;
-const API_VERSION = import.meta.env.VITE_API_VERSION;
-
-const API_URL = `${API_HOST}:${API_PORT}${API_VERSION}`;
 
 export interface CreateCommentParams {
   card_id: string;
@@ -44,7 +39,7 @@ export const useComments = (cardId?: string) => {
     queryKey: ["comments", cardId],
     queryFn: async () => {
       if (!cardId) throw new Error("Card ID is required");
-      const response = await axios.get(`${API_URL}/comments/card/${cardId}/threaded`);
+      const response = await apiClient.get(`/comments/card/${cardId}/threaded`);
       return response.data;
     },
     enabled: !!cardId,
@@ -53,14 +48,9 @@ export const useComments = (cardId?: string) => {
   // Create comment or reply
   const createComment = useMutation<AxiosResponse, FetchError, CreateCommentParams>({
     mutationFn: (params) => {
-      return axios.post(
-        `${API_URL}/comments/`,
-        JSON.stringify(params),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+      return apiClient.post(
+        `/comments/`,
+        params
       );
     },
     onSuccess: (_, variables) => {
@@ -83,14 +73,9 @@ export const useComments = (cardId?: string) => {
   // Update comment
   const updateComment = useMutation<AxiosResponse, FetchError, UpdateCommentParams>({
     mutationFn: ({ id, card_id, content }) => {
-      return axios.patch(
-        `${API_URL}/comments/`,
-        JSON.stringify({ id, card_id, content }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+      return apiClient.patch(
+        `/comments/`,
+        { id, card_id, content }
       );
     },
     onMutate: async (params) => {
@@ -146,7 +131,7 @@ export const useComments = (cardId?: string) => {
   // Delete comment
   const deleteComment = useMutation<AxiosResponse, FetchError, DeleteCommentParams>({
     mutationFn: ({ id, card_id }) => {
-      return axios.delete(`${API_URL}/comments/${id}/card/${card_id}`);
+      return apiClient.delete(`/comments/${id}/card/${card_id}`);
     },
     onMutate: async (params) => {
       // Cancel outgoing refetches

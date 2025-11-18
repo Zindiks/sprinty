@@ -1,7 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
-
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+import apiClient from "@/lib/axios";
 
 export interface TimeLog {
   id: string;
@@ -41,10 +39,9 @@ export const useCreateTimeLog = () => {
 
   return useMutation({
     mutationFn: async (input: CreateTimeLogInput) => {
-      const { data } = await axios.post(
-        `${API_URL}/api/v1/time-tracking`,
-        input,
-        { withCredentials: true }
+      const { data } = await apiClient.post(
+        `/api/v1/time-tracking`,
+        input
       );
       return data;
     },
@@ -62,9 +59,8 @@ export const useCardTimeLogs = (cardId: string | null) => {
   return useQuery<TimeLog[]>({
     queryKey: ["time-logs", "card", cardId],
     queryFn: async () => {
-      const { data } = await axios.get(
-        `${API_URL}/api/v1/time-tracking/card/${cardId}`,
-        { withCredentials: true }
+      const { data } = await apiClient.get(
+        `/api/v1/time-tracking/card/${cardId}`
       );
       return data;
     },
@@ -77,9 +73,8 @@ export const useCardTimeTotal = (cardId: string | null) => {
   return useQuery<CardTimeTotal>({
     queryKey: ["time-total", cardId],
     queryFn: async () => {
-      const { data } = await axios.get(
-        `${API_URL}/api/v1/time-tracking/card/${cardId}/total`,
-        { withCredentials: true }
+      const { data } = await apiClient.get(
+        `/api/v1/time-tracking/card/${cardId}/total`
       );
       return data;
     },
@@ -92,9 +87,8 @@ export const useUserTimeLogs = (organizationId?: string) => {
   return useQuery<TimeLog[]>({
     queryKey: ["time-logs", "user", organizationId],
     queryFn: async () => {
-      const { data } = await axios.get(`${API_URL}/api/v1/time-tracking/user`, {
+      const { data } = await apiClient.get(`/api/v1/time-tracking/user`, {
         params: organizationId ? { organizationId } : {},
-        withCredentials: true,
       });
       return data;
     },
@@ -107,10 +101,9 @@ export const useUpdateTimeLog = () => {
 
   return useMutation({
     mutationFn: async ({ id, ...input }: UpdateTimeLogInput & { id: string }) => {
-      const { data } = await axios.patch(
-        `${API_URL}/api/v1/time-tracking/${id}`,
-        input,
-        { withCredentials: true }
+      const { data } = await apiClient.patch(
+        `/api/v1/time-tracking/${id}`,
+        input
       );
       return data;
     },
@@ -128,9 +121,7 @@ export const useDeleteTimeLog = () => {
 
   return useMutation({
     mutationFn: async (id: string) => {
-      await axios.delete(`${API_URL}/api/v1/time-tracking/${id}`, {
-        withCredentials: true,
-      });
+      await apiClient.delete(`/api/v1/time-tracking/${id}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["time-logs"] });

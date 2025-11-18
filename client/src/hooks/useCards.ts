@@ -1,12 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
+import apiClient from "@/lib/axios";
 import { useToast } from "@/hooks/use-toast";
-
-const API_HOST = import.meta.env.VITE_API_HOST;
-const API_PORT = import.meta.env.VITE_API_PORT;
-const API_VERSION = import.meta.env.VITE_API_VERSION;
-
-const API_URL = `${API_HOST}:${API_PORT}${API_VERSION}`;
 
 export interface ResponseCard {
   id: string;
@@ -81,11 +76,7 @@ export const useCards = () => {
 
   const createCard = useMutation<AxiosResponse, FetchError, CreateCard>({
     mutationFn: (formData) => {
-      return axios.post(`${API_URL}/cards`, JSON.stringify(formData), {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      return apiClient.post(`/cards`, formData);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -108,12 +99,7 @@ export const useCards = () => {
     mutationFn: ([formData, list_id]) => {
       console.log(formData);
       console.log(list_id);
-      return axios.put(`${API_URL}/cards/order`, JSON.stringify(formData), {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      });
+      return apiClient.put(`/cards/order`, formData);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -139,11 +125,7 @@ export const useCards = () => {
     UpdateCardDetails
   >({
     mutationFn: (formData) => {
-      return axios.patch(`${API_URL}/cards/details`, JSON.stringify(formData), {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      return apiClient.patch(`/cards/details`, formData);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({

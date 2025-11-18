@@ -1,12 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
+import apiClient from "@/lib/axios";
 import { useToast } from "@/hooks/use-toast";
-
-const API_HOST = import.meta.env.VITE_API_HOST;
-const API_PORT = import.meta.env.VITE_API_PORT;
-const API_VERSION = import.meta.env.VITE_API_VERSION;
-
-const API_URL = `${API_HOST}:${API_PORT}${API_VERSION}`;
 
 export interface Reminder {
   id: string;
@@ -43,7 +38,7 @@ export const useReminders = (cardId?: string) => {
     queryKey: ["reminders", cardId],
     queryFn: async () => {
       if (!cardId) return [];
-      const response = await axios.get(`${API_URL}/reminders/card/${cardId}`);
+      const response = await apiClient.get(`/reminders/card/${cardId}`);
       return response.data;
     },
     enabled: !!cardId,
@@ -52,11 +47,7 @@ export const useReminders = (cardId?: string) => {
   // Create a new reminder
   const createReminder = useMutation<AxiosResponse, FetchError, CreateReminder>({
     mutationFn: (data) => {
-      return axios.post(`${API_URL}/reminders`, JSON.stringify(data), {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      return apiClient.post(`/reminders`, data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["reminders", cardId] });
@@ -77,7 +68,7 @@ export const useReminders = (cardId?: string) => {
   // Delete a reminder
   const deleteReminder = useMutation<AxiosResponse, FetchError, string>({
     mutationFn: (reminderId) => {
-      return axios.delete(`${API_URL}/reminders/${reminderId}`);
+      return apiClient.delete(`/reminders/${reminderId}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["reminders", cardId] });

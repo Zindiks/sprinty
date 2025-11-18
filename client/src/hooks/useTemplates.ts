@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
+import apiClient from "@/lib/axios";
 import { useToast } from "@/hooks/use-toast";
 import {
   Template,
@@ -9,12 +10,6 @@ import {
   UpdateTemplateRequest,
   Board,
 } from "@/types/types";
-
-const API_HOST = import.meta.env.VITE_API_HOST;
-const API_PORT = import.meta.env.VITE_API_PORT;
-const API_VERSION = import.meta.env.VITE_API_VERSION;
-
-const API_URL = `${API_HOST}:${API_PORT}${API_VERSION}`;
 
 export interface FetchError {
   message: string;
@@ -35,7 +30,7 @@ export const useTemplates = (organization_id?: string) => {
   ): Promise<TemplatesCollection> => {
     try {
       const params = organization_id ? { organization_id } : {};
-      const response = await axios.get(`${API_URL}/templates`, { params });
+      const response = await apiClient.get(`/templates`, { params });
       return response.data;
     } catch (err) {
       throw new Error("Error fetching templates: " + err);
@@ -45,7 +40,7 @@ export const useTemplates = (organization_id?: string) => {
   // Fetch single template by ID
   const fetchTemplate = async (template_id: string): Promise<Template> => {
     try {
-      const response = await axios.get(`${API_URL}/templates/${template_id}`);
+      const response = await apiClient.get(`/templates/${template_id}`);
       return response.data;
     } catch (error) {
       throw new Error(`Error fetching template: ${error}`);
@@ -76,14 +71,9 @@ export const useTemplates = (organization_id?: string) => {
     CreateBoardFromTemplateRequest
   >({
     mutationFn: (formData) => {
-      return axios.post(
-        `${API_URL}/templates/create-board`,
-        JSON.stringify(formData),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
+      return apiClient.post(
+        `/templates/create-board`,
+        formData
       );
     },
 
@@ -115,14 +105,9 @@ export const useTemplates = (organization_id?: string) => {
     CreateTemplateFromBoardRequest
   >({
     mutationFn: (formData) => {
-      return axios.post(
-        `${API_URL}/templates/from-board`,
-        JSON.stringify(formData),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
+      return apiClient.post(
+        `/templates/from-board`,
+        formData
       );
     },
 
@@ -154,14 +139,9 @@ export const useTemplates = (organization_id?: string) => {
     { id: string; data: UpdateTemplateRequest }
   >({
     mutationFn: ({ id, data }) => {
-      return axios.put(
-        `${API_URL}/templates/${id}?organization_id=${organization_id}`,
-        JSON.stringify(data),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
+      return apiClient.put(
+        `/templates/${id}?organization_id=${organization_id}`,
+        data
       );
     },
 
@@ -196,8 +176,8 @@ export const useTemplates = (organization_id?: string) => {
     string // template_id
   >({
     mutationFn: (template_id) => {
-      return axios.delete(
-        `${API_URL}/templates/${template_id}?organization_id=${organization_id}`,
+      return apiClient.delete(
+        `/templates/${template_id}?organization_id=${organization_id}`
       );
     },
 

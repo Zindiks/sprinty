@@ -1,12 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { useSelectionStore } from "./store/useSelectionStore";
-import axios from "axios";
-
-const API_HOST = import.meta.env.VITE_API_HOST;
-const API_PORT = import.meta.env.VITE_API_PORT;
-const API_VERSION = import.meta.env.VITE_API_VERSION;
-const API_URL = `${API_HOST}:${API_PORT}${API_VERSION}`;
+import apiClient from "@/lib/axios";
 
 /**
  * Hook for bulk card operations
@@ -25,7 +20,7 @@ export const useBulkActions = () => {
       cardIds: string[];
       targetListId: string;
     }) => {
-      const response = await axios.post(`${API_URL}/cards/bulk/move`, {
+      const response = await apiClient.post(`/cards/bulk/move`, {
         card_ids: cardIds,
         target_list_id: targetListId,
       });
@@ -54,7 +49,7 @@ export const useBulkActions = () => {
       cardIds: string[];
       userIds: string[];
     }) => {
-      const response = await axios.post(`${API_URL}/cards/bulk/assign`, {
+      const response = await apiClient.post(`/cards/bulk/assign`, {
         card_ids: cardIds,
         user_ids: userIds,
       });
@@ -83,7 +78,7 @@ export const useBulkActions = () => {
       cardIds: string[];
       labelIds: string[];
     }) => {
-      const response = await axios.post(`${API_URL}/cards/bulk/labels`, {
+      const response = await apiClient.post(`/cards/bulk/labels`, {
         card_ids: cardIds,
         label_ids: labelIds,
       });
@@ -112,7 +107,7 @@ export const useBulkActions = () => {
       cardIds: string[];
       dueDate: string | null;
     }) => {
-      const response = await axios.post(`${API_URL}/cards/bulk/due-date`, {
+      const response = await apiClient.post(`/cards/bulk/due-date`, {
         card_ids: cardIds,
         due_date: dueDate,
       });
@@ -135,7 +130,7 @@ export const useBulkActions = () => {
 
   const bulkArchiveCardsMutation = useMutation({
     mutationFn: async ({ cardIds }: { cardIds: string[] }) => {
-      const response = await axios.post(`${API_URL}/cards/bulk/archive`, {
+      const response = await apiClient.post(`/cards/bulk/archive`, {
         card_ids: cardIds,
       });
       return response.data;
@@ -157,7 +152,7 @@ export const useBulkActions = () => {
 
   const bulkDeleteCardsMutation = useMutation({
     mutationFn: async ({ cardIds }: { cardIds: string[] }) => {
-      const response = await axios.delete(`${API_URL}/cards/bulk`, {
+      const response = await apiClient.delete(`/cards/bulk`, {
         data: {
           card_ids: cardIds,
         },

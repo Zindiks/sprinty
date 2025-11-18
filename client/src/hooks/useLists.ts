@@ -1,14 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
+import apiClient from "@/lib/axios";
 import { useToast } from "@/hooks/use-toast";
 
 import { List } from "@/types/types";
-
-const API_HOST = import.meta.env.VITE_API_HOST;
-const API_PORT = import.meta.env.VITE_API_PORT;
-const API_VERSION = import.meta.env.VITE_API_VERSION;
-
-const API_URL = `${API_HOST}:${API_PORT}${API_VERSION}`;
 
 // export interface ResponseList {
 //   id: string
@@ -57,7 +52,7 @@ export const useLists = (board_id: string) => {
 
   const fetchLists = async (board_id: string) => {
     try {
-      const response = await axios.get(`${API_URL}/lists/${board_id}`);
+      const response = await apiClient.get(`/lists/${board_id}`);
       return response.data; // Получаем данные из response.data
     } catch (error) {
       throw new Error(`Error fetching boards: ${error}`);
@@ -71,11 +66,7 @@ export const useLists = (board_id: string) => {
 
   const createList = useMutation<AxiosResponse, FetchError, CreateList>({
     mutationFn: (formData) => {
-      return axios.post(`${API_URL}/lists`, JSON.stringify(formData), {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      return apiClient.post(`/lists`, formData);
     },
     onSuccess: ({ data }) => {
       queryClient.invalidateQueries({
@@ -98,11 +89,7 @@ export const useLists = (board_id: string) => {
 
   const copyList = useMutation<AxiosResponse, FetchError, CopyList>({
     mutationFn: (formData) => {
-      return axios.post(`${API_URL}/lists/copy`, JSON.stringify(formData), {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      return apiClient.post(`/lists/copy`, formData);
     },
     onSuccess: ({ data }) => {
       queryClient.invalidateQueries({
@@ -129,11 +116,7 @@ export const useLists = (board_id: string) => {
     UpdateListTitle
   >({
     mutationFn: (formData) => {
-      return axios.patch(`${API_URL}/lists/update`, JSON.stringify(formData), {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      return apiClient.patch(`/lists/update`, formData);
     },
     onSuccess: () => {
       // queryClient.invalidateQueries();
@@ -155,14 +138,9 @@ export const useLists = (board_id: string) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const updateListsOrder = useMutation<AxiosResponse, FetchError, any>({
     mutationFn: ([formData, board_id]) => {
-      return axios.put(
-        `${API_URL}/lists/order/${board_id}`,
-        JSON.stringify(formData),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
+      return apiClient.put(
+        `/lists/order/${board_id}`,
+        formData,
       );
     },
     onSuccess: () => {
@@ -185,7 +163,7 @@ export const useLists = (board_id: string) => {
 
   const deleteList = useMutation<AxiosResponse, FetchError, DeleteList>({
     mutationFn: ({ id, board_id }) => {
-      return axios.delete(`${API_URL}/lists/${id}/board/${board_id}`);
+      return apiClient.delete(`/lists/${id}/board/${board_id}`);
     },
     onSuccess: ({ data }) => {
       queryClient.invalidateQueries({

@@ -1,13 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
+import apiClient from "@/lib/axios";
 import { useToast } from "@/hooks/use-toast";
 import type { CardWithDetails } from "@/types/types";
-
-const API_HOST = import.meta.env.VITE_API_HOST;
-const API_PORT = import.meta.env.VITE_API_PORT;
-const API_VERSION = import.meta.env.VITE_API_VERSION;
-
-const API_URL = `${API_HOST}:${API_PORT}${API_VERSION}`;
 
 export interface UpdateCardDetailsParams {
   id: string;
@@ -41,7 +36,7 @@ export const useCardDetails = (cardId?: string) => {
     queryKey: ["card-details", cardId],
     queryFn: async () => {
       if (!cardId) throw new Error("Card ID is required");
-      const response = await axios.get(`${API_URL}/cards/${cardId}/details`);
+      const response = await apiClient.get(`/cards/${cardId}/details`);
       return response.data;
     },
     enabled: !!cardId,
@@ -51,14 +46,9 @@ export const useCardDetails = (cardId?: string) => {
   // Update card details (title, description, priority, status, due_date)
   const updateDetails = useMutation<AxiosResponse, FetchError, UpdateCardDetailsParams>({
     mutationFn: ({ id, ...updates }) => {
-      return axios.patch(
-        `${API_URL}/cards/${id}/details`,
-        JSON.stringify(updates),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+      return apiClient.patch(
+        `/cards/${id}/details`,
+        updates
       );
     },
     onMutate: async (updates) => {
@@ -102,7 +92,7 @@ export const useCardDetails = (cardId?: string) => {
   // Delete card
   const deleteCard = useMutation<AxiosResponse, FetchError, DeleteCardParams>({
     mutationFn: ({ id, list_id }) => {
-      return axios.delete(`${API_URL}/cards/${id}/list/${list_id}`);
+      return apiClient.delete(`/cards/${id}/list/${list_id}`);
     },
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ["lists"] });
