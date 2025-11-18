@@ -6,7 +6,7 @@ import { LoadingScreen } from './LoadingScreen'
  * ProtectedRoute - Authentication Guard Component
  *
  * Ensures user is authenticated before accessing protected routes.
- * If user is not authenticated, redirects to home page (Marketing).
+ * If user is not authenticated, redirects to signin page.
  * Shows loading screen while checking authentication status.
  */
 export const ProtectedRoute = () => {
@@ -17,9 +17,9 @@ export const ProtectedRoute = () => {
     return <LoadingScreen />
   }
 
-  // Redirect to home if not authenticated
+  // Redirect to signin if not authenticated
   if (!user) {
-    return <Navigate to="/" replace />
+    return <Navigate to="/signin" replace />
   }
 
   // User is authenticated, render child routes
