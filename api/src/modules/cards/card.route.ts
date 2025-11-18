@@ -58,6 +58,22 @@ export default async function cardRoutes(fastify: FastifyInstance) {
     cardController.getCardWithDetailsController.bind(cardController),
   );
 
+  fastify.patch(
+    "/:id/details",
+    {
+      schema: {
+        params: { type: "object", properties: { id: { type: "string" } } },
+        body: CardSchema.UpdateCardDetailsByIdSchema,
+        response: {
+          200: CardSchema.FullCardResponseSchema,
+        },
+        tags: ["card"],
+        description: "Update card details by ID (title, description, status, due_date, priority)",
+      },
+    },
+    cardController.updateCardDetailsByIdController.bind(cardController),
+  );
+
   fastify.get(
     "/list/:list_id",
     {

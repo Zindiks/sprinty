@@ -90,6 +90,29 @@ export class CardSchema {
     { $id: "UpdateCardDetailsSchema" },
   );
 
+  static UpdateCardDetailsByIdSchema = Type.Object(
+    {
+      list_id,
+      title: Type.Optional(title),
+      description: Type.Optional(
+        Type.Union([Type.String({ minLength: 3, maxLength: 255 }), Type.Null()]),
+      ),
+      status: Type.Optional(Type.String()),
+      due_date: Type.Optional(
+        Type.Union([Type.String({ format: "date-time" }), Type.Null()]),
+      ),
+      priority: Type.Optional(
+        Type.Union([
+          Type.Literal("low"),
+          Type.Literal("medium"),
+          Type.Literal("high"),
+          Type.Literal("critical"),
+        ]),
+      ),
+    },
+    { $id: "UpdateCardDetailsByIdSchema" },
+  );
+
   //RESPONSE SCHEMA
   static FullCardResponseSchema = Type.Object(
     {
@@ -255,6 +278,7 @@ export class CardSchema {
 export type CreateCard = Static<typeof CardSchema.CreateCardSchema>;
 export type UpdateCardTitle = Static<typeof CardSchema.UpdateCardTitleSchema>;
 export type UpdateCardDetails = Static<typeof CardSchema.UpdateCardDetailsSchema>;
+export type UpdateCardDetailsById = Static<typeof CardSchema.UpdateCardDetailsByIdSchema>;
 export type UpdateCardOrder = Static<typeof CardSchema.UpdateCardOrderSchema>;
 export type UpdateCardOrderArray = Static<
   typeof CardSchema.UpdateCardOrderSchemaArray

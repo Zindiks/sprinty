@@ -11,6 +11,7 @@ const API_URL = `${API_HOST}:${API_PORT}${API_VERSION}`;
 
 export interface UpdateCardDetailsParams {
   id: string;
+  list_id: string;
   title?: string;
   description?: string;
   status?: string;
