@@ -6,7 +6,8 @@ import {
   GetCardRemindersSchema,
   DeleteReminderSchema,
 } from "./reminder.schema";
-import { requireCardAccess } from "../../middleware/authorization.middleware";
+import { requireCardAccess, requireReminderOwnership } from "../../middleware/authorization.middleware";
+import { requireAuth } from "../../middleware/auth.middleware";
 
 async function reminderRoutes(fastify: FastifyInstance) {
   const service = new ReminderService(fastify.knex);
@@ -57,6 +58,7 @@ async function reminderRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/reminders/user",
     {
+      preHandler: [requireAuth],
       schema: {
         description: "Get all reminders for the current user",
         tags: ["reminders"],
@@ -74,6 +76,7 @@ async function reminderRoutes(fastify: FastifyInstance) {
   fastify.delete(
     "/reminders/:id",
     {
+      preHandler: [requireAuth, requireReminderOwnership],
       schema: {
         description: "Delete a reminder",
         tags: ["reminders"],

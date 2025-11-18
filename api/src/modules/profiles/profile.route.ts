@@ -1,6 +1,8 @@
 import { FastifyInstance } from "fastify";
 import { ProfileSchema } from "./profile.schema";
 import { ProfileController } from "./profile.controller";
+import { requireAuth } from "../../middleware/auth.middleware";
+import { requireSelfOrOrgMember, requireOwnership } from "../../middleware/authorization.middleware";
 
 const profileController = new ProfileController();
 
@@ -9,6 +11,7 @@ export default async function profileRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/user/:user_id",
     {
+      preHandler: [requireAuth, requireSelfOrOrgMember],
       schema: {
         params: {
           type: "object",
@@ -32,6 +35,7 @@ export default async function profileRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/:id",
     {
+      preHandler: [requireAuth],
       schema: {
         params: {
           type: "object",
@@ -55,6 +59,7 @@ export default async function profileRoutes(fastify: FastifyInstance) {
   fastify.post(
     "/",
     {
+      preHandler: [requireAuth],
       schema: {
         body: ProfileSchema.CreateProfileSchema,
         response: {
@@ -75,6 +80,7 @@ export default async function profileRoutes(fastify: FastifyInstance) {
   fastify.put(
     "/user/:user_id",
     {
+      preHandler: [requireAuth, requireOwnership],
       schema: {
         params: {
           type: "object",
@@ -103,6 +109,7 @@ export default async function profileRoutes(fastify: FastifyInstance) {
   fastify.delete(
     "/user/:user_id",
     {
+      preHandler: [requireAuth, requireOwnership],
       schema: {
         params: {
           type: "object",

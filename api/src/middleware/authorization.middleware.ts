@@ -2,6 +2,165 @@ import { FastifyRequest, FastifyReply } from 'fastify'
 import { authorizationService } from '../services/authorization.service'
 
 /**
+ * requireSelfOrOrgMember Middleware
+ *
+ * Requires user to be accessing their own resource OR be in the same org.
+ * Expects user_id in request params.
+ * Returns 403 Forbidden if user is not self and not in same org.
+ *
+ * Usage: For profile and user-scoped endpoints
+ */
+export async function requireSelfOrOrgMember(
+  request: FastifyRequest,
+  reply: FastifyReply
+): Promise<void> {
+  const userId = request.user!.id
+  const targetUserId = (request.params as any).user_id || (request.params as any).id
+
+  if (!targetUserId) {
+    return reply.code(400).send({
+      statusCode: 400,
+      error: 'Bad Request',
+      message: 'user_id is required',
+    })
+  }
+
+  // Allow if user is accessing their own resource
+  if (userId === targetUserId) {
+    return
+  }
+
+  // Otherwise, check if users are in the same organization
+  const userOrgs = await authorizationService.getUserOrganizations(userId)
+  const targetUserOrgs = await authorizationService.getUserOrganizations(targetUserId)
+
+  const hasSharedOrg = userOrgs.some(orgId => targetUserOrgs.includes(orgId))
+
+  if (!hasSharedOrg) {
+    return reply.code(403).send({
+      statusCode: 403,
+      error: 'Forbidden',
+      message: 'You do not have access to this resource',
+    })
+  }
+}
+
+/**
+ * requireOwnership Middleware
+ *
+ * Requires user to be accessing their own resource.
+ * Expects user_id in request params.
+ * Returns 403 Forbidden if user is not the owner.
+ *
+ * Usage: For profile updates/deletes and personal resources
+ */
+export async function requireOwnership(
+  request: FastifyRequest,
+  reply: FastifyReply
+): Promise<void> {
+  const userId = request.user!.id
+  const targetUserId = (request.params as any).user_id || (request.params as any).id
+
+  if (!targetUserId) {
+    return reply.code(400).send({
+      statusCode: 400,
+      error: 'Bad Request',
+      message: 'user_id is required',
+    })
+  }
+
+  if (userId !== targetUserId) {
+    return reply.code(403).send({
+      statusCode: 403,
+      error: 'Forbidden',
+      message: 'You can only modify your own resources',
+    })
+  }
+}
+
+/**
+ * requireTimeLogOwnership Middleware
+ *
+ * Requires user to own the time log they're modifying.
+ * Expects time log id in request params.
+ * Returns 403 Forbidden if user doesn't own the time log.
+ */
+export async function requireTimeLogOwnership(
+  request: FastifyRequest,
+  reply: FastifyReply
+): Promise<void> {
+  const userId = request.user!.id
+  const timeLogId = (request.params as any).id
+
+  if (!timeLogId) {
+    return reply.code(400).send({
+      statusCode: 400,
+      error: 'Bad Request',
+      message: 'time_log_id is required',
+    })
+  }
+
+  const timeLog = await authorizationService.getTimeLogOwner(timeLogId)
+
+  if (!timeLog) {
+    return reply.code(404).send({
+      statusCode: 404,
+      error: 'Not Found',
+      message: 'Time log not found',
+    })
+  }
+
+  if (timeLog.user_id !== userId) {
+    return reply.code(403).send({
+      statusCode: 403,
+      error: 'Forbidden',
+      message: 'You can only modify your own time logs',
+    })
+  }
+}
+
+/**
+ * requireReminderOwnership Middleware
+ *
+ * Requires user to own the reminder they're modifying.
+ * Expects reminder id in request params.
+ * Returns 403 Forbidden if user doesn't own the reminder.
+ */
+export async function requireReminderOwnership(
+  request: FastifyRequest,
+  reply: FastifyReply
+): Promise<void> {
+  const userId = request.user!.id
+  const reminderId = (request.params as any).id
+
+  if (!reminderId) {
+    return reply.code(400).send({
+      statusCode: 400,
+      error: 'Bad Request',
+      message: 'reminder_id is required',
+    })
+  }
+
+  const reminder = await authorizationService.getReminderOwner(reminderId)
+
+  if (!reminder) {
+    return reply.code(404).send({
+      statusCode: 404,
+      error: 'Not Found',
+      message: 'Reminder not found',
+    })
+  }
+
+  if (reminder.user_id !== userId) {
+    return reply.code(403).send({
+      statusCode: 403,
+      error: 'Forbidden',
+      message: 'You can only modify your own reminders',
+    })
+  }
+}
+
+/**
  * requireOrgMember Middleware
  *
  * Requires user to be a member of the organization (any role).

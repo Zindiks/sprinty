@@ -11,6 +11,7 @@ import {
   UpdateLayoutResponseSchema,
   DeleteLayoutResponseSchema,
 } from "./dashboard-layouts.schema";
+import { requireAuth } from "../../middleware/auth.middleware";
 
 export default async function dashboardLayoutsRoutes(fastify: FastifyInstance) {
   const service = new DashboardLayoutsService(fastify.knex);
@@ -20,6 +21,7 @@ export default async function dashboardLayoutsRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/",
     {
+      preHandler: [requireAuth],
       schema: {
         description: "Get all dashboard layouts for the current user",
         tags: ["Dashboard Layouts"],
@@ -35,6 +37,7 @@ export default async function dashboardLayoutsRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/default",
     {
+      preHandler: [requireAuth],
       schema: {
         description: "Get the default dashboard layout for the current user",
         tags: ["Dashboard Layouts"],
@@ -50,6 +53,7 @@ export default async function dashboardLayoutsRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/:layoutId",
     {
+      preHandler: [requireAuth],
       schema: {
         description: "Get a specific dashboard layout by ID",
         tags: ["Dashboard Layouts"],
@@ -66,6 +70,7 @@ export default async function dashboardLayoutsRoutes(fastify: FastifyInstance) {
   fastify.post(
     "/",
     {
+      preHandler: [requireAuth],
       schema: {
         description: "Create a new dashboard layout",
         tags: ["Dashboard Layouts"],
@@ -82,6 +87,7 @@ export default async function dashboardLayoutsRoutes(fastify: FastifyInstance) {
   fastify.patch(
     "/:layoutId",
     {
+      preHandler: [requireAuth],
       schema: {
         description: "Update an existing dashboard layout",
         tags: ["Dashboard Layouts"],
@@ -99,6 +105,7 @@ export default async function dashboardLayoutsRoutes(fastify: FastifyInstance) {
   fastify.delete(
     "/:layoutId",
     {
+      preHandler: [requireAuth],
       schema: {
         description: "Delete a dashboard layout",
         tags: ["Dashboard Layouts"],

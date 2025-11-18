@@ -264,6 +264,34 @@ export class AuthorizationService {
 
     return await this.canAccessBoard(userId, boardId)
   }
+
+  /**
+   * Get time log owner
+   * @param timeLogId - Time Log UUID
+   * @returns Time log with user_id or null if not found
+   */
+  async getTimeLogOwner(timeLogId: string): Promise<{ user_id: string } | null> {
+    const timeLog = await this.knex('time_logs')
+      .where({ id: timeLogId })
+      .select('user_id')
+      .first()
+
+    return timeLog || null
+  }
+
+  /**
+   * Get reminder owner
+   * @param reminderId - Reminder UUID
+   * @returns Reminder with user_id or null if not found
+   */
+  async getReminderOwner(reminderId: string): Promise<{ user_id: string } | null> {
+    const reminder = await this.knex('reminders')
+      .where({ id: reminderId })
+      .select('user_id')
+      .first()
+
+    return reminder || null
+  }
 }
 
 // Export singleton instance

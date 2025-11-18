@@ -12,7 +12,8 @@ import {
   TimeLogWithDetailsSchema,
   CardTimeTotalSchema,
 } from "./time-tracking.schema";
-import { requireCardAccess } from "../../middleware/authorization.middleware";
+import { requireCardAccess, requireTimeLogOwnership } from "../../middleware/authorization.middleware";
+import { requireAuth } from "../../middleware/auth.middleware";
 
 export default async function timeTrackingRoutes(fastify: FastifyInstance) {
   const service = new TimeTrackingService(fastify.knex);
@@ -39,6 +40,7 @@ export default async function timeTrackingRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/:id",
     {
+      preHandler: [requireAuth, requireTimeLogOwnership],
       schema: {
         description: "Get a specific time log",
         tags: ["Time Tracking"],
@@ -89,6 +91,7 @@ export default async function timeTrackingRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/user",
     {
+      preHandler: [requireAuth],
       schema: {
         description: "Get time logs for current user",
         tags: ["Time Tracking"],
@@ -105,6 +108,7 @@ export default async function timeTrackingRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/user/range",
     {
+      preHandler: [requireAuth],
       schema: {
         description: "Get time logs for user within date range",
         tags: ["Time Tracking"],
@@ -121,6 +125,7 @@ export default async function timeTrackingRoutes(fastify: FastifyInstance) {
   fastify.patch(
     "/:id",
     {
+      preHandler: [requireAuth, requireTimeLogOwnership],
       schema: {
         description: "Update a time log",
         tags: ["Time Tracking"],
@@ -138,6 +143,7 @@ export default async function timeTrackingRoutes(fastify: FastifyInstance) {
   fastify.delete(
     "/:id",
     {
+      preHandler: [requireAuth, requireTimeLogOwnership],
       schema: {
         description: "Delete a time log",
         tags: ["Time Tracking"],
