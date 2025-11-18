@@ -19,7 +19,7 @@ export class ChecklistSchema {
       title,
       order: Type.Optional(order),
     },
-    { $id: "CreateChecklistItemSchema" },
+    { $id: "CreateChecklistItemSchema" }
   );
 
   static UpdateChecklistItemSchema = Type.Object(
@@ -30,7 +30,7 @@ export class ChecklistSchema {
       completed: Type.Optional(completed),
       order: Type.Optional(order),
     },
-    { $id: "UpdateChecklistItemSchema" },
+    { $id: "UpdateChecklistItemSchema" }
   );
 
   static ToggleChecklistItemSchema = Type.Object(
@@ -38,7 +38,7 @@ export class ChecklistSchema {
       id,
       card_id,
     },
-    { $id: "ToggleChecklistItemSchema" },
+    { $id: "ToggleChecklistItemSchema" }
   );
 
   static DeleteChecklistItemSchema = Type.Object(
@@ -46,7 +46,7 @@ export class ChecklistSchema {
       id,
       card_id,
     },
-    { $id: "DeleteChecklistItemSchema" },
+    { $id: "DeleteChecklistItemSchema" }
   );
 
   static ChecklistItemResponseSchema = Type.Object(
@@ -61,14 +61,14 @@ export class ChecklistSchema {
       created_at,
       updated_at,
     },
-    { $id: "ChecklistItemResponseSchema" },
+    { $id: "ChecklistItemResponseSchema" }
   );
 
   static ChecklistItemResponseSchemaArray = Type.Array(
     ChecklistSchema.ChecklistItemResponseSchema,
     {
       $id: "ChecklistItemResponseSchemaArray",
-    },
+    }
   );
 
   static ChecklistProgressSchema = Type.Object(
@@ -77,7 +77,7 @@ export class ChecklistSchema {
       completed: Type.Number(),
       percentage: Type.Number(),
     },
-    { $id: "ChecklistProgressSchema" },
+    { $id: "ChecklistProgressSchema" }
   );
 
   static ChecklistWithProgressSchema = Type.Object(
@@ -85,7 +85,7 @@ export class ChecklistSchema {
       items: ChecklistSchema.ChecklistItemResponseSchemaArray,
       progress: ChecklistSchema.ChecklistProgressSchema,
     },
-    { $id: "ChecklistWithProgressSchema" },
+    { $id: "ChecklistWithProgressSchema" }
   );
 }
 
@@ -94,6 +94,8 @@ export type UpdateChecklistItem = Static<typeof ChecklistSchema.UpdateChecklistI
 export type ToggleChecklistItem = Static<typeof ChecklistSchema.ToggleChecklistItemSchema>;
 export type DeleteChecklistItem = Static<typeof ChecklistSchema.DeleteChecklistItemSchema>;
 export type ChecklistItemResponse = Static<typeof ChecklistSchema.ChecklistItemResponseSchema>;
-export type ChecklistItemResponseArray = Static<typeof ChecklistSchema.ChecklistItemResponseSchemaArray>;
+export type ChecklistItemResponseArray = Static<
+  typeof ChecklistSchema.ChecklistItemResponseSchemaArray
+>;
 export type ChecklistProgress = Static<typeof ChecklistSchema.ChecklistProgressSchema>;
 export type ChecklistWithProgress = Static<typeof ChecklistSchema.ChecklistWithProgressSchema>;

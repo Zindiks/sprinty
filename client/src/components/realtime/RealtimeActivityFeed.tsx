@@ -160,12 +160,8 @@ function ActivityItem({ activity }: { activity: ActivityItem }) {
             <span className="font-medium capitalize">{activity.type}</span>{" "}
             <span className="text-gray-600">{activity.action}</span>
           </p>
-          {activity.title && (
-            <p className="text-sm text-gray-600 truncate">{activity.title}</p>
-          )}
-          <p className="text-xs text-gray-400 mt-0.5">
-            {getTimeAgo(activity.timestamp)}
-          </p>
+          {activity.title && <p className="text-sm text-gray-600 truncate">{activity.title}</p>}
+          <p className="text-xs text-gray-400 mt-0.5">{getTimeAgo(activity.timestamp)}</p>
         </div>
       </div>
     </div>

@@ -25,9 +25,7 @@ export function ConnectionStatusBanner({ status, onRetry }: ConnectionStatusBann
             <AlertDescription className={`${config.textColor} font-medium`}>
               {config.title}
             </AlertDescription>
-            <p className={`text-sm ${config.textColor} opacity-80 mt-0.5`}>
-              {config.description}
-            </p>
+            <p className={`text-sm ${config.textColor} opacity-80 mt-0.5`}>{config.description}</p>
           </div>
         </div>
 

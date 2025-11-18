@@ -1,22 +1,22 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { renderHook, waitFor, act } from '@testing-library/react';
-import { createWrapper } from '@/__tests__/utils/test-utils';
-import { useBoard } from '@/hooks/useBoards';
-import { server } from '@/__tests__/setup';
-import { errorHandlers } from '@/__tests__/utils/server-handlers';
+import { describe, it, expect, beforeEach, vi } from "vitest";
+import { renderHook, waitFor, act } from "@testing-library/react";
+import { createWrapper } from "@/__tests__/utils/test-utils";
+import { useBoard } from "@/hooks/useBoards";
+import { server } from "@/__tests__/setup";
+import { errorHandlers } from "@/__tests__/utils/server-handlers";
 
 // Mock the toast hook
-vi.mock('@/hooks/use-toast', () => ({
+vi.mock("@/hooks/use-toast", () => ({
   useToast: () => ({
     toast: vi.fn(),
   }),
 }));
 
-describe('useBoard hook', () => {
-  const testOrgId = 'test-org-123';
+describe("useBoard hook", () => {
+  const testOrgId = "test-org-123";
 
-  describe('GetBoards query', () => {
-    it('should start in loading state', () => {
+  describe("GetBoards query", () => {
+    it("should start in loading state", () => {
       const { result } = renderHook(() => useBoard(testOrgId), {
         wrapper: createWrapper(),
       });
@@ -30,7 +30,7 @@ describe('useBoard hook', () => {
       expect(boardsQuery.result.current.data).toBeUndefined();
     });
 
-    it('should fetch boards successfully', async () => {
+    it("should fetch boards successfully", async () => {
       const { result } = renderHook(() => useBoard(testOrgId), {
         wrapper: createWrapper(),
       });
@@ -56,7 +56,7 @@ describe('useBoard hook', () => {
       });
     });
 
-    it('should handle fetch error', async () => {
+    it("should handle fetch error", async () => {
       // Override with error handler
       server.use(errorHandlers.boardsFetchError);
 
@@ -78,9 +78,9 @@ describe('useBoard hook', () => {
     });
   });
 
-  describe('GetBoard query', () => {
-    it('should fetch single board successfully', async () => {
-      const testBoardId = 'board-123';
+  describe("GetBoard query", () => {
+    it("should fetch single board successfully", async () => {
+      const testBoardId = "board-123";
       const { result } = renderHook(() => useBoard(testOrgId), {
         wrapper: createWrapper(),
       });
@@ -98,9 +98,9 @@ describe('useBoard hook', () => {
       expect(boardQuery.result.current.data?.id).toBe(testBoardId);
     });
 
-    it('should handle different board IDs', async () => {
-      const boardId1 = 'board-1';
-      const boardId2 = 'board-2';
+    it("should handle different board IDs", async () => {
+      const boardId1 = "board-1";
+      const boardId2 = "board-2";
 
       const { result } = renderHook(() => useBoard(testOrgId), {
         wrapper: createWrapper(),
@@ -126,8 +126,8 @@ describe('useBoard hook', () => {
     });
   });
 
-  describe('createBoard mutation', () => {
-    it('should create board successfully', async () => {
+  describe("createBoard mutation", () => {
+    it("should create board successfully", async () => {
       const { result } = renderHook(() => useBoard(testOrgId), {
         wrapper: createWrapper(),
       });
@@ -136,8 +136,8 @@ describe('useBoard hook', () => {
 
       await act(async () => {
         result.current.createBoard.mutate({
-          title: 'New Board',
-          description: 'Test board description',
+          title: "New Board",
+          description: "Test board description",
         });
       });
 
@@ -148,7 +148,7 @@ describe('useBoard hook', () => {
       expect(result.current.createBoard.data).toBeDefined();
     });
 
-    it('should handle create error', async () => {
+    it("should handle create error", async () => {
       // Override with error handler
       server.use(errorHandlers.boardCreateError);
 
@@ -158,8 +158,8 @@ describe('useBoard hook', () => {
 
       await act(async () => {
         result.current.createBoard.mutate({
-          title: 'New Board',
-          description: 'Test description',
+          title: "New Board",
+          description: "Test description",
         });
       });
 
@@ -168,7 +168,7 @@ describe('useBoard hook', () => {
       });
     });
 
-    it('should include organization_id in request', async () => {
+    it("should include organization_id in request", async () => {
       const { result } = renderHook(() => useBoard(testOrgId), {
         wrapper: createWrapper(),
       });
@@ -176,16 +176,16 @@ describe('useBoard hook', () => {
       let requestBody: any = null;
 
       // Intercept the request to verify organization_id
-      server.events.on('request:start', async ({ request }) => {
-        if (request.method === 'POST' && request.url.includes('/boards')) {
+      server.events.on("request:start", async ({ request }) => {
+        if (request.method === "POST" && request.url.includes("/boards")) {
           requestBody = await request.clone().json();
         }
       });
 
       await act(async () => {
         result.current.createBoard.mutate({
-          title: 'New Board',
-          description: 'Test',
+          title: "New Board",
+          description: "Test",
         });
       });
 
@@ -198,14 +198,14 @@ describe('useBoard hook', () => {
     });
   });
 
-  describe('updateBoardTitle mutation', () => {
-    it('should update board title successfully', async () => {
+  describe("updateBoardTitle mutation", () => {
+    it("should update board title successfully", async () => {
       const { result } = renderHook(() => useBoard(testOrgId), {
         wrapper: createWrapper(),
       });
 
-      const testBoardId = 'board-123';
-      const newTitle = 'Updated Board Title';
+      const testBoardId = "board-123";
+      const newTitle = "Updated Board Title";
 
       await act(async () => {
         result.current.updateBoardTitle.mutate({
@@ -221,7 +221,7 @@ describe('useBoard hook', () => {
       expect(result.current.updateBoardTitle.data).toBeDefined();
     });
 
-    it('should handle update error', async () => {
+    it("should handle update error", async () => {
       const { result } = renderHook(() => useBoard(testOrgId), {
         wrapper: createWrapper(),
       });
@@ -231,8 +231,8 @@ describe('useBoard hook', () => {
 
       await act(async () => {
         result.current.updateBoardTitle.mutate({
-          id: 'board-123',
-          title: 'New Title',
+          id: "board-123",
+          title: "New Title",
         });
       });
 
@@ -242,13 +242,13 @@ describe('useBoard hook', () => {
     });
   });
 
-  describe('deleteBoard mutation', () => {
-    it('should delete board successfully', async () => {
+  describe("deleteBoard mutation", () => {
+    it("should delete board successfully", async () => {
       const { result } = renderHook(() => useBoard(testOrgId), {
         wrapper: createWrapper(),
       });
 
-      const boardIdToDelete = 'board-to-delete';
+      const boardIdToDelete = "board-to-delete";
 
       await act(async () => {
         result.current.deleteBoard.mutate(boardIdToDelete);
@@ -261,7 +261,7 @@ describe('useBoard hook', () => {
       expect(result.current.deleteBoard.data).toBeDefined();
     });
 
-    it('should handle delete error', async () => {
+    it("should handle delete error", async () => {
       // Override with error handler
       server.use(errorHandlers.boardDeleteError);
 
@@ -270,7 +270,7 @@ describe('useBoard hook', () => {
       });
 
       await act(async () => {
-        result.current.deleteBoard.mutate('board-123');
+        result.current.deleteBoard.mutate("board-123");
       });
 
       await waitFor(() => {
@@ -279,8 +279,8 @@ describe('useBoard hook', () => {
     });
   });
 
-  describe('Cache invalidation', () => {
-    it('should invalidate boards query after creating board', async () => {
+  describe("Cache invalidation", () => {
+    it("should invalidate boards query after creating board", async () => {
       const wrapper = createWrapper();
 
       const { result: hookResult } = renderHook(() => useBoard(testOrgId), {
@@ -301,8 +301,8 @@ describe('useBoard hook', () => {
       // Create a new board
       await act(async () => {
         hookResult.current.createBoard.mutate({
-          title: 'New Board',
-          description: 'Test',
+          title: "New Board",
+          description: "Test",
         });
       });
 
@@ -314,7 +314,7 @@ describe('useBoard hook', () => {
       // Note: In a real test, we'd verify the query was refetched
     });
 
-    it('should invalidate board query after updating title', async () => {
+    it("should invalidate board query after updating title", async () => {
       const wrapper = createWrapper();
 
       const { result } = renderHook(() => useBoard(testOrgId), {
@@ -323,8 +323,8 @@ describe('useBoard hook', () => {
 
       await act(async () => {
         result.current.updateBoardTitle.mutate({
-          id: 'board-123',
-          title: 'Updated Title',
+          id: "board-123",
+          title: "Updated Title",
         });
       });
 

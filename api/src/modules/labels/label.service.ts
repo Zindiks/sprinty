@@ -31,10 +31,7 @@ export class LabelService {
     return this.labelRepository.deleteLabel(input);
   }
 
-  async getLabelById(
-    id: string,
-    board_id: string,
-  ): Promise<LabelResponse | undefined> {
+  async getLabelById(id: string, board_id: string): Promise<LabelResponse | undefined> {
     return this.labelRepository.getLabelById(id, board_id);
   }
 
@@ -42,9 +39,7 @@ export class LabelService {
     return this.labelRepository.getLabelsByBoardId(board_id);
   }
 
-  async getLabelsWithCardsCount(
-    board_id: string,
-  ): Promise<LabelWithCardsCountArray> {
+  async getLabelsWithCardsCount(board_id: string): Promise<LabelWithCardsCountArray> {
     return this.labelRepository.getLabelsWithCardsCount(board_id);
   }
 

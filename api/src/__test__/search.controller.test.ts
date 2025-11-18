@@ -64,7 +64,7 @@ describe("SearchController", () => {
 
       await searchController.searchController(
         mockRequest as FastifyRequest<{ Querystring: SearchQuery }>,
-        mockReply as FastifyReply,
+        mockReply as FastifyReply
       );
 
       expect(searchService.search).toHaveBeenCalledWith(queryParams);
@@ -84,7 +84,7 @@ describe("SearchController", () => {
 
       await searchController.searchController(
         mockRequest as FastifyRequest<{ Querystring: SearchQuery }>,
-        mockReply as FastifyReply,
+        mockReply as FastifyReply
       );
 
       expect(mockReply.status).toHaveBeenCalledWith(500);
@@ -105,7 +105,7 @@ describe("SearchController", () => {
 
       await searchController.searchController(
         mockRequest as FastifyRequest<{ Querystring: SearchQuery }>,
-        mockReply as FastifyReply,
+        mockReply as FastifyReply
       );
 
       expect(mockReply.status).toHaveBeenCalledWith(500);
@@ -137,7 +137,7 @@ describe("SearchController", () => {
 
       await searchController.searchController(
         mockRequest as FastifyRequest<{ Querystring: SearchQuery }>,
-        mockReply as FastifyReply,
+        mockReply as FastifyReply
       );
 
       expect(mockReply.status).toHaveBeenCalledWith(200);
@@ -184,7 +184,7 @@ describe("SearchController", () => {
 
       await searchController.searchController(
         mockRequest as FastifyRequest<{ Querystring: SearchQuery }>,
-        mockReply as FastifyReply,
+        mockReply as FastifyReply
       );
 
       expect(searchService.search).toHaveBeenCalledWith(queryParams);

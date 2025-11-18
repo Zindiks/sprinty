@@ -45,9 +45,7 @@ export class BulkService {
   /**
    * Move multiple cards to a target list
    */
-  async moveCards(
-    input: BulkMoveCardsInput,
-  ): Promise<BulkOperationResponse> {
+  async moveCards(input: BulkMoveCardsInput): Promise<BulkOperationResponse> {
     const { card_ids, target_list_id } = input;
 
     return this.knex.transaction(async (trx) => {
@@ -92,9 +90,7 @@ export class BulkService {
   /**
    * Assign users to multiple cards
    */
-  async assignUsers(
-    input: BulkAssignUsersInput,
-  ): Promise<BulkOperationResponse> {
+  async assignUsers(input: BulkAssignUsersInput): Promise<BulkOperationResponse> {
     const { card_ids, user_ids } = input;
 
     return this.knex.transaction(async (trx) => {
@@ -135,9 +131,7 @@ export class BulkService {
   /**
    * Add labels to multiple cards
    */
-  async addLabels(
-    input: BulkAddLabelsInput,
-  ): Promise<BulkOperationResponse> {
+  async addLabels(input: BulkAddLabelsInput): Promise<BulkOperationResponse> {
     const { card_ids, label_ids } = input;
 
     return this.knex.transaction(async (trx) => {
@@ -178,9 +172,7 @@ export class BulkService {
   /**
    * Set due date on multiple cards
    */
-  async setDueDate(
-    input: BulkSetDueDateInput,
-  ): Promise<BulkOperationResponse> {
+  async setDueDate(input: BulkSetDueDateInput): Promise<BulkOperationResponse> {
     const { card_ids, due_date } = input;
 
     return this.knex.transaction(async (trx) => {
@@ -211,9 +203,7 @@ export class BulkService {
   /**
    * Archive multiple cards
    */
-  async archiveCards(
-    input: BulkArchiveCardsInput,
-  ): Promise<BulkOperationResponse> {
+  async archiveCards(input: BulkArchiveCardsInput): Promise<BulkOperationResponse> {
     const { card_ids } = input;
 
     return this.knex.transaction(async (trx) => {
@@ -244,9 +234,7 @@ export class BulkService {
   /**
    * Delete multiple cards and their related data
    */
-  async deleteCards(
-    input: BulkDeleteCardsInput,
-  ): Promise<BulkOperationResponse> {
+  async deleteCards(input: BulkDeleteCardsInput): Promise<BulkOperationResponse> {
     const { card_ids } = input;
 
     return this.knex.transaction(async (trx) => {

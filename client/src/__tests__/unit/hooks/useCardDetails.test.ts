@@ -1,23 +1,23 @@
-import { describe, it, expect, vi } from 'vitest';
-import { renderHook, waitFor, act } from '@testing-library/react';
-import { createWrapper } from '@/__tests__/utils/test-utils';
-import { useCardDetails } from '@/hooks/useCardDetails';
-import { server } from '@/__tests__/setup';
-import { errorHandlers } from '@/__tests__/utils/server-handlers';
+import { describe, it, expect, vi } from "vitest";
+import { renderHook, waitFor, act } from "@testing-library/react";
+import { createWrapper } from "@/__tests__/utils/test-utils";
+import { useCardDetails } from "@/hooks/useCardDetails";
+import { server } from "@/__tests__/setup";
+import { errorHandlers } from "@/__tests__/utils/server-handlers";
 
 // Mock the toast hook
-vi.mock('@/hooks/use-toast', () => ({
+vi.mock("@/hooks/use-toast", () => ({
   useToast: () => ({
     toast: vi.fn(),
   }),
 }));
 
-describe('useCardDetails hook', () => {
-  const testCardId = 'card-123';
-  const testListId = 'list-123';
+describe("useCardDetails hook", () => {
+  const testCardId = "card-123";
+  const testListId = "list-123";
 
-  describe('cardDetails query', () => {
-    it('should be disabled when cardId is not provided', () => {
+  describe("cardDetails query", () => {
+    it("should be disabled when cardId is not provided", () => {
       const { result } = renderHook(() => useCardDetails(), {
         wrapper: createWrapper(),
       });
@@ -26,8 +26,8 @@ describe('useCardDetails hook', () => {
       expect(result.current.isLoading).toBe(false);
     });
 
-    it('should be disabled when cardId is empty string', () => {
-      const { result } = renderHook(() => useCardDetails(''), {
+    it("should be disabled when cardId is empty string", () => {
+      const { result } = renderHook(() => useCardDetails(""), {
         wrapper: createWrapper(),
       });
 
@@ -35,7 +35,7 @@ describe('useCardDetails hook', () => {
       expect(result.current.isLoading).toBe(false);
     });
 
-    it('should fetch card details successfully when cardId is provided', async () => {
+    it("should fetch card details successfully when cardId is provided", async () => {
       const { result } = renderHook(() => useCardDetails(testCardId), {
         wrapper: createWrapper(),
       });
@@ -53,16 +53,16 @@ describe('useCardDetails hook', () => {
       expect(result.current.cardDetails?.id).toBe(testCardId);
 
       // Verify CardWithDetails structure includes all relations
-      expect(result.current.cardDetails).toHaveProperty('assignees');
-      expect(result.current.cardDetails).toHaveProperty('labels');
-      expect(result.current.cardDetails).toHaveProperty('checklist_items');
-      expect(result.current.cardDetails).toHaveProperty('checklist_progress');
-      expect(result.current.cardDetails).toHaveProperty('comments');
-      expect(result.current.cardDetails).toHaveProperty('attachments');
-      expect(result.current.cardDetails).toHaveProperty('activities');
+      expect(result.current.cardDetails).toHaveProperty("assignees");
+      expect(result.current.cardDetails).toHaveProperty("labels");
+      expect(result.current.cardDetails).toHaveProperty("checklist_items");
+      expect(result.current.cardDetails).toHaveProperty("checklist_progress");
+      expect(result.current.cardDetails).toHaveProperty("comments");
+      expect(result.current.cardDetails).toHaveProperty("attachments");
+      expect(result.current.cardDetails).toHaveProperty("activities");
     });
 
-    it('should handle fetch error', async () => {
+    it("should handle fetch error", async () => {
       // Override with error handler
       server.use(errorHandlers.cardDetailsFetchError);
 
@@ -78,7 +78,7 @@ describe('useCardDetails hook', () => {
       expect(result.current.cardDetails).toBeUndefined();
     });
 
-    it('should refetch card details when refetch is called', async () => {
+    it("should refetch card details when refetch is called", async () => {
       const { result } = renderHook(() => useCardDetails(testCardId), {
         wrapper: createWrapper(),
       });
@@ -101,8 +101,8 @@ describe('useCardDetails hook', () => {
     });
   });
 
-  describe('updateDetails mutation', () => {
-    it('should update card details successfully', async () => {
+  describe("updateDetails mutation", () => {
+    it("should update card details successfully", async () => {
       const { result } = renderHook(() => useCardDetails(testCardId), {
         wrapper: createWrapper(),
       });
@@ -114,9 +114,9 @@ describe('useCardDetails hook', () => {
 
       const updates = {
         id: testCardId,
-        title: 'Updated Title',
-        description: 'Updated description',
-        priority: 'high' as const,
+        title: "Updated Title",
+        description: "Updated description",
+        priority: "high" as const,
       };
 
       await act(async () => {
@@ -130,7 +130,7 @@ describe('useCardDetails hook', () => {
       expect(result.current.updateDetails.data).toBeDefined();
     });
 
-    it('should handle update error', async () => {
+    it("should handle update error", async () => {
       // Override with error handler (useCardDetails uses /cards/:cardId/details endpoint)
       server.use(errorHandlers.cardDetailsUpdateErrorWithId);
 
@@ -141,7 +141,7 @@ describe('useCardDetails hook', () => {
       await act(async () => {
         result.current.updateDetails.mutate({
           id: testCardId,
-          title: 'Updated Title',
+          title: "Updated Title",
         });
       });
 
@@ -150,7 +150,7 @@ describe('useCardDetails hook', () => {
       });
     });
 
-    it('should update only specific fields', async () => {
+    it("should update only specific fields", async () => {
       const { result } = renderHook(() => useCardDetails(testCardId), {
         wrapper: createWrapper(),
       });
@@ -164,7 +164,7 @@ describe('useCardDetails hook', () => {
       await act(async () => {
         result.current.updateDetails.mutate({
           id: testCardId,
-          title: 'New Title Only',
+          title: "New Title Only",
         });
       });
 
@@ -172,10 +172,10 @@ describe('useCardDetails hook', () => {
         expect(result.current.updateDetails.isSuccess).toBe(true);
       });
 
-      expect(result.current.updateDetails.data?.data.title).toBe('New Title Only');
+      expect(result.current.updateDetails.data?.data.title).toBe("New Title Only");
     });
 
-    it('should update card priority', async () => {
+    it("should update card priority", async () => {
       const { result } = renderHook(() => useCardDetails(testCardId), {
         wrapper: createWrapper(),
       });
@@ -187,7 +187,7 @@ describe('useCardDetails hook', () => {
       await act(async () => {
         result.current.updateDetails.mutate({
           id: testCardId,
-          priority: 'critical',
+          priority: "critical",
         });
       });
 
@@ -195,10 +195,10 @@ describe('useCardDetails hook', () => {
         expect(result.current.updateDetails.isSuccess).toBe(true);
       });
 
-      expect(result.current.updateDetails.data?.data.priority).toBe('critical');
+      expect(result.current.updateDetails.data?.data.priority).toBe("critical");
     });
 
-    it('should update card status', async () => {
+    it("should update card status", async () => {
       const { result } = renderHook(() => useCardDetails(testCardId), {
         wrapper: createWrapper(),
       });
@@ -210,7 +210,7 @@ describe('useCardDetails hook', () => {
       await act(async () => {
         result.current.updateDetails.mutate({
           id: testCardId,
-          status: 'in-progress',
+          status: "in-progress",
         });
       });
 
@@ -218,10 +218,10 @@ describe('useCardDetails hook', () => {
         expect(result.current.updateDetails.isSuccess).toBe(true);
       });
 
-      expect(result.current.updateDetails.data?.data.status).toBe('in-progress');
+      expect(result.current.updateDetails.data?.data.status).toBe("in-progress");
     });
 
-    it('should update card due date', async () => {
+    it("should update card due date", async () => {
       const { result } = renderHook(() => useCardDetails(testCardId), {
         wrapper: createWrapper(),
       });
@@ -230,7 +230,7 @@ describe('useCardDetails hook', () => {
         expect(result.current.isLoading).toBe(false);
       });
 
-      const dueDate = '2024-12-31T23:59:59.000Z';
+      const dueDate = "2024-12-31T23:59:59.000Z";
 
       await act(async () => {
         result.current.updateDetails.mutate({
@@ -247,8 +247,8 @@ describe('useCardDetails hook', () => {
     });
   });
 
-  describe('deleteCard mutation', () => {
-    it('should delete card successfully', async () => {
+  describe("deleteCard mutation", () => {
+    it("should delete card successfully", async () => {
       const { result } = renderHook(() => useCardDetails(testCardId), {
         wrapper: createWrapper(),
       });
@@ -268,7 +268,7 @@ describe('useCardDetails hook', () => {
       expect(result.current.deleteCard.data?.data.success).toBe(true);
     });
 
-    it('should handle delete error', async () => {
+    it("should handle delete error", async () => {
       // Override with error handler
       server.use(errorHandlers.cardDeleteError);
 
@@ -288,7 +288,7 @@ describe('useCardDetails hook', () => {
       });
     });
 
-    it('should invalidate lists query after deleting card', async () => {
+    it("should invalidate lists query after deleting card", async () => {
       const wrapper = createWrapper();
 
       const { result } = renderHook(() => useCardDetails(testCardId), {
@@ -312,18 +312,18 @@ describe('useCardDetails hook', () => {
     });
   });
 
-  describe('Hook exports', () => {
-    it('should export all expected properties', () => {
+  describe("Hook exports", () => {
+    it("should export all expected properties", () => {
       const { result } = renderHook(() => useCardDetails(), {
         wrapper: createWrapper(),
       });
 
-      expect(result.current).toHaveProperty('cardDetails');
-      expect(result.current).toHaveProperty('isLoading');
-      expect(result.current).toHaveProperty('error');
-      expect(result.current).toHaveProperty('refetch');
-      expect(result.current).toHaveProperty('updateDetails');
-      expect(result.current).toHaveProperty('deleteCard');
+      expect(result.current).toHaveProperty("cardDetails");
+      expect(result.current).toHaveProperty("isLoading");
+      expect(result.current).toHaveProperty("error");
+      expect(result.current).toHaveProperty("refetch");
+      expect(result.current).toHaveProperty("updateDetails");
+      expect(result.current).toHaveProperty("deleteCard");
     });
   });
 });

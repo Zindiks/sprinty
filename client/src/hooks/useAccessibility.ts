@@ -18,9 +18,7 @@ export const useAccessibility = (): AccessibilityPreferences => {
     if (typeof window === "undefined") return;
 
     // Reduced motion
-    const reducedMotionQuery = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    );
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const updateReducedMotion = () => {
       setPreferences((prev) => ({
         ...prev,
@@ -92,9 +90,7 @@ export const useFocusTrap = (isActive: boolean) => {
 
       const focusableElements = document.querySelectorAll(focusableSelector);
       const firstElement = focusableElements[0] as HTMLElement;
-      const lastElement = focusableElements[
-        focusableElements.length - 1
-      ] as HTMLElement;
+      const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
 
       if (e.shiftKey && document.activeElement === firstElement) {
         e.preventDefault();

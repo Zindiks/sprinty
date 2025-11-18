@@ -1,10 +1,6 @@
 import { UserService } from "../modules/oauth/oauth.service";
 import { UserRepository } from "../modules/oauth/oauth.repository";
-import {
-  OAuthResponse,
-  UserResponse,
-  ProfileResponse,
-} from "../modules/oauth/oauth.schema";
+import { OAuthResponse, UserResponse, ProfileResponse } from "../modules/oauth/oauth.schema";
 
 jest.mock("../modules/oauth/oauth.repository");
 

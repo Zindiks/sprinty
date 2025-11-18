@@ -19,11 +19,7 @@ interface ReminderSectionProps {
   dueDate?: string;
 }
 
-export const ReminderSection = ({
-  cardId,
-  userId,
-  dueDate,
-}: ReminderSectionProps) => {
+export const ReminderSection = ({ cardId, userId, dueDate }: ReminderSectionProps) => {
   const { reminders, isLoading, createReminder, deleteReminder } = useReminders(cardId);
   const [selectedType, setSelectedType] = useState<"24h" | "1h" | "custom">("24h");
 
@@ -72,11 +68,7 @@ export const ReminderSection = ({
   };
 
   if (!dueDate) {
-    return (
-      <div className="text-sm text-muted-foreground">
-        Set a due date to add reminders
-      </div>
-    );
+    return <div className="text-sm text-muted-foreground">Set a due date to add reminders</div>;
   }
 
   return (
@@ -95,19 +87,13 @@ export const ReminderSection = ({
             <SelectItem value="custom">Custom time</SelectItem>
           </SelectContent>
         </Select>
-        <Button
-          size="sm"
-          onClick={handleCreateReminder}
-          disabled={createReminder.isPending}
-        >
+        <Button size="sm" onClick={handleCreateReminder} disabled={createReminder.isPending}>
           <Bell className="h-4 w-4 mr-1" />
           Add Reminder
         </Button>
       </div>
 
-      {isLoading && (
-        <div className="text-sm text-muted-foreground">Loading reminders...</div>
-      )}
+      {isLoading && <div className="text-sm text-muted-foreground">Loading reminders...</div>}
 
       {!isLoading && reminders.length > 0 && (
         <div className="space-y-2">
@@ -145,9 +131,7 @@ export const ReminderSection = ({
       )}
 
       {!isLoading && reminders.length === 0 && (
-        <div className="text-sm text-muted-foreground">
-          No reminders set for this card
-        </div>
+        <div className="text-sm text-muted-foreground">No reminders set for this card</div>
       )}
     </div>
   );

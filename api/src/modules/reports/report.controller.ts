@@ -68,10 +68,7 @@ export class ReportController {
 
       reply
         .header("Content-Type", "text/csv")
-        .header(
-          "Content-Disposition",
-          `attachment; filename="time-tracking-${boardId}.csv"`
-        )
+        .header("Content-Disposition", `attachment; filename="time-tracking-${boardId}.csv"`)
         .send(csv);
     } catch (error) {
       request.log.error(error);
@@ -95,10 +92,7 @@ export class ReportController {
 
       reply
         .header("Content-Type", "text/csv")
-        .header(
-          "Content-Disposition",
-          `attachment; filename="sprint-${sprintId}.csv"`
-        )
+        .header("Content-Disposition", `attachment; filename="sprint-${sprintId}.csv"`)
         .send(csv);
     } catch (error) {
       request.log.error(error);
@@ -134,10 +128,7 @@ export class ReportController {
 
       reply
         .header("Content-Type", "text/csv")
-        .header(
-          "Content-Disposition",
-          `attachment; filename="user-activity-${userId}.csv"`
-        )
+        .header("Content-Disposition", `attachment; filename="user-activity-${userId}.csv"`)
         .send(csv);
     } catch (error) {
       request.log.error(error);
@@ -161,10 +152,7 @@ export class ReportController {
 
       reply
         .header("Content-Type", "text/calendar; charset=utf-8")
-        .header(
-          "Content-Disposition",
-          `attachment; filename="board-${boardId}-calendar.ics"`
-        )
+        .header("Content-Disposition", `attachment; filename="board-${boardId}-calendar.ics"`)
         .send(ical);
     } catch (error) {
       request.log.error(error);

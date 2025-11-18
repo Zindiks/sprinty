@@ -14,7 +14,7 @@ export class BoardSchema {
       title,
       description,
     },
-    { $id: "BaseBoardSchema" },
+    { $id: "BaseBoardSchema" }
   );
 
   static CreateBoardSchema = Type.Object(
@@ -23,7 +23,7 @@ export class BoardSchema {
       title,
       description,
     },
-    { $id: "CreateBoardSchema" },
+    { $id: "CreateBoardSchema" }
   );
 
   static UpdateBoardSchema = Type.Partial(BoardSchema.BaseBoardSchema, {
@@ -34,7 +34,7 @@ export class BoardSchema {
     {
       id,
     },
-    { $id: "DeleteBoardSchema" },
+    { $id: "DeleteBoardSchema" }
   );
 
   // RESPONSE SCHEMA
@@ -48,7 +48,7 @@ export class BoardSchema {
         updated_at,
       }),
     ],
-    { $id: "BoardResponseSchema" },
+    { $id: "BoardResponseSchema" }
   );
 }
 

@@ -39,11 +39,7 @@ export class TimeTrackingRepository {
    */
   async getTimeLogById(id: string) {
     return this.knex("time_logs")
-      .select(
-        "time_logs.*",
-        "cards.title as card_title",
-        "users.oauth_provider_id as user_email"
-      )
+      .select("time_logs.*", "cards.title as card_title", "users.oauth_provider_id as user_email")
       .leftJoin("cards", "time_logs.card_id", "cards.id")
       .leftJoin("users", "time_logs.user_id", "users.id")
       .where("time_logs.id", id)
@@ -55,10 +51,7 @@ export class TimeTrackingRepository {
    */
   async getTimeLogsByCard(cardId: string) {
     return this.knex("time_logs")
-      .select(
-        "time_logs.*",
-        "users.oauth_provider_id as user_email"
-      )
+      .select("time_logs.*", "users.oauth_provider_id as user_email")
       .leftJoin("users", "time_logs.user_id", "users.id")
       .where("time_logs.card_id", cardId)
       .orderBy("time_logs.logged_at", "desc");
@@ -127,8 +120,7 @@ export class TimeTrackingRepository {
 
     return {
       totalMinutes: parseInt(result?.total_minutes as string) || 0,
-      totalHours:
-        Math.round(((parseInt(result?.total_minutes as string) || 0) / 60) * 100) / 100,
+      totalHours: Math.round(((parseInt(result?.total_minutes as string) || 0) / 60) * 100) / 100,
       logCount: parseInt(result?.log_count as string) || 0,
     };
   }
@@ -143,11 +135,7 @@ export class TimeTrackingRepository {
     organizationId?: string
   ) {
     const query = this.knex("time_logs")
-      .select(
-        "time_logs.*",
-        "cards.title as card_title",
-        "boards.title as board_title"
-      )
+      .select("time_logs.*", "cards.title as card_title", "boards.title as board_title")
       .leftJoin("cards", "time_logs.card_id", "cards.id")
       .leftJoin("lists", "cards.list_id", "lists.id")
       .leftJoin("boards", "lists.board_id", "boards.id")

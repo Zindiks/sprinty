@@ -45,9 +45,7 @@ export class ReminderScheduler {
     try {
       const reminders = await this.service.getUpcomingReminders(100);
 
-      this.fastify.log.info(
-        `Processing ${reminders.length} due reminders...`
-      );
+      this.fastify.log.info(`Processing ${reminders.length} due reminders...`);
 
       for (const reminder of reminders) {
         try {
@@ -56,9 +54,7 @@ export class ReminderScheduler {
           const user = await this.getUserDetails(reminder.user_id);
 
           if (!card || !user) {
-            this.fastify.log.warn(
-              `Card or user not found for reminder ${reminder.id}`
-            );
+            this.fastify.log.warn(`Card or user not found for reminder ${reminder.id}`);
             await this.service.markReminderAsSent(reminder.id);
             continue;
           }
@@ -69,14 +65,9 @@ export class ReminderScheduler {
           // Mark as sent
           await this.service.markReminderAsSent(reminder.id);
 
-          this.fastify.log.info(
-            `Reminder sent for card "${card.title}" to user ${user.email}`
-          );
+          this.fastify.log.info(`Reminder sent for card "${card.title}" to user ${user.email}`);
         } catch (error) {
-          this.fastify.log.error(
-            `Failed to process reminder ${reminder.id}:`,
-            error
-          );
+          this.fastify.log.error(`Failed to process reminder ${reminder.id}:`, error);
         }
       }
     } catch (error) {
@@ -89,9 +80,7 @@ export class ReminderScheduler {
    */
   private async getCardDetails(cardId: string) {
     try {
-      const card = await this.fastify.knex("cards")
-        .where({ id: cardId })
-        .first();
+      const card = await this.fastify.knex("cards").where({ id: cardId }).first();
       return card;
     } catch (error) {
       this.fastify.log.error(`Failed to fetch card ${cardId}:`, error);
@@ -104,9 +93,7 @@ export class ReminderScheduler {
    */
   private async getUserDetails(userId: string) {
     try {
-      const user = await this.fastify.knex("users")
-        .where({ id: userId })
-        .first();
+      const user = await this.fastify.knex("users").where({ id: userId }).first();
       return user;
     } catch (error) {
       this.fastify.log.error(`Failed to fetch user ${userId}:`, error);
@@ -120,9 +107,7 @@ export class ReminderScheduler {
   private async sendReminderNotification(reminder: any, card: any, user: any) {
     try {
       // Get board_id from the card's list
-      const list = await this.fastify.knex("lists")
-        .where({ id: card.list_id })
-        .first();
+      const list = await this.fastify.knex("lists").where({ id: card.list_id }).first();
 
       if (!list) {
         this.fastify.log.warn(`List not found for card ${card.id}`);
@@ -154,9 +139,7 @@ export class ReminderScheduler {
         // Also send to the board room
         io.to(`board:${boardId}`).emit("reminder", reminderEvent);
 
-        this.fastify.log.info(
-          `Reminder notification sent via WebSocket for card ${card.id}`
-        );
+        this.fastify.log.info(`Reminder notification sent via WebSocket for card ${card.id}`);
       } else {
         this.fastify.log.warn("WebSocket server not available");
       }

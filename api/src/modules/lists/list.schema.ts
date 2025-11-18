@@ -14,7 +14,7 @@ export class ListSchema {
       board_id,
       title,
     },
-    { $id: "CreateListSchema" },
+    { $id: "CreateListSchema" }
   );
 
   static UpdateListTitleSchema = Type.Object(
@@ -23,7 +23,7 @@ export class ListSchema {
       board_id,
       title,
     },
-    { $id: "UpdateListTitleSchema" },
+    { $id: "UpdateListTitleSchema" }
   );
 
   static UpdateListOrderSchema = Type.Object(
@@ -31,22 +31,19 @@ export class ListSchema {
       id,
       order,
     },
-    { $id: "UpdateListOrderSchema" },
+    { $id: "UpdateListOrderSchema" }
   );
 
-  static UpdateListOrderSchemaArray = Type.Array(
-    ListSchema.UpdateListOrderSchema,
-    {
-      $id: "UpdateListsOrderSchema",
-    },
-  );
+  static UpdateListOrderSchemaArray = Type.Array(ListSchema.UpdateListOrderSchema, {
+    $id: "UpdateListsOrderSchema",
+  });
 
   static CopyListSchema = Type.Object(
     {
       id,
       board_id,
     },
-    { $id: "CopyListSchema" },
+    { $id: "CopyListSchema" }
   );
 
   static DeleteListSchema = Type.Object(
@@ -54,7 +51,7 @@ export class ListSchema {
       id,
       board_id,
     },
-    { $id: "DeleteListSchema" },
+    { $id: "DeleteListSchema" }
   );
 
   // RESPONSE SCHEMA
@@ -68,15 +65,13 @@ export class ListSchema {
       created_at,
       updated_at,
     },
-    { $id: "FullListResponseSchema" },
+    { $id: "FullListResponseSchema" }
   );
 }
 
 export type CreateList = Static<typeof ListSchema.CreateListSchema>;
 export type UpdateListTitle = Static<typeof ListSchema.UpdateListTitleSchema>;
-export type UpdateListOrderArray = Static<
-  typeof ListSchema.UpdateListOrderSchemaArray
->;
+export type UpdateListOrderArray = Static<typeof ListSchema.UpdateListOrderSchemaArray>;
 export type CopyList = Static<typeof ListSchema.CopyListSchema>;
 export type DeleteList = Static<typeof ListSchema.DeleteListSchema>;
 

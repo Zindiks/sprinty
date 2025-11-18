@@ -1,10 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { DashboardLayoutsService } from "./dashboard-layouts.service";
-import {
-  CreateLayoutBody,
-  UpdateLayoutBody,
-  LayoutIdParams,
-} from "./dashboard-layouts.schema";
+import { CreateLayoutBody, UpdateLayoutBody, LayoutIdParams } from "./dashboard-layouts.schema";
 
 export class DashboardLayoutsController {
   constructor(private service: DashboardLayoutsService) {}
@@ -144,11 +140,7 @@ export class DashboardLayoutsController {
         return reply.code(404).send({ error: "Layout not found" });
       }
 
-      const layout = await this.service.updateLayout(
-        layoutId,
-        userId,
-        request.body
-      );
+      const layout = await this.service.updateLayout(layoutId, userId, request.body);
 
       return reply.code(200).send(layout);
     } catch (error) {

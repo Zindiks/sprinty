@@ -1,10 +1,6 @@
 import { MoreHorizontal, X } from "lucide-react";
 import { List } from "@/types/types";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { PopoverClose } from "@radix-ui/react-popover";
 import { useLists } from "@/hooks/useLists";
@@ -34,7 +30,7 @@ const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
         onSuccess: () => {
           closeRef.current?.click();
         },
-      },
+      }
     );
   };
 
@@ -50,7 +46,7 @@ const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
         onSuccess: () => {
           closeRef.current?.click();
         },
-      },
+      }
     );
   };
 
@@ -64,9 +60,7 @@ const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
 
       <PopoverContent className="px-0 pt-3 pb-3 " side="bottom" align="start">
         <div className="flex justify-between p-2 text-neutral-600 ">
-          <div className="text-sm font-medium text-center w-full">
-            List Actions
-          </div>
+          <div className="text-sm font-medium text-center w-full">List Actions</div>
 
           <PopoverClose ref={closeRef}>
             <X className="w-4 h-4" />
@@ -84,12 +78,7 @@ const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
 
           <form onSubmit={copyHandler}>
             <input hidden name="id" id="id" defaultValue={data.id} />
-            <input
-              hidden
-              name="board_id"
-              id="board_id"
-              defaultValue={data.board_id}
-            />
+            <input hidden name="board_id" id="board_id" defaultValue={data.board_id} />
 
             <Button
               type="submit"
@@ -102,12 +91,7 @@ const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
 
           <form onSubmit={deleteHandler}>
             <input hidden name="id" id="id" defaultValue={data.id} />
-            <input
-              hidden
-              name="board_id"
-              id="board_id"
-              defaultValue={data.board_id}
-            />
+            <input hidden name="board_id" id="board_id" defaultValue={data.board_id} />
 
             <Button
               type="submit"

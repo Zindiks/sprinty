@@ -53,7 +53,7 @@ const ListForm = () => {
         onError: () => {
           console.log("Something Wrong");
         },
-      },
+      }
     );
   };
 

@@ -44,8 +44,7 @@ export const AttachmentItem = ({
     if (mimeType.startsWith("image/")) return FileImage;
     if (mimeType.startsWith("video/")) return FileVideo;
     if (mimeType.startsWith("audio/")) return FileAudio;
-    if (mimeType.includes("pdf") || mimeType.includes("document"))
-      return FileText;
+    if (mimeType.includes("pdf") || mimeType.includes("document")) return FileText;
     return File;
   };
 
@@ -83,11 +82,7 @@ export const AttachmentItem = ({
             onClick={() => setShowImagePreview(true)}
             className="relative w-12 h-12 flex-shrink-0 rounded overflow-hidden bg-muted cursor-pointer"
           >
-            <img
-              src={imageUrl}
-              alt={attachment.filename}
-              className="w-full h-full object-cover"
-            />
+            <img src={imageUrl} alt={attachment.filename} className="w-full h-full object-cover" />
           </button>
         ) : (
           <div className="w-12 h-12 flex-shrink-0 rounded bg-muted flex items-center justify-center">
@@ -101,9 +96,7 @@ export const AttachmentItem = ({
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <span>{formatFileSize(attachment.file_size)}</span>
             <span>•</span>
-            <span>
-              {attachment.user?.username || attachment.user?.email || "Unknown"}
-            </span>
+            <span>{attachment.user?.username || attachment.user?.email || "Unknown"}</span>
             <span>•</span>
             <span>{formatDate(attachment.uploaded_at)}</span>
           </div>
@@ -154,11 +147,7 @@ export const AttachmentItem = ({
               <DialogTitle>{attachment.filename}</DialogTitle>
             </DialogHeader>
             <div className="max-h-[70vh] overflow-auto">
-              <img
-                src={imageUrl}
-                alt={attachment.filename}
-                className="w-full h-auto"
-              />
+              <img src={imageUrl} alt={attachment.filename} className="w-full h-auto" />
             </div>
           </DialogContent>
         </Dialog>
@@ -170,15 +159,12 @@ export const AttachmentItem = ({
           <DialogHeader>
             <DialogTitle>Delete attachment?</DialogTitle>
             <DialogDescription>
-              This action cannot be undone. The file "{attachment.filename}"
-              will be permanently deleted.
+              This action cannot be undone. The file "{attachment.filename}" will be permanently
+              deleted.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setShowDeleteDialog(false)}
-            >
+            <Button variant="outline" onClick={() => setShowDeleteDialog(false)}>
               Cancel
             </Button>
             <Button

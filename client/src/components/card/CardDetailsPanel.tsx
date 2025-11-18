@@ -1,10 +1,6 @@
 import { useEffect, useRef } from "react";
 import type { CardWithDetails } from "@/types/types";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useCardDetails } from "@/hooks/useCardDetails";
@@ -21,10 +17,7 @@ import { ChecklistSection } from "./sections/ChecklistSection";
 import { CommentSection } from "./sections/CommentSection";
 import { AttachmentSection } from "./sections/AttachmentSection";
 import { ActivitySection } from "./sections/ActivitySection";
-import {
-  KeyboardShortcutsDialog,
-  useKeyboardShortcuts,
-} from "./widgets/KeyboardShortcutsDialog";
+import { KeyboardShortcutsDialog, useKeyboardShortcuts } from "./widgets/KeyboardShortcutsDialog";
 
 interface CardDetailsPanelProps {
   cardId: string | null;
@@ -32,11 +25,7 @@ interface CardDetailsPanelProps {
   onClose: () => void;
 }
 
-export const CardDetailsPanel = ({
-  cardId,
-  isOpen,
-  onClose,
-}: CardDetailsPanelProps) => {
+export const CardDetailsPanel = ({ cardId, isOpen, onClose }: CardDetailsPanelProps) => {
   const { cardDetails, isLoading, updateDetails, deleteCard } = useCardDetails(cardId || undefined);
   const { board_id } = useStore();
   const { showDialog, setShowDialog } = useKeyboardShortcuts();
@@ -54,9 +43,7 @@ export const CardDetailsPanel = ({
       // Ignore if typing in input/textarea
       const target = e.target as HTMLElement;
       const isEditing =
-        target.tagName === "INPUT" ||
-        target.tagName === "TEXTAREA" ||
-        target.isContentEditable;
+        target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable;
 
       // Always handle Escape
       if (e.key === "Escape" && isOpen) {

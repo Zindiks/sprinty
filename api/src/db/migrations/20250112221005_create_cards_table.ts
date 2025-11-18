@@ -3,12 +3,7 @@ import type { Knex } from "knex";
 export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable("cards", function (table) {
     table.uuid("id").primary().defaultTo(knex.raw("gen_random_uuid()"));
-    table
-      .uuid("list_id")
-      .notNullable()
-      .references("id")
-      .inTable("lists")
-      .onDelete("CASCADE");
+    table.uuid("list_id").notNullable().references("id").inTable("lists").onDelete("CASCADE");
     table.string("title").notNullable();
     table.integer("order").notNullable();
     table.text("description");

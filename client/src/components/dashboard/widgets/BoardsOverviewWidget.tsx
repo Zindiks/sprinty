@@ -28,12 +28,8 @@ const BoardsOverviewWidget = ({ organizationId }: BoardsOverviewWidgetProps) => 
   if (!boards || boards.length === 0) {
     return (
       <div className="bg-white rounded-lg shadow p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
-          Boards Overview
-        </h3>
-        <div className="flex items-center justify-center h-32 text-gray-500">
-          No boards found
-        </div>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Boards Overview</h3>
+        <div className="flex items-center justify-center h-32 text-gray-500">No boards found</div>
       </div>
     );
   }
@@ -42,9 +38,7 @@ const BoardsOverviewWidget = ({ organizationId }: BoardsOverviewWidgetProps) => 
     <div className="bg-white rounded-lg shadow p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-semibold text-gray-900">
-          Boards I'm Working On
-        </h3>
+        <h3 className="text-lg font-semibold text-gray-900">Boards I'm Working On</h3>
         <span className="text-sm text-gray-500">
           {boards.length} {boards.length === 1 ? "board" : "boards"}
         </span>
@@ -59,9 +53,7 @@ const BoardsOverviewWidget = ({ organizationId }: BoardsOverviewWidgetProps) => 
             className="border border-gray-200 rounded-lg p-4 hover:border-blue-400 hover:shadow-md transition cursor-pointer"
           >
             {/* Board Title */}
-            <h4 className="font-semibold text-gray-900 mb-3 truncate">
-              {board.title}
-            </h4>
+            <h4 className="font-semibold text-gray-900 mb-3 truncate">{board.title}</h4>
 
             {/* Stats Grid */}
             <div className="grid grid-cols-2 gap-3 mb-3">

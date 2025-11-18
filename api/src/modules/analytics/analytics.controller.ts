@@ -28,10 +28,7 @@ export class AnalyticsController {
         return reply.code(401).send({ error: "Unauthorized" });
       }
 
-      const dashboard = await this.service.getPersonalDashboard(
-        userId,
-        organizationId
-      );
+      const dashboard = await this.service.getPersonalDashboard(userId, organizationId);
       return reply.code(200).send(dashboard);
     } catch (error) {
       request.log.error(error);
@@ -123,10 +120,7 @@ export class AnalyticsController {
         return reply.code(401).send({ error: "Unauthorized" });
       }
 
-      const tasks = await this.service.getUserAssignedTasks(
-        userId,
-        organizationId
-      );
+      const tasks = await this.service.getUserAssignedTasks(userId, organizationId);
       return reply.code(200).send(tasks);
     } catch (error) {
       request.log.error(error);
@@ -235,11 +229,7 @@ export class AnalyticsController {
         return reply.code(401).send({ error: "Unauthorized" });
       }
 
-      const metrics = await this.service.getWeeklyMetrics(
-        userId,
-        organizationId,
-        weeksBack
-      );
+      const metrics = await this.service.getWeeklyMetrics(userId, organizationId, weeksBack);
       return reply.code(200).send(metrics);
     } catch (error) {
       request.log.error(error);
@@ -266,11 +256,7 @@ export class AnalyticsController {
         return reply.code(401).send({ error: "Unauthorized" });
       }
 
-      const metrics = await this.service.getMonthlyMetrics(
-        userId,
-        organizationId,
-        monthsBack
-      );
+      const metrics = await this.service.getMonthlyMetrics(userId, organizationId, monthsBack);
       return reply.code(200).send(metrics);
     } catch (error) {
       request.log.error(error);

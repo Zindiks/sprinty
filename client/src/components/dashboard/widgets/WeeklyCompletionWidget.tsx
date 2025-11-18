@@ -34,9 +34,7 @@ const WeeklyCompletionWidget = ({ organizationId }: WeeklyCompletionWidgetProps)
   if (!metrics || metrics.length === 0) {
     return (
       <div className="bg-white rounded-lg shadow p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
-          Weekly Metrics
-        </h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Weekly Metrics</h3>
         <div className="flex items-center justify-center h-64 text-gray-500">
           No weekly metrics available
         </div>
@@ -68,9 +66,7 @@ const WeeklyCompletionWidget = ({ organizationId }: WeeklyCompletionWidgetProps)
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
           <Calendar className="w-5 h-5 text-blue-600" />
-          <h3 className="text-lg font-semibold text-gray-900">
-            Weekly Performance
-          </h3>
+          <h3 className="text-lg font-semibold text-gray-900">Weekly Performance</h3>
         </div>
 
         {/* Week selector */}
@@ -97,9 +93,7 @@ const WeeklyCompletionWidget = ({ organizationId }: WeeklyCompletionWidgetProps)
         </div>
         <div className="text-center p-3 bg-purple-50 rounded-lg">
           <p className="text-xs text-gray-600">Hours Logged</p>
-          <p className="text-xl font-bold text-purple-600">
-            {totals.timeSpent.toFixed(1)}h
-          </p>
+          <p className="text-xl font-bold text-purple-600">{totals.timeSpent.toFixed(1)}h</p>
         </div>
       </div>
 
@@ -119,9 +113,7 @@ const WeeklyCompletionWidget = ({ organizationId }: WeeklyCompletionWidgetProps)
       {/* Top Boards Table */}
       {metrics[0]?.topBoards && metrics[0].topBoards.length > 0 && (
         <div className="mt-6 pt-6 border-t">
-          <h4 className="text-sm font-semibold text-gray-900 mb-3">
-            Top Boards This Week
-          </h4>
+          <h4 className="text-sm font-semibold text-gray-900 mb-3">Top Boards This Week</h4>
           <div className="space-y-2">
             {metrics[0].topBoards.map((board, index) => (
               <div
@@ -129,9 +121,7 @@ const WeeklyCompletionWidget = ({ organizationId }: WeeklyCompletionWidgetProps)
                 className="flex items-center justify-between p-2 bg-gray-50 rounded"
               >
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-semibold text-gray-500">
-                    #{index + 1}
-                  </span>
+                  <span className="text-xs font-semibold text-gray-500">#{index + 1}</span>
                   <span className="text-sm text-gray-900">{board.boardTitle}</span>
                 </div>
                 <span className="text-sm font-semibold text-green-600">

@@ -8,8 +8,7 @@ export const config = {
     host: process.env.API_HOST || "localhost",
     sessionSecret: process.env.API_SESSION_SECRET || "secret",
     githubClientId: process.env.GITHUB_CLIENT_ID || "githubClientId",
-    githubClientSecret:
-      process.env.GITHUB_CLIENT_SECRET || "githubClientSecret",
+    githubClientSecret: process.env.GITHUB_CLIENT_SECRET || "githubClientSecret",
   },
   client: {
     port: Number(process.env.CLIENT_PORT) || 3000,

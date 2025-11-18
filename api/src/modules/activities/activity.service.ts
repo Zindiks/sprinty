@@ -23,35 +23,29 @@ export class ActivityService {
     return this.activityRepository.getActivityById(id);
   }
 
-  async getActivityWithUser(
-    id: string,
-  ): Promise<ActivityWithUserResponse | undefined> {
+  async getActivityWithUser(id: string): Promise<ActivityWithUserResponse | undefined> {
     return this.activityRepository.getActivityWithUser(id);
   }
 
   async getActivitiesByCardId(
     card_id: string,
-    params?: ActivityQueryParams,
+    params?: ActivityQueryParams
   ): Promise<ActivityListResponse> {
     return this.activityRepository.getActivitiesByCardId(card_id, params);
   }
 
   async getActivitiesByUserId(
     user_id: string,
-    params?: ActivityQueryParams,
+    params?: ActivityQueryParams
   ): Promise<ActivityListResponse> {
     return this.activityRepository.getActivitiesByUserId(user_id, params);
   }
 
-  async getActivities(
-    params: ActivityQueryParams,
-  ): Promise<ActivityListResponse> {
+  async getActivities(params: ActivityQueryParams): Promise<ActivityListResponse> {
     return this.activityRepository.getActivities(params);
   }
 
-  async getActivityStats(
-    card_id: string,
-  ): Promise<ActivityStatsResponse> {
+  async getActivityStats(card_id: string): Promise<ActivityStatsResponse> {
     return this.activityRepository.getActivityStats(card_id);
   }
 

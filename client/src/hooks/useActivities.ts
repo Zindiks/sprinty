@@ -20,7 +20,11 @@ interface FetchError {
 
 export const useActivities = (cardId?: string, filters?: ActivityFilters) => {
   // Fetch activities for a card
-  const { data: activities, isLoading, refetch } = useQuery<Activity[], FetchError>({
+  const {
+    data: activities,
+    isLoading,
+    refetch,
+  } = useQuery<Activity[], FetchError>({
     queryKey: ["activities", cardId, filters],
     queryFn: async () => {
       if (!cardId) throw new Error("Card ID is required");

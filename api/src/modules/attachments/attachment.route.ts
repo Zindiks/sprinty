@@ -24,7 +24,7 @@ export default async function attachmentRoutes(server: FastifyInstance) {
         },
       },
     },
-    attachmentController.uploadAttachment.bind(attachmentController),
+    attachmentController.uploadAttachment.bind(attachmentController)
   );
 
   // Get attachment by ID with user details
@@ -47,7 +47,7 @@ export default async function attachmentRoutes(server: FastifyInstance) {
         },
       },
     },
-    attachmentController.getAttachment.bind(attachmentController),
+    attachmentController.getAttachment.bind(attachmentController)
   );
 
   // Get all attachments for a card
@@ -69,7 +69,7 @@ export default async function attachmentRoutes(server: FastifyInstance) {
         },
       },
     },
-    attachmentController.getAttachmentsByCardId.bind(attachmentController),
+    attachmentController.getAttachmentsByCardId.bind(attachmentController)
   );
 
   // Download attachment
@@ -89,7 +89,7 @@ export default async function attachmentRoutes(server: FastifyInstance) {
         },
       },
     },
-    attachmentController.downloadAttachment.bind(attachmentController),
+    attachmentController.downloadAttachment.bind(attachmentController)
   );
 
   // Update attachment (rename)
@@ -105,7 +105,7 @@ export default async function attachmentRoutes(server: FastifyInstance) {
         },
       },
     },
-    attachmentController.updateAttachment.bind(attachmentController),
+    attachmentController.updateAttachment.bind(attachmentController)
   );
 
   // Delete attachment
@@ -128,7 +128,7 @@ export default async function attachmentRoutes(server: FastifyInstance) {
         },
       },
     },
-    attachmentController.deleteAttachment.bind(attachmentController),
+    attachmentController.deleteAttachment.bind(attachmentController)
   );
 
   // Get attachment count for a card
@@ -150,7 +150,7 @@ export default async function attachmentRoutes(server: FastifyInstance) {
         },
       },
     },
-    attachmentController.getAttachmentCount.bind(attachmentController),
+    attachmentController.getAttachmentCount.bind(attachmentController)
   );
 
   // Get attachments uploaded by a user
@@ -172,6 +172,6 @@ export default async function attachmentRoutes(server: FastifyInstance) {
         },
       },
     },
-    attachmentController.getAttachmentsByUserId.bind(attachmentController),
+    attachmentController.getAttachmentsByUserId.bind(attachmentController)
   );
 }

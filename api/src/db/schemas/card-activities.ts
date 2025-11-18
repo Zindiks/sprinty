@@ -3,18 +3,8 @@ import { Knex } from "knex";
 export const cardActivitySchema = (knex: Knex) => {
   return knex.schema.createTable("card_activities", function (table) {
     table.uuid("id").primary().defaultTo(knex.raw("gen_random_uuid()"));
-    table
-      .uuid("card_id")
-      .notNullable()
-      .references("id")
-      .inTable("cards")
-      .onDelete("CASCADE");
-    table
-      .uuid("user_id")
-      .notNullable()
-      .references("id")
-      .inTable("users")
-      .onDelete("CASCADE");
+    table.uuid("card_id").notNullable().references("id").inTable("cards").onDelete("CASCADE");
+    table.uuid("user_id").notNullable().references("id").inTable("users").onDelete("CASCADE");
     table
       .enum("action_type", [
         "created",

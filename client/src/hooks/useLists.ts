@@ -110,11 +110,7 @@ export const useLists = (board_id: string) => {
     },
   });
 
-  const updateListTitle = useMutation<
-    AxiosResponse,
-    FetchError,
-    UpdateListTitle
-  >({
+  const updateListTitle = useMutation<AxiosResponse, FetchError, UpdateListTitle>({
     mutationFn: (formData) => {
       return apiClient.patch(`/lists/update`, formData);
     },
@@ -138,10 +134,7 @@ export const useLists = (board_id: string) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const updateListsOrder = useMutation<AxiosResponse, FetchError, any>({
     mutationFn: ([formData, board_id]) => {
-      return apiClient.put(
-        `/lists/order/${board_id}`,
-        formData,
-      );
+      return apiClient.put(`/lists/order/${board_id}`, formData);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({

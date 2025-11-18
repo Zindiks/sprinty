@@ -126,7 +126,7 @@ describe("CommentService", () => {
       commentRepository.createComment.mockRejectedValue(error);
 
       await expect(commentService.createComment(input, user_id)).rejects.toThrow(
-        "Database connection failed",
+        "Database connection failed"
       );
     });
   });

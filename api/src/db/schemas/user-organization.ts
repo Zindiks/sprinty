@@ -2,12 +2,7 @@ import { Knex } from "knex";
 
 export const userOrganizationSchema = (knex: Knex) => {
   return knex.schema.createTable("user_organization", function (table) {
-    table
-      .uuid("user_id")
-      .notNullable()
-      .references("id")
-      .inTable("users")
-      .onDelete("CASCADE");
+    table.uuid("user_id").notNullable().references("id").inTable("users").onDelete("CASCADE");
     table
       .uuid("organization_id")
       .notNullable()

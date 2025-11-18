@@ -17,7 +17,18 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { Download, Clock, CheckCircle, AlertCircle, TrendingUp, LayoutDashboard, LineChart, Calendar, Target, Layout } from "lucide-react";
+import {
+  Download,
+  Clock,
+  CheckCircle,
+  AlertCircle,
+  TrendingUp,
+  LayoutDashboard,
+  LineChart,
+  Calendar,
+  Target,
+  Layout,
+} from "lucide-react";
 import { OverdueCardsWidget } from "@/components/dashboard/OverdueCardsWidget";
 import { UpcomingDueDatesWidget } from "@/components/dashboard/UpcomingDueDatesWidget";
 
@@ -48,8 +59,7 @@ const Dashboard = () => {
 
   const { data: personalDashboard, isLoading: loadingPersonal } =
     usePersonalDashboard(organization_id);
-  const { data: boardAnalytics, isLoading: loadingBoard } =
-    useBoardAnalytics(board_id);
+  const { data: boardAnalytics, isLoading: loadingBoard } = useBoardAnalytics(board_id);
 
   // Filter and sort tasks
   const filteredTasks = useMemo(() => {
@@ -79,19 +89,13 @@ const Dashboard = () => {
   const handleExportBoard = () => {
     if (!board_id) return;
     const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
-    window.open(
-      `${API_URL}/api/v1/reports/board/${board_id}`,
-      "_blank"
-    );
+    window.open(`${API_URL}/api/v1/reports/board/${board_id}`, "_blank");
   };
 
   const handleExportTimeTracking = () => {
     if (!board_id) return;
     const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
-    window.open(
-      `${API_URL}/api/v1/reports/time-tracking?boardId=${board_id}`,
-      "_blank"
-    );
+    window.open(`${API_URL}/api/v1/reports/time-tracking?boardId=${board_id}`, "_blank");
   };
 
   if (!organization_id) {
@@ -139,9 +143,7 @@ const Dashboard = () => {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Dashboard & Analytics</h1>
-          <p className="text-gray-600 mt-2">
-            Track your progress and team performance
-          </p>
+          <p className="text-gray-600 mt-2">Track your progress and team performance</p>
         </div>
 
         {/* Tab Navigation */}
@@ -347,10 +349,10 @@ const Dashboard = () => {
                                       entry.priority === "critical"
                                         ? COLORS.danger
                                         : entry.priority === "high"
-                                        ? COLORS.warning
-                                        : entry.priority === "medium"
-                                        ? COLORS.primary
-                                        : COLORS.success
+                                          ? COLORS.warning
+                                          : entry.priority === "medium"
+                                            ? COLORS.primary
+                                            : COLORS.success
                                     }
                                   />
                                 ))}
@@ -399,7 +401,9 @@ const Dashboard = () => {
                             <BarChart data={boardAnalytics.timeTracking.byUser}>
                               <CartesianGrid strokeDasharray="3 3" />
                               <XAxis dataKey="userEmail" />
-                              <YAxis label={{ value: "Hours", angle: -90, position: "insideLeft" }} />
+                              <YAxis
+                                label={{ value: "Hours", angle: -90, position: "insideLeft" }}
+                              />
                               <Tooltip />
                               <Legend />
                               <Bar dataKey="totalHours" fill={COLORS.purple} name="Hours" />
@@ -448,52 +452,57 @@ const Dashboard = () => {
                     <div className="flex items-center justify-between mb-6">
                       <h2 className="text-xl font-bold text-gray-900">Your Assigned Tasks</h2>
                       <span className="text-sm text-gray-500">
-                        Showing {filteredTasks.length} of {personalDashboard.recentTasks.length} tasks
+                        Showing {filteredTasks.length} of {personalDashboard.recentTasks.length}{" "}
+                        tasks
                       </span>
                     </div>
                     {filteredTasks.length > 0 ? (
                       <div className="space-y-4">
                         {filteredTasks.map((task) => (
-                        <div
-                          key={task.id}
-                          className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition"
-                        >
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-3">
-                              <h3 className="text-sm font-medium text-gray-900">{task.title}</h3>
-                              <span
-                                className={`px-2 py-1 text-xs rounded-full ${
-                                  task.priority === "critical"
-                                    ? "bg-red-100 text-red-800"
-                                    : task.priority === "high"
-                                    ? "bg-orange-100 text-orange-800"
-                                    : task.priority === "medium"
-                                    ? "bg-blue-100 text-blue-800"
-                                    : "bg-green-100 text-green-800"
-                                }`}
-                              >
-                                {task.priority}
-                              </span>
-                            </div>
-                            <p className="text-sm text-gray-600 mt-1">{task.board_title} / {task.list_title}</p>
-                            {task.due_date && (
-                              <p className="text-xs text-gray-500 mt-1">
-                                Due: {new Date(task.due_date).toLocaleDateString()}
+                          <div
+                            key={task.id}
+                            className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition"
+                          >
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-3">
+                                <h3 className="text-sm font-medium text-gray-900">{task.title}</h3>
+                                <span
+                                  className={`px-2 py-1 text-xs rounded-full ${
+                                    task.priority === "critical"
+                                      ? "bg-red-100 text-red-800"
+                                      : task.priority === "high"
+                                        ? "bg-orange-100 text-orange-800"
+                                        : task.priority === "medium"
+                                          ? "bg-blue-100 text-blue-800"
+                                          : "bg-green-100 text-green-800"
+                                  }`}
+                                >
+                                  {task.priority}
+                                </span>
+                              </div>
+                              <p className="text-sm text-gray-600 mt-1">
+                                {task.board_title} / {task.list_title}
                               </p>
+                              {task.due_date && (
+                                <p className="text-xs text-gray-500 mt-1">
+                                  Due: {new Date(task.due_date).toLocaleDateString()}
+                                </p>
+                              )}
+                            </div>
+                            {task.status && (
+                              <span className="ml-4 px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">
+                                {task.status}
+                              </span>
                             )}
                           </div>
-                          {task.status && (
-                            <span className="ml-4 px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">
-                              {task.status}
-                            </span>
-                          )}
-                        </div>
-                      ))}
-                    </div>
+                        ))}
+                      </div>
                     ) : (
                       <div className="text-center py-12 text-gray-500">
                         <p>No tasks match the current filters.</p>
-                        <p className="text-sm mt-2">Try adjusting your filters to see more results.</p>
+                        <p className="text-sm mt-2">
+                          Try adjusting your filters to see more results.
+                        </p>
                       </div>
                     )}
                   </div>
@@ -547,9 +556,7 @@ const Dashboard = () => {
                   <VelocityChart boardId={board_id} />
                 ) : (
                   <div className="bg-white rounded-lg shadow p-12 text-center">
-                    <p className="text-gray-500 text-lg">
-                      Select a board to view sprint analytics
-                    </p>
+                    <p className="text-gray-500 text-lg">Select a board to view sprint analytics</p>
                   </div>
                 )}
               </div>

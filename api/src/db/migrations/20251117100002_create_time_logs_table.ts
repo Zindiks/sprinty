@@ -3,18 +3,8 @@ import type { Knex } from "knex";
 export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable("time_logs", function (table) {
     table.uuid("id").primary().defaultTo(knex.raw("gen_random_uuid()"));
-    table
-      .uuid("card_id")
-      .notNullable()
-      .references("id")
-      .inTable("cards")
-      .onDelete("CASCADE");
-    table
-      .uuid("user_id")
-      .notNullable()
-      .references("id")
-      .inTable("users")
-      .onDelete("CASCADE");
+    table.uuid("card_id").notNullable().references("id").inTable("cards").onDelete("CASCADE");
+    table.uuid("user_id").notNullable().references("id").inTable("users").onDelete("CASCADE");
     table.integer("duration_minutes").notNullable(); // Duration in minutes
     table.text("description").nullable();
     table.timestamp("logged_at").defaultTo(knex.fn.now());

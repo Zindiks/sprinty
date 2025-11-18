@@ -12,11 +12,10 @@ export default async function searchRoutes(fastify: FastifyInstance) {
         querystring: SearchSchema.SearchQuerySchema,
         response: { 200: SearchSchema.SearchResponseSchema },
         tags: ["search"],
-        description:
-          "Search across boards, lists, and cards within an organization",
+        description: "Search across boards, lists, and cards within an organization",
         summary: "Global search",
       },
     },
-    searchController.searchController.bind(searchController),
+    searchController.searchController.bind(searchController)
   );
 }

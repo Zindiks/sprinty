@@ -162,9 +162,7 @@ describe("SprintService", () => {
 
       sprintRepository.createSprint.mockRejectedValue(error);
 
-      await expect(sprintService.createSprint(input)).rejects.toThrow(
-        "Database connection failed",
-      );
+      await expect(sprintService.createSprint(input)).rejects.toThrow("Database connection failed");
     });
   });
 

@@ -22,11 +22,7 @@ interface SaveAsTemplateDialogProps {
 
 const EMOJI_OPTIONS = ["📋", "🏃", "✅", "🐛", "📝", "🚀", "⭐", "🎯", "💡", "🔥"];
 
-export function SaveAsTemplateDialog({
-  open,
-  onOpenChange,
-  boardId,
-}: SaveAsTemplateDialogProps) {
+export function SaveAsTemplateDialog({ open, onOpenChange, boardId }: SaveAsTemplateDialogProps) {
   const { organization_id } = useStore();
   const { createTemplateFromBoard } = useTemplates(organization_id);
 
@@ -75,8 +71,8 @@ export function SaveAsTemplateDialog({
         <DialogHeader>
           <DialogTitle>Save as Template</DialogTitle>
           <DialogDescription>
-            Create a reusable template from this board that you can use to
-            quickly set up new boards.
+            Create a reusable template from this board that you can use to quickly set up new
+            boards.
           </DialogDescription>
         </DialogHeader>
 
@@ -92,9 +88,7 @@ export function SaveAsTemplateDialog({
               required
               maxLength={50}
             />
-            <p className="text-xs text-muted-foreground">
-              {templateName.length}/50 characters
-            </p>
+            <p className="text-xs text-muted-foreground">{templateName.length}/50 characters</p>
           </div>
 
           {/* Description */}
@@ -108,9 +102,7 @@ export function SaveAsTemplateDialog({
               rows={3}
               maxLength={200}
             />
-            <p className="text-xs text-muted-foreground">
-              {description.length}/200 characters
-            </p>
+            <p className="text-xs text-muted-foreground">{description.length}/200 characters</p>
           </div>
 
           {/* Icon Selector */}
@@ -143,16 +135,12 @@ export function SaveAsTemplateDialog({
               onCheckedChange={(checked) => setIncludeCards(checked as boolean)}
             />
             <div className="space-y-1">
-              <Label
-                htmlFor="include-cards"
-                className="text-sm font-medium cursor-pointer"
-              >
+              <Label htmlFor="include-cards" className="text-sm font-medium cursor-pointer">
                 Include cards as example cards
               </Label>
               <p className="text-xs text-muted-foreground">
-                Existing cards will be saved as example cards in the template.
-                When creating a board from this template, users can choose
-                whether to include these examples.
+                Existing cards will be saved as example cards in the template. When creating a board
+                from this template, users can choose whether to include these examples.
               </p>
             </div>
           </div>
@@ -171,13 +159,9 @@ export function SaveAsTemplateDialog({
             <Button
               type="submit"
               className="flex-1"
-              disabled={
-                !templateName.trim() || createTemplateFromBoard.isPending
-              }
+              disabled={!templateName.trim() || createTemplateFromBoard.isPending}
             >
-              {createTemplateFromBoard.isPending
-                ? "Saving..."
-                : "Save Template"}
+              {createTemplateFromBoard.isPending ? "Saving..." : "Save Template"}
             </Button>
           </div>
         </form>

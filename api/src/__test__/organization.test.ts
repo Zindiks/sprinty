@@ -7,8 +7,7 @@ import {
 
 jest.mock("../modules/organizations/organization.repository");
 
-const MockedOrganizationRepository =
-  OrganizationRepository as jest.Mock<OrganizationRepository>;
+const MockedOrganizationRepository = OrganizationRepository as jest.Mock<OrganizationRepository>;
 
 describe("OrganizationService", () => {
   let organizationService: OrganizationService;

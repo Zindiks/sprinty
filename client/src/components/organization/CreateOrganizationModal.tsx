@@ -22,19 +22,23 @@ export function CreateOrganizationModal() {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
-  const setOrganizationId = useStore(state => state.setOrganizationId);
+  const setOrganizationId = useStore((state) => state.setOrganizationId);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      const response = await axios.post("http://localhost:4000/api/v1/organizations/", {
-        name,
-        description,
-      }, {
-        withCredentials: true,
-      });
+      const response = await axios.post(
+        "http://localhost:4000/api/v1/organizations/",
+        {
+          name,
+          description,
+        },
+        {
+          withCredentials: true,
+        }
+      );
 
       const newOrganization = response.data;
 
@@ -55,7 +59,7 @@ export function CreateOrganizationModal() {
       setDescription("");
 
       // Navigate to boards page
-      navigate('/boards');
+      navigate("/boards");
     } catch (error) {
       toast({
         title: "Error",

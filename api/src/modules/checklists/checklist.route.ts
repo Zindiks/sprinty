@@ -19,7 +19,7 @@ export default async function checklistRoutes(fastify: FastifyInstance) {
         description: "Create a new checklist item for a card",
       },
     },
-    checklistController.createChecklistItemController.bind(checklistController),
+    checklistController.createChecklistItemController.bind(checklistController)
   );
 
   // Update checklist item
@@ -39,7 +39,7 @@ export default async function checklistRoutes(fastify: FastifyInstance) {
         description: "Update a checklist item",
       },
     },
-    checklistController.updateChecklistItemController.bind(checklistController),
+    checklistController.updateChecklistItemController.bind(checklistController)
   );
 
   // Toggle checklist item completion
@@ -59,7 +59,7 @@ export default async function checklistRoutes(fastify: FastifyInstance) {
         description: "Toggle checklist item completion status",
       },
     },
-    checklistController.toggleChecklistItemController.bind(checklistController),
+    checklistController.toggleChecklistItemController.bind(checklistController)
   );
 
   // Delete checklist item
@@ -82,7 +82,7 @@ export default async function checklistRoutes(fastify: FastifyInstance) {
         description: "Delete a checklist item",
       },
     },
-    checklistController.deleteChecklistItemController.bind(checklistController),
+    checklistController.deleteChecklistItemController.bind(checklistController)
   );
 
   // Get checklist item by ID
@@ -108,7 +108,7 @@ export default async function checklistRoutes(fastify: FastifyInstance) {
         description: "Get a checklist item by ID",
       },
     },
-    checklistController.getChecklistItemController.bind(checklistController),
+    checklistController.getChecklistItemController.bind(checklistController)
   );
 
   // Get all checklist items for a card
@@ -129,9 +129,7 @@ export default async function checklistRoutes(fastify: FastifyInstance) {
         description: "Get all checklist items for a card",
       },
     },
-    checklistController.getChecklistItemsByCardIdController.bind(
-      checklistController,
-    ),
+    checklistController.getChecklistItemsByCardIdController.bind(checklistController)
   );
 
   // Get checklist progress for a card
@@ -152,7 +150,7 @@ export default async function checklistRoutes(fastify: FastifyInstance) {
         description: "Get checklist progress for a card",
       },
     },
-    checklistController.getChecklistProgressController.bind(checklistController),
+    checklistController.getChecklistProgressController.bind(checklistController)
   );
 
   // Get checklist with progress for a card
@@ -173,9 +171,7 @@ export default async function checklistRoutes(fastify: FastifyInstance) {
         description: "Get checklist items with progress for a card",
       },
     },
-    checklistController.getChecklistWithProgressController.bind(
-      checklistController,
-    ),
+    checklistController.getChecklistWithProgressController.bind(checklistController)
   );
 
   // Reorder checklist items
@@ -216,8 +212,6 @@ export default async function checklistRoutes(fastify: FastifyInstance) {
         description: "Reorder checklist items",
       },
     },
-    checklistController.reorderChecklistItemsController.bind(
-      checklistController,
-    ),
+    checklistController.reorderChecklistItemsController.bind(checklistController)
   );
 }

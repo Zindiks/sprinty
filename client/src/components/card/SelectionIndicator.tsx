@@ -3,8 +3,7 @@ import { useSelectionStore } from "@/hooks/store/useSelectionStore";
 import { X } from "lucide-react";
 
 export const SelectionIndicator = () => {
-  const { getSelectedCount, clearSelection, selectionMode } =
-    useSelectionStore();
+  const { getSelectedCount, clearSelection, selectionMode } = useSelectionStore();
   const count = getSelectedCount();
 
   if (!selectionMode || count === 0) return null;

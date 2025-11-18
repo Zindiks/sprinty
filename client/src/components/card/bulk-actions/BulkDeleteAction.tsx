@@ -41,10 +41,12 @@ export const BulkDeleteAction = () => {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete {count} card{count > 1 ? 's' : ''}?</AlertDialogTitle>
+          <AlertDialogTitle>
+            Delete {count} card{count > 1 ? "s" : ""}?
+          </AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete the
-            selected card{count > 1 ? 's' : ''} and remove {count > 1 ? 'them' : 'it'} from the board.
+            This action cannot be undone. This will permanently delete the selected card
+            {count > 1 ? "s" : ""} and remove {count > 1 ? "them" : "it"} from the board.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

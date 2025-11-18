@@ -42,13 +42,10 @@ export class TemplateService {
   async update(
     input: UpdateTemplate,
     id: string,
-    organization_id: string,
+    organization_id: string
   ): Promise<TemplateResponse> {
     // Check ownership before updating
-    const canUpdate = await this.templateRepository.checkOwnership(
-      id,
-      organization_id,
-    );
+    const canUpdate = await this.templateRepository.checkOwnership(id, organization_id);
     if (!canUpdate) {
       throw new Error("Unauthorized: Cannot update this template");
     }
@@ -57,21 +54,15 @@ export class TemplateService {
 
   async deleteTemplate(id: string, organization_id: string) {
     // Check ownership before deleting
-    const canDelete = await this.templateRepository.checkOwnership(
-      id,
-      organization_id,
-    );
+    const canDelete = await this.templateRepository.checkOwnership(id, organization_id);
     if (!canDelete) {
       throw new Error("Unauthorized: Cannot delete this template");
     }
     return this.templateRepository.deleteTemplate(id);
   }
 
-  async createBoardFromTemplate(
-    input: CreateBoardFromTemplate,
-  ): Promise<BoardResponse> {
-    const { template_id, organization_id, board_title, include_example_cards } =
-      input;
+  async createBoardFromTemplate(input: CreateBoardFromTemplate): Promise<BoardResponse> {
+    const { template_id, organization_id, board_title, include_example_cards } = input;
 
     // Fetch the template
     const template = await this.templateRepository.getById(template_id);
@@ -124,16 +115,10 @@ export class TemplateService {
 
   async createTemplateFromBoard(
     input: CreateTemplateFromBoard,
-    user_id: string,
+    user_id: string
   ): Promise<TemplateResponse> {
-    const {
-      board_id,
-      template_name,
-      description,
-      category,
-      icon,
-      include_cards_as_examples,
-    } = input;
+    const { board_id, template_name, description, category, icon, include_cards_as_examples } =
+      input;
 
     // Fetch the board
     const board = await this.boardRepository.getById(board_id);
@@ -178,9 +163,7 @@ export class TemplateService {
     return this.templateRepository.getSystemTemplates();
   }
 
-  async getCustomTemplates(
-    organization_id: string,
-  ): Promise<TemplateResponse[]> {
+  async getCustomTemplates(organization_id: string): Promise<TemplateResponse[]> {
     return this.templateRepository.getCustomTemplates(organization_id);
   }
 }

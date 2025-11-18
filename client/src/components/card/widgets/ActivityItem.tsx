@@ -181,18 +181,14 @@ export const ActivityItem = ({ activity }: ActivityItemProps) => {
         return (
           <>
             <span className="font-medium">{username}</span> added{" "}
-            <span className="font-medium">
-              {metadata.assignee_name || "assignee"}
-            </span>
+            <span className="font-medium">{metadata.assignee_name || "assignee"}</span>
           </>
         );
       case "assignee_removed":
         return (
           <>
             <span className="font-medium">{username}</span> removed{" "}
-            <span className="font-medium">
-              {metadata.assignee_name || "assignee"}
-            </span>
+            <span className="font-medium">{metadata.assignee_name || "assignee"}</span>
           </>
         );
       case "label_added":
@@ -213,9 +209,7 @@ export const ActivityItem = ({ activity }: ActivityItemProps) => {
         return (
           <>
             <span className="font-medium">{username}</span> removed label{" "}
-            {metadata.label_name && (
-              <span className="font-medium">{metadata.label_name}</span>
-            )}
+            {metadata.label_name && <span className="font-medium">{metadata.label_name}</span>}
           </>
         );
       case "comment_added":
@@ -240,9 +234,7 @@ export const ActivityItem = ({ activity }: ActivityItemProps) => {
         return (
           <>
             <span className="font-medium">{username}</span> added checklist item{" "}
-            {metadata.item_text && (
-              <span className="font-medium">"{metadata.item_text}"</span>
-            )}
+            {metadata.item_text && <span className="font-medium">"{metadata.item_text}"</span>}
           </>
         );
       case "checklist_item_completed":
@@ -250,9 +242,7 @@ export const ActivityItem = ({ activity }: ActivityItemProps) => {
           <>
             <span className="font-medium">{username}</span>{" "}
             {metadata.completed ? "completed" : "uncompleted"} checklist item{" "}
-            {metadata.item_text && (
-              <span className="font-medium">"{metadata.item_text}"</span>
-            )}
+            {metadata.item_text && <span className="font-medium">"{metadata.item_text}"</span>}
           </>
         );
       case "due_date_set":
@@ -260,9 +250,7 @@ export const ActivityItem = ({ activity }: ActivityItemProps) => {
           <>
             <span className="font-medium">{username}</span> set due date to{" "}
             <span className="font-medium">
-              {metadata.due_date
-                ? new Date(metadata.due_date).toLocaleDateString()
-                : ""}
+              {metadata.due_date ? new Date(metadata.due_date).toLocaleDateString() : ""}
             </span>
           </>
         );
@@ -271,9 +259,7 @@ export const ActivityItem = ({ activity }: ActivityItemProps) => {
           <>
             <span className="font-medium">{username}</span> changed due date to{" "}
             <span className="font-medium">
-              {metadata.new_due_date
-                ? new Date(metadata.new_due_date).toLocaleDateString()
-                : ""}
+              {metadata.new_due_date ? new Date(metadata.new_due_date).toLocaleDateString() : ""}
             </span>
           </>
         );
@@ -318,9 +304,7 @@ export const ActivityItem = ({ activity }: ActivityItemProps) => {
           {/* Message and Time */}
           <div className="flex-1 min-w-0">
             <p className="text-sm text-muted-foreground">{getActivityMessage()}</p>
-            <p className="text-xs text-muted-foreground mt-1">
-              {formatDate(activity.created_at)}
-            </p>
+            <p className="text-xs text-muted-foreground mt-1">{formatDate(activity.created_at)}</p>
           </div>
         </div>
       </div>

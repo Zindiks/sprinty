@@ -143,16 +143,12 @@ export const CommentItem = ({
           <div className="flex-1 space-y-2 min-w-0">
             {/* Header */}
             <div className="flex items-center gap-2 text-sm flex-wrap">
-              <span className="font-medium">
-                {comment.user.username || comment.user.email}
-              </span>
+              <span className="font-medium">{comment.user.username || comment.user.email}</span>
               <span className="text-muted-foreground text-xs">
                 {formatDate(comment.created_at)}
               </span>
               {comment.is_edited && (
-                <span className="text-muted-foreground text-xs italic">
-                  (edited)
-                </span>
+                <span className="text-muted-foreground text-xs italic">(edited)</span>
               )}
             </div>
 
@@ -171,23 +167,12 @@ export const CommentItem = ({
                   <Button size="sm" onClick={handleSave} disabled={isPending}>
                     Save
                   </Button>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    onClick={handleCancel}
-                    disabled={isPending}
-                  >
+                  <Button size="sm" variant="ghost" onClick={handleCancel} disabled={isPending}>
                     Cancel
                   </Button>
                   <span className="text-xs text-muted-foreground ml-2">
-                    <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px]">
-                      Cmd
-                    </kbd>{" "}
-                    +{" "}
-                    <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px]">
-                      Enter
-                    </kbd>{" "}
-                    to save
+                    <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px]">Cmd</kbd> +{" "}
+                    <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px]">Enter</kbd> to save
                   </span>
                 </div>
               </div>
@@ -272,8 +257,8 @@ export const CommentItem = ({
                 key={reply.id}
                 comment={reply}
                 cardId={cardId}
-                onUpdate={(content) =>
-                  onUpdate(content) // This will need to be passed from parent
+                onUpdate={
+                  (content) => onUpdate(content) // This will need to be passed from parent
                 }
                 onDelete={onDelete} // This will need to be passed from parent
                 isPending={isPending}
@@ -290,22 +275,17 @@ export const CommentItem = ({
           <DialogHeader>
             <DialogTitle>Delete comment?</DialogTitle>
             <DialogDescription>
-              This action cannot be undone. The comment will be permanently
-              deleted.
+              This action cannot be undone. The comment will be permanently deleted.
               {hasReplies && (
                 <span className="block mt-2 text-destructive">
                   Warning: This comment has {comment.replies!.length}{" "}
-                  {comment.replies!.length === 1 ? "reply" : "replies"} that
-                  will also be deleted.
+                  {comment.replies!.length === 1 ? "reply" : "replies"} that will also be deleted.
                 </span>
               )}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setShowDeleteDialog(false)}
-            >
+            <Button variant="outline" onClick={() => setShowDeleteDialog(false)}>
               Cancel
             </Button>
             <Button variant="destructive" onClick={handleConfirmDelete}>

@@ -34,11 +34,7 @@ export const ReminderListener = () => {
 
       // Format the reminder type for display
       const reminderLabel =
-        reminder_type === "24h"
-          ? "24 hours"
-          : reminder_type === "1h"
-          ? "1 hour"
-          : "soon";
+        reminder_type === "24h" ? "24 hours" : reminder_type === "1h" ? "1 hour" : "soon";
 
       // Show toast notification
       toast({

@@ -106,9 +106,7 @@ export const EditableDescription = ({
       )}
     >
       {value ? (
-        <div className="text-sm text-muted-foreground whitespace-pre-wrap pr-8">
-          {value}
-        </div>
+        <div className="text-sm text-muted-foreground whitespace-pre-wrap pr-8">{value}</div>
       ) : (
         <div className="text-sm text-muted-foreground italic">
           Add a more detailed description...

@@ -22,7 +22,7 @@ export default async function labelRoutes(fastify: FastifyInstance) {
         description: "Create a new label for a board",
       },
     },
-    labelController.createLabelController.bind(labelController),
+    labelController.createLabelController.bind(labelController)
   );
 
   fastify.patch(
@@ -45,7 +45,7 @@ export default async function labelRoutes(fastify: FastifyInstance) {
         description: "Update a label",
       },
     },
-    labelController.updateLabelController.bind(labelController),
+    labelController.updateLabelController.bind(labelController)
   );
 
   fastify.delete(
@@ -67,7 +67,7 @@ export default async function labelRoutes(fastify: FastifyInstance) {
         description: "Delete a label",
       },
     },
-    labelController.deleteLabelController.bind(labelController),
+    labelController.deleteLabelController.bind(labelController)
   );
 
   fastify.get(
@@ -92,7 +92,7 @@ export default async function labelRoutes(fastify: FastifyInstance) {
         description: "Get a label by ID",
       },
     },
-    labelController.getLabelController.bind(labelController),
+    labelController.getLabelController.bind(labelController)
   );
 
   fastify.get(
@@ -112,7 +112,7 @@ export default async function labelRoutes(fastify: FastifyInstance) {
         description: "Get all labels for a board",
       },
     },
-    labelController.getLabelsByBoardIdController.bind(labelController),
+    labelController.getLabelsByBoardIdController.bind(labelController)
   );
 
   fastify.get(
@@ -132,7 +132,7 @@ export default async function labelRoutes(fastify: FastifyInstance) {
         description: "Get all labels for a board with cards count",
       },
     },
-    labelController.getLabelsWithCardsCountController.bind(labelController),
+    labelController.getLabelsWithCardsCountController.bind(labelController)
   );
 
   // Card-Label association routes
@@ -148,7 +148,7 @@ export default async function labelRoutes(fastify: FastifyInstance) {
         description: "Add a label to a card",
       },
     },
-    labelController.addLabelToCardController.bind(labelController),
+    labelController.addLabelToCardController.bind(labelController)
   );
 
   fastify.delete(
@@ -170,7 +170,7 @@ export default async function labelRoutes(fastify: FastifyInstance) {
         description: "Remove a label from a card",
       },
     },
-    labelController.removeLabelFromCardController.bind(labelController),
+    labelController.removeLabelFromCardController.bind(labelController)
   );
 
   fastify.get(
@@ -190,7 +190,7 @@ export default async function labelRoutes(fastify: FastifyInstance) {
         description: "Get all labels for a card",
       },
     },
-    labelController.getLabelsByCardIdController.bind(labelController),
+    labelController.getLabelsByCardIdController.bind(labelController)
   );
 
   fastify.get(
@@ -218,6 +218,6 @@ export default async function labelRoutes(fastify: FastifyInstance) {
         description: "Get all cards with a specific label",
       },
     },
-    labelController.getCardsByLabelIdController.bind(labelController),
+    labelController.getCardsByLabelIdController.bind(labelController)
   );
 }

@@ -22,7 +22,7 @@ export default async function listRoutes(fastify: FastifyInstance) {
         description: "Get all lists by board id",
       },
     },
-    listController.getListsByBoardIdController.bind(listController),
+    listController.getListsByBoardIdController.bind(listController)
   );
 
   fastify.post(
@@ -37,7 +37,7 @@ export default async function listRoutes(fastify: FastifyInstance) {
         description: "Create a new List",
       },
     },
-    listController.createListController.bind(listController),
+    listController.createListController.bind(listController)
   );
 
   fastify.post(
@@ -52,7 +52,7 @@ export default async function listRoutes(fastify: FastifyInstance) {
         description: "Copy a list",
       },
     },
-    listController.copyListController.bind(listController),
+    listController.copyListController.bind(listController)
   );
 
   fastify.put(
@@ -71,7 +71,7 @@ export default async function listRoutes(fastify: FastifyInstance) {
         description: "Update a list order",
       },
     },
-    listController.updateListOrderController.bind(listController),
+    listController.updateListOrderController.bind(listController)
   );
 
   fastify.patch(
@@ -86,7 +86,7 @@ export default async function listRoutes(fastify: FastifyInstance) {
         description: "Update a list title",
       },
     },
-    listController.updateListTitleController.bind(listController),
+    listController.updateListTitleController.bind(listController)
   );
 
   fastify.delete(
@@ -108,6 +108,6 @@ export default async function listRoutes(fastify: FastifyInstance) {
         description: "Delete a list",
       },
     },
-    listController.deleteListController.bind(listController),
+    listController.deleteListController.bind(listController)
   );
 }

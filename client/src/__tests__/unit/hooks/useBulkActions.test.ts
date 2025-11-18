@@ -1,10 +1,10 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { renderHook, act } from '@testing-library/react';
-import { createWrapper } from '@/__tests__/utils/test-utils';
-import { useBulkActions } from '@/hooks/useBulkActions';
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { renderHook, act } from "@testing-library/react";
+import { createWrapper } from "@/__tests__/utils/test-utils";
+import { useBulkActions } from "@/hooks/useBulkActions";
 
 // Mock the toast hook
-vi.mock('@/hooks/use-toast', () => ({
+vi.mock("@/hooks/use-toast", () => ({
   useToast: () => ({
     toast: vi.fn(),
   }),
@@ -12,25 +12,25 @@ vi.mock('@/hooks/use-toast', () => ({
 
 // Mock the selection store
 const mockClearSelection = vi.fn();
-vi.mock('@/hooks/store/useSelectionStore', () => ({
+vi.mock("@/hooks/store/useSelectionStore", () => ({
   useSelectionStore: () => ({
     clearSelection: mockClearSelection,
   }),
 }));
 
-describe('useBulkActions hook', () => {
-  const mockCardIds = ['card-1', 'card-2', 'card-3'];
-  const mockTargetListId = 'list-target';
-  const mockUserIds = ['user-1', 'user-2'];
-  const mockLabelIds = ['label-1', 'label-2'];
-  const mockDueDate = '2024-12-31T23:59:59.000Z';
+describe("useBulkActions hook", () => {
+  const mockCardIds = ["card-1", "card-2", "card-3"];
+  const mockTargetListId = "list-target";
+  const mockUserIds = ["user-1", "user-2"];
+  const mockLabelIds = ["label-1", "label-2"];
+  const mockDueDate = "2024-12-31T23:59:59.000Z";
 
   beforeEach(() => {
     mockClearSelection.mockClear();
   });
 
-  describe('Hook exports', () => {
-    it('should export all bulk action functions', () => {
+  describe("Hook exports", () => {
+    it("should export all bulk action functions", () => {
       const { result } = renderHook(() => useBulkActions(), {
         wrapper: createWrapper(),
       });
@@ -44,7 +44,7 @@ describe('useBulkActions hook', () => {
       expect(result.current.isLoading).toBeDefined();
     });
 
-    it('should have isLoading false initially', () => {
+    it("should have isLoading false initially", () => {
       const { result } = renderHook(() => useBulkActions(), {
         wrapper: createWrapper(),
       });
@@ -52,22 +52,22 @@ describe('useBulkActions hook', () => {
       expect(result.current.isLoading).toBe(false);
     });
 
-    it('should have function types for all bulk actions', () => {
+    it("should have function types for all bulk actions", () => {
       const { result } = renderHook(() => useBulkActions(), {
         wrapper: createWrapper(),
       });
 
-      expect(typeof result.current.bulkMoveCards).toBe('function');
-      expect(typeof result.current.bulkAssignUsers).toBe('function');
-      expect(typeof result.current.bulkAddLabels).toBe('function');
-      expect(typeof result.current.bulkSetDueDate).toBe('function');
-      expect(typeof result.current.bulkArchiveCards).toBe('function');
-      expect(typeof result.current.bulkDeleteCards).toBe('function');
+      expect(typeof result.current.bulkMoveCards).toBe("function");
+      expect(typeof result.current.bulkAssignUsers).toBe("function");
+      expect(typeof result.current.bulkAddLabels).toBe("function");
+      expect(typeof result.current.bulkSetDueDate).toBe("function");
+      expect(typeof result.current.bulkArchiveCards).toBe("function");
+      expect(typeof result.current.bulkDeleteCards).toBe("function");
     });
   });
 
-  describe('bulkMoveCards', () => {
-    it('should call bulkMoveCards without errors', () => {
+  describe("bulkMoveCards", () => {
+    it("should call bulkMoveCards without errors", () => {
       const { result } = renderHook(() => useBulkActions(), {
         wrapper: createWrapper(),
       });
@@ -79,15 +79,15 @@ describe('useBulkActions hook', () => {
       }).not.toThrow();
     });
 
-    it('should accept cardIds array and targetListId', () => {
+    it("should accept cardIds array and targetListId", () => {
       const { result } = renderHook(() => useBulkActions(), {
         wrapper: createWrapper(),
       });
 
       act(() => {
-        result.current.bulkMoveCards(['card-1'], 'list-1');
-        result.current.bulkMoveCards(['card-1', 'card-2'], 'list-2');
-        result.current.bulkMoveCards(['card-1', 'card-2', 'card-3'], 'list-3');
+        result.current.bulkMoveCards(["card-1"], "list-1");
+        result.current.bulkMoveCards(["card-1", "card-2"], "list-2");
+        result.current.bulkMoveCards(["card-1", "card-2", "card-3"], "list-3");
       });
 
       // Function should accept various input sizes without errors
@@ -95,8 +95,8 @@ describe('useBulkActions hook', () => {
     });
   });
 
-  describe('bulkAssignUsers', () => {
-    it('should call bulkAssignUsers without errors', () => {
+  describe("bulkAssignUsers", () => {
+    it("should call bulkAssignUsers without errors", () => {
       const { result } = renderHook(() => useBulkActions(), {
         wrapper: createWrapper(),
       });
@@ -108,13 +108,13 @@ describe('useBulkActions hook', () => {
       }).not.toThrow();
     });
 
-    it('should accept cardIds and userIds arrays', () => {
+    it("should accept cardIds and userIds arrays", () => {
       const { result } = renderHook(() => useBulkActions(), {
         wrapper: createWrapper(),
       });
 
       act(() => {
-        result.current.bulkAssignUsers(['card-1'], ['user-1']);
+        result.current.bulkAssignUsers(["card-1"], ["user-1"]);
         result.current.bulkAssignUsers(mockCardIds, mockUserIds);
       });
 
@@ -122,8 +122,8 @@ describe('useBulkActions hook', () => {
     });
   });
 
-  describe('bulkAddLabels', () => {
-    it('should call bulkAddLabels without errors', () => {
+  describe("bulkAddLabels", () => {
+    it("should call bulkAddLabels without errors", () => {
       const { result } = renderHook(() => useBulkActions(), {
         wrapper: createWrapper(),
       });
@@ -135,13 +135,13 @@ describe('useBulkActions hook', () => {
       }).not.toThrow();
     });
 
-    it('should accept cardIds and labelIds arrays', () => {
+    it("should accept cardIds and labelIds arrays", () => {
       const { result } = renderHook(() => useBulkActions(), {
         wrapper: createWrapper(),
       });
 
       act(() => {
-        result.current.bulkAddLabels(['card-1'], ['label-1']);
+        result.current.bulkAddLabels(["card-1"], ["label-1"]);
         result.current.bulkAddLabels(mockCardIds, mockLabelIds);
       });
 
@@ -149,8 +149,8 @@ describe('useBulkActions hook', () => {
     });
   });
 
-  describe('bulkSetDueDate', () => {
-    it('should call bulkSetDueDate without errors', () => {
+  describe("bulkSetDueDate", () => {
+    it("should call bulkSetDueDate without errors", () => {
       const { result } = renderHook(() => useBulkActions(), {
         wrapper: createWrapper(),
       });
@@ -162,7 +162,7 @@ describe('useBulkActions hook', () => {
       }).not.toThrow();
     });
 
-    it('should accept null as due date', () => {
+    it("should accept null as due date", () => {
       const { result } = renderHook(() => useBulkActions(), {
         wrapper: createWrapper(),
       });
@@ -174,13 +174,13 @@ describe('useBulkActions hook', () => {
       }).not.toThrow();
     });
 
-    it('should accept date string as due date', () => {
+    it("should accept date string as due date", () => {
       const { result } = renderHook(() => useBulkActions(), {
         wrapper: createWrapper(),
       });
 
       act(() => {
-        result.current.bulkSetDueDate(mockCardIds, '2024-01-01T00:00:00.000Z');
+        result.current.bulkSetDueDate(mockCardIds, "2024-01-01T00:00:00.000Z");
         result.current.bulkSetDueDate(mockCardIds, mockDueDate);
       });
 
@@ -188,8 +188,8 @@ describe('useBulkActions hook', () => {
     });
   });
 
-  describe('bulkArchiveCards', () => {
-    it('should call bulkArchiveCards without errors', () => {
+  describe("bulkArchiveCards", () => {
+    it("should call bulkArchiveCards without errors", () => {
       const { result } = renderHook(() => useBulkActions(), {
         wrapper: createWrapper(),
       });
@@ -201,13 +201,13 @@ describe('useBulkActions hook', () => {
       }).not.toThrow();
     });
 
-    it('should accept cardIds array', () => {
+    it("should accept cardIds array", () => {
       const { result } = renderHook(() => useBulkActions(), {
         wrapper: createWrapper(),
       });
 
       act(() => {
-        result.current.bulkArchiveCards(['card-1']);
+        result.current.bulkArchiveCards(["card-1"]);
         result.current.bulkArchiveCards(mockCardIds);
       });
 
@@ -215,8 +215,8 @@ describe('useBulkActions hook', () => {
     });
   });
 
-  describe('bulkDeleteCards', () => {
-    it('should call bulkDeleteCards without errors', () => {
+  describe("bulkDeleteCards", () => {
+    it("should call bulkDeleteCards without errors", () => {
       const { result } = renderHook(() => useBulkActions(), {
         wrapper: createWrapper(),
       });
@@ -228,13 +228,13 @@ describe('useBulkActions hook', () => {
       }).not.toThrow();
     });
 
-    it('should accept cardIds array', () => {
+    it("should accept cardIds array", () => {
       const { result } = renderHook(() => useBulkActions(), {
         wrapper: createWrapper(),
       });
 
       act(() => {
-        result.current.bulkDeleteCards(['card-1']);
+        result.current.bulkDeleteCards(["card-1"]);
         result.current.bulkDeleteCards(mockCardIds);
       });
 
@@ -242,8 +242,8 @@ describe('useBulkActions hook', () => {
     });
   });
 
-  describe('Integration', () => {
-    it('should allow multiple bulk operations in sequence', () => {
+  describe("Integration", () => {
+    it("should allow multiple bulk operations in sequence", () => {
       const { result } = renderHook(() => useBulkActions(), {
         wrapper: createWrapper(),
       });
@@ -259,7 +259,7 @@ describe('useBulkActions hook', () => {
       }).not.toThrow();
     });
 
-    it('should handle empty card arrays', () => {
+    it("should handle empty card arrays", () => {
       const { result } = renderHook(() => useBulkActions(), {
         wrapper: createWrapper(),
       });

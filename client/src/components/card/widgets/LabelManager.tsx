@@ -28,7 +28,10 @@ export const LabelManager = ({
   onClose,
   currentLabels,
 }: LabelManagerProps) => {
-  const { boardLabels, isLoadingBoardLabels, addLabelToCard, removeLabelFromCard } = useLabels(boardId, cardId);
+  const { boardLabels, isLoadingBoardLabels, addLabelToCard, removeLabelFromCard } = useLabels(
+    boardId,
+    cardId
+  );
   const [showCreator, setShowCreator] = useState(false);
 
   const isLabelApplied = (labelId: string) => {
@@ -49,9 +52,7 @@ export const LabelManager = ({
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>Manage Labels</DialogTitle>
-            <DialogDescription>
-              Add or remove labels from this card
-            </DialogDescription>
+            <DialogDescription>Add or remove labels from this card</DialogDescription>
           </DialogHeader>
 
           <div className="space-y-4">
@@ -87,30 +88,17 @@ export const LabelManager = ({
                       )}
                     >
                       <div className="flex-1 flex items-center gap-3">
-                        <div
-                          className="w-8 h-8 rounded"
-                          style={{ backgroundColor: label.color }}
-                        />
-                        <span className="text-sm font-medium text-left">
-                          {label.name}
-                        </span>
+                        <div className="w-8 h-8 rounded" style={{ backgroundColor: label.color }} />
+                        <span className="text-sm font-medium text-left">{label.name}</span>
                       </div>
-                      {applied && (
-                        <Check className="w-5 h-5 text-primary flex-shrink-0" />
-                      )}
+                      {applied && <Check className="w-5 h-5 text-primary flex-shrink-0" />}
                     </button>
                   );
                 })
               ) : (
                 <div className="text-center py-8">
-                  <p className="text-sm text-muted-foreground mb-4">
-                    No labels created yet
-                  </p>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setShowCreator(true)}
-                  >
+                  <p className="text-sm text-muted-foreground mb-4">No labels created yet</p>
+                  <Button variant="outline" size="sm" onClick={() => setShowCreator(true)}>
                     <Plus className="w-4 h-4 mr-2" />
                     Create your first label
                   </Button>
@@ -121,11 +109,7 @@ export const LabelManager = ({
         </DialogContent>
       </Dialog>
 
-      <LabelCreator
-        boardId={boardId}
-        open={showCreator}
-        onClose={() => setShowCreator(false)}
-      />
+      <LabelCreator boardId={boardId} open={showCreator} onClose={() => setShowCreator(false)} />
     </>
   );
 };

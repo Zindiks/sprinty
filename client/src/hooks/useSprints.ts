@@ -52,9 +52,7 @@ export const useBoardSprints = (boardId: string | null) => {
   return useQuery<Sprint[]>({
     queryKey: ["sprints", "board", boardId],
     queryFn: async () => {
-      const { data } = await apiClient.get(
-        `/sprints/board/${boardId}`
-      );
+      const { data } = await apiClient.get(`/sprints/board/${boardId}`);
       return data;
     },
     enabled: !!boardId,
@@ -66,9 +64,7 @@ export const useActiveSprint = (boardId: string | null) => {
   return useQuery<Sprint>({
     queryKey: ["sprints", "board", boardId, "active"],
     queryFn: async () => {
-      const { data } = await apiClient.get(
-        `/sprints/board/${boardId}/active`
-      );
+      const { data } = await apiClient.get(`/sprints/board/${boardId}/active`);
       return data;
     },
     enabled: !!boardId,
@@ -94,10 +90,7 @@ export const useUpdateSprint = () => {
 
   return useMutation({
     mutationFn: async ({ id, ...input }: UpdateSprintInput & { id: string }) => {
-      const { data } = await apiClient.patch(
-        `/sprints/${id}`,
-        input
-      );
+      const { data } = await apiClient.patch(`/sprints/${id}`, input);
       return data;
     },
     onSuccess: (data) => {
@@ -113,10 +106,7 @@ export const useStartSprint = () => {
 
   return useMutation({
     mutationFn: async (sprintId: string) => {
-      const { data } = await apiClient.post(
-        `/sprints/${sprintId}/start`,
-        {}
-      );
+      const { data } = await apiClient.post(`/sprints/${sprintId}/start`, {});
       return data;
     },
     onSuccess: (data) => {
@@ -132,10 +122,7 @@ export const useCompleteSprint = () => {
 
   return useMutation({
     mutationFn: async (sprintId: string) => {
-      const { data } = await apiClient.post(
-        `/sprints/${sprintId}/complete`,
-        {}
-      );
+      const { data } = await apiClient.post(`/sprints/${sprintId}/complete`, {});
       return data;
     },
     onSuccess: (data) => {

@@ -17,7 +17,7 @@ export class TemplateController {
 
   public async getTemplateController(
     request: FastifyRequest<{ Params: { id: string } }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { id } = request.params;
     try {
@@ -30,7 +30,7 @@ export class TemplateController {
 
   public async getAllTemplatesController(
     request: FastifyRequest<{ Querystring: { organization_id?: string } }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { organization_id } = request.query;
     try {
@@ -43,7 +43,7 @@ export class TemplateController {
 
   public async createTemplateController(
     request: FastifyRequest<{ Body: CreateTemplate }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const body = request.body;
     try {
@@ -60,18 +60,14 @@ export class TemplateController {
       Params: { id: string };
       Querystring: { organization_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const body = request.body;
     const { id } = request.params;
     const { organization_id } = request.query;
 
     try {
-      const result = await this.templateService.update(
-        body,
-        id,
-        organization_id,
-      );
+      const result = await this.templateService.update(body, id, organization_id);
       return reply.status(200).send(result);
     } catch (err: any) {
       if (err.message?.includes("Unauthorized")) {
@@ -86,16 +82,13 @@ export class TemplateController {
       Params: { id: string };
       Querystring: { organization_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { id } = request.params;
     const { organization_id } = request.query;
 
     try {
-      const result = await this.templateService.deleteTemplate(
-        id,
-        organization_id,
-      );
+      const result = await this.templateService.deleteTemplate(id, organization_id);
       return reply.status(200).send(result);
     } catch (err: any) {
       if (err.message?.includes("Unauthorized")) {
@@ -107,7 +100,7 @@ export class TemplateController {
 
   public async createBoardFromTemplateController(
     request: FastifyRequest<{ Body: CreateBoardFromTemplate }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const body = request.body;
     try {
@@ -135,7 +128,7 @@ export class TemplateController {
 
   public async createTemplateFromBoardController(
     request: FastifyRequest<{ Body: CreateTemplateFromBoard }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const body = request.body;
     // TODO: Add user authentication middleware to populate request.user
@@ -146,10 +139,7 @@ export class TemplateController {
     }
 
     try {
-      const template = await this.templateService.createTemplateFromBoard(
-        body,
-        userId,
-      );
+      const template = await this.templateService.createTemplateFromBoard(body, userId);
       return reply.status(201).send(template);
     } catch (err: any) {
       if (err.message?.includes("not found")) {

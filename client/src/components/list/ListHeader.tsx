@@ -66,7 +66,7 @@ const ListHeader = ({ data }: ListHeaderProps) => {
         onError: () => {
           console.log("Something Wrong");
         },
-      },
+      }
     );
   };
 
@@ -79,12 +79,7 @@ const ListHeader = ({ data }: ListHeaderProps) => {
       {isEditing ? (
         <form ref={formRef} className="flex-1 px-[2px]" onSubmit={onSubmit}>
           <input hidden id="id" name="id" defaultValue={data.id} />
-          <input
-            hidden
-            id="board_id"
-            name="board_id"
-            defaultValue={data.board_id}
-          />
+          <input hidden id="board_id" name="board_id" defaultValue={data.board_id} />
 
           <input
             ref={inputRef}

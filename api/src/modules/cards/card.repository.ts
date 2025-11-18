@@ -26,9 +26,7 @@ export class CardRepository {
     return data;
   }
 
-  async getCardWithAssignees(
-    id: string,
-  ): Promise<CardWithAssigneesResponse | undefined> {
+  async getCardWithAssignees(id: string): Promise<CardWithAssigneesResponse | undefined> {
     const card = await this.getCardById(id);
     if (!card) {
       return undefined;
@@ -50,7 +48,7 @@ export class CardRepository {
             'email', profiles.email,
             'username', profiles.username
           ) as user
-        `),
+        `)
       )
       .orderBy("card_assignees.assigned_at", "asc");
 
@@ -60,9 +58,7 @@ export class CardRepository {
     };
   }
 
-  async getCardWithDetails(
-    id: string,
-  ): Promise<CardWithDetailsResponse | undefined> {
+  async getCardWithDetails(id: string): Promise<CardWithDetailsResponse | undefined> {
     const card = await this.getCardById(id);
     if (!card) {
       return undefined;
@@ -85,7 +81,7 @@ export class CardRepository {
             'email', profiles.email,
             'username', profiles.username
           ) as user
-        `),
+        `)
       )
       .orderBy("card_assignees.assigned_at", "asc");
 
@@ -120,7 +116,7 @@ export class CardRepository {
             'email', profiles.email,
             'username', profiles.username
           ) as user
-        `),
+        `)
       )
       .orderBy("comments.created_at", "asc");
 
@@ -144,7 +140,7 @@ export class CardRepository {
             'email', profiles.email,
             'username', profiles.username
           ) as user
-        `),
+        `)
       )
       .orderBy("attachments.uploaded_at", "desc");
 
@@ -161,7 +157,7 @@ export class CardRepository {
             'email', profiles.email,
             'username', profiles.username
           ) as user
-        `),
+        `)
       )
       .orderBy("card_activities.created_at", "desc")
       .limit(20);
@@ -178,18 +174,16 @@ export class CardRepository {
       },
       comments: comments || [],
       attachments: attachments || [],
-      activities: activities.map((activity) => ({
-        ...activity,
-        metadata: activity.metadata ? JSON.parse(activity.metadata) : null,
-      })) || [],
+      activities:
+        activities.map((activity) => ({
+          ...activity,
+          metadata: activity.metadata ? JSON.parse(activity.metadata) : null,
+        })) || [],
     };
   }
 
   async getCardsByListId(list_id: string): Promise<FullCardResponseArray> {
-    const data = await this.knex(table)
-      .where({ list_id })
-      .orderBy("order", "asc")
-      .select("*");
+    const data = await this.knex(table).where({ list_id }).orderBy("order", "asc").select("*");
     return data;
   }
 
@@ -212,16 +206,14 @@ export class CardRepository {
         status,
         due_date,
         priority: priority || "medium",
-        order
+        order,
       })
       .returning("*");
 
     return card;
   }
 
-  async updateTitle(
-    input: UpdateCardTitle,
-  ): Promise<FullCardResponse | undefined> {
+  async updateTitle(input: UpdateCardTitle): Promise<FullCardResponse | undefined> {
     const { id, list_id, title } = input;
 
     const [card] = await this.knex(table)
@@ -232,9 +224,7 @@ export class CardRepository {
     return card;
   }
 
-  async updateDetails(
-    input: UpdateCardDetails,
-  ): Promise<FullCardResponse | undefined> {
+  async updateDetails(input: UpdateCardDetails): Promise<FullCardResponse | undefined> {
     const { id, list_id, ...updates } = input;
 
     // Filter out undefined values
@@ -247,10 +237,7 @@ export class CardRepository {
 
     updateData.updated_at = this.knex.fn.now();
 
-    const [card] = await this.knex(table)
-      .update(updateData)
-      .where({ id, list_id })
-      .returning("*");
+    const [card] = await this.knex(table).update(updateData).where({ id, list_id }).returning("*");
 
     return card;
   }
@@ -273,10 +260,7 @@ export class CardRepository {
   async deleteCard(input: DeleteCard) {
     const { id, list_id } = input;
 
-    const [deleted] = await this.knex(table)
-      .where({ id, list_id })
-      .delete()
-      .returning("id");
+    const [deleted] = await this.knex(table).where({ id, list_id }).delete().returning("id");
 
     if (!deleted) {
       throw new Error("Card not found");

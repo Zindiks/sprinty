@@ -12,7 +12,7 @@ export class BoardController {
 
   public async getBoardController(
     request: FastifyRequest<{ Params: { id: string } }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { id } = request.params;
     try {
@@ -25,7 +25,7 @@ export class BoardController {
 
   public async getAllBoardsController(
     request: FastifyRequest<{ Params: { organization_id: string } }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { organization_id } = request.params;
     try {
@@ -38,7 +38,7 @@ export class BoardController {
 
   public async createBoardController(
     request: FastifyRequest<{ Body: CreateBoard }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const body = request.body;
     try {
@@ -51,7 +51,7 @@ export class BoardController {
 
   public async updateBoardController(
     request: FastifyRequest<{ Body: UpdateBoard; Params: { id: string } }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const body = request.body;
     const { id } = request.params;
@@ -77,7 +77,7 @@ export class BoardController {
 
   public async removeBoardController(
     request: FastifyRequest<{ Params: { id: string } }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { id } = request.params;
     try {

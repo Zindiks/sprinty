@@ -35,7 +35,7 @@ export const OAuthResponseSchema = Type.Object(
     email,
     bio,
   },
-  { $id: "OAuthResponseSchema" },
+  { $id: "OAuthResponseSchema" }
 );
 
 export const UserResponseSchema = Type.Object(
@@ -46,7 +46,7 @@ export const UserResponseSchema = Type.Object(
     created_at,
     updated_at,
   },
-  { $id: "UserResponseSchema" },
+  { $id: "UserResponseSchema" }
 );
 
 export const ProfileResponseSchema = Type.Object({

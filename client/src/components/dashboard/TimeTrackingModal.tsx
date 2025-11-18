@@ -24,8 +24,7 @@ export const TimeTrackingModal = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const totalMinutes =
-      (parseInt(hours) || 0) * 60 + (parseInt(minutes) || 0);
+    const totalMinutes = (parseInt(hours) || 0) * 60 + (parseInt(minutes) || 0);
 
     if (totalMinutes <= 0) {
       alert("Please enter a valid time duration");
@@ -57,28 +56,20 @@ export const TimeTrackingModal = ({
       <div className="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
         <div className="flex items-center justify-between p-6 border-b">
           <h2 className="text-xl font-bold text-gray-900">Log Time</h2>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition"
-          >
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 transition">
             <X className="w-6 h-6" />
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Card
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Card</label>
             <p className="text-gray-900">{cardTitle}</p>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label
-                htmlFor="hours"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
+              <label htmlFor="hours" className="block text-sm font-medium text-gray-700 mb-1">
                 Hours
               </label>
               <input
@@ -92,10 +83,7 @@ export const TimeTrackingModal = ({
               />
             </div>
             <div>
-              <label
-                htmlFor="minutes"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
+              <label htmlFor="minutes" className="block text-sm font-medium text-gray-700 mb-1">
                 Minutes
               </label>
               <input
@@ -112,10 +100,7 @@ export const TimeTrackingModal = ({
           </div>
 
           <div>
-            <label
-              htmlFor="description"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
+            <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
               Description (optional)
             </label>
             <textarea

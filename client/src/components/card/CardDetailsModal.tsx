@@ -40,11 +40,7 @@ interface CardDetailsModalProps {
   onClose: () => void;
 }
 
-export const CardDetailsModal = ({
-  card,
-  isOpen,
-  onClose,
-}: CardDetailsModalProps) => {
+export const CardDetailsModal = ({ card, isOpen, onClose }: CardDetailsModalProps) => {
   const { updateCardDetails } = useCards();
 
   if (!card) return null;
@@ -86,7 +82,7 @@ export const CardDetailsModal = ({
     const k = 1024;
     const sizes = ["Bytes", "KB", "MB", "GB"];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + " " + sizes[i];
+    return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + " " + sizes[i];
   };
 
   return (
@@ -101,9 +97,7 @@ export const CardDetailsModal = ({
                 {card.priority}
               </Badge>
             )}
-            {card.status && (
-              <Badge variant="outline">{card.status}</Badge>
-            )}
+            {card.status && <Badge variant="outline">{card.status}</Badge>}
           </div>
         </DialogHeader>
 
@@ -112,9 +106,7 @@ export const CardDetailsModal = ({
           {card.description && (
             <div>
               <h3 className="text-sm font-semibold mb-2">Description</h3>
-              <DialogDescription className="text-base">
-                {card.description}
-              </DialogDescription>
+              <DialogDescription className="text-base">{card.description}</DialogDescription>
             </div>
           )}
 
@@ -196,8 +188,7 @@ export const CardDetailsModal = ({
             <div>
               <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
                 <CheckSquare className="w-4 h-4" />
-                Checklist ({card.checklist_progress.completed}/
-                {card.checklist_progress.total})
+                Checklist ({card.checklist_progress.completed}/{card.checklist_progress.total})
               </h3>
 
               {/* Progress Bar */}
@@ -223,19 +214,8 @@ export const CardDetailsModal = ({
                     key={item.id}
                     className="flex items-center gap-2 p-2 rounded hover:bg-accent"
                   >
-                    <input
-                      type="checkbox"
-                      checked={item.completed}
-                      readOnly
-                      className="h-4 w-4"
-                    />
-                    <span
-                      className={
-                        item.completed
-                          ? "line-through text-muted-foreground"
-                          : ""
-                      }
-                    >
+                    <input type="checkbox" checked={item.completed} readOnly className="h-4 w-4" />
+                    <span className={item.completed ? "line-through text-muted-foreground" : ""}>
                       {item.title}
                     </span>
                   </div>
@@ -262,9 +242,7 @@ export const CardDetailsModal = ({
                     <div className="flex items-center gap-3">
                       <Paperclip className="w-4 h-4 text-muted-foreground" />
                       <div>
-                        <p className="text-sm font-medium">
-                          {attachment.original_filename}
-                        </p>
+                        <p className="text-sm font-medium">{attachment.original_filename}</p>
                         <p className="text-xs text-muted-foreground">
                           {formatFileSize(attachment.file_size)} •{" "}
                           {attachment.user.username || attachment.user.email}
@@ -302,14 +280,10 @@ export const CardDetailsModal = ({
                             {formatDate(comment.created_at)}
                           </span>
                           {comment.is_edited && (
-                            <span className="text-xs text-muted-foreground italic">
-                              (edited)
-                            </span>
+                            <span className="text-xs text-muted-foreground italic">(edited)</span>
                           )}
                         </div>
-                        <p className="text-sm text-muted-foreground">
-                          {comment.content}
-                        </p>
+                        <p className="text-sm text-muted-foreground">{comment.content}</p>
                       </div>
                     </div>
 
@@ -327,9 +301,7 @@ export const CardDetailsModal = ({
                                   {formatDate(reply.created_at)}
                                 </span>
                               </div>
-                              <p className="text-sm text-muted-foreground">
-                                {reply.content}
-                              </p>
+                              <p className="text-sm text-muted-foreground">{reply.content}</p>
                             </div>
                           </div>
                         ))}
@@ -352,10 +324,7 @@ export const CardDetailsModal = ({
                 </h3>
                 <div className="space-y-3">
                   {card.activities.map((activity: Activity) => (
-                    <div
-                      key={activity.id}
-                      className="flex items-start gap-3 text-sm"
-                    >
+                    <div key={activity.id} className="flex items-start gap-3 text-sm">
                       <div className="w-2 h-2 rounded-full bg-primary mt-2" />
                       <div className="flex-1">
                         <div className="flex items-center gap-2 flex-wrap">

@@ -13,7 +13,7 @@ export class ProfileController {
     request: FastifyRequest<{
       Params: { user_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { user_id } = request.params;
 
@@ -34,7 +34,7 @@ export class ProfileController {
     request: FastifyRequest<{
       Params: { id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { id } = request.params;
 
@@ -55,7 +55,7 @@ export class ProfileController {
     request: FastifyRequest<{
       Body: CreateProfile;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const body = request.body;
 
@@ -75,7 +75,7 @@ export class ProfileController {
       Params: { user_id: string };
       Body: UpdateProfile;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { user_id } = request.params;
     const body = request.body;
@@ -100,7 +100,7 @@ export class ProfileController {
     request: FastifyRequest<{
       Params: { user_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { user_id } = request.params;
 

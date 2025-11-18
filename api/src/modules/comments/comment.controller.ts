@@ -1,9 +1,5 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import {
-  CreateComment,
-  UpdateComment,
-  DeleteComment,
-} from "./comment.schema";
+import { CreateComment, UpdateComment, DeleteComment } from "./comment.schema";
 import { CommentService } from "./comment.service";
 
 export class CommentController {
@@ -17,7 +13,7 @@ export class CommentController {
     request: FastifyRequest<{
       Body: CreateComment;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const body = request.body;
     // TODO: Get user_id from auth context
@@ -35,7 +31,7 @@ export class CommentController {
     request: FastifyRequest<{
       Body: UpdateComment;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const body = request.body;
     // TODO: Get user_id from auth context
@@ -44,9 +40,7 @@ export class CommentController {
     try {
       const comment = await this.commentService.updateComment(body, user_id);
       if (!comment) {
-        return reply
-          .status(404)
-          .send({ message: "Comment not found or unauthorized" });
+        return reply.status(404).send({ message: "Comment not found or unauthorized" });
       }
       return reply.status(200).send(comment);
     } catch (err) {
@@ -58,7 +52,7 @@ export class CommentController {
     request: FastifyRequest<{
       Params: DeleteComment;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const params = request.params;
     // TODO: Get user_id from auth context
@@ -67,9 +61,7 @@ export class CommentController {
     try {
       const deleted = await this.commentService.deleteComment(params, user_id);
       if (!deleted) {
-        return reply
-          .status(404)
-          .send({ message: "Comment not found or unauthorized" });
+        return reply.status(404).send({ message: "Comment not found or unauthorized" });
       }
       return reply.status(200).send({ message: "Comment deleted" });
     } catch (err) {
@@ -81,7 +73,7 @@ export class CommentController {
     request: FastifyRequest<{
       Params: { id: string; card_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { id, card_id } = request.params;
 
@@ -100,13 +92,12 @@ export class CommentController {
     request: FastifyRequest<{
       Params: { card_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { card_id } = request.params;
 
     try {
-      const comments =
-        await this.commentService.getCommentsByCardId(card_id);
+      const comments = await this.commentService.getCommentsByCardId(card_id);
       return reply.status(200).send(comments);
     } catch (err) {
       return reply.status(500).send(err);
@@ -117,13 +108,12 @@ export class CommentController {
     request: FastifyRequest<{
       Params: { card_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { card_id } = request.params;
 
     try {
-      const comments =
-        await this.commentService.getCommentsWithUserDetails(card_id);
+      const comments = await this.commentService.getCommentsWithUserDetails(card_id);
       return reply.status(200).send(comments);
     } catch (err) {
       return reply.status(500).send(err);
@@ -134,13 +124,12 @@ export class CommentController {
     request: FastifyRequest<{
       Params: { card_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { card_id } = request.params;
 
     try {
-      const comments =
-        await this.commentService.getCommentsWithReplies(card_id);
+      const comments = await this.commentService.getCommentsWithReplies(card_id);
       return reply.status(200).send(comments);
     } catch (err) {
       return reply.status(500).send(err);
@@ -151,13 +140,12 @@ export class CommentController {
     request: FastifyRequest<{
       Params: { comment_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { comment_id } = request.params;
 
     try {
-      const replies =
-        await this.commentService.getRepliesByCommentId(comment_id);
+      const replies = await this.commentService.getRepliesByCommentId(comment_id);
       return reply.status(200).send(replies);
     } catch (err) {
       return reply.status(500).send(err);
@@ -168,7 +156,7 @@ export class CommentController {
     request: FastifyRequest<{
       Params: { card_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { card_id } = request.params;
 

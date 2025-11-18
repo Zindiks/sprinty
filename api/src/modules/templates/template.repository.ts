@@ -1,9 +1,5 @@
 import { Knex } from "knex";
-import {
-  CreateTemplate,
-  UpdateTemplate,
-  TemplateResponse,
-} from "./template.schema";
+import { CreateTemplate, UpdateTemplate, TemplateResponse } from "./template.schema";
 import knexInstance from "../../db/knexInstance";
 
 const table = "board_templates";
@@ -16,10 +12,7 @@ export class TemplateRepository {
   }
 
   async getById(id: string): Promise<TemplateResponse> {
-    const [template] = await this.knex(table)
-      .select("*")
-      .where({ id })
-      .returning("*");
+    const [template] = await this.knex(table).select("*").where({ id }).returning("*");
     return template;
   }
 
@@ -58,18 +51,12 @@ export class TemplateRepository {
       ...input,
       updated_at: this.knex.fn.now(),
     };
-    const [template] = await this.knex(table)
-      .update(updatedInput)
-      .where({ id })
-      .returning("*");
+    const [template] = await this.knex(table).update(updatedInput).where({ id }).returning("*");
     return template;
   }
 
   async deleteTemplate(id: string) {
-    const [deleted] = await this.knex(table)
-      .where({ id })
-      .delete()
-      .returning("id");
+    const [deleted] = await this.knex(table).where({ id }).delete().returning("id");
     return deleted;
   }
 
@@ -80,22 +67,15 @@ export class TemplateRepository {
       .orderBy("created_at", "asc");
   }
 
-  async getCustomTemplates(
-    organization_id: string,
-  ): Promise<TemplateResponse[]> {
+  async getCustomTemplates(organization_id: string): Promise<TemplateResponse[]> {
     return await this.knex(table)
       .select("*")
       .where({ organization_id, is_system: false })
       .orderBy("created_at", "desc");
   }
 
-  async checkOwnership(
-    id: string,
-    organization_id: string,
-  ): Promise<boolean> {
-    const [template] = await this.knex(table)
-      .select("organization_id", "is_system")
-      .where({ id });
+  async checkOwnership(id: string, organization_id: string): Promise<boolean> {
+    const [template] = await this.knex(table).select("organization_id", "is_system").where({ id });
 
     if (!template) {
       return false;

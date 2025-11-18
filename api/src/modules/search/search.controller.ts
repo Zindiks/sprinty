@@ -13,7 +13,7 @@ export class SearchController {
     request: FastifyRequest<{
       Querystring: SearchQuery;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const queryParams = request.query;
 

@@ -1,22 +1,22 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { renderHook, waitFor, act } from '@testing-library/react';
-import { createWrapper } from '@/__tests__/utils/test-utils';
-import { useLists } from '@/hooks/useLists';
-import { server } from '@/__tests__/setup';
-import { errorHandlers } from '@/__tests__/utils/server-handlers';
+import { describe, it, expect, beforeEach, vi } from "vitest";
+import { renderHook, waitFor, act } from "@testing-library/react";
+import { createWrapper } from "@/__tests__/utils/test-utils";
+import { useLists } from "@/hooks/useLists";
+import { server } from "@/__tests__/setup";
+import { errorHandlers } from "@/__tests__/utils/server-handlers";
 
 // Mock the toast hook
-vi.mock('@/hooks/use-toast', () => ({
+vi.mock("@/hooks/use-toast", () => ({
   useToast: () => ({
     toast: vi.fn(),
   }),
 }));
 
-describe('useLists hook', () => {
-  const testBoardId = 'board-123';
+describe("useLists hook", () => {
+  const testBoardId = "board-123";
 
-  describe('lists query', () => {
-    it('should start in loading state', () => {
+  describe("lists query", () => {
+    it("should start in loading state", () => {
       const { result } = renderHook(() => useLists(testBoardId), {
         wrapper: createWrapper(),
       });
@@ -25,7 +25,7 @@ describe('useLists hook', () => {
       expect(result.current.lists.data).toBeUndefined();
     });
 
-    it('should fetch lists successfully', async () => {
+    it("should fetch lists successfully", async () => {
       const { result } = renderHook(() => useLists(testBoardId), {
         wrapper: createWrapper(),
       });
@@ -46,7 +46,7 @@ describe('useLists hook', () => {
       });
     });
 
-    it('should handle fetch error', async () => {
+    it("should handle fetch error", async () => {
       // Override with error handler
       server.use(errorHandlers.listsFetchError);
 
@@ -63,8 +63,8 @@ describe('useLists hook', () => {
     });
   });
 
-  describe('createList mutation', () => {
-    it('should create list successfully', async () => {
+  describe("createList mutation", () => {
+    it("should create list successfully", async () => {
       const { result } = renderHook(() => useLists(testBoardId), {
         wrapper: createWrapper(),
       });
@@ -73,7 +73,7 @@ describe('useLists hook', () => {
 
       await act(async () => {
         result.current.createList.mutate({
-          title: 'New List',
+          title: "New List",
           board_id: testBoardId,
         });
       });
@@ -83,10 +83,10 @@ describe('useLists hook', () => {
       });
 
       expect(result.current.createList.data).toBeDefined();
-      expect(result.current.createList.data?.data.title).toBe('New List');
+      expect(result.current.createList.data?.data.title).toBe("New List");
     });
 
-    it('should handle create error', async () => {
+    it("should handle create error", async () => {
       // Override with error handler
       server.use(errorHandlers.listCreateError);
 
@@ -96,7 +96,7 @@ describe('useLists hook', () => {
 
       await act(async () => {
         result.current.createList.mutate({
-          title: 'New List',
+          title: "New List",
           board_id: testBoardId,
         });
       });
@@ -107,13 +107,13 @@ describe('useLists hook', () => {
     });
   });
 
-  describe('copyList mutation', () => {
-    it('should copy list successfully', async () => {
+  describe("copyList mutation", () => {
+    it("should copy list successfully", async () => {
       const { result } = renderHook(() => useLists(testBoardId), {
         wrapper: createWrapper(),
       });
 
-      const listIdToCopy = 'list-123';
+      const listIdToCopy = "list-123";
 
       await act(async () => {
         result.current.copyList.mutate({
@@ -127,10 +127,10 @@ describe('useLists hook', () => {
       });
 
       expect(result.current.copyList.data).toBeDefined();
-      expect(result.current.copyList.data?.data.title).toBe('Copied List');
+      expect(result.current.copyList.data?.data.title).toBe("Copied List");
     });
 
-    it('should handle copy error', async () => {
+    it("should handle copy error", async () => {
       // Override with error handler
       server.use(errorHandlers.listCopyError);
 
@@ -140,7 +140,7 @@ describe('useLists hook', () => {
 
       await act(async () => {
         result.current.copyList.mutate({
-          id: 'list-123',
+          id: "list-123",
           board_id: testBoardId,
         });
       });
@@ -151,14 +151,14 @@ describe('useLists hook', () => {
     });
   });
 
-  describe('updateListTitle mutation', () => {
-    it('should update list title successfully', async () => {
+  describe("updateListTitle mutation", () => {
+    it("should update list title successfully", async () => {
       const { result } = renderHook(() => useLists(testBoardId), {
         wrapper: createWrapper(),
       });
 
-      const testListId = 'list-123';
-      const newTitle = 'Updated List Title';
+      const testListId = "list-123";
+      const newTitle = "Updated List Title";
 
       await act(async () => {
         result.current.updateListTitle.mutate({
@@ -176,7 +176,7 @@ describe('useLists hook', () => {
       expect(result.current.updateListTitle.data?.data.title).toBe(newTitle);
     });
 
-    it('should handle update error', async () => {
+    it("should handle update error", async () => {
       // Override with error handler
       server.use(errorHandlers.listUpdateError);
 
@@ -186,8 +186,8 @@ describe('useLists hook', () => {
 
       await act(async () => {
         result.current.updateListTitle.mutate({
-          id: 'list-123',
-          title: 'New Title',
+          id: "list-123",
+          title: "New Title",
           board_id: testBoardId,
         });
       });
@@ -198,23 +198,20 @@ describe('useLists hook', () => {
     });
   });
 
-  describe('updateListsOrder mutation', () => {
-    it('should reorder lists successfully', async () => {
+  describe("updateListsOrder mutation", () => {
+    it("should reorder lists successfully", async () => {
       const { result } = renderHook(() => useLists(testBoardId), {
         wrapper: createWrapper(),
       });
 
       const reorderedLists = [
-        { id: 'list-1', order: 0 },
-        { id: 'list-2', order: 1 },
-        { id: 'list-3', order: 2 },
+        { id: "list-1", order: 0 },
+        { id: "list-2", order: 1 },
+        { id: "list-3", order: 2 },
       ];
 
       await act(async () => {
-        result.current.updateListsOrder.mutate([
-          { lists: reorderedLists },
-          testBoardId,
-        ]);
+        result.current.updateListsOrder.mutate([{ lists: reorderedLists }, testBoardId]);
       });
 
       await waitFor(() => {
@@ -224,7 +221,7 @@ describe('useLists hook', () => {
       expect(result.current.updateListsOrder.data).toBeDefined();
     });
 
-    it('should handle reorder error', async () => {
+    it("should handle reorder error", async () => {
       // Override with error handler
       server.use(errorHandlers.listReorderError);
 
@@ -234,7 +231,7 @@ describe('useLists hook', () => {
 
       await act(async () => {
         result.current.updateListsOrder.mutate([
-          { lists: [{ id: 'list-1', order: 0 }] },
+          { lists: [{ id: "list-1", order: 0 }] },
           testBoardId,
         ]);
       });
@@ -245,13 +242,13 @@ describe('useLists hook', () => {
     });
   });
 
-  describe('deleteList mutation', () => {
-    it('should delete list successfully', async () => {
+  describe("deleteList mutation", () => {
+    it("should delete list successfully", async () => {
       const { result } = renderHook(() => useLists(testBoardId), {
         wrapper: createWrapper(),
       });
 
-      const listIdToDelete = 'list-to-delete';
+      const listIdToDelete = "list-to-delete";
 
       await act(async () => {
         result.current.deleteList.mutate({
@@ -267,7 +264,7 @@ describe('useLists hook', () => {
       expect(result.current.deleteList.data).toBeDefined();
     });
 
-    it('should handle delete error', async () => {
+    it("should handle delete error", async () => {
       // Override with error handler
       server.use(errorHandlers.listDeleteError);
 
@@ -277,7 +274,7 @@ describe('useLists hook', () => {
 
       await act(async () => {
         result.current.deleteList.mutate({
-          id: 'list-123',
+          id: "list-123",
           board_id: testBoardId,
         });
       });
@@ -288,8 +285,8 @@ describe('useLists hook', () => {
     });
   });
 
-  describe('Cache invalidation', () => {
-    it('should invalidate lists query after creating list', async () => {
+  describe("Cache invalidation", () => {
+    it("should invalidate lists query after creating list", async () => {
       const wrapper = createWrapper();
 
       const { result: hookResult } = renderHook(() => useLists(testBoardId), {
@@ -306,7 +303,7 @@ describe('useLists hook', () => {
       // Create a new list
       await act(async () => {
         hookResult.current.createList.mutate({
-          title: 'New List',
+          title: "New List",
           board_id: testBoardId,
         });
       });
@@ -319,7 +316,7 @@ describe('useLists hook', () => {
       // The query will be marked as stale and refetch on next access
     });
 
-    it('should invalidate lists query after deleting list', async () => {
+    it("should invalidate lists query after deleting list", async () => {
       const wrapper = createWrapper();
 
       const { result } = renderHook(() => useLists(testBoardId), {
@@ -334,7 +331,7 @@ describe('useLists hook', () => {
       // Delete a list
       await act(async () => {
         result.current.deleteList.mutate({
-          id: 'list-123',
+          id: "list-123",
           board_id: testBoardId,
         });
       });

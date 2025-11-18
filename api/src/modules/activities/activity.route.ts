@@ -18,7 +18,7 @@ export default async function activityRoutes(server: FastifyInstance) {
         },
       },
     },
-    activityController.logActivity.bind(activityController),
+    activityController.logActivity.bind(activityController)
   );
 
   // Get activity by ID
@@ -40,7 +40,7 @@ export default async function activityRoutes(server: FastifyInstance) {
         },
       },
     },
-    activityController.getActivity.bind(activityController),
+    activityController.getActivity.bind(activityController)
   );
 
   // Get all activities for a card
@@ -63,7 +63,7 @@ export default async function activityRoutes(server: FastifyInstance) {
         },
       },
     },
-    activityController.getActivitiesByCardId.bind(activityController),
+    activityController.getActivitiesByCardId.bind(activityController)
   );
 
   // Get all activities by a user
@@ -86,7 +86,7 @@ export default async function activityRoutes(server: FastifyInstance) {
         },
       },
     },
-    activityController.getActivitiesByUserId.bind(activityController),
+    activityController.getActivitiesByUserId.bind(activityController)
   );
 
   // Get activities with filters
@@ -102,7 +102,7 @@ export default async function activityRoutes(server: FastifyInstance) {
         },
       },
     },
-    activityController.getActivities.bind(activityController),
+    activityController.getActivities.bind(activityController)
   );
 
   // Get activity statistics for a card
@@ -124,7 +124,7 @@ export default async function activityRoutes(server: FastifyInstance) {
         },
       },
     },
-    activityController.getActivityStats.bind(activityController),
+    activityController.getActivityStats.bind(activityController)
   );
 
   // Delete all activities for a card
@@ -152,6 +152,6 @@ export default async function activityRoutes(server: FastifyInstance) {
         },
       },
     },
-    activityController.deleteActivitiesByCardId.bind(activityController),
+    activityController.deleteActivitiesByCardId.bind(activityController)
   );
 }

@@ -26,7 +26,8 @@ describe("AssigneeService", () => {
   let assigneeRepository: jest.Mocked<AssigneeRepository>;
 
   beforeEach(() => {
-    assigneeRepository = new MockedAssigneeRepository() as unknown as jest.Mocked<AssigneeRepository>;
+    assigneeRepository =
+      new MockedAssigneeRepository() as unknown as jest.Mocked<AssigneeRepository>;
     assigneeService = new AssigneeService();
     // @ts-ignore - inject mocked repository
     assigneeService["assigneeRepository"] = assigneeRepository;
@@ -52,10 +53,7 @@ describe("AssigneeService", () => {
 
       const result = await assigneeService.addAssignee(input, assigned_by_id);
 
-      expect(assigneeRepository.addAssignee).toHaveBeenCalledWith(
-        input,
-        assigned_by_id,
-      );
+      expect(assigneeRepository.addAssignee).toHaveBeenCalledWith(input, assigned_by_id);
       expect(result).toEqual(expectedResponse);
     });
 
@@ -75,10 +73,7 @@ describe("AssigneeService", () => {
 
       const result = await assigneeService.addAssignee(input);
 
-      expect(assigneeRepository.addAssignee).toHaveBeenCalledWith(
-        input,
-        undefined,
-      );
+      expect(assigneeRepository.addAssignee).toHaveBeenCalledWith(input, undefined);
       expect(result).toEqual(expectedResponse);
       expect(result.assigned_by).toBeUndefined();
     });
@@ -112,7 +107,7 @@ describe("AssigneeService", () => {
       assigneeRepository.addAssignee.mockRejectedValue(error);
 
       await expect(assigneeService.addAssignee(input)).rejects.toThrow(
-        "Database connection failed",
+        "Database connection failed"
       );
     });
   });
@@ -178,15 +173,11 @@ describe("AssigneeService", () => {
         },
       ];
 
-      assigneeRepository.getAssigneesByCardId.mockResolvedValue(
-        expectedAssignees,
-      );
+      assigneeRepository.getAssigneesByCardId.mockResolvedValue(expectedAssignees);
 
       const result = await assigneeService.getAssigneesByCardId(card_id);
 
-      expect(assigneeRepository.getAssigneesByCardId).toHaveBeenCalledWith(
-        card_id,
-      );
+      expect(assigneeRepository.getAssigneesByCardId).toHaveBeenCalledWith(card_id);
       expect(result).toEqual(expectedAssignees);
       expect(result).toHaveLength(2);
     });
@@ -225,9 +216,7 @@ describe("AssigneeService", () => {
         },
       ];
 
-      assigneeRepository.getAssigneesByCardId.mockResolvedValue(
-        expectedAssignees,
-      );
+      assigneeRepository.getAssigneesByCardId.mockResolvedValue(expectedAssignees);
 
       const result = await assigneeService.getAssigneesByCardId(card_id);
 
@@ -267,16 +256,11 @@ describe("AssigneeService", () => {
         },
       ];
 
-      assigneeRepository.getAssigneesWithUserDetails.mockResolvedValue(
-        expectedAssignees,
-      );
+      assigneeRepository.getAssigneesWithUserDetails.mockResolvedValue(expectedAssignees);
 
-      const result =
-        await assigneeService.getAssigneesWithUserDetails(card_id);
+      const result = await assigneeService.getAssigneesWithUserDetails(card_id);
 
-      expect(
-        assigneeRepository.getAssigneesWithUserDetails,
-      ).toHaveBeenCalledWith(card_id);
+      expect(assigneeRepository.getAssigneesWithUserDetails).toHaveBeenCalledWith(card_id);
       expect(result).toEqual(expectedAssignees);
       expect(result[0].user).toBeDefined();
       expect(result[0].user.email).toBe("john@example.com");
@@ -288,8 +272,7 @@ describe("AssigneeService", () => {
 
       assigneeRepository.getAssigneesWithUserDetails.mockResolvedValue([]);
 
-      const result =
-        await assigneeService.getAssigneesWithUserDetails(card_id);
+      const result = await assigneeService.getAssigneesWithUserDetails(card_id);
 
       expect(result).toEqual([]);
     });
@@ -310,12 +293,9 @@ describe("AssigneeService", () => {
         },
       ];
 
-      assigneeRepository.getAssigneesWithUserDetails.mockResolvedValue(
-        expectedAssignees,
-      );
+      assigneeRepository.getAssigneesWithUserDetails.mockResolvedValue(expectedAssignees);
 
-      const result =
-        await assigneeService.getAssigneesWithUserDetails(card_id);
+      const result = await assigneeService.getAssigneesWithUserDetails(card_id);
 
       expect(result[0].user.email).toBe("john@example.com");
       expect(result[0].user.username).toBeUndefined();
@@ -331,10 +311,7 @@ describe("AssigneeService", () => {
 
       const result = await assigneeService.isUserAssigned(card_id, user_id);
 
-      expect(assigneeRepository.isUserAssigned).toHaveBeenCalledWith(
-        card_id,
-        user_id,
-      );
+      expect(assigneeRepository.isUserAssigned).toHaveBeenCalledWith(card_id, user_id);
       expect(result).toBe(true);
     });
 
@@ -370,9 +347,7 @@ describe("AssigneeService", () => {
 
       const result = await assigneeService.getCardIdsByUserId(user_id);
 
-      expect(assigneeRepository.getCardIdsByUserId).toHaveBeenCalledWith(
-        user_id,
-      );
+      expect(assigneeRepository.getCardIdsByUserId).toHaveBeenCalledWith(user_id);
       expect(result).toEqual(expectedCardIds);
       expect(result).toHaveLength(3);
     });
@@ -403,7 +378,7 @@ describe("AssigneeService", () => {
     it("should handle user with many card assignments", async () => {
       const user_id = "user-456";
       const expectedCardIds = Array.from({ length: 50 }, (_, i) =>
-        `card-${String(i + 1).padStart(3, "0")}`.toString(),
+        `card-${String(i + 1).padStart(3, "0")}`.toString()
       );
 
       assigneeRepository.getCardIdsByUserId.mockResolvedValue(expectedCardIds);

@@ -157,9 +157,7 @@ describe("BulkService", () => {
       mockQueryBuilder.update = jest.fn().mockRejectedValue(error);
 
       // Act & Assert
-      await expect(bulkService.moveCards(input)).rejects.toThrow(
-        "Database error"
-      );
+      await expect(bulkService.moveCards(input)).rejects.toThrow("Database error");
     });
   });
 
@@ -254,9 +252,7 @@ describe("BulkService", () => {
       mockQueryBuilder.ignore = jest.fn().mockRejectedValue(error);
 
       // Act & Assert
-      await expect(bulkService.assignUsers(input)).rejects.toThrow(
-        "Assignment failed"
-      );
+      await expect(bulkService.assignUsers(input)).rejects.toThrow("Assignment failed");
     });
   });
 
@@ -584,9 +580,7 @@ describe("BulkService", () => {
       mockQueryBuilder.del = jest.fn().mockRejectedValue(error);
 
       // Act & Assert
-      await expect(bulkService.deleteCards(input)).rejects.toThrow(
-        "Deletion failed"
-      );
+      await expect(bulkService.deleteCards(input)).rejects.toThrow("Deletion failed");
     });
 
     it("should handle empty card_ids array gracefully", async () => {

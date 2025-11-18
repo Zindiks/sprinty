@@ -12,7 +12,7 @@ export class AssigneeSchema {
       card_id,
       user_id,
     },
-    { $id: "AddAssigneeSchema" },
+    { $id: "AddAssigneeSchema" }
   );
 
   static RemoveAssigneeSchema = Type.Object(
@@ -20,7 +20,7 @@ export class AssigneeSchema {
       card_id,
       user_id,
     },
-    { $id: "RemoveAssigneeSchema" },
+    { $id: "RemoveAssigneeSchema" }
   );
 
   static AssigneeResponseSchema = Type.Object(
@@ -31,15 +31,12 @@ export class AssigneeSchema {
       assigned_at,
       assigned_by: Type.Optional(assigned_by),
     },
-    { $id: "AssigneeResponseSchema" },
+    { $id: "AssigneeResponseSchema" }
   );
 
-  static AssigneeResponseSchemaArray = Type.Array(
-    AssigneeSchema.AssigneeResponseSchema,
-    {
-      $id: "AssigneeResponseSchemaArray",
-    },
-  );
+  static AssigneeResponseSchemaArray = Type.Array(AssigneeSchema.AssigneeResponseSchema, {
+    $id: "AssigneeResponseSchemaArray",
+  });
 
   static AssigneeWithUserDetailsSchema = Type.Object(
     {
@@ -54,14 +51,14 @@ export class AssigneeSchema {
         username: Type.Optional(Type.String()),
       }),
     },
-    { $id: "AssigneeWithUserDetailsSchema" },
+    { $id: "AssigneeWithUserDetailsSchema" }
   );
 
   static AssigneeWithUserDetailsSchemaArray = Type.Array(
     AssigneeSchema.AssigneeWithUserDetailsSchema,
     {
       $id: "AssigneeWithUserDetailsSchemaArray",
-    },
+    }
   );
 }
 
@@ -70,4 +67,6 @@ export type RemoveAssignee = Static<typeof AssigneeSchema.RemoveAssigneeSchema>;
 export type AssigneeResponse = Static<typeof AssigneeSchema.AssigneeResponseSchema>;
 export type AssigneeResponseArray = Static<typeof AssigneeSchema.AssigneeResponseSchemaArray>;
 export type AssigneeWithUserDetails = Static<typeof AssigneeSchema.AssigneeWithUserDetailsSchema>;
-export type AssigneeWithUserDetailsArray = Static<typeof AssigneeSchema.AssigneeWithUserDetailsSchemaArray>;
+export type AssigneeWithUserDetailsArray = Static<
+  typeof AssigneeSchema.AssigneeWithUserDetailsSchemaArray
+>;

@@ -1,7 +1,7 @@
-import { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
-import { ApiError } from '../errors/ApiError';
-import { HttpStatus } from '../constants/httpStatus';
-import { ErrorCodes } from '../constants/errorCodes';
+import { FastifyError, FastifyReply, FastifyRequest } from "fastify";
+import { ApiError } from "../errors/ApiError";
+import { HttpStatus } from "../constants/httpStatus";
+import { ErrorCodes } from "../constants/errorCodes";
 
 /**
  * Fastify error handler middleware
@@ -46,9 +46,9 @@ export async function errorHandler(
   return reply.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
     error: {
       code: ErrorCodes.INTERNAL_SERVER_ERROR,
-      message: 'An unexpected error occurred',
+      message: "An unexpected error occurred",
       // Only include error details in development mode
-      ...(process.env.NODE_ENV === 'development' && {
+      ...(process.env.NODE_ENV === "development" && {
         details: error.message,
         stack: error.stack,
       }),

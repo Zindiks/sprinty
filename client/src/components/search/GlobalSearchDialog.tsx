@@ -17,10 +17,7 @@ interface GlobalSearchDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
-export function GlobalSearchDialog({
-  open,
-  onOpenChange,
-}: GlobalSearchDialogProps) {
+export function GlobalSearchDialog({ open, onOpenChange }: GlobalSearchDialogProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const { organization_id } = useStore();
@@ -43,7 +40,7 @@ export function GlobalSearchDialog({
       type: "all",
       limit: 30,
     },
-    debouncedQuery.length >= 1,
+    debouncedQuery.length >= 1
   );
 
   const handleSelect = useCallback(
@@ -56,7 +53,7 @@ export function GlobalSearchDialog({
       onOpenChange(false);
       setSearchQuery("");
     },
-    [navigate, onOpenChange],
+    [navigate, onOpenChange]
   );
 
   const hasResults =
@@ -97,9 +94,7 @@ export function GlobalSearchDialog({
                     <div className="flex flex-col">
                       <span className="font-medium">{board.title}</span>
                       {board.description && (
-                        <span className="text-xs text-muted-foreground">
-                          {board.description}
-                        </span>
+                        <span className="text-xs text-muted-foreground">{board.description}</span>
                       )}
                     </div>
                   </CommandItem>
@@ -113,16 +108,12 @@ export function GlobalSearchDialog({
                   <CommandItem
                     key={list.id}
                     value={`list-${list.id}`}
-                    onSelect={() =>
-                      handleSelect("list", list.id, list.board_id)
-                    }
+                    onSelect={() => handleSelect("list", list.id, list.board_id)}
                   >
                     <List className="mr-2 h-4 w-4" />
                     <div className="flex flex-col">
                       <span className="font-medium">{list.title}</span>
-                      <span className="text-xs text-muted-foreground">
-                        in {list.board_title}
-                      </span>
+                      <span className="text-xs text-muted-foreground">in {list.board_title}</span>
                     </div>
                   </CommandItem>
                 ))}
@@ -135,9 +126,7 @@ export function GlobalSearchDialog({
                   <CommandItem
                     key={card.id}
                     value={`card-${card.id}`}
-                    onSelect={() =>
-                      handleSelect("card", card.id, card.board_id)
-                    }
+                    onSelect={() => handleSelect("card", card.id, card.board_id)}
                   >
                     <FileText className="mr-2 h-4 w-4" />
                     <div className="flex flex-col">

@@ -13,11 +13,7 @@ export class AnalyticsService {
    */
   async getPersonalDashboard(userId: string, organizationId: string) {
     const stats = await this.repository.getPersonalStats(userId, organizationId);
-    const assignedTasks = await this.repository.getAssignedTasks(
-      userId,
-      organizationId,
-      20
-    );
+    const assignedTasks = await this.repository.getAssignedTasks(userId, organizationId, 20);
 
     return {
       stats,

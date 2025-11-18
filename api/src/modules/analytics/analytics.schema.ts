@@ -194,12 +194,9 @@ export const VelocityMetricSchema = Type.Object(
   { $id: "VelocityMetricSchema" }
 );
 
-export const VelocityResponseSchema = Type.Array(
-  Type.Ref("VelocityMetricSchema"),
-  {
-    $id: "VelocityResponseSchema",
-  }
-);
+export const VelocityResponseSchema = Type.Array(Type.Ref("VelocityMetricSchema"), {
+  $id: "VelocityResponseSchema",
+});
 
 // Due Date Analytics Schemas
 export const DueDateCardSchema = Type.Object(
@@ -252,24 +249,14 @@ export const DueDateAnalyticsResponseSchema = Type.Object(
 );
 
 // Type exports
-export type PersonalDashboardQuery = Static<
-  typeof PersonalDashboardQuerySchema
->;
+export type PersonalDashboardQuery = Static<typeof PersonalDashboardQuerySchema>;
 export type BoardAnalyticsParams = Static<typeof BoardAnalyticsParamsSchema>;
 export type SprintBurndownParams = Static<typeof SprintBurndownParamsSchema>;
-export type PersonalDashboardResponse = Static<
-  typeof PersonalDashboardResponseSchema
->;
-export type BoardAnalyticsResponse = Static<
-  typeof BoardAnalyticsResponseSchema
->;
-export type SprintBurndownResponse = Static<
-  typeof SprintBurndownResponseSchema
->;
+export type PersonalDashboardResponse = Static<typeof PersonalDashboardResponseSchema>;
+export type BoardAnalyticsResponse = Static<typeof BoardAnalyticsResponseSchema>;
+export type SprintBurndownResponse = Static<typeof SprintBurndownResponseSchema>;
 export type VelocityResponse = Static<typeof VelocityResponseSchema>;
-export type DueDateAnalyticsResponse = Static<
-  typeof DueDateAnalyticsResponseSchema
->;
+export type DueDateAnalyticsResponse = Static<typeof DueDateAnalyticsResponseSchema>;
 
 // Schema collection for registration
 // Only register top-level schemas used directly in routes.

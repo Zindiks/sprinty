@@ -3,8 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useSelectionStore } from "@/hooks/store/useSelectionStore";
 
 export const SelectionModeButton = () => {
-  const { selectionMode, setSelectionMode, clearSelection } =
-    useSelectionStore();
+  const { selectionMode, setSelectionMode, clearSelection } = useSelectionStore();
 
   const handleToggle = () => {
     if (selectionMode) {

@@ -149,9 +149,7 @@ const ProfilePage = () => {
                   </div>
                   <div>
                     <p className="text-muted-foreground">Last Updated</p>
-                    <p className="text-xs">
-                      {new Date(profile.updated_at).toLocaleString()}
-                    </p>
+                    <p className="text-xs">{new Date(profile.updated_at).toLocaleString()}</p>
                   </div>
                 </div>
               </div>

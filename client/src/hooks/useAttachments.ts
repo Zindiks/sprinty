@@ -50,15 +50,11 @@ export const useAttachments = (cardId?: string) => {
       const formData = new FormData();
       formData.append("file", file);
 
-      return apiClient.post(
-        `/attachments/card/${card_id}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      return apiClient.post(`/attachments/card/${card_id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
     },
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ["attachments", variables.card_id] });
@@ -90,7 +86,10 @@ export const useAttachments = (cardId?: string) => {
       await queryClient.cancelQueries({ queryKey: ["attachments", params.card_id] });
 
       // Snapshot previous value
-      const previousAttachments = queryClient.getQueryData<Attachment[]>(["attachments", params.card_id]);
+      const previousAttachments = queryClient.getQueryData<Attachment[]>([
+        "attachments",
+        params.card_id,
+      ]);
 
       // Optimistically update
       if (previousAttachments) {
@@ -126,17 +125,17 @@ export const useAttachments = (cardId?: string) => {
   // Update attachment (rename)
   const updateAttachment = useMutation<AxiosResponse, FetchError, UpdateAttachmentParams>({
     mutationFn: ({ id, card_id, filename }) => {
-      return apiClient.patch(
-        `/attachments/`,
-        { id, card_id, filename }
-      );
+      return apiClient.patch(`/attachments/`, { id, card_id, filename });
     },
     onMutate: async (params) => {
       // Cancel outgoing refetches
       await queryClient.cancelQueries({ queryKey: ["attachments", params.card_id] });
 
       // Snapshot previous value
-      const previousAttachments = queryClient.getQueryData<Attachment[]>(["attachments", params.card_id]);
+      const previousAttachments = queryClient.getQueryData<Attachment[]>([
+        "attachments",
+        params.card_id,
+      ]);
 
       // Optimistically update
       if (previousAttachments) {

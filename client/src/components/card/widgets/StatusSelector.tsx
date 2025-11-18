@@ -1,11 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Circle, CheckCircle2, AlertCircle, XCircle, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -49,11 +45,7 @@ const statuses: {
   },
 ];
 
-export const StatusSelector = ({
-  value,
-  onChange,
-  disabled = false,
-}: StatusSelectorProps) => {
+export const StatusSelector = ({ value, onChange, disabled = false }: StatusSelectorProps) => {
   const [open, setOpen] = useState(false);
 
   const selectedStatus = statuses.find((s) => s.value === value);
@@ -66,12 +58,7 @@ export const StatusSelector = ({
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          size="sm"
-          disabled={disabled}
-          className="h-8 gap-2"
-        >
+        <Button variant="outline" size="sm" disabled={disabled} className="h-8 gap-2">
           {selectedStatus ? (
             <>
               <span className={selectedStatus.color}>{selectedStatus.icon}</span>
@@ -100,9 +87,7 @@ export const StatusSelector = ({
                 <span className={status.color}>{status.icon}</span>
                 <span>{status.label}</span>
               </div>
-              {value === status.value && (
-                <Check className="w-4 h-4 text-primary" />
-              )}
+              {value === status.value && <Check className="w-4 h-4 text-primary" />}
             </button>
           ))}
         </div>

@@ -138,12 +138,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
   }, []);
 
   const handleSelect = useCallback(
-    (
-      type: "board" | "list" | "card",
-      id: string,
-      title: string,
-      boardId?: string
-    ) => {
+    (type: "board" | "list" | "card", id: string, title: string, boardId?: string) => {
       // Save to recent items
       saveRecentItem({
         id,
@@ -202,10 +197,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
       <>
         {parts.map((part, i) =>
           part.toLowerCase() === query.toLowerCase() ? (
-            <mark
-              key={i}
-              className="bg-yellow-200 dark:bg-yellow-800 rounded px-0.5"
-            >
+            <mark key={i} className="bg-yellow-200 dark:bg-yellow-800 rounded px-0.5">
               {part}
             </mark>
           ) : (
@@ -216,13 +208,12 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
     );
   };
 
-  const filteredResults =
-    data && {
-      boards: activeTypes.has("board") ? data.results.boards : [],
-      lists: activeTypes.has("list") ? data.results.lists : [],
-      cards: activeTypes.has("card") ? data.results.cards : [],
-      comments: data.results.comments || [],
-    };
+  const filteredResults = data && {
+    boards: activeTypes.has("board") ? data.results.boards : [],
+    lists: activeTypes.has("list") ? data.results.lists : [],
+    cards: activeTypes.has("card") ? data.results.cards : [],
+    comments: data.results.comments || [],
+  };
 
   const hasResults =
     filteredResults &&
@@ -268,10 +259,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                 variant={isActive ? "secondary" : "ghost"}
                 size="sm"
                 onClick={() => toggleType(type)}
-                className={cn(
-                  "h-7 px-2 text-xs",
-                  isActive && "bg-secondary"
-                )}
+                className={cn("h-7 px-2 text-xs", isActive && "bg-secondary")}
               >
                 <Icon className="h-3 w-3 mr-1" />
                 <span className="capitalize">{type}s</span>
@@ -283,12 +271,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
         {/* Scope & Filters Toggle */}
         <div className="flex gap-1">
           {board_id && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={toggleScope}
-              className="h-7 px-2 text-xs"
-            >
+            <Button variant="ghost" size="sm" onClick={toggleScope} className="h-7 px-2 text-xs">
               {searchScope === "global" ? (
                 <>
                   <Globe className="h-3 w-3 mr-1" />
@@ -307,10 +290,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
             variant={showFilters || hasActiveFilters ? "secondary" : "ghost"}
             size="sm"
             onClick={() => setShowFilters(!showFilters)}
-            className={cn(
-              "h-7 px-2 text-xs",
-              hasActiveFilters && "bg-secondary"
-            )}
+            className={cn("h-7 px-2 text-xs", hasActiveFilters && "bg-secondary")}
           >
             <Filter className="h-3 w-3 mr-1" />
             Filters
@@ -329,12 +309,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-medium">Advanced Filters</span>
             {hasActiveFilters && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={clearFilters}
-                className="h-6 px-2 text-xs"
-              >
+              <Button variant="ghost" size="sm" onClick={clearFilters} className="h-6 px-2 text-xs">
                 <X className="h-3 w-3 mr-1" />
                 Clear All
               </Button>
@@ -343,9 +318,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
 
           <div className="grid grid-cols-2 gap-2">
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">
-                Assignee ID
-              </label>
+              <label className="text-xs text-muted-foreground">Assignee ID</label>
               <input
                 type="text"
                 placeholder="UUID..."
@@ -367,9 +340,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
             </div>
 
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">
-                From Date
-              </label>
+              <label className="text-xs text-muted-foreground">From Date</label>
               <input
                 type="date"
                 value={dateFrom}
@@ -399,7 +370,13 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
         {/* Quick Actions */}
         {showActions && (
           <>
-            <CommandGroup heading={<div className="flex items-center gap-1"><Zap className="h-3 w-3" /> Quick Actions</div>}>
+            <CommandGroup
+              heading={
+                <div className="flex items-center gap-1">
+                  <Zap className="h-3 w-3" /> Quick Actions
+                </div>
+              }
+            >
               {filteredActions.map((action) => (
                 <CommandItem
                   key={action.id}
@@ -427,7 +404,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
               ))}
             </CommandGroup>
 
-            {(hasResults || (isLoading || isFetching)) && <CommandSeparator />}
+            {(hasResults || isLoading || isFetching) && <CommandSeparator />}
           </>
         )}
 
@@ -439,25 +416,21 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
         )}
 
         {/* No Results */}
-        {!isLoading &&
-          !isFetching &&
-          debouncedQuery.length >= 1 &&
-          !hasResults &&
-          !showActions && (
-            <CommandEmpty>
-              <div className="p-4 space-y-3 text-center">
-                <p className="text-sm">No results found for "{debouncedQuery}"</p>
-                <div className="text-xs text-muted-foreground space-y-1">
-                  <p>Try:</p>
-                  <ul className="list-none space-y-0.5">
-                    <li>• Different keywords</li>
-                    <li>• Checking your filters</li>
-                    <li>• Searching in all boards</li>
-                  </ul>
-                </div>
+        {!isLoading && !isFetching && debouncedQuery.length >= 1 && !hasResults && !showActions && (
+          <CommandEmpty>
+            <div className="p-4 space-y-3 text-center">
+              <p className="text-sm">No results found for "{debouncedQuery}"</p>
+              <div className="text-xs text-muted-foreground space-y-1">
+                <p>Try:</p>
+                <ul className="list-none space-y-0.5">
+                  <li>• Different keywords</li>
+                  <li>• Checking your filters</li>
+                  <li>• Searching in all boards</li>
+                </ul>
               </div>
-            </CommandEmpty>
-          )}
+            </div>
+          </CommandEmpty>
+        )}
 
         {/* Search Results - same as EnhancedSearchDialog */}
         {hasResults && filteredResults && (
@@ -468,9 +441,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                   <CommandItem
                     key={board.id}
                     value={`board-${board.id}`}
-                    onSelect={() =>
-                      handleSelect("board", board.id, board.title)
-                    }
+                    onSelect={() => handleSelect("board", board.id, board.title)}
                     className="py-3 sm:py-2"
                   >
                     <Square className="mr-2 h-4 w-4 flex-shrink-0" />
@@ -495,9 +466,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                   <CommandItem
                     key={list.id}
                     value={`list-${list.id}`}
-                    onSelect={() =>
-                      handleSelect("list", list.id, list.title, list.board_id)
-                    }
+                    onSelect={() => handleSelect("list", list.id, list.title, list.board_id)}
                     className="py-3 sm:py-2"
                   >
                     <List className="mr-2 h-4 w-4 flex-shrink-0" />
@@ -520,9 +489,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                   <CommandItem
                     key={card.id}
                     value={`card-${card.id}`}
-                    onSelect={() =>
-                      handleSelect("card", card.id, card.title, card.board_id)
-                    }
+                    onSelect={() => handleSelect("card", card.id, card.title, card.board_id)}
                     className="py-3 sm:py-2"
                   >
                     <FileText className="mr-2 h-4 w-4 flex-shrink-0" />
@@ -546,12 +513,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                     key={comment.id}
                     value={`comment-${comment.id}`}
                     onSelect={() =>
-                      handleSelect(
-                        "card",
-                        comment.card_id,
-                        comment.card_title,
-                        comment.board_id
-                      )
+                      handleSelect("card", comment.card_id, comment.card_title, comment.board_id)
                     }
                     className="py-3 sm:py-2"
                   >
@@ -583,9 +545,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                 <CommandItem
                   key={item.id}
                   value={`recent-${item.id}`}
-                  onSelect={() =>
-                    handleSelect(item.type, item.id, item.title, item.board_id)
-                  }
+                  onSelect={() => handleSelect(item.type, item.id, item.title, item.board_id)}
                   className="py-3 sm:py-2"
                 >
                   <Clock className="mr-2 h-4 w-4 text-muted-foreground flex-shrink-0" />
@@ -607,18 +567,13 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
               <p className="font-medium">Keyboard shortcuts:</p>
               <div className="flex flex-col items-center gap-1">
                 <p>
-                  <kbd className="px-2 py-1 bg-muted rounded text-xs">↑↓</kbd>{" "}
-                  Navigate
+                  <kbd className="px-2 py-1 bg-muted rounded text-xs">↑↓</kbd> Navigate
                 </p>
                 <p>
-                  <kbd className="px-2 py-1 bg-muted rounded text-xs">
-                    Enter
-                  </kbd>{" "}
-                  Select
+                  <kbd className="px-2 py-1 bg-muted rounded text-xs">Enter</kbd> Select
                 </p>
                 <p>
-                  <kbd className="px-2 py-1 bg-muted rounded text-xs">Esc</kbd>{" "}
-                  Close
+                  <kbd className="px-2 py-1 bg-muted rounded text-xs">Esc</kbd> Close
                 </p>
               </div>
             </div>

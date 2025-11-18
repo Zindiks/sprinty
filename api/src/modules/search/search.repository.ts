@@ -1,12 +1,6 @@
 import { Knex } from "knex";
 import knexInstance from "../../db/knexInstance";
-import {
-  BoardResult,
-  ListResult,
-  CardResult,
-  CommentResult,
-  SearchQuery,
-} from "./search.schema";
+import { BoardResult, ListResult, CardResult, CommentResult, SearchQuery } from "./search.schema";
 
 export class SearchRepository {
   private readonly knex: Knex;
@@ -21,7 +15,7 @@ export class SearchRepository {
   async searchBoards(
     query: string,
     organization_id: string,
-    limit: number = 50,
+    limit: number = 50
   ): Promise<BoardResult[]> {
     const searchPattern = `%${query}%`;
 
@@ -32,14 +26,7 @@ export class SearchRepository {
           .whereRaw("LOWER(title) LIKE LOWER(?)", [searchPattern])
           .orWhereRaw("LOWER(description) LIKE LOWER(?)", [searchPattern]);
       })
-      .select(
-        "id",
-        "title",
-        "description",
-        "organization_id",
-        "created_at",
-        "updated_at",
-      )
+      .select("id", "title", "description", "organization_id", "created_at", "updated_at")
       .orderBy("created_at", "desc")
       .limit(limit);
 
@@ -56,7 +43,7 @@ export class SearchRepository {
     query: string,
     organization_id: string,
     board_id?: string,
-    limit: number = 50,
+    limit: number = 50
   ): Promise<ListResult[]> {
     const searchPattern = `%${query}%`;
 
@@ -71,7 +58,7 @@ export class SearchRepository {
         "boards.title as board_title",
         "lists.order",
         "lists.created_at",
-        "lists.updated_at",
+        "lists.updated_at"
       )
       .orderBy("lists.created_at", "desc")
       .limit(limit);
@@ -103,7 +90,7 @@ export class SearchRepository {
       date_from?: string;
       date_to?: string;
       include_archived?: boolean;
-    },
+    }
   ): Promise<CardResult[]> {
     const searchPattern = `%${query}%`;
 
@@ -114,9 +101,7 @@ export class SearchRepository {
       .andWhere((builder) => {
         builder
           .whereRaw("LOWER(cards.title) LIKE LOWER(?)", [searchPattern])
-          .orWhereRaw("LOWER(cards.description) LIKE LOWER(?)", [
-            searchPattern,
-          ]);
+          .orWhereRaw("LOWER(cards.description) LIKE LOWER(?)", [searchPattern]);
       })
       .select(
         "cards.id",
@@ -129,7 +114,7 @@ export class SearchRepository {
         "boards.title as board_title",
         "cards.order",
         "cards.created_at",
-        "cards.updated_at",
+        "cards.updated_at"
       )
       .orderBy("cards.created_at", "desc")
       .limit(limit);
@@ -181,7 +166,7 @@ export class SearchRepository {
     query: string,
     organization_id: string,
     board_id?: string,
-    limit: number = 50,
+    limit: number = 50
   ): Promise<CommentResult[]> {
     const searchPattern = `%${query}%`;
 
@@ -204,7 +189,7 @@ export class SearchRepository {
         "comments.user_id",
         "users.email as user_email",
         "comments.created_at",
-        "comments.updated_at",
+        "comments.updated_at"
       )
       .orderBy("comments.created_at", "desc")
       .limit(limit);
@@ -257,13 +242,7 @@ export class SearchRepository {
     const [boards, lists, cards, comments] = await Promise.all([
       this.searchBoards(query, organization_id, itemLimit),
       this.searchLists(query, organization_id, board_id, itemLimit),
-      this.searchCards(
-        query,
-        organization_id,
-        board_id,
-        itemLimit,
-        cardFilters,
-      ),
+      this.searchCards(query, organization_id, board_id, itemLimit, cardFilters),
       this.searchComments(query, organization_id, board_id, itemLimit),
     ]);
 

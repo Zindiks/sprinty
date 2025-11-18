@@ -17,7 +17,7 @@ export default async function assigneeRoutes(fastify: FastifyInstance) {
         description: "Add assignee to a card",
       },
     },
-    assigneeController.addAssigneeController.bind(assigneeController),
+    assigneeController.addAssigneeController.bind(assigneeController)
   );
 
   fastify.delete(
@@ -37,7 +37,7 @@ export default async function assigneeRoutes(fastify: FastifyInstance) {
         description: "Remove assignee from a card",
       },
     },
-    assigneeController.removeAssigneeController.bind(assigneeController),
+    assigneeController.removeAssigneeController.bind(assigneeController)
   );
 
   fastify.get(
@@ -57,7 +57,7 @@ export default async function assigneeRoutes(fastify: FastifyInstance) {
         description: "Get all assignees for a card with user details",
       },
     },
-    assigneeController.getAssigneesByCardIdController.bind(assigneeController),
+    assigneeController.getAssigneesByCardIdController.bind(assigneeController)
   );
 
   fastify.get(
@@ -83,7 +83,7 @@ export default async function assigneeRoutes(fastify: FastifyInstance) {
         description: "Check if a user is assigned to a card",
       },
     },
-    assigneeController.checkUserAssignedController.bind(assigneeController),
+    assigneeController.checkUserAssignedController.bind(assigneeController)
   );
 
   fastify.get(
@@ -111,6 +111,6 @@ export default async function assigneeRoutes(fastify: FastifyInstance) {
         description: "Get all card IDs assigned to a user",
       },
     },
-    assigneeController.getCardsByUserIdController.bind(assigneeController),
+    assigneeController.getCardsByUserIdController.bind(assigneeController)
   );
 }

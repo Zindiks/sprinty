@@ -50,19 +50,14 @@ export class SprintRepository {
    * Get all sprints for a board
    */
   async getSprintsByBoard(boardId: string) {
-    return this.knex("sprints")
-      .where("board_id", boardId)
-      .orderBy("start_date", "desc");
+    return this.knex("sprints").where("board_id", boardId).orderBy("start_date", "desc");
   }
 
   /**
    * Get active sprint for a board
    */
   async getActiveSprint(boardId: string) {
-    return this.knex("sprints")
-      .where("board_id", boardId)
-      .where("status", "active")
-      .first();
+    return this.knex("sprints").where("board_id", boardId).where("status", "active").first();
   }
 
   /**
@@ -108,9 +103,7 @@ export class SprintRepository {
       .where("sprint_id", id)
       .select(
         this.knex.raw("COUNT(*) as total_cards"),
-        this.knex.raw(
-          "COUNT(CASE WHEN status = 'completed' THEN 1 END) as completed_cards"
-        )
+        this.knex.raw("COUNT(CASE WHEN status = 'completed' THEN 1 END) as completed_cards")
       )
       .first();
 
@@ -126,11 +119,7 @@ export class SprintRepository {
    */
   async getSprintCards(sprintId: string) {
     return this.knex("cards")
-      .select(
-        "cards.*",
-        "lists.title as list_title",
-        "lists.id as list_id"
-      )
+      .select("cards.*", "lists.title as list_title", "lists.id as list_id")
       .join("lists", "cards.list_id", "lists.id")
       .where("cards.sprint_id", sprintId)
       .orderBy("cards.order", "asc");
@@ -140,17 +129,13 @@ export class SprintRepository {
    * Add cards to sprint
    */
   async addCardsToSprint(sprintId: string, cardIds: string[]) {
-    return this.knex("cards")
-      .whereIn("id", cardIds)
-      .update({ sprint_id: sprintId });
+    return this.knex("cards").whereIn("id", cardIds).update({ sprint_id: sprintId });
   }
 
   /**
    * Remove cards from sprint
    */
   async removeCardsFromSprint(cardIds: string[]) {
-    return this.knex("cards")
-      .whereIn("id", cardIds)
-      .update({ sprint_id: null });
+    return this.knex("cards").whereIn("id", cardIds).update({ sprint_id: null });
   }
 }

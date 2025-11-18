@@ -18,7 +18,7 @@ export default async function commentRoutes(fastify: FastifyInstance) {
         description: "Create a new comment on a card",
       },
     },
-    commentController.createCommentController.bind(commentController),
+    commentController.createCommentController.bind(commentController)
   );
 
   // Update comment
@@ -38,7 +38,7 @@ export default async function commentRoutes(fastify: FastifyInstance) {
         description: "Update a comment (only by the author)",
       },
     },
-    commentController.updateCommentController.bind(commentController),
+    commentController.updateCommentController.bind(commentController)
   );
 
   // Delete comment
@@ -61,7 +61,7 @@ export default async function commentRoutes(fastify: FastifyInstance) {
         description: "Delete a comment (only by the author)",
       },
     },
-    commentController.deleteCommentController.bind(commentController),
+    commentController.deleteCommentController.bind(commentController)
   );
 
   // Get comment by ID
@@ -87,7 +87,7 @@ export default async function commentRoutes(fastify: FastifyInstance) {
         description: "Get a comment by ID",
       },
     },
-    commentController.getCommentController.bind(commentController),
+    commentController.getCommentController.bind(commentController)
   );
 
   // Get all comments for a card
@@ -108,7 +108,7 @@ export default async function commentRoutes(fastify: FastifyInstance) {
         description: "Get all comments for a card",
       },
     },
-    commentController.getCommentsByCardIdController.bind(commentController),
+    commentController.getCommentsByCardIdController.bind(commentController)
   );
 
   // Get comments with user details
@@ -129,7 +129,7 @@ export default async function commentRoutes(fastify: FastifyInstance) {
         description: "Get all comments for a card with user details",
       },
     },
-    commentController.getCommentsWithUserDetailsController.bind(commentController),
+    commentController.getCommentsWithUserDetailsController.bind(commentController)
   );
 
   // Get comments with threaded replies
@@ -150,7 +150,7 @@ export default async function commentRoutes(fastify: FastifyInstance) {
         description: "Get all comments for a card with threaded replies",
       },
     },
-    commentController.getCommentsWithRepliesController.bind(commentController),
+    commentController.getCommentsWithRepliesController.bind(commentController)
   );
 
   // Get replies for a specific comment
@@ -171,7 +171,7 @@ export default async function commentRoutes(fastify: FastifyInstance) {
         description: "Get all replies for a specific comment",
       },
     },
-    commentController.getRepliesByCommentIdController.bind(commentController),
+    commentController.getRepliesByCommentIdController.bind(commentController)
   );
 
   // Get comment count for a card
@@ -195,6 +195,6 @@ export default async function commentRoutes(fastify: FastifyInstance) {
         description: "Get comment count for a card",
       },
     },
-    commentController.getCommentCountController.bind(commentController),
+    commentController.getCommentCountController.bind(commentController)
   );
 }

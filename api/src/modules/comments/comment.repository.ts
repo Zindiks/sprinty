@@ -19,10 +19,7 @@ export class CommentRepository {
     this.knex = knexInstance;
   }
 
-  async createComment(
-    input: CreateComment,
-    user_id: string,
-  ): Promise<CommentResponse> {
+  async createComment(input: CreateComment, user_id: string): Promise<CommentResponse> {
     const { card_id, content, parent_comment_id } = input;
 
     const [comment] = await this.knex(table)
@@ -38,10 +35,7 @@ export class CommentRepository {
     return comment;
   }
 
-  async updateComment(
-    input: UpdateComment,
-    user_id: string,
-  ): Promise<CommentResponse | undefined> {
+  async updateComment(input: UpdateComment, user_id: string): Promise<CommentResponse | undefined> {
     const { id, card_id, content } = input;
 
     const [comment] = await this.knex(table)
@@ -56,31 +50,21 @@ export class CommentRepository {
     return comment;
   }
 
-  async deleteComment(
-    input: DeleteComment,
-    user_id: string,
-  ): Promise<boolean> {
+  async deleteComment(input: DeleteComment, user_id: string): Promise<boolean> {
     const { id, card_id } = input;
 
-    const deleted = await this.knex(table)
-      .where({ id, card_id, user_id })
-      .delete();
+    const deleted = await this.knex(table).where({ id, card_id, user_id }).delete();
 
     return deleted > 0;
   }
 
-  async getCommentById(
-    id: string,
-    card_id: string,
-  ): Promise<CommentResponse | undefined> {
+  async getCommentById(id: string, card_id: string): Promise<CommentResponse | undefined> {
     const comment = await this.knex(table).where({ id, card_id }).first();
 
     return comment;
   }
 
-  async getCommentsByCardId(
-    card_id: string,
-  ): Promise<CommentResponseArray> {
+  async getCommentsByCardId(card_id: string): Promise<CommentResponseArray> {
     const comments = await this.knex(table)
       .where({ card_id })
       .orderBy("created_at", "asc")
@@ -89,9 +73,7 @@ export class CommentRepository {
     return comments;
   }
 
-  async getCommentsWithUserDetails(
-    card_id: string,
-  ): Promise<CommentWithUserDetailsArray> {
+  async getCommentsWithUserDetails(card_id: string): Promise<CommentWithUserDetailsArray> {
     const comments = await this.knex(table)
       .where({ "comments.card_id": card_id })
       .join("users", "comments.user_id", "users.id")
@@ -104,39 +86,31 @@ export class CommentRepository {
             'email', users.email,
             'username', profiles.username
           ) as user
-        `),
+        `)
       )
       .orderBy("comments.created_at", "asc");
 
     return comments;
   }
 
-  async getCommentsWithReplies(
-    card_id: string,
-  ): Promise<CommentWithRepliesArray> {
+  async getCommentsWithReplies(card_id: string): Promise<CommentWithRepliesArray> {
     // Get all comments with user details
     const allComments = await this.getCommentsWithUserDetails(card_id);
 
     // Separate top-level comments and replies
-    const topLevelComments = allComments.filter(
-      (comment) => !comment.parent_comment_id,
-    );
+    const topLevelComments = allComments.filter((comment) => !comment.parent_comment_id);
     const replies = allComments.filter((comment) => comment.parent_comment_id);
 
     // Build threaded structure
     const threaded = topLevelComments.map((comment) => ({
       ...comment,
-      replies: replies.filter(
-        (reply) => reply.parent_comment_id === comment.id,
-      ),
+      replies: replies.filter((reply) => reply.parent_comment_id === comment.id),
     }));
 
     return threaded;
   }
 
-  async getRepliesByCommentId(
-    parent_comment_id: string,
-  ): Promise<CommentWithUserDetailsArray> {
+  async getRepliesByCommentId(parent_comment_id: string): Promise<CommentWithUserDetailsArray> {
     const replies = await this.knex(table)
       .where({ "comments.parent_comment_id": parent_comment_id })
       .join("users", "comments.user_id", "users.id")
@@ -149,7 +123,7 @@ export class CommentRepository {
             'email', users.email,
             'username', profiles.username
           ) as user
-        `),
+        `)
       )
       .orderBy("comments.created_at", "asc");
 
@@ -157,10 +131,7 @@ export class CommentRepository {
   }
 
   async getCommentCount(card_id: string): Promise<number> {
-    const result = await this.knex(table)
-      .where({ card_id })
-      .count("* as count")
-      .first();
+    const result = await this.knex(table).where({ card_id }).count("* as count").first();
 
     return parseInt(result?.count as string) || 0;
   }

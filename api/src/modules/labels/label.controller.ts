@@ -20,7 +20,7 @@ export class LabelController {
     request: FastifyRequest<{
       Body: CreateLabel;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const body = request.body;
 
@@ -39,7 +39,7 @@ export class LabelController {
     request: FastifyRequest<{
       Body: UpdateLabel;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const body = request.body;
 
@@ -61,7 +61,7 @@ export class LabelController {
     request: FastifyRequest<{
       Params: DeleteLabel;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const params = request.params;
 
@@ -80,7 +80,7 @@ export class LabelController {
     request: FastifyRequest<{
       Params: { id: string; board_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { id, board_id } = request.params;
 
@@ -99,7 +99,7 @@ export class LabelController {
     request: FastifyRequest<{
       Params: { board_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { board_id } = request.params;
 
@@ -115,13 +115,12 @@ export class LabelController {
     request: FastifyRequest<{
       Params: { board_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { board_id } = request.params;
 
     try {
-      const labels =
-        await this.labelService.getLabelsWithCardsCount(board_id);
+      const labels = await this.labelService.getLabelsWithCardsCount(board_id);
       return reply.status(200).send(labels);
     } catch (err) {
       return reply.status(500).send(err);
@@ -133,7 +132,7 @@ export class LabelController {
     request: FastifyRequest<{
       Body: AddLabelToCard;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const body = request.body;
 
@@ -149,7 +148,7 @@ export class LabelController {
     request: FastifyRequest<{
       Params: RemoveLabelFromCard;
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const params = request.params;
 
@@ -168,7 +167,7 @@ export class LabelController {
     request: FastifyRequest<{
       Params: { card_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { card_id } = request.params;
 
@@ -184,7 +183,7 @@ export class LabelController {
     request: FastifyRequest<{
       Params: { label_id: string };
     }>,
-    reply: FastifyReply,
+    reply: FastifyReply
   ) {
     const { label_id } = request.params;
 

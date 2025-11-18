@@ -18,7 +18,7 @@ import {
  */
 export function initializeWebSocketServer(
   httpServer: HttpServer,
-  corsOrigin: string,
+  corsOrigin: string
 ): { io: Server; wsService: WebSocketService } {
   // Socket.io server options
   const options: Partial<ServerOptions> = {
@@ -44,18 +44,14 @@ export function initializeWebSocketServer(
 
   // Connection handler
   io.on(WebSocketEvent.CONNECTION, (socket: AuthenticatedSocket) => {
-    console.log(
-      `Client connected: ${socket.id} (User: ${socket.userId})`,
-    );
+    console.log(`Client connected: ${socket.id} (User: ${socket.userId})`);
 
     // Set up event handlers
     setupEventHandlers(socket, wsService);
 
     // Handle disconnect
     socket.on(WebSocketEvent.DISCONNECT, () => {
-      console.log(
-        `Client disconnected: ${socket.id} (User: ${socket.userId})`,
-      );
+      console.log(`Client disconnected: ${socket.id} (User: ${socket.userId})`);
       wsService.handleDisconnect(socket);
     });
 
@@ -73,10 +69,7 @@ export function initializeWebSocketServer(
 /**
  * Set up event handlers for a socket connection
  */
-function setupEventHandlers(
-  socket: AuthenticatedSocket,
-  wsService: WebSocketService,
-): void {
+function setupEventHandlers(socket: AuthenticatedSocket, wsService: WebSocketService): void {
   const { userId, userEmail } = socket;
 
   if (!userId || !userEmail) {
@@ -115,7 +108,7 @@ function setupEventHandlers(
           });
         }
       }
-    },
+    }
   );
 
   /**
@@ -144,7 +137,7 @@ function setupEventHandlers(
           });
         }
       }
-    },
+    }
   );
 
   /**

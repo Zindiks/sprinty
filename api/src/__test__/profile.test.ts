@@ -1,23 +1,17 @@
 import { ProfileService } from "../modules/profiles/profile.service";
 import { ProfileRepository } from "../modules/profiles/profile.repository";
-import {
-  CreateProfile,
-  UpdateProfile,
-  ProfileResponse,
-} from "../modules/profiles/profile.schema";
+import { CreateProfile, UpdateProfile, ProfileResponse } from "../modules/profiles/profile.schema";
 
 jest.mock("../modules/profiles/profile.repository");
 
-const MockedProfileRepository =
-  ProfileRepository as jest.Mock<ProfileRepository>;
+const MockedProfileRepository = ProfileRepository as jest.Mock<ProfileRepository>;
 
 describe("ProfileService", () => {
   let profileService: ProfileService;
   let profileRepository: jest.Mocked<ProfileRepository>;
 
   beforeEach(() => {
-    profileRepository =
-      new MockedProfileRepository() as jest.Mocked<ProfileRepository>;
+    profileRepository = new MockedProfileRepository() as jest.Mocked<ProfileRepository>;
     profileService = new ProfileService();
     // @ts-ignore - inject mocked repository
     profileService["profileRepository"] = profileRepository;
@@ -146,12 +140,8 @@ describe("ProfileService", () => {
 
       // Assert
       expect(result).toEqual(mockCreatedProfile);
-      expect(profileRepository.checkUsernameExists).toHaveBeenCalledWith(
-        input.username
-      );
-      expect(profileRepository.checkEmailExists).toHaveBeenCalledWith(
-        input.email
-      );
+      expect(profileRepository.checkUsernameExists).toHaveBeenCalledWith(input.username);
+      expect(profileRepository.checkEmailExists).toHaveBeenCalledWith(input.email);
       expect(profileRepository.create).toHaveBeenCalledWith(input);
     });
 
@@ -166,12 +156,8 @@ describe("ProfileService", () => {
       profileRepository.checkUsernameExists.mockResolvedValue(true);
 
       // Act & Assert
-      await expect(profileService.create(input)).rejects.toThrow(
-        "Username already exists"
-      );
-      expect(profileRepository.checkUsernameExists).toHaveBeenCalledWith(
-        input.username
-      );
+      await expect(profileService.create(input)).rejects.toThrow("Username already exists");
+      expect(profileRepository.checkUsernameExists).toHaveBeenCalledWith(input.username);
       expect(profileRepository.create).not.toHaveBeenCalled();
     });
 
@@ -187,12 +173,8 @@ describe("ProfileService", () => {
       profileRepository.checkEmailExists.mockResolvedValue(true);
 
       // Act & Assert
-      await expect(profileService.create(input)).rejects.toThrow(
-        "Email already exists"
-      );
-      expect(profileRepository.checkEmailExists).toHaveBeenCalledWith(
-        input.email
-      );
+      await expect(profileService.create(input)).rejects.toThrow("Email already exists");
+      expect(profileRepository.checkEmailExists).toHaveBeenCalledWith(input.email);
       expect(profileRepository.create).not.toHaveBeenCalled();
     });
 
@@ -284,14 +266,8 @@ describe("ProfileService", () => {
 
       // Assert
       expect(result).toEqual(mockUpdatedProfile);
-      expect(profileRepository.checkUsernameExists).toHaveBeenCalledWith(
-        input.username,
-        userId
-      );
-      expect(profileRepository.checkEmailExists).toHaveBeenCalledWith(
-        input.email,
-        userId
-      );
+      expect(profileRepository.checkUsernameExists).toHaveBeenCalledWith(input.username, userId);
+      expect(profileRepository.checkEmailExists).toHaveBeenCalledWith(input.email, userId);
       expect(profileRepository.update).toHaveBeenCalledWith(userId, input);
     });
 
@@ -305,9 +281,7 @@ describe("ProfileService", () => {
       profileRepository.checkUsernameExists.mockResolvedValue(true);
 
       // Act & Assert
-      await expect(profileService.update(userId, input)).rejects.toThrow(
-        "Username already exists"
-      );
+      await expect(profileService.update(userId, input)).rejects.toThrow("Username already exists");
       expect(profileRepository.update).not.toHaveBeenCalled();
     });
 
@@ -321,9 +295,7 @@ describe("ProfileService", () => {
       profileRepository.checkEmailExists.mockResolvedValue(true);
 
       // Act & Assert
-      await expect(profileService.update(userId, input)).rejects.toThrow(
-        "Email already exists"
-      );
+      await expect(profileService.update(userId, input)).rejects.toThrow("Email already exists");
       expect(profileRepository.update).not.toHaveBeenCalled();
     });
 
@@ -381,10 +353,7 @@ describe("ProfileService", () => {
 
       // Assert
       expect(result).toEqual(mockUpdatedProfile);
-      expect(profileRepository.checkUsernameExists).toHaveBeenCalledWith(
-        input.username,
-        userId
-      );
+      expect(profileRepository.checkUsernameExists).toHaveBeenCalledWith(input.username, userId);
     });
   });
 
@@ -422,9 +391,7 @@ describe("ProfileService", () => {
       profileRepository.delete.mockRejectedValue(error);
 
       // Act & Assert
-      await expect(profileService.delete(userId)).rejects.toThrow(
-        "Profile not found"
-      );
+      await expect(profileService.delete(userId)).rejects.toThrow("Profile not found");
     });
   });
 });

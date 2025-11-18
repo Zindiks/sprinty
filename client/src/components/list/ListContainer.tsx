@@ -43,17 +43,15 @@ const ListContainer = ({ data, board_id, filterAndSortCards }: ListContainerProp
     if (!destination) return;
     //if dropped in the same position
 
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    )
+    if (destination.droppableId === source.droppableId && destination.index === source.index)
       return;
 
     // user move a list
     if (type === "list") {
-      const items = reorder(orderedData, source.index, destination.index).map(
-        (item, index) => ({ ...item, order: index }),
-      );
+      const items = reorder(orderedData, source.index, destination.index).map((item, index) => ({
+        ...item,
+        order: index,
+      }));
 
       //TODO: Trigger API
       setOrderedData(items);
@@ -65,13 +63,9 @@ const ListContainer = ({ data, board_id, filterAndSortCards }: ListContainerProp
       const newOrderedData = [...orderedData];
 
       // Source and destination list
-      const sourceList = newOrderedData.find(
-        (list) => list.id === source.droppableId,
-      );
+      const sourceList = newOrderedData.find((list) => list.id === source.droppableId);
 
-      const destList = newOrderedData.find(
-        (list) => list.id === destination.droppableId,
-      );
+      const destList = newOrderedData.find((list) => list.id === destination.droppableId);
 
       if (!sourceList || !destList) {
         return;
@@ -90,11 +84,7 @@ const ListContainer = ({ data, board_id, filterAndSortCards }: ListContainerProp
 
       // Moving the card in the same list
       if (source.droppableId === destination.droppableId) {
-        const reorderedCards = reorder(
-          sourceList.cards,
-          source.index,
-          destination.index,
-        );
+        const reorderedCards = reorder(sourceList.cards, source.index, destination.index);
 
         reorderedCards.forEach((card, index) => {
           card.order = index;
@@ -137,10 +127,7 @@ const ListContainer = ({ data, board_id, filterAndSortCards }: ListContainerProp
         console.log(destList.cards);
 
         // Send all affected cards (both source and destination lists)
-        const allAffectedCards = [
-          ...sourceList.cards,
-          ...destList.cards
-        ];
+        const allAffectedCards = [...sourceList.cards, ...destList.cards];
         updateCardsOrder.mutate([allAffectedCards, sourceList.id]);
       }
     }

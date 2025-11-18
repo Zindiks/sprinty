@@ -85,14 +85,9 @@ const WidgetGallery = ({ onAddWidget, isOpen, onClose }: WidgetGalleryProps) => 
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
           <div>
             <h2 className="text-2xl font-bold text-gray-900">Add Widget</h2>
-            <p className="text-sm text-gray-600 mt-1">
-              Choose a widget to add to your dashboard
-            </p>
+            <p className="text-sm text-gray-600 mt-1">Choose a widget to add to your dashboard</p>
           </div>
-          <button
-            onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-full transition"
-          >
+          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition">
             <X className="w-6 h-6 text-gray-600" />
           </button>
         </div>

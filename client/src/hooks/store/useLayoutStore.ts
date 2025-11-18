@@ -23,11 +23,9 @@ export const useLayoutStore = create<LayoutStore>()(
       widgets: [],
       isEditMode: false,
 
-      setCurrentLayoutId: (layoutId) =>
-        set({ currentLayoutId: layoutId }),
+      setCurrentLayoutId: (layoutId) => set({ currentLayoutId: layoutId }),
 
-      setWidgets: (widgets) =>
-        set({ widgets }),
+      setWidgets: (widgets) => set({ widgets }),
 
       addWidget: (widget) =>
         set((state) => ({
@@ -41,9 +39,7 @@ export const useLayoutStore = create<LayoutStore>()(
 
       updateWidget: (widgetId, updates) =>
         set((state) => ({
-          widgets: state.widgets.map((w) =>
-            w.id === widgetId ? { ...w, ...updates } : w
-          ),
+          widgets: state.widgets.map((w) => (w.id === widgetId ? { ...w, ...updates } : w)),
         })),
 
       reorderWidgets: (startIndex, endIndex) =>
@@ -54,8 +50,7 @@ export const useLayoutStore = create<LayoutStore>()(
           return { widgets: result };
         }),
 
-      setEditMode: (isEdit) =>
-        set({ isEditMode: isEdit }),
+      setEditMode: (isEdit) => set({ isEditMode: isEdit }),
 
       resetLayout: () =>
         set({

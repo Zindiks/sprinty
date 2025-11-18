@@ -24,15 +24,10 @@ export const ActivitySection = ({ cardId }: ActivitySectionProps) => {
           <History className="w-4 h-4" />
           Activity
           {activities && activities.length > 0 && (
-            <span className="text-xs text-muted-foreground">
-              ({activities.length})
-            </span>
+            <span className="text-xs text-muted-foreground">({activities.length})</span>
           )}
         </h3>
-        <ActivityFilters
-          onFiltersChange={handleFiltersChange}
-          activeFilters={filters}
-        />
+        <ActivityFilters onFiltersChange={handleFiltersChange} activeFilters={filters} />
       </div>
 
       {/* Activity Timeline */}

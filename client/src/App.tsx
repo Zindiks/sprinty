@@ -23,11 +23,7 @@ function WebSocketIntegration({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <WebSocketProvider
-      serverUrl="http://localhost:4000"
-      userId={user.id}
-      userEmail={user.email}
-    >
+    <WebSocketProvider serverUrl="http://localhost:4000" userId={user.id} userEmail={user.email}>
       {children}
     </WebSocketProvider>
   );

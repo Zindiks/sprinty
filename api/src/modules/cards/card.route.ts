@@ -17,7 +17,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
         description: "Get a card",
       },
     },
-    cardController.getCardController.bind(cardController),
+    cardController.getCardController.bind(cardController)
   );
 
   fastify.get(
@@ -36,7 +36,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
         description: "Get a card with assignee details",
       },
     },
-    cardController.getCardWithAssigneesController.bind(cardController),
+    cardController.getCardWithAssigneesController.bind(cardController)
   );
 
   fastify.get(
@@ -55,7 +55,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
         description: "Get a card with full details (assignees and labels)",
       },
     },
-    cardController.getCardWithDetailsController.bind(cardController),
+    cardController.getCardWithDetailsController.bind(cardController)
   );
 
   fastify.patch(
@@ -71,7 +71,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
         description: "Update card details by ID (title, description, status, due_date, priority)",
       },
     },
-    cardController.updateCardDetailsByIdController.bind(cardController),
+    cardController.updateCardDetailsByIdController.bind(cardController)
   );
 
   fastify.get(
@@ -84,7 +84,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
         description: "Get cards by list_id",
       },
     },
-    cardController.getCardsByListIdController.bind(cardController),
+    cardController.getCardsByListIdController.bind(cardController)
   );
 
   fastify.post(
@@ -99,7 +99,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
         description: "Create a new Card",
       },
     },
-    cardController.createCardController.bind(cardController),
+    cardController.createCardController.bind(cardController)
   );
 
   fastify.patch(
@@ -114,7 +114,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
         description: "Update a card title",
       },
     },
-    cardController.updateCardTitleController.bind(cardController),
+    cardController.updateCardTitleController.bind(cardController)
   );
 
   fastify.patch(
@@ -129,7 +129,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
         description: "Update card details (title, description, status, due_date, priority)",
       },
     },
-    cardController.updateCardDetailsController.bind(cardController),
+    cardController.updateCardDetailsController.bind(cardController)
   );
 
   fastify.put(
@@ -141,7 +141,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
         description: "Update a card order",
       },
     },
-    cardController.updateCardOrderController.bind(cardController),
+    cardController.updateCardOrderController.bind(cardController)
   );
 
   fastify.delete(
@@ -156,7 +156,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
         description: "Delete a card",
       },
     },
-    cardController.deleteCardController.bind(cardController),
+    cardController.deleteCardController.bind(cardController)
   );
 
   // Bulk operations
@@ -176,7 +176,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
         description: "Move multiple cards to a target list",
       },
     },
-    bulkController.bulkMoveCards.bind(bulkController),
+    bulkController.bulkMoveCards.bind(bulkController)
   );
 
   fastify.post(
@@ -195,7 +195,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
         description: "Assign users to multiple cards",
       },
     },
-    bulkController.bulkAssignUsers.bind(bulkController),
+    bulkController.bulkAssignUsers.bind(bulkController)
   );
 
   fastify.post(
@@ -214,7 +214,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
         description: "Add labels to multiple cards",
       },
     },
-    bulkController.bulkAddLabels.bind(bulkController),
+    bulkController.bulkAddLabels.bind(bulkController)
   );
 
   fastify.post(
@@ -233,7 +233,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
         description: "Set due date on multiple cards",
       },
     },
-    bulkController.bulkSetDueDate.bind(bulkController),
+    bulkController.bulkSetDueDate.bind(bulkController)
   );
 
   fastify.post(
@@ -251,7 +251,7 @@ export default async function cardRoutes(fastify: FastifyInstance) {
         description: "Archive multiple cards",
       },
     },
-    bulkController.bulkArchiveCards.bind(bulkController),
+    bulkController.bulkArchiveCards.bind(bulkController)
   );
 
   fastify.delete(
@@ -269,6 +269,6 @@ export default async function cardRoutes(fastify: FastifyInstance) {
         description: "Delete multiple cards",
       },
     },
-    bulkController.bulkDeleteCards.bind(bulkController),
+    bulkController.bulkDeleteCards.bind(bulkController)
   );
 }

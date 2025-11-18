@@ -49,7 +49,7 @@ export class SearchService {
         results.boards = await this.searchRepository.searchBoards(
           params.query,
           params.organization_id,
-          params.limit,
+          params.limit
         );
         break;
 
@@ -58,7 +58,7 @@ export class SearchService {
           params.query,
           params.organization_id,
           params.board_id,
-          params.limit,
+          params.limit
         );
         break;
 
@@ -68,7 +68,7 @@ export class SearchService {
           params.organization_id,
           params.board_id,
           params.limit,
-          cardFilters,
+          cardFilters
         );
         break;
 
@@ -77,7 +77,7 @@ export class SearchService {
           params.query,
           params.organization_id,
           params.board_id,
-          params.limit,
+          params.limit
         );
         break;
 
@@ -89,10 +89,7 @@ export class SearchService {
 
     // Calculate total results
     const total =
-      results.boards.length +
-      results.lists.length +
-      results.cards.length +
-      results.comments.length;
+      results.boards.length + results.lists.length + results.cards.length + results.comments.length;
 
     return {
       query,

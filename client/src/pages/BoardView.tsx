@@ -46,10 +46,7 @@ const BoardView = () => {
     return (lists.data || []).flatMap((list) => list.cards || []);
   }, [lists.data]);
 
-  const stats = useMemo(
-    () => getFilterStats(allCards),
-    [allCards, getFilterStats]
-  );
+  const stats = useMemo(() => getFilterStats(allCards), [allCards, getFilterStats]);
 
   if (!board_id) {
     return <h1>error</h1>;

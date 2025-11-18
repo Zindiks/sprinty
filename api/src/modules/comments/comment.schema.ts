@@ -18,7 +18,7 @@ export class CommentSchema {
       content,
       parent_comment_id: Type.Optional(parent_comment_id),
     },
-    { $id: "CreateCommentSchema" },
+    { $id: "CreateCommentSchema" }
   );
 
   static UpdateCommentSchema = Type.Object(
@@ -27,7 +27,7 @@ export class CommentSchema {
       card_id,
       content,
     },
-    { $id: "UpdateCommentSchema" },
+    { $id: "UpdateCommentSchema" }
   );
 
   static DeleteCommentSchema = Type.Object(
@@ -35,7 +35,7 @@ export class CommentSchema {
       id,
       card_id,
     },
-    { $id: "DeleteCommentSchema" },
+    { $id: "DeleteCommentSchema" }
   );
 
   static CommentResponseSchema = Type.Object(
@@ -49,15 +49,12 @@ export class CommentSchema {
       created_at,
       updated_at,
     },
-    { $id: "CommentResponseSchema" },
+    { $id: "CommentResponseSchema" }
   );
 
-  static CommentResponseSchemaArray = Type.Array(
-    CommentSchema.CommentResponseSchema,
-    {
-      $id: "CommentResponseSchemaArray",
-    },
-  );
+  static CommentResponseSchemaArray = Type.Array(CommentSchema.CommentResponseSchema, {
+    $id: "CommentResponseSchemaArray",
+  });
 
   static CommentWithUserDetailsSchema = Type.Object(
     {
@@ -75,14 +72,14 @@ export class CommentSchema {
         username: Type.Optional(Type.String()),
       }),
     },
-    { $id: "CommentWithUserDetailsSchema" },
+    { $id: "CommentWithUserDetailsSchema" }
   );
 
   static CommentWithUserDetailsSchemaArray = Type.Array(
     CommentSchema.CommentWithUserDetailsSchema,
     {
       $id: "CommentWithUserDetailsSchemaArray",
-    },
+    }
   );
 
   static CommentWithRepliesSchema = Type.Object(
@@ -102,15 +99,12 @@ export class CommentSchema {
       }),
       replies: Type.Array(CommentSchema.CommentWithUserDetailsSchema),
     },
-    { $id: "CommentWithRepliesSchema" },
+    { $id: "CommentWithRepliesSchema" }
   );
 
-  static CommentWithRepliesSchemaArray = Type.Array(
-    CommentSchema.CommentWithRepliesSchema,
-    {
-      $id: "CommentWithRepliesSchemaArray",
-    },
-  );
+  static CommentWithRepliesSchemaArray = Type.Array(CommentSchema.CommentWithRepliesSchema, {
+    $id: "CommentWithRepliesSchemaArray",
+  });
 }
 
 export type CreateComment = Static<typeof CommentSchema.CreateCommentSchema>;
@@ -119,6 +113,8 @@ export type DeleteComment = Static<typeof CommentSchema.DeleteCommentSchema>;
 export type CommentResponse = Static<typeof CommentSchema.CommentResponseSchema>;
 export type CommentResponseArray = Static<typeof CommentSchema.CommentResponseSchemaArray>;
 export type CommentWithUserDetails = Static<typeof CommentSchema.CommentWithUserDetailsSchema>;
-export type CommentWithUserDetailsArray = Static<typeof CommentSchema.CommentWithUserDetailsSchemaArray>;
+export type CommentWithUserDetailsArray = Static<
+  typeof CommentSchema.CommentWithUserDetailsSchemaArray
+>;
 export type CommentWithReplies = Static<typeof CommentSchema.CommentWithRepliesSchema>;
 export type CommentWithRepliesArray = Static<typeof CommentSchema.CommentWithRepliesSchemaArray>;

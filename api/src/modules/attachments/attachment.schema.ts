@@ -11,7 +11,7 @@ export class AttachmentSchema {
       storage_path: Type.String({ minLength: 1, maxLength: 500 }),
       uploaded_by: Type.String({ format: "uuid" }),
     },
-    { $id: "CreateAttachmentSchema" },
+    { $id: "CreateAttachmentSchema" }
   );
 
   static UpdateAttachmentSchema = Type.Object(
@@ -20,7 +20,7 @@ export class AttachmentSchema {
       card_id: Type.String({ format: "uuid" }),
       filename: Type.Optional(Type.String({ minLength: 1, maxLength: 255 })),
     },
-    { $id: "UpdateAttachmentSchema" },
+    { $id: "UpdateAttachmentSchema" }
   );
 
   static DeleteAttachmentSchema = Type.Object(
@@ -28,7 +28,7 @@ export class AttachmentSchema {
       id: Type.String({ format: "uuid" }),
       card_id: Type.String({ format: "uuid" }),
     },
-    { $id: "DeleteAttachmentSchema" },
+    { $id: "DeleteAttachmentSchema" }
   );
 
   static AttachmentResponseSchema = Type.Object(
@@ -43,7 +43,7 @@ export class AttachmentSchema {
       uploaded_by: Type.String({ format: "uuid" }),
       uploaded_at: Type.String({ format: "date-time" }),
     },
-    { $id: "AttachmentResponseSchema" },
+    { $id: "AttachmentResponseSchema" }
   );
 
   static AttachmentWithUserResponseSchema = Type.Object(
@@ -63,12 +63,12 @@ export class AttachmentSchema {
         username: Type.Optional(Type.String()),
       }),
     },
-    { $id: "AttachmentWithUserResponseSchema" },
+    { $id: "AttachmentWithUserResponseSchema" }
   );
 
   static AttachmentListResponseSchema = Type.Array(
     AttachmentSchema.AttachmentWithUserResponseSchema,
-    { $id: "AttachmentListResponseSchema" },
+    { $id: "AttachmentListResponseSchema" }
   );
 
   static AttachmentCountResponseSchema = Type.Object(
@@ -76,28 +76,16 @@ export class AttachmentSchema {
       card_id: Type.String({ format: "uuid" }),
       count: Type.Number(),
     },
-    { $id: "AttachmentCountResponseSchema" },
+    { $id: "AttachmentCountResponseSchema" }
   );
 }
 
-export type CreateAttachment = Static<
-  typeof AttachmentSchema.CreateAttachmentSchema
->;
-export type UpdateAttachment = Static<
-  typeof AttachmentSchema.UpdateAttachmentSchema
->;
-export type DeleteAttachment = Static<
-  typeof AttachmentSchema.DeleteAttachmentSchema
->;
-export type AttachmentResponse = Static<
-  typeof AttachmentSchema.AttachmentResponseSchema
->;
+export type CreateAttachment = Static<typeof AttachmentSchema.CreateAttachmentSchema>;
+export type UpdateAttachment = Static<typeof AttachmentSchema.UpdateAttachmentSchema>;
+export type DeleteAttachment = Static<typeof AttachmentSchema.DeleteAttachmentSchema>;
+export type AttachmentResponse = Static<typeof AttachmentSchema.AttachmentResponseSchema>;
 export type AttachmentWithUserResponse = Static<
   typeof AttachmentSchema.AttachmentWithUserResponseSchema
 >;
-export type AttachmentListResponse = Static<
-  typeof AttachmentSchema.AttachmentListResponseSchema
->;
-export type AttachmentCountResponse = Static<
-  typeof AttachmentSchema.AttachmentCountResponseSchema
->;
+export type AttachmentListResponse = Static<typeof AttachmentSchema.AttachmentListResponseSchema>;
+export type AttachmentCountResponse = Static<typeof AttachmentSchema.AttachmentCountResponseSchema>;

@@ -7,9 +7,7 @@ const updated_at = Type.String({ format: "date-time" });
 
 const title = Type.String({ minLength: 3, maxLength: 100 });
 const order = Type.Number();
-const description = Type.Optional(
-  Type.String({ minLength: 3, maxLength: 255 }),
-);
+const description = Type.Optional(Type.String({ minLength: 3, maxLength: 255 }));
 const status = Type.Optional(Type.String());
 const due_date = Type.Optional(Type.String({ format: "date-time" }));
 const priority = Type.Optional(
@@ -18,7 +16,7 @@ const priority = Type.Optional(
     Type.Literal("medium"),
     Type.Literal("high"),
     Type.Literal("critical"),
-  ]),
+  ])
 );
 
 export class CardSchema {
@@ -31,7 +29,7 @@ export class CardSchema {
       due_date,
       priority,
     },
-    { $id: "CreateCardSchema" },
+    { $id: "CreateCardSchema" }
   );
 
   static UpdateCardTitleSchema = Type.Object(
@@ -40,7 +38,7 @@ export class CardSchema {
       list_id,
       title,
     },
-    { $id: "UpdateCardTitleSchema" },
+    { $id: "UpdateCardTitleSchema" }
   );
   static UpdateCardOrderSchema = Type.Object(
     {
@@ -48,22 +46,19 @@ export class CardSchema {
       list_id,
       order,
     },
-    { $id: "UpdateCardOrderSchema" },
+    { $id: "UpdateCardOrderSchema" }
   );
 
-  static UpdateCardOrderSchemaArray = Type.Array(
-    CardSchema.UpdateCardOrderSchema,
-    {
-      $id: "UpdateCardOrderSchemaArray",
-    },
-  );
+  static UpdateCardOrderSchemaArray = Type.Array(CardSchema.UpdateCardOrderSchema, {
+    $id: "UpdateCardOrderSchemaArray",
+  });
 
   static DeleteCardSchema = Type.Object(
     {
       id,
       list_id,
     },
-    { $id: "DeleteCardSchema" },
+    { $id: "DeleteCardSchema" }
   );
 
   static UpdateCardDetailsSchema = Type.Object(
@@ -72,22 +67,20 @@ export class CardSchema {
       list_id,
       title: Type.Optional(title),
       description: Type.Optional(
-        Type.Union([Type.String({ minLength: 3, maxLength: 255 }), Type.Null()]),
+        Type.Union([Type.String({ minLength: 3, maxLength: 255 }), Type.Null()])
       ),
       status: Type.Optional(Type.String()),
-      due_date: Type.Optional(
-        Type.Union([Type.String({ format: "date-time" }), Type.Null()]),
-      ),
+      due_date: Type.Optional(Type.Union([Type.String({ format: "date-time" }), Type.Null()])),
       priority: Type.Optional(
         Type.Union([
           Type.Literal("low"),
           Type.Literal("medium"),
           Type.Literal("high"),
           Type.Literal("critical"),
-        ]),
+        ])
       ),
     },
-    { $id: "UpdateCardDetailsSchema" },
+    { $id: "UpdateCardDetailsSchema" }
   );
 
   static UpdateCardDetailsByIdSchema = Type.Object(
@@ -95,22 +88,20 @@ export class CardSchema {
       list_id,
       title: Type.Optional(title),
       description: Type.Optional(
-        Type.Union([Type.String({ minLength: 3, maxLength: 255 }), Type.Null()]),
+        Type.Union([Type.String({ minLength: 3, maxLength: 255 }), Type.Null()])
       ),
       status: Type.Optional(Type.String()),
-      due_date: Type.Optional(
-        Type.Union([Type.String({ format: "date-time" }), Type.Null()]),
-      ),
+      due_date: Type.Optional(Type.Union([Type.String({ format: "date-time" }), Type.Null()])),
       priority: Type.Optional(
         Type.Union([
           Type.Literal("low"),
           Type.Literal("medium"),
           Type.Literal("high"),
           Type.Literal("critical"),
-        ]),
+        ])
       ),
     },
-    { $id: "UpdateCardDetailsByIdSchema" },
+    { $id: "UpdateCardDetailsByIdSchema" }
   );
 
   //RESPONSE SCHEMA
@@ -127,15 +118,12 @@ export class CardSchema {
       created_at,
       updated_at,
     },
-    { $id: "CardResponseSchema" },
+    { $id: "CardResponseSchema" }
   );
 
-  static FullCardResponseSchemaArray = Type.Array(
-    CardSchema.FullCardResponseSchema,
-    {
-      $id: "FullCardResponseSchemaArray",
-    },
-  );
+  static FullCardResponseSchemaArray = Type.Array(CardSchema.FullCardResponseSchema, {
+    $id: "FullCardResponseSchemaArray",
+  });
 
   static CardWithAssigneesResponseSchema = Type.Object(
     {
@@ -161,10 +149,10 @@ export class CardSchema {
             email: Type.String(),
             username: Type.Optional(Type.String()),
           }),
-        }),
+        })
       ),
     },
-    { $id: "CardWithAssigneesResponseSchema" },
+    { $id: "CardWithAssigneesResponseSchema" }
   );
 
   static CardWithDetailsResponseSchema = Type.Object(
@@ -191,7 +179,7 @@ export class CardSchema {
             email: Type.String(),
             username: Type.Optional(Type.String()),
           }),
-        }),
+        })
       ),
       labels: Type.Array(
         Type.Object({
@@ -201,7 +189,7 @@ export class CardSchema {
           color: Type.String(),
           created_at: Type.String({ format: "date-time" }),
           updated_at: Type.String({ format: "date-time" }),
-        }),
+        })
       ),
       checklist_items: Type.Array(
         Type.Object({
@@ -214,7 +202,7 @@ export class CardSchema {
           completed_at: Type.Optional(Type.String({ format: "date-time" })),
           created_at: Type.String({ format: "date-time" }),
           updated_at: Type.String({ format: "date-time" }),
-        }),
+        })
       ),
       checklist_progress: Type.Object({
         total: Type.Number(),
@@ -236,7 +224,7 @@ export class CardSchema {
             email: Type.String(),
             username: Type.Optional(Type.String()),
           }),
-        }),
+        })
       ),
       attachments: Type.Array(
         Type.Object({
@@ -253,7 +241,7 @@ export class CardSchema {
             email: Type.String(),
             username: Type.Optional(Type.String()),
           }),
-        }),
+        })
       ),
       activities: Type.Array(
         Type.Object({
@@ -268,10 +256,10 @@ export class CardSchema {
             email: Type.String(),
             username: Type.Optional(Type.String()),
           }),
-        }),
+        })
       ),
     },
-    { $id: "CardWithDetailsResponseSchema" },
+    { $id: "CardWithDetailsResponseSchema" }
   );
 }
 
@@ -280,14 +268,10 @@ export type UpdateCardTitle = Static<typeof CardSchema.UpdateCardTitleSchema>;
 export type UpdateCardDetails = Static<typeof CardSchema.UpdateCardDetailsSchema>;
 export type UpdateCardDetailsById = Static<typeof CardSchema.UpdateCardDetailsByIdSchema>;
 export type UpdateCardOrder = Static<typeof CardSchema.UpdateCardOrderSchema>;
-export type UpdateCardOrderArray = Static<
-  typeof CardSchema.UpdateCardOrderSchemaArray
->;
+export type UpdateCardOrderArray = Static<typeof CardSchema.UpdateCardOrderSchemaArray>;
 export type DeleteCard = Static<typeof CardSchema.DeleteCardSchema>;
 
 export type FullCardResponse = Static<typeof CardSchema.FullCardResponseSchema>;
-export type FullCardResponseArray = Static<
-  typeof CardSchema.FullCardResponseSchemaArray
->;
+export type FullCardResponseArray = Static<typeof CardSchema.FullCardResponseSchemaArray>;
 export type CardWithAssigneesResponse = Static<typeof CardSchema.CardWithAssigneesResponseSchema>;
 export type CardWithDetailsResponse = Static<typeof CardSchema.CardWithDetailsResponseSchema>;

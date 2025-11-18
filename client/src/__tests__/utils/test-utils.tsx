@@ -1,7 +1,7 @@
-import { ReactElement, ReactNode } from 'react';
-import { render, RenderOptions } from '@testing-library/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { BrowserRouter } from 'react-router-dom';
+import { ReactElement, ReactNode } from "react";
+import { render, RenderOptions } from "@testing-library/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter } from "react-router-dom";
 
 /**
  * Create a new QueryClient for testing
@@ -47,7 +47,7 @@ export function createWrapper({ queryClient }: { queryClient?: QueryClient } = {
   };
 }
 
-interface CustomRenderOptions extends Omit<RenderOptions, 'wrapper'> {
+interface CustomRenderOptions extends Omit<RenderOptions, "wrapper"> {
   queryClient?: QueryClient;
 }
 
@@ -57,10 +57,7 @@ interface CustomRenderOptions extends Omit<RenderOptions, 'wrapper'> {
  * @example
  * renderWithProviders(<MyComponent />)
  */
-export function renderWithProviders(
-  ui: ReactElement,
-  options?: CustomRenderOptions
-) {
+export function renderWithProviders(ui: ReactElement, options?: CustomRenderOptions) {
   const { queryClient, ...renderOptions } = options || {};
   const Wrapper = createWrapper({ queryClient });
 
@@ -71,5 +68,5 @@ export function renderWithProviders(
 }
 
 // Re-export everything from React Testing Library
-export * from '@testing-library/react';
-export { default as userEvent } from '@testing-library/user-event';
+export * from "@testing-library/react";
+export { default as userEvent } from "@testing-library/user-event";

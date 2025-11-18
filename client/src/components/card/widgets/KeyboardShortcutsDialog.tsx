@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Keyboard } from "lucide-react";
 
 interface ShortcutGroup {
@@ -57,10 +52,7 @@ interface KeyboardShortcutsDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
-export const KeyboardShortcutsDialog = ({
-  open,
-  onOpenChange,
-}: KeyboardShortcutsDialogProps) => {
+export const KeyboardShortcutsDialog = ({ open, onOpenChange }: KeyboardShortcutsDialogProps) => {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
@@ -74,9 +66,7 @@ export const KeyboardShortcutsDialog = ({
         <div className="space-y-6">
           {SHORTCUT_GROUPS.map((group) => (
             <div key={group.title} className="space-y-3">
-              <h3 className="text-sm font-semibold text-muted-foreground">
-                {group.title}
-              </h3>
+              <h3 className="text-sm font-semibold text-muted-foreground">{group.title}</h3>
               <div className="space-y-2">
                 {group.shortcuts.map((shortcut, index) => (
                   <div
@@ -91,9 +81,7 @@ export const KeyboardShortcutsDialog = ({
                             {key}
                           </kbd>
                           {keyIndex < shortcut.keys.length - 1 && (
-                            <span className="text-muted-foreground text-xs">
-                              +
-                            </span>
+                            <span className="text-muted-foreground text-xs">+</span>
                           )}
                         </span>
                       ))}
@@ -107,8 +95,8 @@ export const KeyboardShortcutsDialog = ({
 
         <div className="mt-4 p-4 bg-muted/50 rounded-lg">
           <p className="text-xs text-muted-foreground">
-            Press <kbd className="px-1.5 py-0.5 bg-background rounded text-xs">?</kbd>{" "}
-            anytime to view these shortcuts
+            Press <kbd className="px-1.5 py-0.5 bg-background rounded text-xs">?</kbd> anytime to
+            view these shortcuts
           </p>
         </div>
       </DialogContent>

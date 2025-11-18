@@ -52,10 +52,5 @@ function isInputElement(target: EventTarget | null): boolean {
   const tagName = target.tagName.toLowerCase();
   const isContentEditable = target.isContentEditable;
 
-  return (
-    tagName === "input" ||
-    tagName === "textarea" ||
-    tagName === "select" ||
-    isContentEditable
-  );
+  return tagName === "input" || tagName === "textarea" || tagName === "select" || isContentEditable;
 }

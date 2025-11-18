@@ -125,10 +125,8 @@ export class SprintController {
       if (request.body.goal !== undefined) updateData.goal = request.body.goal;
       if (request.body.startDate !== undefined)
         updateData.startDate = new Date(request.body.startDate);
-      if (request.body.endDate !== undefined)
-        updateData.endDate = new Date(request.body.endDate);
-      if (request.body.status !== undefined)
-        updateData.status = request.body.status;
+      if (request.body.endDate !== undefined) updateData.endDate = new Date(request.body.endDate);
+      if (request.body.status !== undefined) updateData.status = request.body.status;
 
       const sprint = await this.service.updateSprint(updateData);
 

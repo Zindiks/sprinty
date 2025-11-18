@@ -33,7 +33,12 @@ export const useCardDetails = (cardId?: string) => {
   const { toast } = useToast();
 
   // Fetch card details with all relations
-  const { data: cardDetails, isLoading, error, refetch } = useQuery<CardWithDetails, FetchError>({
+  const {
+    data: cardDetails,
+    isLoading,
+    error,
+    refetch,
+  } = useQuery<CardWithDetails, FetchError>({
     queryKey: ["card-details", cardId],
     queryFn: async () => {
       if (!cardId) throw new Error("Card ID is required");
@@ -47,10 +52,7 @@ export const useCardDetails = (cardId?: string) => {
   // Update card details (title, description, priority, status, due_date)
   const updateDetails = useMutation<AxiosResponse, FetchError, UpdateCardDetailsParams>({
     mutationFn: ({ id, ...updates }) => {
-      return apiClient.patch(
-        `/cards/${id}/details`,
-        updates
-      );
+      return apiClient.patch(`/cards/${id}/details`, updates);
     },
     onMutate: async (updates) => {
       // Cancel outgoing refetches

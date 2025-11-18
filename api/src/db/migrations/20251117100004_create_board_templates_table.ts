@@ -14,12 +14,7 @@ export async function up(knex: Knex): Promise<void> {
       .references("id")
       .inTable("organizations")
       .onDelete("CASCADE");
-    table
-      .uuid("created_by")
-      .nullable()
-      .references("id")
-      .inTable("users")
-      .onDelete("SET NULL");
+    table.uuid("created_by").nullable().references("id").inTable("users").onDelete("SET NULL");
     table.jsonb("structure").notNullable();
     table.timestamp("created_at").defaultTo(knex.fn.now());
     table.timestamp("updated_at").defaultTo(knex.fn.now());

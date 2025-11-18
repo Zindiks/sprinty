@@ -34,7 +34,7 @@ export const FormTextarea = forwardRef<HTMLTextAreaElement, FormTextareaProps>(
       onKeyDown,
       defaultValue,
     },
-    ref,
+    ref
   ) => {
     const pending = false; // Replace with actual logic if needed
 
@@ -42,10 +42,7 @@ export const FormTextarea = forwardRef<HTMLTextAreaElement, FormTextareaProps>(
       <div className="space-y-2 w-full">
         <div className="space-y-1 w-full">
           {label ? (
-            <Label
-              htmlFor={id}
-              className="text-xs font-semibold text-neutral-700"
-            >
+            <Label htmlFor={id} className="text-xs font-semibold text-neutral-700">
               {label}
             </Label>
           ) : null}
@@ -62,7 +59,7 @@ export const FormTextarea = forwardRef<HTMLTextAreaElement, FormTextareaProps>(
             disabled={pending || disabled}
             className={cn(
               "resize-none focus-visible:ring-0 focus-visible:ring-offset-0 ring-0 focus:ring-0 outline-none shadow-sm",
-              className,
+              className
             )}
             aria-describedby={`${id}-error`}
             defaultValue={defaultValue}
@@ -70,7 +67,7 @@ export const FormTextarea = forwardRef<HTMLTextAreaElement, FormTextareaProps>(
         </div>
       </div>
     );
-  },
+  }
 );
 
 FormTextarea.displayName = "FormTextarea";

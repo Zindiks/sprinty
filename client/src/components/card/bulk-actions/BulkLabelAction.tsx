@@ -1,9 +1,5 @@
 import { Button } from "@/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Badge } from "@/components/ui/badge";
 import { useSelectionStore } from "@/hooks/store/useSelectionStore";
 import { useBulkActions } from "@/hooks/useBulkActions";
@@ -54,11 +50,7 @@ export const BulkLabelAction = () => {
                 className="w-full justify-start h-8 px-2 text-sm"
                 onClick={() => handleAddLabel(label.id)}
               >
-                <Badge
-                  variant="outline"
-                  className="mr-2"
-                  style={{ borderColor: label.color }}
-                >
+                <Badge variant="outline" className="mr-2" style={{ borderColor: label.color }}>
                   {label.name}
                 </Badge>
               </Button>

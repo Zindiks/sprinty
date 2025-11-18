@@ -1,11 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Flag, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -17,18 +13,18 @@ interface PrioritySelectorProps {
   disabled?: boolean;
 }
 
-const priorities: { value: Priority; label: string; variant: "secondary" | "default" | "destructive" }[] = [
+const priorities: {
+  value: Priority;
+  label: string;
+  variant: "secondary" | "default" | "destructive";
+}[] = [
   { value: "low", label: "Low", variant: "secondary" },
   { value: "medium", label: "Medium", variant: "default" },
   { value: "high", label: "High", variant: "destructive" },
   { value: "critical", label: "Critical", variant: "destructive" },
 ];
 
-export const PrioritySelector = ({
-  value,
-  onChange,
-  disabled = false,
-}: PrioritySelectorProps) => {
+export const PrioritySelector = ({ value, onChange, disabled = false }: PrioritySelectorProps) => {
   const [open, setOpen] = useState(false);
 
   const selectedPriority = priorities.find((p) => p.value === value);
@@ -41,12 +37,7 @@ export const PrioritySelector = ({
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          size="sm"
-          disabled={disabled}
-          className="h-8 gap-2"
-        >
+        <Button variant="outline" size="sm" disabled={disabled} className="h-8 gap-2">
           <Flag className="w-4 h-4" />
           {selectedPriority ? (
             <Badge variant={selectedPriority.variant} className="text-xs">
@@ -72,9 +63,7 @@ export const PrioritySelector = ({
                 <Flag className="w-4 h-4" />
                 <span>{priority.label}</span>
               </div>
-              {value === priority.value && (
-                <Check className="w-4 h-4 text-primary" />
-              )}
+              {value === priority.value && <Check className="w-4 h-4 text-primary" />}
             </button>
           ))}
           {value && (

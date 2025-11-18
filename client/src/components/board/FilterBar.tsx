@@ -46,24 +46,12 @@ export const FilterBar = ({
             <SelectValue placeholder="Filter by due date" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">
-              All Cards {stats && `(${stats.all})`}
-            </SelectItem>
-            <SelectItem value="overdue">
-              Overdue {stats && `(${stats.overdue})`}
-            </SelectItem>
-            <SelectItem value="today">
-              Due Today {stats && `(${stats.today})`}
-            </SelectItem>
-            <SelectItem value="week">
-              Due This Week {stats && `(${stats.week})`}
-            </SelectItem>
-            <SelectItem value="upcoming">
-              Upcoming {stats && `(${stats.upcoming})`}
-            </SelectItem>
-            <SelectItem value="none">
-              No Due Date {stats && `(${stats.none})`}
-            </SelectItem>
+            <SelectItem value="all">All Cards {stats && `(${stats.all})`}</SelectItem>
+            <SelectItem value="overdue">Overdue {stats && `(${stats.overdue})`}</SelectItem>
+            <SelectItem value="today">Due Today {stats && `(${stats.today})`}</SelectItem>
+            <SelectItem value="week">Due This Week {stats && `(${stats.week})`}</SelectItem>
+            <SelectItem value="upcoming">Upcoming {stats && `(${stats.upcoming})`}</SelectItem>
+            <SelectItem value="none">No Due Date {stats && `(${stats.none})`}</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -94,12 +82,7 @@ export const FilterBar = ({
 
       {/* Reset Button */}
       {hasActiveFilters && (
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={onReset}
-          className="h-8 px-2 text-xs"
-        >
+        <Button variant="ghost" size="sm" onClick={onReset} className="h-8 px-2 text-xs">
           <X className="h-3 w-3 mr-1" />
           Reset
         </Button>

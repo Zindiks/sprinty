@@ -70,10 +70,7 @@ export const useLabels = (boardId?: string, cardId?: string) => {
   // Create new label
   const createLabel = useMutation<AxiosResponse, FetchError, CreateLabelParams>({
     mutationFn: (params) => {
-      return apiClient.post(
-        `/labels/`,
-        params
-      );
+      return apiClient.post(`/labels/`, params);
     },
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ["labels", "board", variables.board_id] });
@@ -94,10 +91,7 @@ export const useLabels = (boardId?: string, cardId?: string) => {
   // Update label
   const updateLabel = useMutation<AxiosResponse, FetchError, UpdateLabelParams>({
     mutationFn: ({ id, board_id, ...updates }) => {
-      return apiClient.patch(
-        `/labels/`,
-        { id, board_id, ...updates }
-      );
+      return apiClient.patch(`/labels/`, { id, board_id, ...updates });
     },
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ["labels", "board", variables.board_id] });
@@ -146,10 +140,7 @@ export const useLabels = (boardId?: string, cardId?: string) => {
   // Add label to card
   const addLabelToCard = useMutation<AxiosResponse, FetchError, AddLabelToCardParams>({
     mutationFn: (params) => {
-      return apiClient.post(
-        `/labels/card`,
-        params
-      );
+      return apiClient.post(`/labels/card`, params);
     },
     onMutate: async (params) => {
       // Cancel outgoing refetches

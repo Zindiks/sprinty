@@ -90,11 +90,12 @@ export const useCardFilters = () => {
 
   // Apply all filters and sorting
   const filterAndSortCards = useMemo(
-    () => (cards: Card[]): Card[] => {
-      const filtered = filterByDueDate(cards);
-      const sorted = sortCards(filtered);
-      return sorted;
-    },
+    () =>
+      (cards: Card[]): Card[] => {
+        const filtered = filterByDueDate(cards);
+        const sorted = sortCards(filtered);
+        return sorted;
+      },
     [filters]
   );
 

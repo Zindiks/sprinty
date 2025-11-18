@@ -20,8 +20,7 @@ describe("LabelService", () => {
   let labelRepository: jest.Mocked<LabelRepository>;
 
   beforeEach(() => {
-    labelRepository =
-      new MockedLabelRepository() as jest.Mocked<LabelRepository>;
+    labelRepository = new MockedLabelRepository() as jest.Mocked<LabelRepository>;
     labelService = new LabelService();
     // @ts-ignore - inject mocked repository
     labelService["labelRepository"] = labelRepository;
@@ -121,9 +120,7 @@ describe("LabelService", () => {
       labelRepository.createLabel.mockRejectedValue(error);
 
       // Act & Assert
-      await expect(labelService.createLabel(input)).rejects.toThrow(
-        "Database insert failed"
-      );
+      await expect(labelService.createLabel(input)).rejects.toThrow("Database insert failed");
     });
   });
 
@@ -350,10 +347,7 @@ describe("LabelService", () => {
 
       // Assert
       expect(result).toBeUndefined();
-      expect(labelRepository.getLabelById).toHaveBeenCalledWith(
-        id,
-        wrong_board_id
-      );
+      expect(labelRepository.getLabelById).toHaveBeenCalledWith(id, wrong_board_id);
     });
   });
 
@@ -398,9 +392,7 @@ describe("LabelService", () => {
       expect(result).toEqual(mockLabels);
       expect(result).toHaveLength(3);
       expect(result.every((l) => l.board_id === board_id)).toBe(true);
-      expect(labelRepository.getLabelsByBoardId).toHaveBeenCalledWith(
-        board_id
-      );
+      expect(labelRepository.getLabelsByBoardId).toHaveBeenCalledWith(board_id);
     });
 
     it("should return empty array when board has no labels", async () => {
@@ -487,9 +479,7 @@ describe("LabelService", () => {
       expect(result).toEqual(mockLabels);
       expect(result[0].cards_count).toBe(5);
       expect(result[1].cards_count).toBe(12);
-      expect(labelRepository.getLabelsWithCardsCount).toHaveBeenCalledWith(
-        board_id
-      );
+      expect(labelRepository.getLabelsWithCardsCount).toHaveBeenCalledWith(board_id);
     });
 
     it("should return labels with zero counts", async () => {
@@ -761,9 +751,7 @@ describe("LabelService", () => {
       // Assert
       expect(result).toEqual(mockCardIds);
       expect(result).toHaveLength(3);
-      expect(labelRepository.getCardIdsByLabelId).toHaveBeenCalledWith(
-        label_id
-      );
+      expect(labelRepository.getCardIdsByLabelId).toHaveBeenCalledWith(label_id);
     });
 
     it("should return empty array when label has no cards", async () => {
