@@ -21,12 +21,8 @@ export class AnalyticsController {
   ) {
     try {
       const { organizationId } = request.query;
-      // @ts-ignore - user is added by auth middleware
-      const userId = request.user?.id;
-
-      if (!userId) {
-        return reply.code(401).send({ error: "Unauthorized" });
-      }
+      // requireAuth middleware ensures request.user exists
+      const userId = request.user!.id;
 
       const dashboard = await this.service.getPersonalDashboard(
         userId,
@@ -116,12 +112,8 @@ export class AnalyticsController {
   ) {
     try {
       const { organizationId } = request.query;
-      // @ts-ignore - user is added by auth middleware
-      const userId = request.user?.id;
-
-      if (!userId) {
-        return reply.code(401).send({ error: "Unauthorized" });
-      }
+      // requireAuth middleware ensures request.user exists
+      const userId = request.user!.id;
 
       const tasks = await this.service.getUserAssignedTasks(
         userId,
@@ -141,6 +133,20 @@ export class AnalyticsController {
   async getDueDateAnalytics(
     request: FastifyRequest<{
       Params: BoardAnalyticsParams;
+    }>,
+    reply: FastifyReply
+  ) {
+    try {
+      const { boardId } = request.params;
+      const analytics = await this.service.getDueDateAnalytics(boardId);
+      return reply.code(200).send(analytics);
+    } catch (error) {
+      request.log.error(error);
+      return reply.code(500).send({ error: "Internal server error" });
+    }
+  }
+
+  /**
    * GET /api/v1/analytics/trends/personal
    * Get productivity trends for a user
    */
@@ -154,16 +160,9 @@ export class AnalyticsController {
     reply: FastifyReply
   ) {
     try {
-      const { boardId } = request.params;
-      const analytics = await this.service.getDueDateAnalytics(boardId);
-      return reply.code(200).send(analytics);
       const { organizationId, period, daysBack } = request.query;
-      // @ts-ignore - user is added by auth middleware
-      const userId = request.user?.id;
-
-      if (!userId) {
-        return reply.code(401).send({ error: "Unauthorized" });
-      }
+      // requireAuth middleware ensures request.user exists
+      const userId = request.user!.id;
 
       const trends = await this.service.getProductivityTrends(
         userId,
@@ -190,12 +189,8 @@ export class AnalyticsController {
   ) {
     try {
       const { organizationId } = request.query;
-      // @ts-ignore - user is added by auth middleware
-      const userId = request.user?.id;
-
-      if (!userId) {
-        return reply.code(401).send({ error: "Unauthorized" });
-      }
+      // requireAuth middleware ensures request.user exists
+      const userId = request.user!.id;
 
       const boards = await this.service.getBoardsOverview(userId, organizationId);
       return reply.code(200).send(boards);
@@ -217,12 +212,8 @@ export class AnalyticsController {
   ) {
     try {
       const { organizationId, weeksBack } = request.query;
-      // @ts-ignore - user is added by auth middleware
-      const userId = request.user?.id;
-
-      if (!userId) {
-        return reply.code(401).send({ error: "Unauthorized" });
-      }
+      // requireAuth middleware ensures request.user exists
+      const userId = request.user!.id;
 
       const metrics = await this.service.getWeeklyMetrics(
         userId,
@@ -248,12 +239,8 @@ export class AnalyticsController {
   ) {
     try {
       const { organizationId, monthsBack } = request.query;
-      // @ts-ignore - user is added by auth middleware
-      const userId = request.user?.id;
-
-      if (!userId) {
-        return reply.code(401).send({ error: "Unauthorized" });
-      }
+      // requireAuth middleware ensures request.user exists
+      const userId = request.user!.id;
 
       const metrics = await this.service.getMonthlyMetrics(
         userId,

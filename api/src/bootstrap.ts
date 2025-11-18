@@ -6,10 +6,12 @@ import Fastify, {
 import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 import fastifyEnv from "@fastify/env";
 import fastifyCors from "@fastify/cors";
+import fastifyCookie from "@fastify/cookie";
 import fastifyMetrics from "fastify-metrics";
 import fastifyMultipart from "@fastify/multipart";
 import swagger from "@fastify/swagger";
 import swagger_ui from "@fastify/swagger-ui";
+import { requireAuth } from "./middleware/auth.middleware";
 
 import knexPlugin from "./db/knexPlugin";
 import oauthRoutes from "./modules/oauth/oauth.route";
@@ -57,6 +59,17 @@ import { WebSocketService } from "./modules/websocket/websocket.service";
 
 async function registerPlugins(server: FastifyInstance) {
   await server.register(fastifyEnv, options);
+
+  // Register cookie plugin for authentication
+  await server.register(fastifyCookie, {
+    secret: process.env.COOKIE_SECRET || 'change-this-secret-in-production',
+    parseOptions: {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict'
+    }
+  });
+
   server.register(fastifyCors, {
     origin: `http://${server.config.CLIENT_HOST}:${server.config.CLIENT_PORT}`,
     credentials: true,
@@ -147,6 +160,28 @@ async function addSchemas(server: FastifyInstance) {
 }
 
 async function registerRoutes(server: FastifyInstance) {
+  // Global authentication middleware with public path exemptions
+  server.addHook('onRequest', async (request, reply) => {
+    // List of public paths that don't require authentication
+    const publicPaths = [
+      '/api/v1/oauth/',           // OAuth endpoints
+      '/health',                   // Health check
+      '/metrics',                  // Prometheus metrics
+      '/docs',                     // Swagger documentation
+    ];
+
+    // Check if current path matches any public path
+    const isPublicPath = publicPaths.some(path => request.url.startsWith(path));
+
+    // Skip authentication for public paths
+    if (isPublicPath) {
+      return;
+    }
+
+    // Require authentication for all other paths
+    await requireAuth(request, reply);
+  });
+
   server.register(
     (api) => {
       api.register(
