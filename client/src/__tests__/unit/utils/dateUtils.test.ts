@@ -30,11 +30,13 @@ describe('dateUtils', () => {
   beforeEach(() => {
     // Mock Luxon's "now" to return a consistent date
     vi.setSystemTime(mockNow);
+    Settings.defaultZone = 'utc';
   });
 
   afterEach(() => {
     // Restore real time after each test
     vi.useRealTimers();
+    Settings.defaultZone = 'system';
   });
 
   describe('Formatting Functions', () => {

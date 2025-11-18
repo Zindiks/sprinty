@@ -31,6 +31,9 @@ const ACTION_TYPE_LABELS: Record<ActivityActionType, string> = {
   due_date_set: "Due Date Set",
   due_date_changed: "Due Date Changed",
   due_date_removed: "Due Date Removed",
+  priority_changed: "Priority Changed",
+  description_changed: "Description Changed",
+  title_changed: "Title Changed",
 };
 
 export const ActivityFilters = ({

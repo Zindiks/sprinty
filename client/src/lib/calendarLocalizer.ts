@@ -39,38 +39,40 @@ export const luxonLocalizer = (): DateLocalizer => {
       },
     },
 
-    firstOfWeek: () => 0, // Sunday
+
 
     format: (date: Date, format: string) => {
       return DateTime.fromJSDate(date).toFormat(format);
     },
 
-    parse: (value: string) => {
-      return DateTime.fromISO(value).toJSDate();
+
+
+    startOf: (date: Date, unit: string = 'day') => {
+      return DateTime.fromJSDate(date).startOf(unit as any).toJSDate();
     },
 
-    startOf: (date: Date, unit: 'day' | 'week' | 'month' | 'year') => {
-      return DateTime.fromJSDate(date).startOf(unit).toJSDate();
+    endOf: (date: Date, unit: string = 'day') => {
+      return DateTime.fromJSDate(date).endOf(unit as any).toJSDate();
     },
 
-    endOf: (date: Date, unit: 'day' | 'week' | 'month' | 'year') => {
-      return DateTime.fromJSDate(date).endOf(unit).toJSDate();
-    },
-
-    add: (date: Date, num: number, unit: 'day' | 'week' | 'month' | 'year') => {
-      const unitMap = {
+    add: (date: Date, num: number, unit: string = 'day') => {
+      const unitMap: any = {
         day: 'days',
         week: 'weeks',
         month: 'months',
         year: 'years',
-      } as const;
-      return DateTime.fromJSDate(date).plus({ [unitMap[unit]]: num }).toJSDate();
+        minutes: 'minutes',
+        hours: 'hours',
+        seconds: 'seconds',
+        milliseconds: 'milliseconds'
+      };
+      return DateTime.fromJSDate(date).plus({ [unitMap[unit] || unit]: num }).toJSDate();
     },
 
-    range: (start: Date, end: Date, unit: 'day' | 'week' | 'month' | 'year' = 'day') => {
+    range: (start: Date, end: Date, unit: string = 'day') => {
       const startDt = DateTime.fromJSDate(start);
       const endDt = DateTime.fromJSDate(end);
-      const diff = Math.floor(endDt.diff(startDt, unit).toObject()[`${unit}s`] || 0);
+      const diff = Math.floor((endDt.diff(startDt, unit as any).toObject() as any)[`${unit}s`] || 0);
 
       const range: Date[] = [];
       for (let i = 0; i <= diff; i++) {
@@ -79,19 +81,19 @@ export const luxonLocalizer = (): DateLocalizer => {
       return range;
     },
 
-    ceil: (date: Date, unit: 'day' | 'week' | 'month' | 'year') => {
+    ceil: (date: Date, unit: string = 'day') => {
       const dt = DateTime.fromJSDate(date);
-      return dt.startOf(unit).equals(dt) ? dt.toJSDate() : dt.endOf(unit).plus({ seconds: 1 }).toJSDate();
+      return dt.startOf(unit as any).equals(dt) ? dt.toJSDate() : dt.endOf(unit as any).plus({ seconds: 1 }).toJSDate();
     },
 
-    diff: (start: Date, end: Date, unit: 'day' | 'week' | 'month' | 'year' = 'day') => {
-      const unitMap = {
+    diff: (start: Date, end: Date, unit: string = 'day') => {
+      const unitMap: any = {
         day: 'days',
         week: 'weeks',
         month: 'months',
         year: 'years',
-      } as const;
-      return Math.floor(DateTime.fromJSDate(end).diff(DateTime.fromJSDate(start), unitMap[unit]).toObject()[unitMap[unit]] || 0);
+      };
+      return Math.floor(DateTime.fromJSDate(end).diff(DateTime.fromJSDate(start), unitMap[unit] || unit).as(unit as any));
     },
 
     eq: (a: Date, b: Date) => {
@@ -133,8 +135,12 @@ export const luxonLocalizer = (): DateLocalizer => {
       return dates.reduce((max, date) => (date > max ? date : max));
     },
 
-    minutes: (date: Date) => {
-      return DateTime.fromJSDate(date).minute;
+    minutes: (date: Date, value?: number): any => {
+      const dt = DateTime.fromJSDate(date);
+      if (value === undefined) {
+        return dt.minute;
+      }
+      return dt.set({ minute: value }).toJSDate();
     },
 
     getSlotDate: (date: Date, minutesFromMidnight: number) => {
@@ -158,12 +164,10 @@ export const luxonLocalizer = (): DateLocalizer => {
       return DateTime.fromJSDate(end) > DateTime.fromJSDate(last);
     },
 
-    sortEvents: (events: { start: Date; end: Date }[]) => {
-      return events.sort((a, b) => {
-        const aStart = DateTime.fromJSDate(a.start);
-        const bStart = DateTime.fromJSDate(b.start);
-        return aStart < bStart ? -1 : aStart > bStart ? 1 : 0;
-      });
+    sortEvents: (eventA: any, eventB: any) => {
+      const aStart = DateTime.fromJSDate(eventA.start);
+      const bStart = DateTime.fromJSDate(eventB.start);
+      return aStart < bStart;
     },
 
     merge: (date: Date, time: Date) => {
@@ -175,5 +179,5 @@ export const luxonLocalizer = (): DateLocalizer => {
         second: timePart.second,
       }).toJSDate();
     },
-  };
+  } as any;
 };

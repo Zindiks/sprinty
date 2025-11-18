@@ -57,7 +57,7 @@ export const OverdueCardsWidget = ({ boardId }: OverdueCardsWidgetProps) => {
     }
   };
 
-  const handleCardClick = (card: DueDateCard) => {
+  const handleCardClick = (_card: DueDateCard) => {
     navigate(`/board/${boardId}`);
   };
 

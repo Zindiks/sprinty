@@ -23,7 +23,7 @@ import type {
 export const mockUser = (overrides?: Partial<User>): User => ({
   id: faker.string.uuid(),
   email: faker.internet.email(),
-  username: faker.internet.username(),
+  username: faker.internet.userName(),
   ...overrides,
 });
 

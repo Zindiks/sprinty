@@ -39,7 +39,7 @@ export const useAssignees = (cardId?: string) => {
   });
 
   // Add assignee to card
-  const addAssignee = useMutation<AxiosResponse, FetchError, AddAssigneeParams>({
+  const addAssignee = useMutation<AxiosResponse, FetchError, AddAssigneeParams, { previousAssignees?: Assignee[] }>({
     mutationFn: (params) => {
       return apiClient.post(
         `/assignees/`,
@@ -78,7 +78,7 @@ export const useAssignees = (cardId?: string) => {
   });
 
   // Remove assignee from card
-  const removeAssignee = useMutation<AxiosResponse, FetchError, RemoveAssigneeParams>({
+  const removeAssignee = useMutation<AxiosResponse, FetchError, RemoveAssigneeParams, { previousAssignees?: Assignee[] }>({
     mutationFn: ({ card_id, user_id }) => {
       return apiClient.delete(`/assignees/${card_id}/user/${user_id}`);
     },

@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { renderHook, waitFor, act } from '@testing-library/react';
 import { createWrapper } from '@/__tests__/utils/test-utils';
 import { useLists } from '@/hooks/useLists';
@@ -301,7 +301,7 @@ describe('useLists hook', () => {
         expect(hookResult.current.lists.isLoading).toBe(false);
       });
 
-      const initialDataLength = hookResult.current.lists.data?.length || 0;
+      // const initialDataLength = hookResult.current.lists.data?.length || 0;
 
       // Create a new list
       await act(async () => {

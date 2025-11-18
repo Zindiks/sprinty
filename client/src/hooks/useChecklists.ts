@@ -112,7 +112,7 @@ export const useChecklists = (cardId?: string) => {
   });
 
   // Toggle checklist item completion
-  const toggleItem = useMutation<AxiosResponse, FetchError, ToggleChecklistItemParams>({
+  const toggleItem = useMutation<AxiosResponse, FetchError, ToggleChecklistItemParams, { previousData?: ChecklistWithProgress }>({
     mutationFn: ({ id, card_id }) => {
       return apiClient.patch(`/checklists/${id}/card/${card_id}/toggle`);
     },
@@ -162,7 +162,7 @@ export const useChecklists = (cardId?: string) => {
   });
 
   // Delete checklist item
-  const deleteItem = useMutation<AxiosResponse, FetchError, DeleteChecklistItemParams>({
+  const deleteItem = useMutation<AxiosResponse, FetchError, DeleteChecklistItemParams, { previousData?: ChecklistWithProgress }>({
     mutationFn: ({ id, card_id }) => {
       return apiClient.delete(`/checklists/${id}/card/${card_id}`);
     },
@@ -214,7 +214,7 @@ export const useChecklists = (cardId?: string) => {
   });
 
   // Reorder checklist items
-  const reorderItems = useMutation<AxiosResponse, FetchError, ReorderChecklistParams>({
+  const reorderItems = useMutation<AxiosResponse, FetchError, ReorderChecklistParams, { previousData?: ChecklistWithProgress }>({
     mutationFn: ({ card_id, items }) => {
       return apiClient.put(
         `/checklists/card/${card_id}/reorder`,

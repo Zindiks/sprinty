@@ -1,3 +1,4 @@
+
 export interface Organization {
   id: string;
   name: string;
@@ -30,6 +31,7 @@ export interface User {
   id: string;
   email: string;
   username?: string;
+  avatar_url?: string;
 }
 
 export interface Assignee {
@@ -320,7 +322,10 @@ export type WidgetType =
   | "SPRINT_BURNDOWN"
   | "VELOCITY_CHART"
   | "WEEKLY_METRICS"
-  | "MONTHLY_METRICS";
+  | "MONTHLY_METRICS"
+  | "WEEKLY_COMPLETION"
+  | "MONTHLY_COMPLETION"
+  | "BURNDOWN_CHART";
 
 export interface WidgetConfig {
   id: string;
@@ -346,6 +351,8 @@ export interface DashboardLayout {
   isDefault: boolean;
   created_at: string;
   updated_at: string;
+}
+
 // Template types
 export interface TemplateCard {
   title: string;

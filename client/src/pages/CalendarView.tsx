@@ -1,6 +1,7 @@
 import { useState, useMemo, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Calendar as BigCalendar, View } from "react-big-calendar";
+import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import type { Card, CardWithDetails } from "@/types/types";
 import { useLists } from "@/hooks/useLists";
 import { useCards } from "@/hooks/useCards";
@@ -8,7 +9,6 @@ import { CardDetailsModal } from "@/components/card/CardDetailsModal";
 import { Button } from "@/components/ui/button";
 import {
   ArrowLeft,
-  Calendar,
   ChevronLeft,
   ChevronRight,
   Download,
@@ -17,6 +17,7 @@ import { parseISOToDate, toISOString, getDueDateStatus } from "@/lib/dateUtils";
 import { luxonLocalizer } from "@/lib/calendarLocalizer";
 import axios from "axios";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "../styles/calendar.css";
 
 // Create Luxon localizer
@@ -30,6 +31,8 @@ interface CalendarEvent {
   resource: Card;
 }
 
+const DnDCalendar = withDragAndDrop<CalendarEvent>(BigCalendar);
+
 const CalendarView = () => {
   const { board_id } = useParams();
   const navigate = useNavigate();
@@ -39,7 +42,6 @@ const CalendarView = () => {
     null
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isLoadingCard, setIsLoadingCard] = useState(false);
 
   const { lists } = useLists(board_id || "");
   const { updateCardDetails } = useCards();
@@ -66,7 +68,6 @@ const CalendarView = () => {
   // Handle event click - open card details modal
   const handleSelectEvent = useCallback(async (event: CalendarEvent) => {
     setIsModalOpen(true);
-    setIsLoadingCard(true);
 
     try {
       const response = await axios.get(
@@ -86,14 +87,13 @@ const CalendarView = () => {
         attachments: [],
         activities: [],
       });
-    } finally {
-      setIsLoadingCard(false);
     }
   }, []);
 
   // Handle drag and drop to reschedule
   const handleEventDrop = useCallback(
-    ({ event, start }: { event: CalendarEvent; start: Date }) => {
+    (args: any) => {
+      const { event, start } = args;
       const newDueDate = toISOString(start);
 
       updateCardDetails.mutate({
@@ -246,7 +246,7 @@ const CalendarView = () => {
     <div className="h-screen flex flex-col bg-white">
       <div className="flex-1 p-4 overflow-auto">
         <div className="h-full">
-          <BigCalendar
+          <DnDCalendar
             localizer={localizer}
             events={events}
             startAccessor="start"

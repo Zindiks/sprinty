@@ -41,14 +41,15 @@ const DashboardGrid = ({
     onWidgetsChange(items);
   };
 
-  const handleAddWidget = (type: WidgetType, size: { width: number; height: number }) => {
+  const handleAddWidget = (widgetType: WidgetType) => {
     const newWidget: WidgetConfig = {
       id: `widget-${Date.now()}`,
-      type,
-      position: { x: 0, y: widgets.length },
-      size,
+      type: widgetType,
+      title: "New Widget",
+      enabled: true,
+      position: { x: 0, y: Infinity }, // React-grid-layout handles placement
+      size: { width: 2, height: 1 },
     };
-
     onWidgetsChange([...widgets, newWidget]);
   };
 

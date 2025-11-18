@@ -81,7 +81,7 @@ export const useAttachments = (cardId?: string) => {
   });
 
   // Delete attachment
-  const deleteAttachment = useMutation<AxiosResponse, FetchError, DeleteAttachmentParams>({
+  const deleteAttachment = useMutation<AxiosResponse, FetchError, DeleteAttachmentParams, { previousAttachments?: Attachment[] }>({
     mutationFn: ({ id, card_id }) => {
       return apiClient.delete(`/attachments/${id}/card/${card_id}`);
     },
@@ -124,7 +124,7 @@ export const useAttachments = (cardId?: string) => {
   });
 
   // Update attachment (rename)
-  const updateAttachment = useMutation<AxiosResponse, FetchError, UpdateAttachmentParams>({
+  const updateAttachment = useMutation<AxiosResponse, FetchError, UpdateAttachmentParams, { previousAttachments?: Attachment[] }>({
     mutationFn: ({ id, card_id, filename }) => {
       return apiClient.patch(
         `/attachments/`,

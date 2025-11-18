@@ -34,7 +34,7 @@ const ListForm = () => {
   };
 
   useEventListener("keydown", onKeyDown);
-  useOnClickOutside(formRef, disableEditing);
+  useOnClickOutside(formRef as React.RefObject<HTMLElement>, disableEditing);
 
   const { createList } = useLists(board_id as string);
 
