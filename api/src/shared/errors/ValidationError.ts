@@ -7,7 +7,7 @@ import { HttpStatus } from "../constants/httpStatus";
  * Used when request validation fails (invalid input, missing fields, etc.)
  */
 export class ValidationError extends ApiError {
-  constructor(message: string = "Validation failed", details?: any) {
+  constructor(message: string = "Validation failed", details?: unknown) {
     super(
       message,
       HttpStatus.BAD_REQUEST,
@@ -25,7 +25,7 @@ export class ValidationError extends ApiError {
  * Used when specific input is invalid
  */
 export class InvalidInputError extends ApiError {
-  constructor(message: string = "Invalid input provided", details?: any) {
+  constructor(message: string = "Invalid input provided", details?: unknown) {
     super(
       message,
       HttpStatus.BAD_REQUEST,

@@ -23,8 +23,7 @@ export class UserRepository {
   }
 
   async setUserAndGetId(id: number): Promise<string> {
-    let user: UserResponse;
-    [user] = await this.knex(usersTable)
+    const [user] = await this.knex(usersTable)
       .insert({
         oauth_provider: "github",
         oauth_provider_id: id,

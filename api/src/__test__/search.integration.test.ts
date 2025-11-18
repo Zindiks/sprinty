@@ -5,22 +5,16 @@
  */
 
 import { SearchRepository } from "../modules/search/search.repository";
-import { SearchService } from "../modules/search/search.service";
-import { SearchController } from "../modules/search/search.controller";
 
 // Mark these tests as skipped until test database is configured
 describe.skip("Search Integration Tests", () => {
   let searchRepository: SearchRepository;
-  let searchService: SearchService;
-  let searchController: SearchController;
 
   beforeAll(async () => {
     // TODO: Set up test database connection
     // TODO: Run migrations
     // TODO: Seed test data
     searchRepository = new SearchRepository();
-    searchService = new SearchService();
-    searchController = new SearchController();
   });
 
   afterAll(async () => {

@@ -1,10 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { AttachmentService } from "./attachment.service";
-import {
-  CreateAttachment,
-  UpdateAttachment,
-  DeleteAttachment,
-} from "./attachment.schema";
+import { CreateAttachment, UpdateAttachment } from "./attachment.schema";
 import path from "path";
 import fs from "fs/promises";
 import * as fsSync from "fs";

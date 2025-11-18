@@ -6,7 +6,7 @@
 
 import { ProfileRepository } from "../modules/profiles/profile.repository";
 import { ProfileService } from "../modules/profiles/profile.service";
-import { ProfileController } from "../modules/profiles/profile.controller";
+
 import type {
   CreateProfile,
   UpdateProfile,
@@ -16,7 +16,6 @@ import type {
 describe.skip("Profile Integration Tests", () => {
   let profileRepository: ProfileRepository;
   let profileService: ProfileService;
-  let profileController: ProfileController;
 
   beforeAll(async () => {
     // TODO: Set up test database connection
@@ -24,7 +23,6 @@ describe.skip("Profile Integration Tests", () => {
     // TODO: Seed test data (create test users)
     profileRepository = new ProfileRepository();
     profileService = new ProfileService();
-    profileController = new ProfileController();
   });
 
   afterAll(async () => {
@@ -236,8 +234,8 @@ describe.skip("Profile Integration Tests", () => {
     it("should return 404 when user does not exist", async () => {
       // TODO: Test API endpoint
       // Expects 404 Not Found
-      const userId = "non-existent-user";
-      const updates: UpdateProfile = {
+      const _userId = "non-existent-user";
+      const _updates: UpdateProfile = {
         description: "This should fail",
       };
 
@@ -304,7 +302,7 @@ describe.skip("Profile Integration Tests", () => {
     it("should handle deletion of non-existent profile", async () => {
       // TODO: Test API endpoint
       // Expects 404 Not Found or returns null
-      const userId = "non-existent-delete-user";
+      const _userId = "non-existent-delete-user";
 
       // Behavior depends on implementation
       // May return null or throw error
@@ -375,7 +373,7 @@ describe.skip("Profile Integration Tests", () => {
         email: "user1@example.com",
       });
 
-      const input: CreateProfile = {
+      const _input: CreateProfile = {
         user_id: userId2,
         username: "testuser", // Same but different case
         email: "user2@example.com",

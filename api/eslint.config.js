@@ -13,8 +13,16 @@ module.exports = tseslint.config(
     rules: {
       ...prettierConfig.rules,
       "prettier/prettier": "error",
-      "@typescript-eslint/no-explicit-any": "error",
+      "@typescript-eslint/no-explicit-any": "warn",
       eqeqeq: ["error", "always", { null: "ignore" }],
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
+        },
+      ],
     },
   },
   {

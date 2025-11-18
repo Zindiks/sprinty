@@ -21,7 +21,6 @@ export class AnalyticsController {
   ) {
     try {
       const { organizationId } = request.query;
-      // @ts-ignore - user is added by auth middleware
       const userId = request.user?.id;
 
       if (!userId) {
@@ -116,7 +115,6 @@ export class AnalyticsController {
   ) {
     try {
       const { organizationId } = request.query;
-      // @ts-ignore - user is added by auth middleware
       const userId = request.user?.id;
 
       if (!userId) {
@@ -169,7 +167,6 @@ export class AnalyticsController {
   ) {
     try {
       const { organizationId, period, daysBack } = request.query;
-      // @ts-ignore - user is added by auth middleware
       const userId = request.user?.id;
 
       if (!userId) {
@@ -201,7 +198,6 @@ export class AnalyticsController {
   ) {
     try {
       const { organizationId } = request.query;
-      // @ts-ignore - user is added by auth middleware
       const userId = request.user?.id;
 
       if (!userId) {
@@ -231,7 +227,6 @@ export class AnalyticsController {
   ) {
     try {
       const { organizationId, weeksBack } = request.query;
-      // @ts-ignore - user is added by auth middleware
       const userId = request.user?.id;
 
       if (!userId) {
@@ -262,7 +257,6 @@ export class AnalyticsController {
   ) {
     try {
       const { organizationId, monthsBack } = request.query;
-      // @ts-ignore - user is added by auth middleware
       const userId = request.user?.id;
 
       if (!userId) {

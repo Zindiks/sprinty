@@ -1,10 +1,5 @@
 import { FastifyRequest } from "fastify";
-import {
-  oauth2Options,
-  OAuthResponse,
-  ProfileResponse,
-  UserResponse,
-} from "./oauth.schema";
+import { OAuthResponse, ProfileResponse, UserResponse } from "./oauth.schema";
 import { OAuth2Namespace } from "@fastify/oauth2";
 import { UserRepository } from "./oauth.repository";
 

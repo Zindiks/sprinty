@@ -22,7 +22,7 @@ export class ChecklistRepository {
 
   async createChecklistItem(
     input: CreateChecklistItem,
-    created_by_id?: string,
+    _created_by_id?: string,
   ): Promise<ChecklistItemResponse> {
     const { card_id, title, order: orderInput } = input;
 

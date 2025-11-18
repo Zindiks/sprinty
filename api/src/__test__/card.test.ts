@@ -18,7 +18,7 @@ describe("CardService", () => {
   beforeEach(() => {
     cardRepository = new MockedCardRepository() as jest.Mocked<CardRepository>;
     cardService = new CardService();
-    // @ts-ignore
+    // @ts-expect-error - inject mocked repository
     cardService["cardRepository"] = cardRepository;
   });
 

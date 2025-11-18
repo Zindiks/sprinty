@@ -19,7 +19,7 @@ describe("ProfileService", () => {
     profileRepository =
       new MockedProfileRepository() as jest.Mocked<ProfileRepository>;
     profileService = new ProfileService();
-    // @ts-ignore - inject mocked repository
+    // @ts-expect-error - inject mocked repository
     profileService["profileRepository"] = profileRepository;
   });
 
@@ -229,7 +229,7 @@ describe("ProfileService", () => {
       // Arrange
       const input: CreateProfile = {
         user_id: "user-123",
-        username: undefined as any,
+        username: undefined as unknown as string,
         email: "test@example.com",
       };
       const mockCreatedProfile: ProfileResponse = {

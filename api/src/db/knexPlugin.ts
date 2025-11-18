@@ -14,7 +14,7 @@ declare module "fastify" {
 }
 
 const knexPlugin = fastifyPlugin(
-  async (fastify: FastifyInstance, opts: FastifyPluginOptions) => {
+  async (fastify: FastifyInstance, _opts: FastifyPluginOptions) => {
     fastify.decorate("knex", knexInstance);
 
     fastify.addHook(

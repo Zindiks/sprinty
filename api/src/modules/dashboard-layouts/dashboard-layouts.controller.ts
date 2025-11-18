@@ -15,7 +15,6 @@ export class DashboardLayoutsController {
    */
   async getUserLayouts(request: FastifyRequest, reply: FastifyReply) {
     try {
-      // @ts-ignore - user is added by auth middleware
       const userId = request.user?.id;
 
       if (!userId) {
@@ -36,7 +35,6 @@ export class DashboardLayoutsController {
    */
   async getDefaultLayout(request: FastifyRequest, reply: FastifyReply) {
     try {
-      // @ts-ignore - user is added by auth middleware
       const userId = request.user?.id;
 
       if (!userId) {
@@ -68,7 +66,6 @@ export class DashboardLayoutsController {
   ) {
     try {
       const { layoutId } = request.params;
-      // @ts-ignore - user is added by auth middleware
       const userId = request.user?.id;
 
       if (!userId) {
@@ -99,7 +96,6 @@ export class DashboardLayoutsController {
     reply: FastifyReply,
   ) {
     try {
-      // @ts-ignore - user is added by auth middleware
       const userId = request.user?.id;
 
       if (!userId) {
@@ -131,7 +127,6 @@ export class DashboardLayoutsController {
   ) {
     try {
       const { layoutId } = request.params;
-      // @ts-ignore - user is added by auth middleware
       const userId = request.user?.id;
 
       if (!userId) {
@@ -169,7 +164,6 @@ export class DashboardLayoutsController {
   ) {
     try {
       const { layoutId } = request.params;
-      // @ts-ignore - user is added by auth middleware
       const userId = request.user?.id;
 
       if (!userId) {

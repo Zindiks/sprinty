@@ -39,9 +39,8 @@ export function authenticationMiddleware(
     // Attach user info to socket
     authSocket.userId = decoded.userId;
     authSocket.userEmail = decoded.email;
-
     next();
-  } catch (error) {
+  } catch {
     const authError = new Error(
       "Invalid authentication token",
     ) as ExtendedError;

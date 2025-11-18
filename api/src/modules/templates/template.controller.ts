@@ -6,7 +6,6 @@ import {
   CreateTemplateFromBoard,
 } from "./template.schema";
 import { TemplateService } from "./template.service";
-import { getWebSocketService } from "../../bootstrap";
 
 export class TemplateController {
   private readonly templateService: TemplateService;

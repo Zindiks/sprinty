@@ -8,7 +8,6 @@ import {
   BulkArchiveCardsInput,
   BulkDeleteCardsInput,
 } from "./bulk.service";
-import { getWebSocketService } from "../../bootstrap";
 
 export class BulkController {
   private readonly bulkService: BulkService;
@@ -148,7 +147,7 @@ export class BulkController {
     reply: FastifyReply,
   ) {
     try {
-      const { card_ids, due_date } = request.body;
+      const { card_ids } = request.body;
 
       if (!card_ids || card_ids.length === 0) {
         return reply.status(400).send({ message: "card_ids is required" });

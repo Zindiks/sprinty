@@ -14,7 +14,7 @@ import {
 jest.mock("../modules/comments/comment.repository");
 
 class MockedCommentRepository {
-  knex = {} as any;
+  knex = {} as unknown;
   createComment = jest.fn();
   updateComment = jest.fn();
   deleteComment = jest.fn();
@@ -34,7 +34,7 @@ describe("CommentService", () => {
     commentRepository =
       new MockedCommentRepository() as unknown as jest.Mocked<CommentRepository>;
     commentService = new CommentService();
-    // @ts-ignore - inject mocked repository
+    // @ts-expect-error - inject mocked repository
     commentService["commentRepository"] = commentRepository;
     jest.clearAllMocks();
   });

@@ -120,7 +120,6 @@ export class ReportController {
     reply: FastifyReply,
   ) {
     try {
-      // @ts-ignore - user is added by auth middleware
       const userId = request.user?.id;
 
       if (!userId) {

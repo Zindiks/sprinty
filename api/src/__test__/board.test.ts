@@ -13,7 +13,7 @@ describe("BoardService", () => {
   beforeEach(() => {
     boardRepository = new BoardRepositoryMock() as jest.Mocked<BoardRepository>;
     boardService = new BoardService();
-    // @ts-ignore
+    // @ts-expect-error - inject mocked repository
     boardService.boardRepository = boardRepository;
   });
 

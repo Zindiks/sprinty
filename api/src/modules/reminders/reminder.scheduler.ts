@@ -1,5 +1,5 @@
 import * as cron from "node-cron";
-import type { Knex } from "knex";
+
 import type { FastifyInstance } from "fastify";
 import { ReminderService } from "./reminder.service";
 

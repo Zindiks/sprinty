@@ -16,7 +16,7 @@ describe("SearchController", () => {
   beforeEach(() => {
     searchService = new MockedSearchService() as jest.Mocked<SearchService>;
     searchController = new SearchController();
-    // @ts-ignore
+    // @ts-expect-error - inject mocked service
     searchController["searchService"] = searchService;
 
     // Mock Fastify request and reply

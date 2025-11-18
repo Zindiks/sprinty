@@ -1,6 +1,5 @@
 import { FastifyInstance } from "fastify";
 import { ActivityController } from "./activity.controller";
-import { ActivitySchema } from "./activity.schema";
 
 export default async function activityRoutes(server: FastifyInstance) {
   const activityController = new ActivityController();

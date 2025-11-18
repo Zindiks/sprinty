@@ -1,6 +1,5 @@
 import { FastifyInstance } from "fastify";
 import { AttachmentController } from "./attachment.controller";
-import { AttachmentSchema } from "./attachment.schema";
 
 export default async function attachmentRoutes(server: FastifyInstance) {
   const attachmentController = new AttachmentController();

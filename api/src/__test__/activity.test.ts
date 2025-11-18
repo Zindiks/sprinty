@@ -13,7 +13,7 @@ import {
 jest.mock("../modules/activities/activity.repository");
 
 class MockedActivityRepository {
-  knex = {} as any;
+  knex = {} as unknown;
   createActivity = jest.fn();
   getActivityById = jest.fn();
   getActivityWithUser = jest.fn();
@@ -32,7 +32,7 @@ describe("ActivityService", () => {
     activityRepository =
       new MockedActivityRepository() as unknown as jest.Mocked<ActivityRepository>;
     activityService = new ActivityService();
-    // @ts-ignore - inject mocked repository
+    // @ts-expect-error - inject mocked repository
     activityService["activityRepository"] = activityRepository;
     jest.clearAllMocks();
   });

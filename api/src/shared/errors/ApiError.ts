@@ -6,14 +6,14 @@ export class ApiError extends Error {
   public readonly statusCode: number;
   public readonly errorCode: string;
   public readonly isOperational: boolean;
-  public readonly details?: any;
+  public readonly details?: unknown;
 
   constructor(
     message: string,
     statusCode: number,
     errorCode: string,
     isOperational = true,
-    details?: any,
+    details?: unknown,
   ) {
     super(message);
 
@@ -40,7 +40,7 @@ export class ApiError extends Error {
       error: {
         code: this.errorCode,
         message: this.message,
-        ...(this.details && { details: this.details }),
+        ...(this.details ? { details: this.details } : {}),
       },
     };
   }

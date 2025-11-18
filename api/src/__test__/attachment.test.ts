@@ -21,7 +21,7 @@ describe("AttachmentService", () => {
     attachmentRepository =
       new MockedAttachmentRepository() as jest.Mocked<AttachmentRepository>;
     attachmentService = new AttachmentService();
-    // @ts-ignore - inject mocked repository
+    // @ts-expect-error - inject mocked repository
     attachmentService["attachmentRepository"] = attachmentRepository;
   });
 

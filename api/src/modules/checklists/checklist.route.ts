@@ -1,7 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { ChecklistController } from "./checklist.controller";
 import { ChecklistSchema } from "./checklist.schema";
-import { Type } from "@sinclair/typebox";
 
 const checklistController = new ChecklistController();
 

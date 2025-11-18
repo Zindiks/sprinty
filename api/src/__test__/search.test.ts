@@ -14,7 +14,7 @@ describe("SearchService", () => {
     searchRepository =
       new MockedSearchRepository() as jest.Mocked<SearchRepository>;
     searchService = new SearchService();
-    // @ts-ignore
+    // @ts-expect-error - inject mocked repository
     searchService["searchRepository"] = searchRepository;
   });
 

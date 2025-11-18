@@ -15,7 +15,7 @@ import {
 jest.mock("../modules/checklists/checklist.repository");
 
 class MockedChecklistRepository {
-  knex = {} as any;
+  knex = {} as unknown;
   createChecklistItem = jest.fn();
   updateChecklistItem = jest.fn();
   toggleChecklistItem = jest.fn();
@@ -35,7 +35,7 @@ describe("ChecklistService", () => {
     checklistRepository =
       new MockedChecklistRepository() as unknown as jest.Mocked<ChecklistRepository>;
     checklistService = new ChecklistService();
-    // @ts-ignore - inject mocked repository
+    // @ts-expect-error - inject mocked repository
     checklistService["checklistRepository"] = checklistRepository;
     jest.clearAllMocks();
   });

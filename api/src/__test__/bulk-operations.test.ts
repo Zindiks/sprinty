@@ -9,8 +9,8 @@ const mockKnex = knexInstance as jest.Mocked<Knex>;
 
 describe("BulkService", () => {
   let bulkService: BulkService;
-  let mockTrx: any;
-  let mockQueryBuilder: any; // Move to describe scope
+  let mockTrx: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  let mockQueryBuilder: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 
   beforeEach(() => {
     // Create a shared mock query builder that we can reference
@@ -29,7 +29,7 @@ describe("BulkService", () => {
     };
 
     // Create a callable mock transaction function that returns the query builder
-    mockTrx = jest.fn((tableName: string) => mockQueryBuilder) as any;
+    mockTrx = jest.fn(() => mockQueryBuilder) as any; // eslint-disable-line @typescript-eslint/no-explicit-any
 
     // Add fn.now to mockTrx
     mockTrx.fn = {
@@ -43,10 +43,10 @@ describe("BulkService", () => {
     // Mock transaction
     mockKnex.transaction = jest.fn(async (callback) => {
       return await callback(mockTrx);
-    }) as any;
+    }) as any; // eslint-disable-line @typescript-eslint/no-explicit-any
 
     bulkService = new BulkService();
-    // @ts-ignore - inject mocked knex
+    // @ts-expect-error - inject mocked knex
     bulkService["knex"] = mockKnex;
   });
 

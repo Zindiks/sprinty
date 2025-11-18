@@ -7,7 +7,7 @@ import { HttpStatus } from "../constants/httpStatus";
  * Used when a requested resource cannot be found
  */
 export class NotFoundError extends ApiError {
-  constructor(message: string = "Resource not found", details?: any) {
+  constructor(message: string = "Resource not found", details?: unknown) {
     super(
       message,
       HttpStatus.NOT_FOUND,
@@ -25,7 +25,7 @@ export class NotFoundError extends ApiError {
  * Used when a specific user cannot be found
  */
 export class UserNotFoundError extends ApiError {
-  constructor(message: string = "User not found", details?: any) {
+  constructor(message: string = "User not found", details?: unknown) {
     super(
       message,
       HttpStatus.NOT_FOUND,
@@ -43,7 +43,7 @@ export class UserNotFoundError extends ApiError {
  * Used when a specific board cannot be found
  */
 export class BoardNotFoundError extends ApiError {
-  constructor(message: string = "Board not found", details?: any) {
+  constructor(message: string = "Board not found", details?: unknown) {
     super(
       message,
       HttpStatus.NOT_FOUND,
@@ -61,7 +61,7 @@ export class BoardNotFoundError extends ApiError {
  * Used when a specific card cannot be found
  */
 export class CardNotFoundError extends ApiError {
-  constructor(message: string = "Card not found", details?: any) {
+  constructor(message: string = "Card not found", details?: unknown) {
     super(
       message,
       HttpStatus.NOT_FOUND,
@@ -79,7 +79,7 @@ export class CardNotFoundError extends ApiError {
  * Used when a specific profile cannot be found
  */
 export class ProfileNotFoundError extends ApiError {
-  constructor(message: string = "Profile not found", details?: any) {
+  constructor(message: string = "Profile not found", details?: unknown) {
     super(
       message,
       HttpStatus.NOT_FOUND,

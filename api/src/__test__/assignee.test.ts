@@ -12,7 +12,7 @@ import {
 jest.mock("../modules/assignees/assignee.repository");
 
 class MockedAssigneeRepository {
-  knex = {} as any;
+  knex = {} as unknown;
   addAssignee = jest.fn();
   removeAssignee = jest.fn();
   getAssigneesByCardId = jest.fn();
@@ -29,7 +29,7 @@ describe("AssigneeService", () => {
     assigneeRepository =
       new MockedAssigneeRepository() as unknown as jest.Mocked<AssigneeRepository>;
     assigneeService = new AssigneeService();
-    // @ts-ignore - inject mocked repository
+    // @ts-expect-error - inject mocked repository
     assigneeService["assigneeRepository"] = assigneeRepository;
     jest.clearAllMocks();
   });

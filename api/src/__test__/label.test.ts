@@ -23,7 +23,7 @@ describe("LabelService", () => {
     labelRepository =
       new MockedLabelRepository() as jest.Mocked<LabelRepository>;
     labelService = new LabelService();
-    // @ts-ignore - inject mocked repository
+    // @ts-expect-error - inject mocked repository
     labelService["labelRepository"] = labelRepository;
   });
 

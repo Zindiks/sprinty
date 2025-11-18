@@ -6,6 +6,7 @@ import { Knex } from "knex";
 jest.mock("../modules/analytics/analytics.repository");
 
 class MockedAnalyticsRepository {
+  private knex = {} as unknown;
   getPersonalStats = jest.fn();
   getAssignedTasks = jest.fn();
   getBoardStats = jest.fn();
@@ -22,13 +23,14 @@ class MockedAnalyticsRepository {
 
 describe("AnalyticsService", () => {
   let analyticsService: AnalyticsService;
-  let analyticsRepository: any; // Use any to bypass strict typing issues
+  let analyticsRepository: MockedAnalyticsRepository;
   let mockKnex: Knex;
 
   beforeEach(() => {
     mockKnex = {} as Knex;
-    analyticsRepository = new MockedAnalyticsRepository();
-
+    // @ts-expect-error - mock private property mismatch
+    analyticsRepository =
+      new MockedAnalyticsRepository() as unknown as jest.Mocked<AnalyticsRepository>;
     // Mock the repository constructor
     (
       AnalyticsRepository as jest.MockedClass<typeof AnalyticsRepository>

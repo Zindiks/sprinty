@@ -18,7 +18,7 @@ describe("OrganizationService", () => {
     organizationRepository =
       new MockedOrganizationRepository() as jest.Mocked<OrganizationRepository>;
     organizationService = new OrganizationService();
-    // @ts-ignore
+    // @ts-expect-error - inject mocked repository
     organizationService["organizationRepository"] = organizationRepository;
   });
 
