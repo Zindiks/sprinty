@@ -1,7 +1,8 @@
 import { FastifyInstance } from "fastify";
 import { AttachmentController } from "./attachment.controller";
 import { AttachmentSchema } from "./attachment.schema";
-import { requireCardAccess } from "../../middleware/authorization.middleware";
+import { requireCardAccess, requireSelfOrOrgMember } from "../../middleware/authorization.middleware";
+import { requireAuth } from "../../middleware/auth.middleware";
 
 export default async function attachmentRoutes(server: FastifyInstance) {
   const attachmentController = new AttachmentController();
@@ -165,6 +166,7 @@ export default async function attachmentRoutes(server: FastifyInstance) {
   server.get(
     "/user/:user_id",
     {
+      preHandler: [requireAuth, requireSelfOrOrgMember],
       schema: {
         description: "Get all attachments uploaded by a user",
         tags: ["attachments"],

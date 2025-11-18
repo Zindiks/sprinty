@@ -1,7 +1,8 @@
 import { FastifyInstance } from "fastify";
 import { ActivityController } from "./activity.controller";
 import { ActivitySchema } from "./activity.schema";
-import { requireCardAccess, requireOrgMember } from "../../middleware/authorization.middleware";
+import { requireCardAccess, requireOrgMember, requireActivityAccess } from "../../middleware/authorization.middleware";
+import { requireAuth } from "../../middleware/auth.middleware";
 
 export default async function activityRoutes(server: FastifyInstance) {
   const activityController = new ActivityController();
@@ -27,6 +28,7 @@ export default async function activityRoutes(server: FastifyInstance) {
   server.get(
     "/:id",
     {
+      preHandler: [requireAuth, requireActivityAccess],
       schema: {
         description: "Get activity by ID with user details",
         tags: ["activities"],

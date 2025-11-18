@@ -1,7 +1,8 @@
 import { FastifyInstance } from "fastify";
 import { AssigneeController } from "./assignee.controller";
 import { AssigneeSchema } from "./assignee.schema";
-import { requireCardAccess } from "../../middleware/authorization.middleware";
+import { requireCardAccess, requireSelfOrOrgMember } from "../../middleware/authorization.middleware";
+import { requireAuth } from "../../middleware/auth.middleware";
 
 const assigneeController = new AssigneeController();
 
@@ -94,6 +95,7 @@ export default async function assigneeRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/user/:user_id/cards",
     {
+      preHandler: [requireAuth, requireSelfOrOrgMember],
       schema: {
         params: {
           type: "object",

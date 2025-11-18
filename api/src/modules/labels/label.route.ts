@@ -3,8 +3,10 @@ import { LabelController } from "./label.controller";
 import { LabelSchema } from "./label.schema";
 import {
   requireBoardAccess,
-  requireCardAccess
+  requireCardAccess,
+  requireLabelAccess
 } from "../../middleware/authorization.middleware";
+import { requireAuth } from "../../middleware/auth.middleware";
 
 const labelController = new LabelController();
 
@@ -209,6 +211,7 @@ export default async function labelRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/:label_id/cards",
     {
+      preHandler: [requireAuth, requireLabelAccess],
       schema: {
         params: {
           type: "object",

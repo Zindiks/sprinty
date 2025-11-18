@@ -161,6 +161,92 @@ export async function requireReminderOwnership(
 }
 
 /**
+ * requireActivityAccess Middleware
+ *
+ * Requires user to have access to the activity's card.
+ * Expects activity id in request params.
+ * Returns 403 Forbidden if user cannot access the activity's card.
+ */
+export async function requireActivityAccess(
+  request: FastifyRequest,
+  reply: FastifyReply
+): Promise<void> {
+  const userId = request.user!.id
+  const activityId = (request.params as any).id
+
+  if (!activityId) {
+    return reply.code(400).send({
+      statusCode: 400,
+      error: 'Bad Request',
+      message: 'activity_id is required',
+    })
+  }
+
+  const cardId = await authorizationService.getActivityCard(activityId)
+
+  if (!cardId) {
+    return reply.code(404).send({
+      statusCode: 404,
+      error: 'Not Found',
+      message: 'Activity not found',
+    })
+  }
+
+  const hasAccess = await authorizationService.canAccessCard(userId, cardId)
+
+  if (!hasAccess) {
+    return reply.code(403).send({
+      statusCode: 403,
+      error: 'Forbidden',
+      message: 'You do not have access to this resource',
+    })
+  }
+}
+
+/**
+ * requireLabelAccess Middleware
+ *
+ * Requires user to have access to the label's board.
+ * Expects label_id in request params.
+ * Returns 403 Forbidden if user cannot access the label's board.
+ */
+export async function requireLabelAccess(
+  request: FastifyRequest,
+  reply: FastifyReply
+): Promise<void> {
+  const userId = request.user!.id
+  const labelId = (request.params as any).label_id || (request.params as any).id
+
+  if (!labelId) {
+    return reply.code(400).send({
+      statusCode: 400,
+      error: 'Bad Request',
+      message: 'label_id is required',
+    })
+  }
+
+  const boardId = await authorizationService.getLabelBoard(labelId)
+
+  if (!boardId) {
+    return reply.code(404).send({
+      statusCode: 404,
+      error: 'Not Found',
+      message: 'Label not found',
+    })
+  }
+
+  const hasAccess = await authorizationService.canAccessBoard(userId, boardId)
+
+  if (!hasAccess) {
+    return reply.code(403).send({
+      statusCode: 403,
+      error: 'Forbidden',
+      message: 'You do not have access to this resource',
+    })
+  }
+}
+
+/**
  * requireOrgMember Middleware
  *
  * Requires user to be a member of the organization (any role).

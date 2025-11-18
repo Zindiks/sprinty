@@ -2,6 +2,7 @@ import { FastifyInstance } from "fastify";
 import { OrganizationController } from "./organization.controller";
 import { OrganizationSchema } from "./organization.schema";
 import { requireOrgMember, requireOrgAdmin } from "../../middleware/authorization.middleware";
+import { requireAuth } from "../../middleware/auth.middleware";
 
 const organizationController = new OrganizationController();
 
@@ -25,6 +26,7 @@ export default async function organizationRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/all",
     {
+      preHandler: [requireAuth],
       schema: {
         response: {
           200: {
@@ -33,7 +35,7 @@ export default async function organizationRoutes(fastify: FastifyInstance) {
           },
         },
         tags: ["organization"],
-        description: "Get all organizations",
+        description: "Get all organizations for the current user",
       },
     },
     organizationController.getAllOrganizationController.bind(
@@ -44,6 +46,7 @@ export default async function organizationRoutes(fastify: FastifyInstance) {
   fastify.post(
     "/",
     {
+      preHandler: [requireAuth],
       schema: {
         body: OrganizationSchema.BaseOrganizationSchema,
         response: {

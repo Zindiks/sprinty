@@ -292,6 +292,32 @@ export class AuthorizationService {
 
     return reminder || null
   }
+
+  /**
+   * Get card ID from activity ID
+   * @param activityId - Activity UUID
+   * @returns Card UUID or null if activity not found
+   */
+  async getActivityCard(activityId: string): Promise<string | null> {
+    const activity = await this.knex('activities')
+      .where({ id: activityId })
+      .first()
+
+    return activity?.card_id || null
+  }
+
+  /**
+   * Get board ID from label ID
+   * @param labelId - Label UUID
+   * @returns Board UUID or null if label not found
+   */
+  async getLabelBoard(labelId: string): Promise<string | null> {
+    const label = await this.knex('labels')
+      .where({ id: labelId })
+      .first()
+
+    return label?.board_id || null
+  }
 }
 
 // Export singleton instance
