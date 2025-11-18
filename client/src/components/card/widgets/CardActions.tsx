@@ -13,7 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { MoreHorizontal, Trash2, Link2, Copy } from "lucide-react";
+import { MoreHorizontal, Trash2, Link2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface CardActionsProps {

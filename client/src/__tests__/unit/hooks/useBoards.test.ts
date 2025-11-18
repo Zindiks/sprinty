@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { renderHook, waitFor, act } from '@testing-library/react';
 import { createWrapper } from '@/__tests__/utils/test-utils';
 import { useBoard } from '@/hooks/useBoards';
@@ -173,15 +173,6 @@ describe('useBoard hook', () => {
         wrapper: createWrapper(),
       });
 
-      let requestBody: any = null;
-
-      // Intercept the request to verify organization_id
-      server.events.on('request:start', async ({ request }) => {
-        if (request.method === 'POST' && request.url.includes('/boards')) {
-          requestBody = await request.clone().json();
-        }
-      });
-
       await act(async () => {
         result.current.createBoard.mutate({
           title: 'New Board',
@@ -295,8 +286,6 @@ describe('useBoard hook', () => {
       await waitFor(() => {
         expect(queryResult.current.isLoading).toBe(false);
       });
-
-      const initialDataLength = queryResult.current.data?.length || 0;
 
       // Create a new board
       await act(async () => {

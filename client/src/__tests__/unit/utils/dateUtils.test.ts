@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { DateTime, Settings } from 'luxon';
+import { DateTime } from 'luxon';
 import {
   formatDueDate,
   formatDueDateWithTime,

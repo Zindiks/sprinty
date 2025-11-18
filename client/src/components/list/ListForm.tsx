@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { useLists } from "@/hooks/useLists";
 
 const ListForm = () => {
-  const formRef = useRef<ElementRef<"form">>(null);
+  const formRef = useRef<HTMLFormElement>(null);
   const inputRef = useRef<ElementRef<"input">>(null);
 
   const { board_id } = useParams();

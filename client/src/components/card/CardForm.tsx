@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { PlusIcon, X } from "lucide-react";
-import { forwardRef, useRef, ElementRef, KeyboardEventHandler } from "react";
+import { forwardRef, useRef, KeyboardEventHandler } from "react";
 import { FormTextarea } from "@/components/card/FormTextarea";
 import { useOnClickOutside, useEventListener } from "usehooks-ts";
 import { useCards } from "@/hooks/useCards";
@@ -14,7 +14,7 @@ interface CardFormProps {
 
 const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(
   ({ list_id, enableEditing, disableEditing, isEditing }, ref) => {
-    const formRef = useRef<ElementRef<"form">>(null);
+    const formRef = useRef<HTMLFormElement>(null);
 
     const { createCard } = useCards();
 

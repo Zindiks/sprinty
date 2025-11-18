@@ -9,13 +9,12 @@ describe('useCardFilters hook', () => {
   const createMockCard = (overrides: Partial<Card> = {}): Card => ({
     id: `card-${Math.random()}`,
     title: 'Test Card',
-    description: null,
+    description: undefined,
     list_id: 'list-1',
     order: 0,
     status: 'todo',
     priority: 'medium',
-    due_date: null,
-    archived: false,
+    due_date: undefined,
     created_at: '2024-01-01T00:00:00.000Z',
     updated_at: '2024-01-01T00:00:00.000Z',
     ...overrides,
@@ -36,7 +35,7 @@ describe('useCardFilters hook', () => {
       createMockCard({
         id: 'card-1',
         title: 'Due Today',
-        due_date: now.toISO(),
+        due_date: now.toISO() || undefined,
         priority: 'high',
         created_at: '2024-01-10T00:00:00.000Z',
       }),
@@ -44,7 +43,7 @@ describe('useCardFilters hook', () => {
       createMockCard({
         id: 'card-2',
         title: 'Due This Week',
-        due_date: now.plus({ days: 3 }).toISO(),
+        due_date: now.plus({ days: 3 }).toISO() || undefined,
         priority: 'medium',
         created_at: '2024-01-11T00:00:00.000Z',
       }),
@@ -52,7 +51,7 @@ describe('useCardFilters hook', () => {
       createMockCard({
         id: 'card-3',
         title: 'Overdue',
-        due_date: now.minus({ days: 2 }).toISO(),
+        due_date: now.minus({ days: 2 }).toISO() || undefined,
         priority: 'critical',
         created_at: '2024-01-09T00:00:00.000Z',
       }),
@@ -60,7 +59,7 @@ describe('useCardFilters hook', () => {
       createMockCard({
         id: 'card-4',
         title: 'No Due Date',
-        due_date: null,
+        due_date: undefined,
         priority: 'low',
         created_at: '2024-01-12T00:00:00.000Z',
       }),
@@ -68,7 +67,7 @@ describe('useCardFilters hook', () => {
       createMockCard({
         id: 'card-5',
         title: 'Upcoming',
-        due_date: now.plus({ days: 10 }).toISO(),
+        due_date: now.plus({ days: 10 }).toISO() || undefined,
         priority: 'medium',
         created_at: '2024-01-08T00:00:00.000Z',
       }),
