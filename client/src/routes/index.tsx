@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router-dom";
-import Home from "../pages/Home";
 import User from "../pages/User";
 import Marketing from "@/pages/Marketing";
 import Boards from "@/pages/Boards";
@@ -15,7 +14,8 @@ import { ProtectedRoute, OrganizationGuard } from "@/components/auth";
  * AppRoutes - Application Routing Configuration
  *
  * Route Structure:
- * - / (Home/Marketing) - Public route
+ * - / (Marketing/Landing) - Public route with GitHub OAuth signin
+ * - /signin - Signin page (alias to Marketing)
  * - /user - Legacy user page (consider removing)
  * - Protected routes (requires authentication):
  *   - /profile - User profile management
@@ -25,11 +25,17 @@ import { ProtectedRoute, OrganizationGuard } from "@/components/auth";
  *     - /board/:board_id - Board view
  *     - /board/:board_id/calendar - Calendar view
  *     - /dashboard - Analytics dashboard
+ *
+ * Authentication Flow:
+ * - Unauthenticated users → /signin
+ * - Authenticated users on public routes → /boards
+ * - Protected routes without auth → /signin
  */
 const AppRoutes = () => (
   <Routes>
     {/* Public Routes */}
     <Route path="/" element={<Marketing />} />
+    <Route path="/signin" element={<Marketing />} /> {/* Alias for marketing/login */}
     <Route path="/user" element={<User />} /> {/* Legacy - consider removing */}
 
     {/* Protected Routes - Require Authentication */}
