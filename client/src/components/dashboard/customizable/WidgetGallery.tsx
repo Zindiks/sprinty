@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Plus, X, BarChart3, Calendar, Target, TrendingUp, Users, Clock } from "lucide-react";
+import { Plus, X, BarChart3, Calendar, Target, TrendingUp, Users } from "lucide-react";
 import { WidgetType } from "../../../types/types";
 
 interface WidgetOption {

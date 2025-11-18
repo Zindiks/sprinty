@@ -1,4 +1,4 @@
-import { useDueDateAnalytics, type DueDateCard } from "@/hooks/useAnalytics";
+import { useDueDateAnalytics } from "@/hooks/useAnalytics";
 import { Clock, Calendar, AlertTriangle } from "lucide-react";
 import { formatDueDateDisplay } from "@/lib/dateUtils";
 import { useNavigate } from "react-router-dom";
@@ -47,7 +47,7 @@ export const UpcomingDueDatesWidget = ({ boardId }: UpcomingDueDatesWidgetProps)
     }
   };
 
-  const handleCardClick = (card: DueDateCard) => {
+  const handleCardClick = () => {
     navigate(`/board/${boardId}`);
   };
 
@@ -96,7 +96,7 @@ export const UpcomingDueDatesWidget = ({ boardId }: UpcomingDueDatesWidgetProps)
             {analytics.dueTodayCards.map((card) => (
               <div
                 key={card.id}
-                onClick={() => handleCardClick(card)}
+                onClick={() => handleCardClick()}
                 className="p-3 border border-yellow-200 bg-yellow-50/50 rounded-lg hover:bg-yellow-100/50 transition cursor-pointer"
               >
                 <div className="flex items-start justify-between">

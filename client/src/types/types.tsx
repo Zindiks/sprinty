@@ -30,6 +30,7 @@ export interface User {
   id: string;
   email: string;
   username?: string;
+  avatar_url?: string;
 }
 
 export interface Assignee {
@@ -320,13 +321,16 @@ export type WidgetType =
   | "SPRINT_BURNDOWN"
   | "VELOCITY_CHART"
   | "WEEKLY_METRICS"
-  | "MONTHLY_METRICS";
+  | "MONTHLY_METRICS"
+  | "WEEKLY_COMPLETION"
+  | "MONTHLY_COMPLETION"
+  | "BURNDOWN_CHART";
 
 export interface WidgetConfig {
   id: string;
   type: WidgetType;
-  title: string;
-  enabled: boolean;
+  title?: string;
+  enabled?: boolean;
   position: {
     x: number;
     y: number;

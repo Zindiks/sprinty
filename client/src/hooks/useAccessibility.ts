@@ -68,7 +68,7 @@ export const useAccessibility = (): AccessibilityPreferences => {
 export const useScreenReaderAnnouncement = () => {
   const [announcement, setAnnouncement] = useState<string>("");
 
-  const announce = (message: string, priority: "polite" | "assertive" = "polite") => {
+  const announce = (message: string) => {
     setAnnouncement("");
     // Small delay to ensure screen readers pick up the change
     setTimeout(() => {

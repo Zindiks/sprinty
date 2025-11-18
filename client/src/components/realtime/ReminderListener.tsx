@@ -30,7 +30,7 @@ export const ReminderListener = () => {
     const handleReminder = (event: ReminderEvent) => {
       console.log("Received reminder event:", event);
 
-      const { card_title, due_date, reminder_type, board_id, card_id } = event.data;
+      const { card_title, due_date, reminder_type, board_id } = event.data;
 
       // Format the reminder type for display
       const reminderLabel =
