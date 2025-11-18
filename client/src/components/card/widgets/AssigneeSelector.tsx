@@ -134,7 +134,7 @@ export const AssigneeSelector = ({
                       <p className="text-xs text-muted-foreground">{user.email}</p>
                     </div>
                     {assigned && (
-                      <Check className="w-5 h-5 text-primary flex-shrink-0" />
+                      <Check className="w-5 h-5 text-primary shrink-0" />
                     )}
                   </button>
                 );

@@ -419,7 +419,7 @@ const Dashboard = () => {
                               key={activity.id}
                               className="flex items-start gap-4 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition"
                             >
-                              <div className="flex-shrink-0">
+                              <div className="shrink-0">
                                 <TrendingUp className="w-5 h-5 text-blue-600" />
                               </div>
                               <div className="flex-1 min-w-0">

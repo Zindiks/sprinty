@@ -128,7 +128,7 @@ export const CommentItem = ({
     <>
       <div className={cn("space-y-3", depth > 0 && "ml-8 pl-4 border-l-2")}>
         <div className="flex gap-3">
-          <Avatar className="w-8 h-8 flex-shrink-0">
+          <Avatar className="w-8 h-8 shrink-0">
             {comment.user.avatar_url && (
               <AvatarImage
                 src={comment.user.avatar_url}
@@ -193,7 +193,7 @@ export const CommentItem = ({
               </div>
             ) : (
               <>
-                <p className="text-sm text-muted-foreground whitespace-pre-wrap break-words">
+                <p className="text-sm text-muted-foreground whitespace-pre-wrap wrap-break-word">
                   {comment.content}
                 </p>
 

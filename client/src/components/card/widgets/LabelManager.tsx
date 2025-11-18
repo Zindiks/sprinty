@@ -96,7 +96,7 @@ export const LabelManager = ({
                         </span>
                       </div>
                       {applied && (
-                        <Check className="w-5 h-5 text-primary flex-shrink-0" />
+                        <Check className="w-5 h-5 text-primary shrink-0" />
                       )}
                     </button>
                   );

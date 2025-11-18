@@ -11,7 +11,7 @@ export const StaticSidebar = () => {
 
   return (
     <aside className="w-16 h-screen flex flex-col items-center py-4 bg-white border-r">
-      <div className="flex flex-col items-center space-y-4 flex-grow">
+      <div className="flex flex-col items-center space-y-4 grow">
         {/* Logo */}
         {/* <SidebarItem
           icon={() => <div className="w-8 h-8 bg-blue-500 rounded-full" />}
@@ -53,7 +53,7 @@ export const StaticSidebar = () => {
         <SidebarItem icon={Mail} tooltip="Messages" />
 
         {/* Spacer to push avatar to bottom */}
-        <div className="flex-grow" />
+        <div className="grow" />
 
         {/* Profile Avatar */}
 

@@ -85,7 +85,7 @@ export const AddComment = ({
 
   return (
     <div className="flex gap-3">
-      <Avatar className="w-8 h-8 flex-shrink-0">
+      <Avatar className="w-8 h-8 shrink-0">
         {currentUser.avatar_url && (
           <AvatarImage
             src={currentUser.avatar_url}

@@ -41,7 +41,7 @@ export function PresenceIndicator({ users, maxVisible = 5 }: PresenceIndicatorPr
                   {user.avatarUrl ? (
                     <AvatarImage src={user.avatarUrl} alt={user.email} />
                   ) : (
-                    <AvatarFallback className="bg-gradient-to-br from-blue-400 to-purple-500 text-white text-xs">
+                    <AvatarFallback className="bg-linear-to-br from-blue-400 to-purple-500 text-white text-xs">
                       {getInitials(user.email)}
                     </AvatarFallback>
                   )}

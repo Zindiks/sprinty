@@ -133,7 +133,7 @@ const BurndownChart = ({ sprintId }: BurndownChartProps) => {
         </div>
         <div className="w-full bg-gray-200 rounded-full h-3">
           <div
-            className="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full transition-all"
+            className="bg-linear-to-r from-green-500 to-green-600 h-3 rounded-full transition-all"
             style={{ width: `${progress}%` }}
           ></div>
         </div>

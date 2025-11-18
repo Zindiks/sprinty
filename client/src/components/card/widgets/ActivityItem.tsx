@@ -295,7 +295,7 @@ export const ActivityItem = ({ activity }: ActivityItemProps) => {
   return (
     <div className="flex gap-3 group">
       {/* Icon */}
-      <div className="w-8 h-8 flex-shrink-0 rounded-full bg-muted flex items-center justify-center text-muted-foreground">
+      <div className="w-8 h-8 shrink-0 rounded-full bg-muted flex items-center justify-center text-muted-foreground">
         {getActivityIcon()}
       </div>
 
@@ -303,7 +303,7 @@ export const ActivityItem = ({ activity }: ActivityItemProps) => {
       <div className="flex-1 min-w-0 pb-4">
         <div className="flex items-start gap-2">
           {/* Avatar */}
-          <Avatar className="w-6 h-6 flex-shrink-0">
+          <Avatar className="w-6 h-6 shrink-0">
             {activity.user.avatar_url && (
               <AvatarImage
                 src={activity.user.avatar_url}

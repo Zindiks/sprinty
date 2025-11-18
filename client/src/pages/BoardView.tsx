@@ -106,7 +106,7 @@ const BoardView = () => {
       </div>
 
       {/* Board Content */}
-      <div className="flex-1 overflow-x-scroll bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      <div className="flex-1 overflow-x-scroll bg-linear-to-br from-blue-50 via-white to-purple-50">
         <ListContainer
           board_id={board_id}
           data={lists.data || []}

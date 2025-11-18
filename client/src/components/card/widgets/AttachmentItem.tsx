@@ -81,7 +81,7 @@ export const AttachmentItem = ({
         {isImage && imageUrl ? (
           <button
             onClick={() => setShowImagePreview(true)}
-            className="relative w-12 h-12 flex-shrink-0 rounded overflow-hidden bg-muted cursor-pointer"
+            className="relative w-12 h-12 shrink-0 rounded overflow-hidden bg-muted cursor-pointer"
           >
             <img
               src={imageUrl}
@@ -90,7 +90,7 @@ export const AttachmentItem = ({
             />
           </button>
         ) : (
-          <div className="w-12 h-12 flex-shrink-0 rounded bg-muted flex items-center justify-center">
+          <div className="w-12 h-12 shrink-0 rounded bg-muted flex items-center justify-center">
             <FileIcon className="w-6 h-6 text-muted-foreground" />
           </div>
         )}

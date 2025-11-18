@@ -407,7 +407,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                   onSelect={() => handleActionSelect(action)}
                   className="py-3 sm:py-2"
                 >
-                  <action.icon className="mr-2 h-4 w-4 flex-shrink-0 text-primary" />
+                  <action.icon className="mr-2 h-4 w-4 shrink-0 text-primary" />
                   <div className="flex flex-col min-w-0 flex-1">
                     <span className="font-medium truncate">
                       {highlightMatch(action.label, searchQuery)}
@@ -473,7 +473,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                     }
                     className="py-3 sm:py-2"
                   >
-                    <Square className="mr-2 h-4 w-4 flex-shrink-0" />
+                    <Square className="mr-2 h-4 w-4 shrink-0" />
                     <div className="flex flex-col min-w-0 flex-1">
                       <span className="font-medium truncate">
                         {highlightMatch(board.title, debouncedQuery)}
@@ -500,7 +500,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                     }
                     className="py-3 sm:py-2"
                   >
-                    <List className="mr-2 h-4 w-4 flex-shrink-0" />
+                    <List className="mr-2 h-4 w-4 shrink-0" />
                     <div className="flex flex-col min-w-0 flex-1">
                       <span className="font-medium truncate">
                         {highlightMatch(list.title, debouncedQuery)}
@@ -525,7 +525,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                     }
                     className="py-3 sm:py-2"
                   >
-                    <FileText className="mr-2 h-4 w-4 flex-shrink-0" />
+                    <FileText className="mr-2 h-4 w-4 shrink-0" />
                     <div className="flex flex-col min-w-0 flex-1">
                       <span className="font-medium truncate">
                         {highlightMatch(card.title, debouncedQuery)}
@@ -555,7 +555,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                     }
                     className="py-3 sm:py-2"
                   >
-                    <MessageSquare className="mr-2 h-4 w-4 flex-shrink-0" />
+                    <MessageSquare className="mr-2 h-4 w-4 shrink-0" />
                     <div className="flex flex-col min-w-0 flex-1">
                       <span className="text-xs text-muted-foreground mb-0.5">
                         {comment.user_email} on {comment.card_title}
@@ -588,8 +588,8 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                   }
                   className="py-3 sm:py-2"
                 >
-                  <Clock className="mr-2 h-4 w-4 text-muted-foreground flex-shrink-0" />
-                  <Icon className="mr-2 h-4 w-4 flex-shrink-0" />
+                  <Clock className="mr-2 h-4 w-4 text-muted-foreground shrink-0" />
+                  <Icon className="mr-2 h-4 w-4 shrink-0" />
                   <span className="font-medium truncate">{item.title}</span>
                 </CommandItem>
               );
