@@ -2,15 +2,21 @@ import { FastifyInstance } from "fastify";
 import { ReportController } from "./report.controller";
 import { ReportService } from "./report.service";
 import { Type } from "@sinclair/typebox";
+import {
+  requireBoardAccess,
+  requireSprintAccess,
+  requireOrgMember
+} from "../../middleware/authorization.middleware";
 
 export default async function reportRoutes(fastify: FastifyInstance) {
   const service = new ReportService(fastify.knex);
   const controller = new ReportController(service);
 
-  // Board report
+  // Board report (requires board access)
   fastify.get(
     "/board/:boardId",
     {
+      preHandler: [requireBoardAccess],
       schema: {
         description: "Generate board report (CSV)",
         tags: ["Reports"],
@@ -22,10 +28,11 @@ export default async function reportRoutes(fastify: FastifyInstance) {
     controller.generateBoardReport.bind(controller)
   );
 
-  // Time tracking report
+  // Time tracking report (requires board access)
   fastify.get(
     "/time-tracking",
     {
+      preHandler: [requireBoardAccess],
       schema: {
         description: "Generate time tracking report (CSV)",
         tags: ["Reports"],
@@ -39,10 +46,11 @@ export default async function reportRoutes(fastify: FastifyInstance) {
     controller.generateTimeTrackingReport.bind(controller)
   );
 
-  // Sprint report
+  // Sprint report (requires sprint access)
   fastify.get(
     "/sprint/:sprintId",
     {
+      preHandler: [requireSprintAccess],
       schema: {
         description: "Generate sprint report (CSV)",
         tags: ["Reports"],
@@ -54,10 +62,11 @@ export default async function reportRoutes(fastify: FastifyInstance) {
     controller.generateSprintReport.bind(controller)
   );
 
-  // User activity report
+  // User activity report (requires org membership)
   fastify.get(
     "/user/activity",
     {
+      preHandler: [requireOrgMember],
       schema: {
         description: "Generate user activity report (CSV)",
         tags: ["Reports"],
@@ -71,10 +80,11 @@ export default async function reportRoutes(fastify: FastifyInstance) {
     controller.generateUserActivityReport.bind(controller)
   );
 
-  // Board calendar export
+  // Board calendar export (requires board access)
   fastify.get(
     "/board/:boardId/calendar",
     {
+      preHandler: [requireBoardAccess],
       schema: {
         description: "Generate board calendar export (iCalendar .ics format)",
         tags: ["Reports"],

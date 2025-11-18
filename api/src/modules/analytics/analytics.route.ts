@@ -12,15 +12,21 @@ import {
   AssignedTaskSchema,
   DueDateAnalyticsResponseSchema,
 } from "./analytics.schema";
+import {
+  requireBoardAccess,
+  requireSprintAccess,
+  requireOrgMember
+} from "../../middleware/authorization.middleware";
 
 export default async function analyticsRoutes(fastify: FastifyInstance) {
   const service = new AnalyticsService(fastify.knex);
   const controller = new AnalyticsController(service);
 
-  // Get personal dashboard
+  // Get personal dashboard (user-scoped, no additional auth needed)
   fastify.get(
     "/dashboard/personal",
     {
+      preHandler: [requireOrgMember],
       schema: {
         description: "Get personal dashboard with stats and assigned tasks",
         tags: ["Analytics"],
@@ -33,10 +39,11 @@ export default async function analyticsRoutes(fastify: FastifyInstance) {
     controller.getPersonalDashboard.bind(controller)
   );
 
-  // Get board analytics
+  // Get board analytics (requires board access)
   fastify.get(
     "/board/:boardId",
     {
+      preHandler: [requireBoardAccess],
       schema: {
         description: "Get comprehensive board analytics",
         tags: ["Analytics"],
@@ -49,10 +56,11 @@ export default async function analyticsRoutes(fastify: FastifyInstance) {
     controller.getBoardAnalytics.bind(controller)
   );
 
-  // Get sprint burndown
+  // Get sprint burndown (requires sprint access)
   fastify.get(
     "/sprint/:sprintId/burndown",
     {
+      preHandler: [requireSprintAccess],
       schema: {
         description: "Get sprint burndown chart data",
         tags: ["Analytics"],
@@ -65,10 +73,11 @@ export default async function analyticsRoutes(fastify: FastifyInstance) {
     controller.getSprintBurndown.bind(controller)
   );
 
-  // Get board velocity
+  // Get board velocity (requires board access)
   fastify.get(
     "/board/:boardId/velocity",
     {
+      preHandler: [requireBoardAccess],
       schema: {
         description: "Get board velocity metrics",
         tags: ["Analytics"],
@@ -81,10 +90,11 @@ export default async function analyticsRoutes(fastify: FastifyInstance) {
     controller.getBoardVelocity.bind(controller)
   );
 
-  // Get assigned tasks
+  // Get assigned tasks (user-scoped)
   fastify.get(
     "/tasks/assigned",
     {
+      preHandler: [requireOrgMember],
       schema: {
         description: "Get user's assigned tasks",
         tags: ["Analytics"],
@@ -97,10 +107,11 @@ export default async function analyticsRoutes(fastify: FastifyInstance) {
     controller.getAssignedTasks.bind(controller)
   );
 
-  // Get due date analytics
+  // Get due date analytics (requires board access)
   fastify.get(
     "/board/:boardId/due-dates",
     {
+      preHandler: [requireBoardAccess],
       schema: {
         description: "Get due date analytics for a board",
         tags: ["Analytics"],
@@ -111,10 +122,13 @@ export default async function analyticsRoutes(fastify: FastifyInstance) {
       },
     },
     controller.getDueDateAnalytics.bind(controller)
-  // Get productivity trends
+  );
+
+  // Get productivity trends (user-scoped)
   fastify.get(
     "/trends/personal",
     {
+      preHandler: [requireOrgMember],
       schema: {
         description: "Get productivity trends (cards created vs completed over time)",
         tags: ["Analytics"],
@@ -132,10 +146,11 @@ export default async function analyticsRoutes(fastify: FastifyInstance) {
     controller.getProductivityTrends.bind(controller)
   );
 
-  // Get boards overview
+  // Get boards overview (user-scoped)
   fastify.get(
     "/boards/overview",
     {
+      preHandler: [requireOrgMember],
       schema: {
         description: "Get overview of all boards user is working on",
         tags: ["Analytics"],
@@ -145,10 +160,11 @@ export default async function analyticsRoutes(fastify: FastifyInstance) {
     controller.getBoardsOverview.bind(controller)
   );
 
-  // Get weekly metrics
+  // Get weekly metrics (user-scoped)
   fastify.get(
     "/metrics/weekly",
     {
+      preHandler: [requireOrgMember],
       schema: {
         description: "Get weekly metrics for a user",
         tags: ["Analytics"],
@@ -165,10 +181,11 @@ export default async function analyticsRoutes(fastify: FastifyInstance) {
     controller.getWeeklyMetrics.bind(controller)
   );
 
-  // Get monthly metrics
+  // Get monthly metrics (user-scoped)
   fastify.get(
     "/metrics/monthly",
     {
+      preHandler: [requireOrgMember],
       schema: {
         description: "Get monthly metrics for a user",
         tags: ["Analytics"],

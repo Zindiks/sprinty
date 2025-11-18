@@ -12,6 +12,7 @@ import {
   TimeLogWithDetailsSchema,
   CardTimeTotalSchema,
 } from "./time-tracking.schema";
+import { requireCardAccess } from "../../middleware/authorization.middleware";
 
 export default async function timeTrackingRoutes(fastify: FastifyInstance) {
   const service = new TimeTrackingService(fastify.knex);
@@ -21,6 +22,7 @@ export default async function timeTrackingRoutes(fastify: FastifyInstance) {
   fastify.post(
     "/",
     {
+      preHandler: [requireCardAccess],
       schema: {
         description: "Log time for a card",
         tags: ["Time Tracking"],
@@ -53,6 +55,7 @@ export default async function timeTrackingRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/card/:cardId",
     {
+      preHandler: [requireCardAccess],
       schema: {
         description: "Get all time logs for a card",
         tags: ["Time Tracking"],
@@ -69,6 +72,7 @@ export default async function timeTrackingRoutes(fastify: FastifyInstance) {
   fastify.get(
     "/card/:cardId/total",
     {
+      preHandler: [requireCardAccess],
       schema: {
         description: "Get total time logged for a card",
         tags: ["Time Tracking"],

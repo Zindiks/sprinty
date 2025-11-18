@@ -1,6 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { ActivityController } from "./activity.controller";
 import { ActivitySchema } from "./activity.schema";
+import { requireCardAccess, requireOrgMember } from "../../middleware/authorization.middleware";
 
 export default async function activityRoutes(server: FastifyInstance) {
   const activityController = new ActivityController();
@@ -9,6 +10,7 @@ export default async function activityRoutes(server: FastifyInstance) {
   server.post(
     "/",
     {
+      preHandler: [requireCardAccess],
       schema: {
         description: "Log a new card activity",
         tags: ["activities"],
@@ -47,6 +49,7 @@ export default async function activityRoutes(server: FastifyInstance) {
   server.get(
     "/card/:card_id",
     {
+      preHandler: [requireCardAccess],
       schema: {
         description: "Get all activities for a card with filtering and pagination",
         tags: ["activities"],
@@ -70,6 +73,7 @@ export default async function activityRoutes(server: FastifyInstance) {
   server.get(
     "/user/:user_id",
     {
+      preHandler: [requireOrgMember],
       schema: {
         description: "Get all activities by a user with filtering and pagination",
         tags: ["activities"],
@@ -93,6 +97,7 @@ export default async function activityRoutes(server: FastifyInstance) {
   server.get(
     "/",
     {
+      preHandler: [requireOrgMember],
       schema: {
         description: "Get activities with filtering and pagination",
         tags: ["activities"],
@@ -109,6 +114,7 @@ export default async function activityRoutes(server: FastifyInstance) {
   server.get(
     "/card/:card_id/stats",
     {
+      preHandler: [requireCardAccess],
       schema: {
         description: "Get activity statistics for a card",
         tags: ["activities"],
@@ -131,6 +137,7 @@ export default async function activityRoutes(server: FastifyInstance) {
   server.delete(
     "/card/:card_id",
     {
+      preHandler: [requireCardAccess],
       schema: {
         description: "Delete all activities for a card",
         tags: ["activities"],
