@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
-import User from '../pages/User';
 import Marketing from '@/pages/Marketing';
+import SignIn from '@/pages/SignIn';
 import Boards from '@/pages/Boards';
 import BoardView from '../pages/BoardView';
 import CalendarView from '../pages/CalendarView';
@@ -8,17 +8,20 @@ import BoardLayout from '@/pages/BoardLayout';
 import Organizations from '@/pages/Organization';
 import Dashboard from '@/pages/Dashboard';
 import ProfilePage from '@/pages/ProfilePage';
-import { ProtectedRoute, OrganizationGuard } from '@/components/auth';
+import { ProtectedRoute, PublicRoute, OrganizationGuard } from '@/components/auth';
 
 /**
  * AppRoutes - Application Routing Configuration
  *
  * Route Structure:
- * - / (Home/Marketing) - Public route
- * - /user - Legacy user page (consider removing)
- * - Protected routes (requires authentication):
+ * - Public routes (unauthenticated users only, redirects to /organizations if authenticated):
+ *   - / (Home/Marketing) - Landing page with product info
+ *   - /signin - Dedicated sign-in page
+ *
+ * - Protected routes (requires authentication, redirects to / if not authenticated):
  *   - /profile - User profile management
- *   - /organizations - Organization selection
+ *   - /organizations - Organization selection (default redirect for authenticated users)
+ *
  *   - Organization-dependent routes (requires org selection):
  *     - /boards - Board list
  *     - /board/:board_id - Board view
@@ -27,9 +30,12 @@ import { ProtectedRoute, OrganizationGuard } from '@/components/auth';
  */
 const AppRoutes = () => (
   <Routes>
-    {/* Public Routes */}
-    <Route path="/" element={<Marketing />} />
-    <Route path="/user" element={<User />} /> {/* Legacy - consider removing */}
+    {/* Public Routes - Redirect authenticated users to /organizations */}
+    <Route element={<PublicRoute />}>
+      <Route path="/" element={<Marketing />} />
+      <Route path="/signin" element={<SignIn />} />
+    </Route>
+
     {/* Protected Routes - Require Authentication */}
     <Route element={<ProtectedRoute />}>
       <Route path="/profile" element={<ProfilePage />} />

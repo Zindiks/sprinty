@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import { authService, type AuthUser } from '@/services/auth.service';
 
 /**
  * User data structure
@@ -9,6 +10,16 @@ export interface User {
   email: string;
   avatar_url?: string;
 }
+
+/**
+ * Map AuthUser to User interface
+ */
+const mapAuthUser = (authUser: AuthUser): User => ({
+  id: authUser.id?.toString() || authUser.login,
+  login: authUser.login,
+  email: authUser.email || `${authUser.login}@github.user`,
+  avatar_url: authUser.avatar_url,
+});
 
 /**
  * User Context Value
@@ -28,45 +39,29 @@ const UserContext = createContext<UserContextValue | undefined>(undefined);
  */
 interface UserProviderProps {
   children: React.ReactNode;
-  apiBaseUrl?: string;
 }
 
 /**
  * User Provider Component
  * Manages user authentication state
  */
-export const UserProvider: React.FC<UserProviderProps> = ({
-  children,
-  apiBaseUrl = 'http://localhost:4000',
-}) => {
+export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
   /**
-   * Fetch current user from API
+   * Fetch current user from API using auth service
    */
   const fetchUser = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
 
-      const response = await fetch(`${apiBaseUrl}/api/v1/oauth/user`, {
-        credentials: 'include',
-      });
+      const authUser = await authService.getCurrentUser();
 
-      if (response.ok) {
-        const data = await response.json();
-
-        // Map the GitHub user data to our User interface
-        // Assuming the backend returns GitHub user data with an id
-        const userData: User = {
-          id: data.id?.toString() || data.login, // Use GitHub ID or login as fallback
-          login: data.login,
-          email: data.email || `${data.login}@github.user`, // Fallback email if not available
-          avatar_url: data.avatar_url,
-        };
-
+      if (authUser) {
+        const userData = mapAuthUser(authUser);
         setUser(userData);
         console.log('User authenticated:', userData);
       } else {
@@ -80,29 +75,23 @@ export const UserProvider: React.FC<UserProviderProps> = ({
     } finally {
       setLoading(false);
     }
-  }, [apiBaseUrl]);
+  }, []);
 
   /**
-   * Logout user
+   * Logout user using auth service
    */
   const logout = useCallback(async () => {
     try {
-      await fetch(`${apiBaseUrl}/api/v1/oauth/logout`, {
-        method: 'POST',
-        credentials: 'include',
-      });
-
+      await authService.logout();
       setUser(null);
-
-      // Clear cookies
-      document.cookie = 'accessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-
       console.log('User logged out');
     } catch (err) {
       console.error('Error logging out:', err);
       setError(err as Error);
+      // Still clear user state even if logout fails
+      setUser(null);
     }
-  }, [apiBaseUrl]);
+  }, []);
 
   /**
    * Refresh user data
@@ -112,18 +101,11 @@ export const UserProvider: React.FC<UserProviderProps> = ({
   }, [fetchUser]);
 
   /**
-   * Fetch user on mount and handle access token from URL
+   * Fetch user on mount and handle OAuth callback
    */
   useEffect(() => {
-    // Check for access token in URL params (OAuth callback)
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('access_token');
-
-    if (token) {
-      document.cookie = `accessToken=${token}; path=/; samesite=strict`;
-      // Remove token from URL
-      window.history.replaceState({}, document.title, window.location.pathname);
-    }
+    // Handle OAuth callback using auth service
+    authService.handleOAuthCallback();
 
     // Fetch user data
     fetchUser();

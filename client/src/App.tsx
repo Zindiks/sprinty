@@ -32,7 +32,7 @@ function WebSocketIntegration({ children }: { children: React.ReactNode }) {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <UserProvider apiBaseUrl="http://localhost:4000">
+      <UserProvider>
         <Router>
           <SearchProvider>
             <WebSocketIntegration>

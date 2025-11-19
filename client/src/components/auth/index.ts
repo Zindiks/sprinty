@@ -6,5 +6,7 @@
  */
 
 export { ProtectedRoute } from './ProtectedRoute';
+export { PublicRoute } from './PublicRoute';
 export { OrganizationGuard } from './OrganizationGuard';
 export { LoadingScreen } from './LoadingScreen';
+export { GitHubButton } from './GitHubButton';
